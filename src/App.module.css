@@ -1,11 +1,16 @@
 .App {
-  text-align: center;
+  background-image: linear-gradient(to right, #E5E5BE 0%, #476E8A 61.22%, #003973 100%);
+  background-size: 300%;
+  animation: bg-animation 10s infinite alternate;
+}
+
+@keyframes bg-animation {
+  0% {background-position: left}
+  100% {background-position: right}
 }
 
 
-
 .AppHeader {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
