@@ -9,9 +9,7 @@
   100% {background-position: right}
 }
 
-
 .AppHeader {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,6 +18,3 @@
   color: white;
 }
 
-.AppLink {
-  color: #61dafb;
-}
