@@ -6,19 +6,51 @@ import { anyTypeAnnotation } from '@babel/types';
 class StreamElement extends Component {
     
     calcStyles(pos){
-        const orgHeight = 600;
-        const distance = 100 + 20 * pos;
-        const projDistance = 50;
-        const deg = 2 * Math.atan(orgHeight/ 2 * distance);
-        const projHeight = Math.abs(2 * projDistance * Math.tan((deg/2)));
-        console.log(projHeight);
+        const r = 100; //Abstand vom Auge zur Projektion
+        const x = 100 + pos * 20; //Abstand von der Projektion zum Objekt
+        const y = 200; //Vertikale position des Objekts
+        const h = 800; //Höhe des Objekts
+        const b = 1000; //Breite des Objekts
+
+        const alpha = Math.atan(y/(x+r)); //Winkel zwischen Achse und Beginn des Objekts
+        const beta = Math.atan((y+h)/(x+r)); // Winkel zwischen Achse und Ende des Objekts
+        const yy = r * Math.tan(alpha);
+        const hh = r * Math.tan(beta) - yy;
+        const gamma = Math.atan( (b/2) / (r+x) ) //Winkel zwischen Achse und linker/rechter Kante
+        const bb = 2 * r * Math.tan(gamma); //projezierte Breite
         const styles = {
-            marginTop: 1000 / (pos / 4 + 5) ,
-            width: 800 - pos * 20, 
-            height: 600
+            marginTop: yy,
+            width: bb, 
+            height: hh
         };
         return styles; 
     }
+
+    // calcHeight(pos){
+
+
+    //     return hh;
+    // }
+
+    // calcMarginTop(pos){
+    //     const r = 100; //Abstand vom Auge zur Projektion
+    //     const x = 100 + pos * 20; //Abstand von der Projektion zum Objekt
+    //     const y = 30; //Vertikale position des Objekts
+    //     const h = 800; //Höhe des Objekts
+    //     const alpha = Math.atan(y/(x+r)); //Winkel zwischen Achse und Beginn des Objekts
+    //     const beta = Math.atan((y+h)/(x+r)); // Winkel zwischen Achse und Ende des Objekts
+    //     const yy = r * Math.tan(alpha); // projezierter Margin-Top
+    //     return yy;
+    // }
+
+    // calcWidth(pos){
+    //     const r = 100; //Abstand vom Auge zur Projektion
+    //     const x = 100 + pos * 20; //Abstand von der Projektion zum Objekt
+    //     const b = 1000; //Breite des Objekts
+
+    //     console.log(bb);
+    //     return bb;
+    // }
 
     render(){
 
