@@ -1,0 +1,12 @@
+.voting {
+    display: inline-box;
+    float: right; 
+}
+
+.up {
+    margin-bottom: -5px;
+}
+
+.points{
+    text-align: center;
+}

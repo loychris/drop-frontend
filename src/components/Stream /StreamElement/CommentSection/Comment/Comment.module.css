@@ -1,0 +1,23 @@
+.Comment {
+    margin-bottom: 30px;
+    display: box;
+}
+
+.AuthorProfilePic{
+    border-radius: 100%;
+    height: 30px; 
+    width: 30px;
+    margin: 0px 10px 0px 0px;
+    background-color: white;
+    float: left;
+}
+
+.addSubCommentButton{
+    right: 20px; 
+}
+
+.actualComment{
+    display: inline;    
+}
+
+

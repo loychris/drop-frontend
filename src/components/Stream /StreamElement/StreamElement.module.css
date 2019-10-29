@@ -1,0 +1,14 @@
+.StreamElement {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    left: 0;
+    right: 0;
+
+    background: #000A2F;
+    color: #ffffff;
+    border: 2px solid #C7E1FF;
+    border-radius: 20px;
+
+}

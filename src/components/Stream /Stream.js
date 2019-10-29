@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; 
-import StreamElement from '../StreamElement/StreamElement';
+import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
 
 import classes from './Stream.module.css';
@@ -15,11 +15,9 @@ class Stream extends Component {
 
     render() {
         let elements = [];
-        for(let i=0;i<20;i++){
-            elements.push(<StreamElement position={20-i} key={i}/>)
+        for(let i=0; i<20;i++){
+            elements.push(<StreamElement position={20-i} key={19-i}/>)
         }
-        console.log(elements);
-
         return (
             <Aux className={classes.stream}>
                 {elements}                
