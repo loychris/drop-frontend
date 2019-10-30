@@ -10,5 +10,9 @@
     color: #ffffff;
     border: 2px solid #C7E1FF;
     border-radius: 20px;
+}
 
+.title{
+    margin-bottom: 5px;
+    margin-top: 0px;
 }

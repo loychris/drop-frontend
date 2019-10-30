@@ -38,13 +38,11 @@ class StreamElement extends Component {
             <div 
                 className={classes.StreamElement}
                 style={this.calcStyles(this.props.position)}>
-                    
-
-                    {/* /////////////////////////////////////  Replace the following with proper Components & Content   ////////////////////////////////////////  */}
-                    <h3>Title of the Drop</h3>
+                    {/* ////////////  Replace with proper Components & Content ////////*/}
+                    <h3 className={classes.title}>Title of the Drop</h3>
                     <Content/>
                     <CommentSection/>
-                    {/* /////////////////////////////////////  ///////////////////////////////////////////////////////   ////////////////////////////////////////  */}
+                    {/* ///////////////////////////////////// */}
 
             </div>
         )
