@@ -11,14 +11,33 @@ const commentContent = [
             {
                 author: "Chris 2",
                 points: 12,
-                comment: "iewfipwe wio ngfiweon fowfn weonwo ef ",
+                comment: "SubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
+                subComments: [
+                    {
+                        author: "Chris 2",
+                        points: 12,
+                        comment: "SubSubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
+                        subComments: [],
+                    },
+                    {
+                        author: "Chris 2",
+                        points: 12,
+                        comment: "SubSubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
+                        subComments: [],
+                    }
+                ],
+            },
+            {
+                author: "Chris 2",
+                points: 12,
+                comment: "SubComment 2 iewfipwe wio ngfiweon fowfn weonwo ef ",
                 subComments: [],
             }
         ]
     },
     {
         author: "Chris",
-        points: 999,
+        points: 1099,
         comment: "Comment 2 nwkegjlrwlg wlkenwl kefwle kfnwlek nwelkgok wengokwengow nweokgn woe kfn",
         subComments: []
     },
@@ -65,6 +84,7 @@ class CommentSection extends Component {
         for(let i=0;i<commentContent.length; i++){
             comments.push(
                 <Comment
+                    depth = {'0'}
                     key = {`CommentNo${i}`}
                     author = { commentContent[i].author }
                     points = { commentContent[i].points }

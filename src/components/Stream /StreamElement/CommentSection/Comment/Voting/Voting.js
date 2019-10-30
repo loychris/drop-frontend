@@ -41,6 +41,16 @@ class Voting extends Component {
         }
         // nothing should happen otherwise; either already downvoted or both are true (should not happen)
     }
+
+    unvote = () => {
+        let newState = {};
+        if(this.state.didDownvote){
+            newState = { didDownvote:false, didUpvote:false, points:this.state.points+1}
+        } else if(this.state.didUpvote){
+            newState = { didDownvote:false, didUpvote:false, points:this.state.points-1}
+        }
+        this.setState(newState);
+    }
     
     //transforms the exact number of up/downvotes to a more presentable String 
     getCountString = number => {
@@ -78,6 +88,7 @@ class Voting extends Component {
                 <div 
                     className={classes.points}
                     title={`${this.state.points} points`}
+                    onClick={this.unvote}
                 >
                     {this.getCountString(this.state.points)}
                 </div>
@@ -86,7 +97,6 @@ class Voting extends Component {
                     onClick={this.downvote}
                     style={downvoteIconStyle}
                     src={this.state.didDownvote?arrowDownWhite:arrowDownGrey} 
-                    onClick={this.downvote}
                     alt='downvote'/>
             </div>
         )
