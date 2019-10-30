@@ -44,10 +44,14 @@ class Voting extends Component {
     
     //transforms the exact number of up/downvotes to a more presentable String 
     getCountString = number => {
-        if(number >= 1000000){
+        if(number >= 100000000){
+            return `${Math.floor(number/1000000)}M`
+        } else if(number >= 1000000){
             const firstDigit = Math.floor(number/1000000);
             const secondDigit = Math.floor((number-firstDigit*1000000)/100000);
             return `${firstDigit}.${secondDigit}M`;
+        } else if(number >=100000) {
+            return `${Math.floor(number/1000)}K`;
         } else if(number >= 1000){
             const firstDigit = Math.floor(number/1000);
             const secondDigit = Math.floor((number-firstDigit*1000)/100);
@@ -71,7 +75,10 @@ class Voting extends Component {
                     style={upvoteIconstyle}
                     src={this.state.didUpvote?arrowUpWhite:arrowUpGrey} 
                     alt='upvote'/>
-                <div className={classes.points}>
+                <div 
+                    className={classes.points}
+                    title={`${this.state.points} points`}
+                >
                     {this.getCountString(this.state.points)}
                 </div>
                 <img true

@@ -5,8 +5,8 @@ import Comment from './Comment/Comment';
 const commentContent = [
     {
         author: "Chris",
-        points: 2443334,
-        comment: "gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
+        points: 99999999,
+        comment: "Comment 1 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
         subComments: [
             {
                 author: "Chris 2",
@@ -18,8 +18,8 @@ const commentContent = [
     },
     {
         author: "Chris",
-        points: 2120,
-        comment: "Comment 2 nwkegok wengokwengow nweokgn woe kfn",
+        points: 999,
+        comment: "Comment 2 nwkegjlrwlg wlkenwl kefwle kfnwlek nwelkgok wengokwengow nweokgn woe kfn",
         subComments: []
     },
     {

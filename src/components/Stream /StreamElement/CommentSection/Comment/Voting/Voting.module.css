@@ -1,15 +1,28 @@
 .voting {
-    display: inline-box;
-    float: right; 
+    height: 57.5px; 
+    width: 45px;
+    margin: 0px 0px 0px 10px;
+    float: right;
+    clear: right;
+    text-align: center;
 }
 
 .up, .down {
+    margin-right: auto;
     margin-left: auto;
     width: 2em;
 }
 
+.up {
+    margin-bottom: -2px;
+}
 
-.up:hover {
+.down {
+    margin-top: 1px;
+}
+
+
+.up:hover, .down:hover {
     cursor: pointer;
 }
 

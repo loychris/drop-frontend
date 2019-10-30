@@ -1,6 +1,6 @@
 .Comment {
-    margin-bottom: 30px;
-    display: box;
+    min-height: 60px;
+    margin-bottom: 35px;
 }
 
 .AuthorProfilePic{
@@ -10,14 +10,27 @@
     margin: 0px 10px 0px 0px;
     background-color: white;
     float: left;
+    clear: right;
+}
+
+.VotingDummy {
+    height: 57.5px; 
+    width: 45px;
+    margin: 0px 0px 0px 10px;
+    background-color: red;
+    float: right;
+    clear: right;
+}
+
+.actualComment {
+    margin: 0px 0px;
 }
 
 .addSubCommentButton{
     right: 20px; 
 }
 
-.actualComment{
-    display: inline;    
-}
+
+
 
 

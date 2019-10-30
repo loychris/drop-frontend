@@ -7,11 +7,9 @@ const comment = props => {
 
     return(
         <div className={classes.Comment}>
-            <Aux>
-                <div className={classes.AuthorProfilePic}></div>
-                <p className={classes.actualComment}>{props.actualComment}</p>
-            </Aux>
+            <div className={classes.AuthorProfilePic}></div>
             <Voting points={props.points}/>
+            <p className={classes.actualComment}>{props.actualComment}</p>
             {/*<button className={classes.addSubCommentButton}></button>*/}
         </div>
     )
