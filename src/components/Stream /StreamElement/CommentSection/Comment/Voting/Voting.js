@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import classes from './Voting.module.css';
-import arrowUp from './Upvote_Icon.svg';
-import arrowDown from './Downvote_Icon.svg';
+import arrowUpWhite from './Upvote_Icon_white.svg';
+import arrowUpGrey from './Upvote_Icon_grey.svg';
+import arrowDownWhite from './Downvote_Icon_white.svg';
+import arrowDownGrey from './Downvote_Icon_grey.svg';
 
 class Voting extends Component {
 
@@ -56,6 +58,7 @@ class Voting extends Component {
 
     render(){
         
+
         const glow = {filter: 'drop-shadow(0px 0px 6px #ffffff)'};
         const upvoteIconstyle = this.state.didUpvote ? glow :{};
         const downvoteIconStyle = this.state.didDownvote ? glow :{};
@@ -66,7 +69,7 @@ class Voting extends Component {
                     className={classes.up} 
                     onClick={this.upvote}
                     style={upvoteIconstyle}
-                    src= {arrowUp} 
+                    src={this.state.didUpvote?arrowUpWhite:arrowUpGrey} 
                     alt='upvote'/>
                 <div className={classes.points}>
                     {this.getCountString(this.state.points)}
@@ -75,7 +78,7 @@ class Voting extends Component {
                     className={classes.down}
                     onClick={this.downvote}
                     style={downvoteIconStyle}
-                    src={arrowDown} 
+                    src={this.state.didDownvote?arrowDownWhite:arrowDownGrey} 
                     onClick={this.downvote}
                     alt='downvote'/>
             </div>
