@@ -19,24 +19,24 @@ const commentContent = [
     {
         author: "Chris",
         points: 2120,
-        comment: "gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
+        comment: "Comment 2 nwkegok wengokwengow nweokgn woe kfn",
         subComments: []
     },
     {
         author: "Chris",
         points: 200,
-        comment: "gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
+        comment: "Comment 3 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
         subComments: [
             {
                 author: "Chris",
                 points: 200,
-                comment: "gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
+                comment: "Subcomment 1 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
                 subComments: []
             },
             {
                 author: "Chris",
                 points: 200,
-                comment: "gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
+                comment: "Subcomment 2 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
                 subComments: []
             },
         ]
@@ -44,13 +44,13 @@ const commentContent = [
     {
         author: "Chris",
         points: 200,
-        comment: "gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
+        comment: "Comment 4 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
         subComments: []
     },
     {
         author: "Chris",
         points: 200,
-        comment: "gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
+        comment: "Comment 5 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
         subComments: []
     },
 ]
@@ -62,16 +62,18 @@ class CommentSection extends Component {
 
     render(){
         let comments = [];
-        commentContent.forEach( content => {
+        for(let i=0;i<commentContent.length; i++){
             comments.push(
                 <Comment
-                    author = { content.author }
-                    points = { content.points }
-                    actualComment = { content.comment }
-                    subComments = { content.subComments }
+                    key = {`CommentNo${i}`}
+                    author = { commentContent[i].author }
+                    points = { commentContent[i].points }
+                    actualComment = { commentContent[i].comment }
+                    subComments = { commentContent[i].subComments }
                 />
             )
-        })
+        }
+
         return(
             <div className={classes.CommentSection}>
                 <form>

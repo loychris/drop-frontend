@@ -3,8 +3,14 @@
     float: right; 
 }
 
-.up {
-    margin-bottom: -5px;
+.up, .down {
+    margin-left: auto;
+    width: 2em;
+}
+
+
+.up:hover {
+    cursor: pointer;
 }
 
 .points{

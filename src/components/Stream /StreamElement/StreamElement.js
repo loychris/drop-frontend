@@ -14,7 +14,7 @@ class StreamElement extends Component {
         const x = 100 + pos * 15; //Distance projection to element
         const y = 200; //vertical position of th object
         //const h = 1800; //height of the object
-        const b = 1600; //width of the object 
+        const b = 1400; //width of the object 
 
         const alpha = Math.atan(y/(x+r)); //Winkel zwischen Achse und Beginn des Objekts
         //const beta = Math.atan((y+h)/(x+r)); // Winkel zwischen Achse und Ende des Objekts
