@@ -2,19 +2,20 @@ import React from 'react';
 import classes from './Comment.module.css';
 import Voting from './Voting/Voting';
 import Aux from '../../../../../hoc/Aux';
+import I from './I.svg';
+import connector from './Connector.svg';
 
 const Comment = props => {
 
     const depth = parseInt(props.depth);
-    console.log(depth);
+
     let subComments = [];
-    if(props.subComments.length > 0){
+    if(props.subComments.length > 0){   //Not a root comment
         for(let i=0;i<props.subComments.length;i++){
             const nextDepth = `${depth+1}`
             subComments.push(
                 <Comment
-
-                    subComment = {nextDepth}
+                    depth = {nextDepth}
                     key = {`SubCommentNo${i}`}
                     author = { props.subComments[i].author }
                     points = { props.subComments[i].points }
@@ -25,14 +26,47 @@ const Comment = props => {
         }
     }
 
-    let styleClass = depth > 0 ? classes.Comment : classes.SubComment;
-    let marginLeft = {marginLeft: `${depth*20}px`}
+
+    let treeComponents = [];
+
+    if(depth>0){
+        for(let i=0;i<depth;i++){      
+            const styles = {
+                position: 'absolute',
+                top: '-40px',
+                left: `${ 11+25*i }px`,
+            }
+            treeComponents.push(
+                <img 
+                    key={ i }
+                    style = { styles } 
+                    src={ I } 
+                    alt=''
+                />)
+        }
+        const styles = {
+            position: 'absolute',
+            top: '12px',
+            left: `${ 25*depth-7 }px`
+        }
+        treeComponents.push(
+            <img
+                style = { styles }
+                src = { connector }
+                alt = ''
+
+            />
+        )
+    }
+
+    let style = { paddingLeft: `${depth*25 }px`,
+    }
 
 
     return(
-        <Aux>
-            <div className={styleClass}
-                 style={marginLeft}
+        <div className ={classes.CommentContainer}>
+            <div className={classes.Comment}
+                 style={ style }
             >
                 <div className={classes.AuthorProfilePic}></div>
                 <Voting points={props.points}/>
@@ -41,7 +75,8 @@ const Comment = props => {
                 {/*<button className={classes.addSubCommentButton}></button>*/}
             </div>
             {subComments}
-        </Aux>
+            {treeComponents}
+        </div>
     )
 
 }

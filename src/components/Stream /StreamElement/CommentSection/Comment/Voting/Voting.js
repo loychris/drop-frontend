@@ -92,7 +92,7 @@ class Voting extends Component {
                 >
                     {this.getCountString(this.state.points)}
                 </div>
-                <img true
+                <img 
                     className={classes.down}
                     onClick={this.downvote}
                     style={downvoteIconStyle}

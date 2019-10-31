@@ -1,5 +1,5 @@
 .voting {
-    height: 57.5px; 
+    height: 50px; 
     width: 45px;
     margin: 0px 0px 0px 10px;
     float: right;
@@ -7,14 +7,13 @@
     text-align: center;
 }
 
+
 .up, .down {
-    margin-right: auto;
-    margin-left: auto;
-    width: 2em;
+    width: 1.75em;
 }
 
 .up {
-    margin-bottom: -2px;
+    margin: 0px 0px -2px 0px; 
 }
 
 .down {

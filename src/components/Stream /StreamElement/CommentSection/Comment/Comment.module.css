@@ -1,14 +1,16 @@
+.CommentContainer {
+    position: relative;
+}
+
 .Comment {
-    min-height: 60px;
-    margin-bottom: 20px;
+    min-height: 50px;
+    padding-bottom: 20px;
 }
 
-.SubComment {
-    min-height: 60px;
-    margin-bottom: 10px;
+.I {
+    position: absolute;
+    top: 0px;
 }
-
-
 
 .AuthorProfilePic{
     border-radius: 100%;
@@ -37,8 +39,6 @@
     right: 20px; 
 }
 
-.Bone {
-    display: inline;
-}
+
 
 
