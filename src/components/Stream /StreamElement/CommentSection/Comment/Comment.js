@@ -5,6 +5,8 @@ import I from './I.svg';
 import Ishort from './Ishort.svg';
 import C from './Connector.svg';
 
+const indent = 25;
+
 const Comment = props => {
 
     const depth = parseInt(props.depth);
@@ -14,7 +16,7 @@ const Comment = props => {
         return {
             position: 'absolute',
             top: '-40px',
-            left: `${ 11+25*depth }px`,
+            left: `${ 11+indent*depth }px`,
         }
     }
 
@@ -22,14 +24,14 @@ const Comment = props => {
         return {
             position: 'absolute',
             top: '12px',
-            left: `${ 25*depth-7 }px`
+            left: `${ indent*depth-7 }px`
         }
     }
 
     const IshortStyles = depth => {
         return {
             position: 'absolute',
-            left: `${11+25*(depth-1)}px`,
+            left: `${11+indent*(depth-1)}px`,
             top: '-40px'
         }
     }
@@ -58,7 +60,8 @@ const Comment = props => {
 
     ////////////////////////////////////  visual tree algorithm // DO NOT FUCKING TOUCH ////////////////////////////////////////
     let inheritance = props.tree ? props.tree : [];
-    let thisTreeString = (props.last === 'true' && depth > 1) ? [...inheritance, 'L'].slice(1) : [...inheritance, 'T'].slice(1);
+    let thisTreeString = props.last === 'true' ? [...inheritance, 'L'].slice(1) : [...inheritance, 'T'].slice(1);
+    (props.last === 'true' && depth > 1) ? [...inheritance, 'L'].slice(1) : [...inheritance, 'T'].slice(1);
     let nextTreeString = props.last === 'true' ? [...inheritance, ' '] : [...inheritance, 'I'];
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if(thisTreeString.length>0)console.log('thisTreeString', thisTreeString.reduce( (x, s) => {return x+s} ));
@@ -85,7 +88,7 @@ const Comment = props => {
     }
 
 
-    let commentStyle = { paddingLeft: `${depth*25 }px`}
+    let commentStyle = { paddingLeft: `${depth*indent }px`}
 
     return(
         <div className ={classes.CommentContainer}>
