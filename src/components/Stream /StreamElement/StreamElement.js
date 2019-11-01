@@ -33,7 +33,7 @@ class StreamElement extends Component {
     
 
     render(){
-        const commentSection = this.props.position == 1 ? <CommentSection showComments='true'/> : <CommentSection showComments='false'/>
+        const commentSection = this.props.position === 1 ? <CommentSection showComments='true'/> : <CommentSection showComments='false'/>
  
         return(
             <div 

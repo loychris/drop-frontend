@@ -1,36 +1,50 @@
 import React, { Component } from 'react';
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
+import comment from './content.json';
 
 const commentContent = [
     {
         author: "Chris",
         points: 99999999,
-        comment: "Comment 1 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok jbwefoe wfe now jfewo  f  fewwwei fjweof pwef wpf ",
+        comment: "---------------- 1",
         subComments: [
             {
                 author: "Chris 2",
                 points: 12,
-                comment: "SubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
+                comment: "---------------- 1.1",
                 subComments: [
                     {
                         author: "Chris 2",
                         points: 12,
-                        comment: "SubSubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
+                        comment: "---------------- 1.1.1",
                         subComments: [],
                     },
                     {
                         author: "Chris 2",
                         points: 12,
-                        comment: "SubSubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
-                        subComments: [],
-                    }
+                        comment: "---------------- 1.1.2",
+                        subComments: [
+                            {
+                                author: "Chris 2",
+                                points: 12,
+                                comment: "---------------- 1.1.2.1",
+                                subComments: [],
+                            },
+                            {
+                                author: "Chris 2",
+                                points: 12,
+                                comment: "---------------- 1.1.2.2",
+                                subComments: [],
+                            }
+                        ]
+                    },
                 ],
             },
             {
                 author: "Chris 2",
                 points: 12,
-                comment: "SubComment 2 iewfipwe wio ngfiweon fowfn weonwo ef ",
+                comment: "---------------- 1.2",
                 subComments: [],
             }
         ]
@@ -38,7 +52,7 @@ const commentContent = [
     {
         author: "Chris",
         points: 99999999,
-        comment: "Comment 1 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
+        comment: "---------------- 2",
         subComments: []
     },
      
@@ -46,7 +60,6 @@ const commentContent = [
 
 
 class CommentSection extends Component {
-
 
 
     render(){
@@ -64,7 +77,7 @@ class CommentSection extends Component {
             )
         }
 
-        if(this.props.showComments == 'false') comments = [];
+        if(this.props.showComments === 'false') comments = [];
 
         return(
             <div className={classes.CommentSection}>
