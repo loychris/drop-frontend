@@ -3,7 +3,7 @@ import classes from './Comment.module.css';
 import Voting from './Voting/Voting';
 import I from './I.svg';
 import Ishort from './Ishort.svg';
-import connector from './Connector.svg';
+import C from './Connector.svg';
 
 const Comment = props => {
 
@@ -36,17 +36,21 @@ const Comment = props => {
 
     const buildTree = components => {
         let row = [];
-        for(let i;i<components.length;i++){
+        for(let i=0;i<components.length;i++){
             switch(components[i]){
-                case 'I': row.push(<img style={Istyles} src={I} alt=''/>);
-                          break;
-                case 'L': row.push(<img style={IshortStyles(i)} src={Ishort} alt=''/>);
-                          row.push(<img style={connectorStyles(i)} src={connector} alt=''/>);
-                          break;
-                case 'T': row.push(<img style={Istyles(i)} src={I} alt=''/>);
-                          row.push(<img style={connectorStyles(i)} src={connector} alt=''/>);
-                          break;
-                default : console.log("ERROR");
+                case ' ': break;
+                case 'I': 
+                    row.push(<img key={i} src={I} style={Istyles(i)} alt=''/>); 
+                    break;
+                case 'T': 
+                    row.push(<img key={i} src={I} style={Istyles(i)} alt=''/>); 
+                    row.push(<img key={`${i}-connector`} src={C} style={connectorStyles(i+1)} alt=''/>); 
+                    break;
+                case 'L': 
+                    row.push(<img key={i} src={Ishort} style={IshortStyles(i+1)} alt=''/>); 
+                    row.push(<img key={`${i}-connector`} src={C} style={connectorStyles(i+1)} alt=''/>); 
+                    break;
+                default: console.log('ERROR: unwanted Character');
             }
         }
         return row;
@@ -57,7 +61,7 @@ const Comment = props => {
     let thisTreeString = (props.last === 'true' && depth > 1) ? [...inheritance, 'L'].slice(1) : [...inheritance, 'T'].slice(1);
     let nextTreeString = props.last === 'true' ? [...inheritance, ' '] : [...inheritance, 'I'];
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    if(thisTreeString.length>0)console.log(thisTreeString.reduce( (x, s) => {return x+s} ));
+    if(thisTreeString.length>0)console.log('thisTreeString', thisTreeString.reduce( (x, s) => {return x+s} ));
 
 
     //recursevly add SUBCOMMETNS

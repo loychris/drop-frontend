@@ -29,23 +29,38 @@ const commentContent = [
                                 author: "Chris 2",
                                 points: 12,
                                 comment: "---------------- 1.1.2.1",
-                                subComments: [],
+                                subComments: [
+                                    {
+                                        author: "Chris 2",
+                                        points: 12,
+                                        comment: "---------------- 1.1.2.1.1",
+                                        subComments: [],
+                                    },
+                                    {
+                                        author: "Chris 2",
+                                        points: 12,
+                                        comment: "---------------- 1.1.2.1.2",
+                                        subComments: [],
+                                    },
+                                ],
                             },
-                            {
-                                author: "Chris 2",
-                                points: 12,
-                                comment: "---------------- 1.1.2.2",
-                                subComments: [],
-                            }
                         ]
                     },
+
                 ],
             },
             {
                 author: "Chris 2",
                 points: 12,
                 comment: "---------------- 1.2",
-                subComments: [],
+                subComments: [
+                    {
+                        author: "Chris 2",
+                        points: 12,
+                        comment: "---------------- 1.2.1",
+                        subComments: [],
+                    },
+                ],
             }
         ]
     },

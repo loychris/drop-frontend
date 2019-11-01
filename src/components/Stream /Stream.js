@@ -1,7 +1,6 @@
 import React, { Component } from 'react'; 
 import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
-
 import classes from './Stream.module.css';
 
 class Stream extends Component {
