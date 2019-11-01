@@ -7,7 +7,7 @@
     padding-bottom: 20px;
 }
 
-.I {
+.I, .Ishort {
     position: absolute;
     top: 0px;
 }

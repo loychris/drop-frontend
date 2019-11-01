@@ -6,7 +6,7 @@ const commentContent = [
     {
         author: "Chris",
         points: 99999999,
-        comment: "Comment 1 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
+        comment: "Comment 1 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok jbwefoe wfe now jfewo  f  fewwwei fjweof pwef wpf ",
         subComments: [
             {
                 author: "Chris 2",
@@ -39,66 +39,9 @@ const commentContent = [
         author: "Chris",
         points: 99999999,
         comment: "Comment 1 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
-        subComments: [
-            {
-                author: "Chris 2",
-                points: 12,
-                comment: "SubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
-                subComments: [
-                    {
-                        author: "Chris 2",
-                        points: 12,
-                        comment: "SubSubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
-                        subComments: [],
-                    },
-                    {
-                        author: "Chris 2",
-                        points: 12,
-                        comment: "SubSubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
-                        subComments: [],
-                    }
-                ],
-            },
-            {
-                author: "Chris 2",
-                points: 12,
-                comment: "SubComment 2 iewfipwe wio ngfiweon fowfn weonwo ef ",
-                subComments: [],
-            }
-        ]
+        subComments: []
     },
-    {
-        author: "Chris",
-        points: 99999999,
-        comment: "Comment 1 gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn jbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn gjbrwognwpeg nwkegok wengokwengow nweokgn woe kfn",
-        subComments: [
-            {
-                author: "Chris 2",
-                points: 12,
-                comment: "SubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
-                subComments: [
-                    {
-                        author: "Chris 2",
-                        points: 12,
-                        comment: "SubSubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
-                        subComments: [],
-                    },
-                    {
-                        author: "Chris 2",
-                        points: 12,
-                        comment: "SubSubComment 1 iewfipwe wio ngfiweon fowfn weonwo ef ",
-                        subComments: [],
-                    }
-                ],
-            },
-            {
-                author: "Chris 2",
-                points: 12,
-                comment: "SubComment 2 iewfipwe wio ngfiweon fowfn weonwo ef ",
-                subComments: [],
-            }
-        ]
-    },  
+     
 ]
 
 
@@ -120,6 +63,8 @@ class CommentSection extends Component {
                 />
             )
         }
+
+        if(this.props.showComments == 'false') comments = [];
 
         return(
             <div className={classes.CommentSection}>
