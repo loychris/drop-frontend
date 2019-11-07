@@ -10,7 +10,7 @@ class AddSubCommentButton extends Component {
     }
 
     getStyle = () => {
-        if(this.props.first) return {top: '20px', left: '7px'}
+        if(this.props.first) return {top: '23px', left: '7px'}
         return {left:`${ this.props.indent*this.props.depth-12}px`}
     }
 

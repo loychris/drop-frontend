@@ -91,11 +91,8 @@ const Comment = props => {
     let firstSubcommnetButton = []
     if(props.depth === '0' && Array.isArray(subComments) && subComments.length === 0){
         console.log('adding subcomment');
-        firstSubcommnetButton = <AddSubCommentButton 
-                                    indent={indent} 
-                                    depth={1} 
-                                    first='true'
-                                />
+        firstSubcommnetButton = 
+            <AddSubCommentButton indent={indent} depth={1} first='true'/>
     }
     let commentStyle = { paddingLeft: `${depth*indent }px`}
 
