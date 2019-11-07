@@ -1,13 +1,7 @@
 .plus {
     position: absolute;
-}
-
-/*.expanded {
-
-}*/
-
-.plus{
-    float: left;
+    margin-top: 2px;
+    filter: drop-shadow(0px 0px 4px rgba(147, 129, 255, 0.75))
 }
 
 .showMoreBox:hover {
@@ -15,8 +9,8 @@
     background-color: #000A2F;
     position: absolute;
     border: 1px solid #ffffff;
-    border-radius: 5px;
-    top: 17px;
+    border-radius: 4px;
+    top: 11px;
     cursor: pointer;
     box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
 
@@ -25,17 +19,18 @@
 .showMoreBox {
     display: block;
     position: absolute;
-    top: 18px;
-    padding-top: 2px;
+    top: 12px;
+    padding-top: 5px;
     padding-bottom: 7px;
     padding-left: 2px;
 }
 
 .respond {
-    padding-left: 30px;
+    padding-left: 12px;
     padding-right: 5px;
-    margin-top: 2px;
+    margin-top: 0px;
     display: none;
+    font-size: 0.75em;
 }
 
 .showMoreBox:hover .respond {

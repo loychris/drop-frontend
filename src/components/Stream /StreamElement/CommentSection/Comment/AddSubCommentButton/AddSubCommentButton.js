@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
 import classes from './AddSubComment.module.css';
-import Plus from './Plus.svg';
+import Plus from './smallPlus.svg';
 
 
 class AddSubCommentButton extends Component {
@@ -10,8 +10,8 @@ class AddSubCommentButton extends Component {
     }
 
     getStyle = () => {
-        if(this.props.first) return {top: '29px', left: '0px'}
-        return {left:`${ this.props.indent*this.props.depth-25}px`}
+        if(this.props.first) return {top: '20px', left: '7px'}
+        return {left:`${ this.props.indent*this.props.depth-12}px`}
     }
 
 
@@ -38,7 +38,9 @@ class AddSubCommentButton extends Component {
                     onClick={this.addSubComment}
                     src={Plus}  
                     className={styleClass} alt=''/>
-                <div className={classes.respond}>respond</div>
+                <div className={classes.respond}>
+                    respond
+                </div>
             </div>
         );
     }

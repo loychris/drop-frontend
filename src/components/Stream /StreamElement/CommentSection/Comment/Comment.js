@@ -6,7 +6,7 @@ import Ishort from './Ishort.svg';
 import C from './Connector.svg';
 import AddSubCommentButton from './AddSubCommentButton/AddSubCommentButton';
 
-const indent = 25;
+const indent = 17;
 
 const Comment = props => {
 
@@ -14,7 +14,7 @@ const Comment = props => {
     let subComments = [];
 
     const getStyle = (depth, type) => {
-        let styles = {position: 'absolute', top: '-40px'};
+        let styles = {position: 'absolute', top: '-42px'};
         switch(type){
             case 'I':
                 styles.left = `${ 11+indent*depth }px`;
@@ -23,8 +23,8 @@ const Comment = props => {
                 styles.left = `${11+indent*(depth-1)}px`;
                 break;
             case 'connector':
-                styles.left = `${ indent*depth-7 }px`;
-                styles.top = '12px';
+                styles.left = `${ indent*depth-4 }px`;
+                styles.top = '13px';
                 break;
             default: console.log('Switch case ERROR');
         }    
