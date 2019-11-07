@@ -72,7 +72,6 @@ class Voting extends Component {
 
     render(){
         
-
         const glow = {filter: 'drop-shadow(0px 0px 6px #ffffff)'};
         const upvoteIconstyle = this.state.didUpvote ? glow :{};
         const downvoteIconStyle = this.state.didDownvote ? glow :{};

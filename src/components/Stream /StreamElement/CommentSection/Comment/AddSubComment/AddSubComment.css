@@ -1,0 +1,17 @@
+.plus {
+    position: absolute;
+}
+
+.expanded {
+
+}
+
+.notExpanded {
+    position: absolute;
+    top: 20px;
+    filter: 'drop-shadow(0px 0px 6px #000000)';
+}
+
+.notExpanded:hover {
+    border: 1px solid red;
+}
