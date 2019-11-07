@@ -7,11 +7,6 @@
     padding-bottom: 20px;
 }
 
-.I, .Ishort {
-    position: absolute;
-    top: 0px;
-}
-
 .AuthorProfilePic{
     border-radius: 100%;
     height: 28px; 

@@ -4,6 +4,7 @@ import Voting from './Voting/Voting';
 import I from './I.svg';
 import Ishort from './Ishort.svg';
 import C from './Connector.svg';
+import L from './L.svg';
 import AddSubCommentButton from './AddSubCommentButton/AddSubCommentButton';
 
 const indent = 17;
@@ -14,13 +15,17 @@ const Comment = props => {
     let subComments = [];
 
     const getStyle = (depth, type) => {
-        let styles = {position: 'absolute', top: '-42px'};
+        let styles = {position: 'absolute', top: '-42px', boxShadow: '0px 0px 8px #D5D9FE'};
         switch(type){
             case 'I':
                 styles.left = `${ 11+indent*depth }px`;
                 break;
             case 'Ishort':
                 styles.left = `${11+indent*(depth-1)}px`;
+                break;
+            case 'L':
+                styles.left = `${ indent*depth-6}px`;
+                styles.top = '11px';
                 break;
             case 'connector':
                 styles.left = `${ indent*depth-4 }px`;
@@ -30,7 +35,6 @@ const Comment = props => {
         }    
         return styles;
     }
-
 
     const buildTree = components => {
         let row = [];
@@ -46,7 +50,7 @@ const Comment = props => {
                     break;
                 case 'L': 
                     row.push(<img key={i} src={Ishort} style={getStyle(i+1,'Ishort')} alt=''/>); 
-                    row.push(<img key={`${i}-connector`} src={C} style={getStyle(i+1,'connector')} alt=''/>); 
+                    row.push(<img key={`${i}L`} src={L} style={getStyle(i+1,'L')} alt=''/>); 
                     row.push(<AddSubCommentButton indent={indent} depth={i+1}/>);
                     break;
                 default: console.log('ERROR: unwanted Character');
@@ -94,6 +98,8 @@ const Comment = props => {
                                 />
     }
     let commentStyle = { paddingLeft: `${depth*indent }px`}
+
+    
 
     return(
         <div className ={classes.CommentContainer}>
