@@ -4,7 +4,7 @@ import Voting from './Voting/Voting';
 import I from './I.svg';
 import Ishort from './Ishort.svg';
 import C from './Connector.svg';
-import AddSubComment from './AddSubComment/AddSubComment';
+import AddSubCommentButton from './AddSubCommentButton/AddSubCommentButton';
 
 const indent = 25;
 
@@ -47,7 +47,7 @@ const Comment = props => {
                 case 'L': 
                     row.push(<img key={i} src={Ishort} style={getStyle(i+1,'Ishort')} alt=''/>); 
                     row.push(<img key={`${i}-connector`} src={C} style={getStyle(i+1,'connector')} alt=''/>); 
-                    row.push(<AddSubComment indent={indent} depth={i+1}/>);
+                    row.push(<AddSubCommentButton indent={indent} depth={i+1}/>);
                     break;
                 default: console.log('ERROR: unwanted Character');
             }
@@ -65,16 +65,15 @@ const Comment = props => {
     //if(thisTreeString.length>0)console.log('thisTreeString', thisTreeString.reduce( (x, s) => {return x+s} ));
 
 
-    //recursevly add SUBCOMMETNS
+    //recursevly creating SUBCOMMETNS
     if(props.subComments.length > 0){ 
-        const nextDepth = `${depth+1}`
         for(let i=0;i<props.subComments.length;i++){
             const lastProp = i === props.subComments.length-1 ? true : false; 
             subComments.push(
                 <Comment
                     tree = {nextTreeString}
                     last = {lastProp}
-                    depth = {nextDepth}
+                    depth = {`${depth+1}`}
                     key = {`SubCommentNo${i}`}
                     author = { props.subComments[i].author }
                     points = { props.subComments[i].points }
@@ -85,7 +84,15 @@ const Comment = props => {
         }
     }
 
-
+    let firstSubcommnetButton = []
+    if(props.depth === '0' && Array.isArray(subComments) && subComments.length === 0){
+        console.log('adding subcomment');
+        firstSubcommnetButton = <AddSubCommentButton 
+                                    indent={indent} 
+                                    depth={1} 
+                                    first='true'
+                                />
+    }
     let commentStyle = { paddingLeft: `${depth*indent }px`}
 
     return(
@@ -94,10 +101,10 @@ const Comment = props => {
                 <div className={classes.AuthorProfilePic}></div>
                 <Voting points={props.points}/>
                 <p className={classes.actualComment}>{props.actualComment}</p>
-                {/*<button className={classes.addSubCommentButton}></button>*/}
             </div>
             {subComments}
             {buildTree(thisTreeString)}
+            {firstSubcommnetButton}
         </div>
     )
 }

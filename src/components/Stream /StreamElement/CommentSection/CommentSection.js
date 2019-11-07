@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
-import comment from './content.json';
 
 const commentContent = [
     {
