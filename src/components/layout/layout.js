@@ -1,6 +1,6 @@
 import React from 'react';
 import Aux from '../../hoc/Aux';
-import River from './River (1).svg';
+import River from './river.svg';
 
 const layout = props => {
 

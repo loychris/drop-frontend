@@ -18,11 +18,11 @@ class AddSubCommentButton extends Component {
 
     //TODO
     addSubComment = () => {
-
-
-
-
-
+        /*
+        *
+        *
+        *
+        */
         this.setState({expanded: true});
     }
 
