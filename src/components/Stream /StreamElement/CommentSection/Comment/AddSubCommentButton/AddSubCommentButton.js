@@ -16,16 +16,6 @@ class AddSubCommentButton extends Component {
 
 
 
-    //TODO
-    addSubComment = () => {
-        /*
-        *
-        *
-        *
-        */
-        this.setState({expanded: true});
-    }
-
 
     
     render() {
@@ -35,7 +25,7 @@ class AddSubCommentButton extends Component {
                 style={this.getStyle()}
                 className={classes.showMoreBox} >
                 <img 
-                    onClick={this.addSubComment}
+                    onClick={() => this.props.addSubComment(this.props.parentPath, "add Comment Form functionallity")}
                     src={Plus}  
                     className={styleClass} alt=''/>
                 <div className={classes.respond}>

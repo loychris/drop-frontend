@@ -10,45 +10,45 @@ class CommentSection extends Component {
             {
                 author: "Chris",
                 points: 99999999,
-                comment: "---------------- 1",
+                comment: "---------------- 0",
                 path: '0',
                 subComments: [
                     {
                         author: "Chris 2",
                         points: 12,
-                        comment: "---------------- 1.1",
+                        comment: "---------------- 0/0",
                         path: '0/0',
                         subComments: [
                             {
                                 author: "Chris 2",
                                 points: 12,
-                                comment: "---------------- 1.1.1",
+                                comment: "---------------- 0/0/0",
                                 path: '0/0/0',
                                 subComments: [],
                             },
                             {
                                 author: "Chris 2",
                                 points: 12,
-                                comment: "---------------- 1.1.2",
+                                comment: "---------------- 0/0/1",
                                 path: '0/0/1',
                                 subComments: [
                                     {
                                         author: "Chris 2",
                                         points: 12,
-                                        comment: "---------------- 1.1.2.1",
+                                        comment: "---------------- 0/0/1/0",
                                         path: '0/0/1/0',
                                         subComments: [
                                             {
                                                 author: "Cejbfqnkönwklqdhris 2",
                                                 points: 12,
-                                                comment: "---------------- 1.1.2.1.1",
+                                                comment: "---------------- 0/0/1/0/0",
                                                 path: '0/0/1/0/0',
                                                 subComments: [],
                                             },
                                             {
                                                 author: "Chris 2",
                                                 points: 12,
-                                                comment: "---------------- 1.1.2.1.2",
+                                                comment: "---------------- 0/0/1/0/1",
                                                 path: '0/0/1/0/1',
                                                 subComments: [],
                                             },
@@ -59,14 +59,14 @@ class CommentSection extends Component {
                             {
                                 author: "Chris 2",
                                 points: 12,
-                                comment: "---------------- 1.1.1",
+                                comment: "---------------- 0/0/2",
                                 path: '0/0/2',
                                 subComments: [],
                             },
                             {
                                 author: "Chris 2",
                                 points: 12,
-                                comment: "---------------- 1.1.1",
+                                comment: "---------------- 0/0/3",
                                 path: '0/0/3',
                                 subComments: [],
                             },
@@ -76,13 +76,13 @@ class CommentSection extends Component {
                     {
                         author: "Chris 2",
                         points: 12,
-                        comment: "---------------- 1.2",
+                        comment: "---------------- 0/1",
                         path: '0/1',
                         subComments: [
                             {
                                 author: "Chris 2",
                                 points: 12,
-                                comment: "---------------- 1.2.1",
+                                comment: "---------------- 0/1/0",
                                 path: '0/1/0',
                                 subComments: [],
                             },
@@ -93,12 +93,24 @@ class CommentSection extends Component {
             {
                 author: "Chris",
                 points: 99999999,
-                comment: "---------------- 2",
+                comment: "---------------- 1",
                 path: '1',
                 subComments: []
             },
              
         ]
+    }
+
+    addCommentToTree = (content) => {
+        let newComments = this.state.comments;
+        newComments.push({
+            author: 'chris',
+            points: 0,
+            comment: content,
+            path: `${newComments.length}`,
+            subComments: []
+        });
+        this.setState({comments: newComments});
     }
 
 
@@ -111,29 +123,25 @@ class CommentSection extends Component {
         return current;
     }
 
-    addSubComment(parentPath, content) {
-        let currentComments = {
-            ...this.state.comments
+    addSubCommentToTree = (parentPath, content) => {
+        console.log('foweihfjpwefjpqwejfowpjfoe', parentPath);
+        let comments = this.state.comments;
+        const parentPathArray = parentPath.split('/').map(x => parseInt(x));
+        let current = comments[parentPathArray[0]];
+        if(parentPathArray.length>0){
+            for(let i=1;i<parentPathArray.length;i++){
+                current = current.subComments[parentPathArray[i]];
+
+            }
         }
-        const pathArray = parentPath.split('/').map(x => parseInt(x)); 
-        let current = currentComments[pathArray[0]];        
-        for(let i=1;i<pathArray.length-1;i++){        
-            current = current.subComments[pathArray[i]];       
-        }
-        const parent = current;
-        current = current.subComments[pathArray[pathArray.length-1]]
-        current.subComments.push(
-            <Comment 
-                depth = {pathArray.length-1}
-                key = {`${parentPath}/${parent.subComments.length}`}
-                path = {`${parentPath}/${parent.subComments.length}`}
-                points = { 0 }
-                actualComment = { content }
-                subComments = { [] }
-                addSubComment = { this.addSubComment }
-            />
-        )
-        this.setState({comments: currentComments});
+        current.subComments.push({
+            author: 'chris',
+            points: 0,
+            comment: content,
+            path: `${parentPath}/${current.subComments.length}`,
+            subComments: []
+        })
+        this.setState({comments});
     }
 
     render(){
@@ -142,21 +150,21 @@ class CommentSection extends Component {
             comments.push(
                 <Comment
                     depth = {'0'}
-                    key = {`CommentNo${i}`}
+                    key = {`${i}`}
+                    path = { `${i}`}
                     author = { this.state.comments[i].author }
                     points = { this.state.comments[i].points }
                     actualComment = { this.state.comments[i].comment }
                     subComments = { this.state.comments[i].subComments }
-                    addSubComment = { this.addSubComment }
+                    addSubComment = { this.addSubCommentToTree }
                 />
             )
         }
 
         if(this.props.showComments === 'false') comments = [];
-
         return(
             <div className={classes.CommentSection}>
-                <button>write Comment</button>
+                <button onClick={() => this.addCommentToTree('abc')}>Add Comment</button>
                 {comments}
             </div>
         )
