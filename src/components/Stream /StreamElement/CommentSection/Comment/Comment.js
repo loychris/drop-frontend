@@ -1,17 +1,23 @@
 import React from 'react';
-import classes from './Comment.module.css';
+
+import AddSubCommentButton from './AddSubCommentButton/AddSubCommentButton';
 import Voting from './Voting/Voting';
+import Options from './Options/Options';
+
+import classes from './Comment.module.css';
 import I from './I.svg';
 import Ishort from './Ishort.svg';
 import C from './Connector.svg';
 import L from './L.svg';
-import AddSubCommentButton from './AddSubCommentButton/AddSubCommentButton';
 
 const INDENT = 17;
 
 const Comment = props => {
 
     const depth =  props.path.split('/').length-1;
+    const pathArray = props.path.split('/');
+    const parentPath = depth === 0 ? '/' : pathArray.splice(0, pathArray.length-1).join('/');
+
 
     const generateStyles = (depth, type) => {
         let styles = {position: 'absolute', top: '-42px', boxShadow: '0px 0px 8px #D5D9FE'};
@@ -92,6 +98,8 @@ const Comment = props => {
                     actualComment = { props.subComments[i].comment }
                     subComments = { props.subComments[i].subComments }
                     addSubComment = { props.addSubComment }
+                    deleteSubComment = { props.deleteSubComment }
+
                 />
             )
         }
@@ -105,19 +113,20 @@ const Comment = props => {
     }
 
     //styles
-    let commentStyle = { paddingLeft: `${depth*INDENT }px`}
+    let commentStyle = { paddingLeft: `${ depth*INDENT }px`}
 
     
     return(
-        <div className ={classes.CommentContainer}>
-            <div className={classes.Comment} style={ commentStyle }>
-                <div className={classes.AuthorProfilePic}></div>
-                <Voting points={props.points}/>
-                <p className={classes.actualComment}>{props.actualComment}</p>
+        <div className ={ classes.CommentContainer }>
+            <div className={ classes.Comment} style={ commentStyle }>
+                <div className={ classes.AuthorProfilePic}></div>
+                <Voting points={ props.points }/>
+                <Options deleteSubComment={props.deleteSubComment} path={props.path}/>
+                <p className={ classes.actualComment }>{props.actualComment}</p>
             </div>
-            {subComments}
-            {buildTree(thisTreeString)}
-            {firstSubcommnetButton}
+            { subComments }
+            { buildTree(thisTreeString) }
+            { firstSubcommnetButton }
         </div>
     )
 }

@@ -6,6 +6,7 @@ import Comment from './Comment/Comment';
 class CommentSection extends Component {
 
     state = {
+        showComments: true,
         comments: [
             {
                 author: "Chris",
@@ -113,7 +114,6 @@ class CommentSection extends Component {
         this.setState({comments: newComments});
     }
 
-
     getCommentfromRoute = (path) => {
         const pathArray = path.split('/').map(x => parseInt(x)); 
         let current = this.state.comments[pathArray[0]];        
@@ -144,6 +144,24 @@ class CommentSection extends Component {
         this.setState({comments});
     }
 
+    deleteSubCommentFromTree = (path) => {
+        const pathArray = path.split('/');
+        let currentComments = this.state.comments;
+        let current = currentComments[pathArray[0]];
+        if(pathArray.length>1){
+            for(let i=1;i<pathArray.length-1;i++){
+                current = current.subComments[pathArray[i]];
+            }
+            const last = pathArray.pop();
+            current.subComments.splice(last, 1);
+            this.setState({currentComments});
+        } else {
+            currentComments.splice(pathArray[0],1);
+            this.setState({currentComments});
+        }
+
+    }
+
     render(){
         let comments = [];
         for(let i=0;i<this.state.comments.length; i++){
@@ -157,11 +175,12 @@ class CommentSection extends Component {
                     actualComment = { this.state.comments[i].comment }
                     subComments = { this.state.comments[i].subComments }
                     addSubComment = { this.addSubCommentToTree }
+                    deleteSubComment = { this.deleteSubCommentFromTree }
                 />
             )
         }
-
         if(this.props.showComments === 'false') comments = [];
+
         return(
             <div className={classes.CommentSection}>
                 <button onClick={() => this.addCommentToTree('abc')}>Add Comment</button>
