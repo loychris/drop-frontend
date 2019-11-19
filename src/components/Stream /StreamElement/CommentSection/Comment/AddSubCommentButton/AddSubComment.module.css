@@ -5,9 +5,7 @@
 }
 
 .showMoreBox:hover {
-    display: block;
     background-color: #000A2F;
-    position: absolute;
     border: 1px solid #ffffff;
     border-radius: 4px;
     top: 11px;
@@ -20,8 +18,8 @@
     display: block;
     position: absolute;
     top: 12px;
-    padding-top: 5px;
-    padding-bottom: 7px;
+    padding-top: 3px;
+    padding-bottom: 4px;
     padding-left: 2px;
 }
 
@@ -30,7 +28,7 @@
     padding-right: 5px;
     margin-top: 0px;
     display: none;
-    font-size: 0.75em;
+    font-size: 0.5em;
 }
 
 .showMoreBox:hover .respond {

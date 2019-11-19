@@ -26,7 +26,7 @@ class Options extends Component {
             <div>
                 <img onClick={this.hideOrShow} src={dots} className={classes.dots} alt=''/> 
                 <div className = {classes.optionsMenu} style={ this.state.expanded ? {display:'block'} : {display:'none'}}>
-                    <div onClick={() => this.props.deleteSubComment(this.props.path)} className={classes.OptionsMenuOption}>delete</div>
+                    <div className={classes.OptionsMenuOption} onClick={() => this.props.deleteSubComment(this.props.path)}>delete</div>
                     <div className={classes.OptionsMenuOption}>report</div>
                 </div>
             </div>

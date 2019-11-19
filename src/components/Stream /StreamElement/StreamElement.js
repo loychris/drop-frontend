@@ -5,7 +5,21 @@ import CommentSection from './CommentSection/CommentSection';
 
 
 class StreamElement extends Component {
+
+    state = {
+        position: this.props.position,
+        showComments: false
+        
+    }
     
+    showComments = () => {
+        console.log("Executing showcommetns")
+        this.setState({showComments: true});
+    }
+
+    hideComments = () => {
+        this.setState({showComments: false});
+    }
 
     // Height should not be fix/calculated
     calcStyles(pos){
@@ -33,18 +47,18 @@ class StreamElement extends Component {
     
 
     render(){
-        const commentSection = this.props.position === 1 ? <CommentSection showComments='true'/> : <CommentSection showComments='false'/>
- 
+        const commentSection = this.state.showComments === true ? <CommentSection/> : [];
+        const showHideCommentsButton = this.state.showComments ? 
+                <button className={classes.hideCommentsButton} onClick={this.hideComments}>HideComments</button> :
+                <button className={classes.showCommentsButton} onClick={this.showComments}>Show Comments</button>
         return(
             <div 
                 className={classes.StreamElement}
-                style={this.calcStyles(this.props.position)}>
-                    {/* ////////////  Replace with proper Components & Content ////////*/}
+                style={this.calcStyles(this.state.position)}>
                     <h3 className={classes.title}>Title of the Drop</h3>
                     <Content/>
+                    {showHideCommentsButton}
                     {commentSection}
-                    {/* ///////////////////////////////////// */}
-
             </div>
         )
     }

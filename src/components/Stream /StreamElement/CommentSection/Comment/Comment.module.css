@@ -13,7 +13,7 @@
     width: 28px;
     margin: 0px 10px 0px 0px;
     background-color: #c4c4c4;
-    float: left;
+    display: inline-block;;
     clear: right;
 }
 
@@ -27,10 +27,20 @@
 }
 
 .actualComment {
+    padding: 5px 3px;
     margin: 0px 0px;
+    max-width: 500px;
+    position: absolute;
+    top: 0px;
+    overflow-wrap: break-word;
+    font-size: 12pt;
+    margin-bottom: 18px;
+    background: rgba(0, 2, 10, 0.6);
 }
 
-
-
-
+.HighlightBackground {
+    position: absolute;
+    height: 70px;
+    width: 400px;
+}
 

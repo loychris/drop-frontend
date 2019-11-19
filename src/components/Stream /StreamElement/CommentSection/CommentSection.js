@@ -6,18 +6,17 @@ import Comment from './Comment/Comment';
 class CommentSection extends Component {
 
     state = {
-        showComments: true,
         comments: [
             {
                 author: "Chris",
                 points: 99999999,
-                comment: "---------------- 0",
+                comment: "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", //108
                 path: '0',
                 subComments: [
                     {
                         author: "Chris 2",
                         points: 12,
-                        comment: "---------------- 0/0",
+                        comment: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore ",
                         path: '0/0',
                         subComments: [
                             {
@@ -102,6 +101,7 @@ class CommentSection extends Component {
         ]
     }
 
+
     addCommentToTree = (content) => {
         let newComments = this.state.comments;
         newComments.push({
@@ -179,7 +179,10 @@ class CommentSection extends Component {
                 />
             )
         }
-        if(this.props.showComments === 'false') comments = [];
+        if(this.props.showComments === false){
+            comments = [];
+            console.log(this.state);
+        }
 
         return(
             <div className={classes.CommentSection}>
