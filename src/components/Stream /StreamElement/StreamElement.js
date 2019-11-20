@@ -8,8 +8,7 @@ class StreamElement extends Component {
 
     state = {
         position: this.props.position,
-        showComments: false
-        
+        showComments: this.props.position === 1 ? true : false
     }
     
     showComments = () => {

@@ -8,9 +8,12 @@ import classes from './Comment.module.css';
 import Ishort from './Ishort.svg';
 import C from './Connector.svg';
 import L from './L.svg';
+import CommentBackground from './CommentBackground/CommentBackground';
+
 
 const INDENT = 17;
 const INDENTFRACTION = 17 //precent of width of a depth=0 Comment
+const MAX_SUBCOMMENTS = 4
 
 const Comment = props => {
 
@@ -33,9 +36,6 @@ const Comment = props => {
     }
 
 
-    
-
-
     const generateBoneStyles = (depth, type) => {
         let styles = {
             position: 'absolute', 
@@ -51,10 +51,6 @@ const Comment = props => {
         }    
         return styles;
     }
-
-
-
-
 
 
     const generateHighlightGradient = (leftColor, leftTransparency, rightColor, rightTransparency, depth) => {
@@ -91,42 +87,21 @@ const Comment = props => {
 
 
 
-
-
-
-    const generateBackground = () => {
-        const backgroundStyle = { backgroundImage: generateHighlightGradient('#FF0000', 100, '#0000FF', 100, props.depth),
-                                  //left: `${(depth-1)*INDENT+13}px`,
-                                  left: `${depth*INDENTFRACTION}px`,
-                                  top: '0px'
-                                }
-        console.log('style: ', backgroundStyle);
-        return <div className={ classes.HighlightBackground } style={ backgroundStyle }></div>;
-    }
-
-
-
-
-
-
-
-
-
     const generateBones = (boneComponents, depth) => {
-        let styleComponents = [];
+        let bones = [];
 
         //Generate Bone Components 
         for(let i=0;i<boneComponents.length;i++){
             switch(boneComponents[i]){
                 case ' ': break;
-                case 'I': styleComponents.push(generateSVG(i,70, 2)); break;
-                case 'T': styleComponents.push(generateSVG(i,70, 2));
-                          styleComponents.push(<img key={`${i}-connector`} src={C} style={generateBoneStyles(i+1, 'connector')} alt=''/>); break;
-                case 'L': styleComponents.push(<img key={i} src={Ishort} style={generateBoneStyles(i+1,'Ishort')} alt=''/>); 
-                          styleComponents.push(<img key={`${i}L`} src={L} style={generateBoneStyles(i+1,'L')} alt=''/>)
+                case 'I': bones.push(generateSVG(i,70, 2)); break;
+                case 'T': bones.push(generateSVG(i,70, 2));
+                          bones.push(<img key={`${i}-connector`} src={C} style={generateBoneStyles(i+1, 'connector')} alt=''/>); break;
+                case 'L': bones.push(<img key={i} src={Ishort} style={generateBoneStyles(i+1,'Ishort')} alt=''/>); 
+                          bones.push(<img key={`${i}L`} src={L} style={generateBoneStyles(i+1,'L')} alt=''/>)
                           let pathArr = props.path.split('/');
                           pathArr.pop();
-                          styleComponents.push(<AddSubCommentButton 
+                          bones.push(<AddSubCommentButton 
                                         indent={INDENT} 
                                         depth={i+1}
                                         parentPath={pathArr.join('/')}
@@ -135,16 +110,7 @@ const Comment = props => {
                 default:  console.log('ERROR: unwanted Character in BuildBone');
             }
         }
-
-        //generate highlight Background
-
-
-
-
-
-
-
-        return styleComponents;
+        return bones;
     }
 
 
@@ -163,7 +129,9 @@ const Comment = props => {
     //recursevly filling subComments Array
     let subComments = [];
     if(props.subComments.length > 0){ 
-        for(let i=0;i<props.subComments.length;i++){
+        const subCommentsCount = props.subComments.length < MAX_SUBCOMMENTS ? props.subComments.length : MAX_SUBCOMMENTS;
+        for(let i=0;i<subCommentsCount
+            ;i++){
             const lastProp = i === props.subComments.length-1 ? true : false; 
             subComments.push(
                 <Comment tree = {nextTreeString}
@@ -194,14 +162,16 @@ const Comment = props => {
                           
                        }
     const contentStyle = {  left: `${depth*INDENT+40}px`,
-                            maxWidth: `${550-INDENT*depth}px`,
+                            maxWidth: `${545-INDENT*depth}px`,
                          }
+
+    const background = <CommentBackground depth={props.depth} indent={INDENT}/>
     
-   
     
     return(
         <div className ={classes.CommentContainer}>
             <div className={classes.Comment} style={commentStyle}>
+                {background}
                 <div className={classes.AuthorProfilePic}></div>
                 <Voting points={props.points}/>
                 <Options deleteSubComment={props.deleteSubComment} path={props.path}/>

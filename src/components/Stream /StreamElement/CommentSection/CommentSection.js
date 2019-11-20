@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 
+const MAX_COUNT_COMMENTS_SHOWN = 10;
 
 class CommentSection extends Component {
 
@@ -10,7 +11,7 @@ class CommentSection extends Component {
             {
                 author: "Chris",
                 points: 99999999,
-                comment: "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", //108
+                comment: "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", //105
                 path: '0',
                 subComments: [
                     {
@@ -31,30 +32,7 @@ class CommentSection extends Component {
                                 points: 12,
                                 comment: "---------------- 0/0/1",
                                 path: '0/0/1',
-                                subComments: [
-                                    {
-                                        author: "Chris 2",
-                                        points: 12,
-                                        comment: "---------------- 0/0/1/0",
-                                        path: '0/0/1/0',
-                                        subComments: [
-                                            {
-                                                author: "Cejbfqnkönwklqdhris 2",
-                                                points: 12,
-                                                comment: "---------------- 0/0/1/0/0",
-                                                path: '0/0/1/0/0',
-                                                subComments: [],
-                                            },
-                                            {
-                                                author: "Chris 2",
-                                                points: 12,
-                                                comment: "---------------- 0/0/1/0/1",
-                                                path: '0/0/1/0/1',
-                                                subComments: [],
-                                            },
-                                        ],
-                                    },
-                                ]
+                                subComments: []
                             },
                             {
                                 author: "Chris 2",
@@ -68,6 +46,20 @@ class CommentSection extends Component {
                                 points: 12,
                                 comment: "---------------- 0/0/3",
                                 path: '0/0/3',
+                                subComments: [],
+                            },
+                            {
+                                author: "Cejbfqnkönwklqdhris 2",
+                                points: 12,
+                                comment: "---------------- 0/0/1/0/0",
+                                path: '0/0/1/0/0',
+                                subComments: [],
+                            },
+                            {
+                                author: "Chris 2",
+                                points: 12,
+                                comment: "---------------- 0/0/1/0/1",
+                                path: '0/0/1/0/1',
                                 subComments: [],
                             },
         
@@ -95,6 +87,90 @@ class CommentSection extends Component {
                 points: 99999999,
                 comment: "---------------- 1",
                 path: '1',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 2",
+                path: '2',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 3",
+                path: '3',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 4",
+                path: '4',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '5',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 6",
+                path: '6',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 7",
+                path: '7',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 8",
+                path: '8',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 9",
+                path: '9',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 10",
+                path: '10',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 11",
+                path: '11',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 12",
+                path: '12',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 13",
+                path: '13',
                 subComments: []
             },
              
@@ -164,7 +240,8 @@ class CommentSection extends Component {
 
     render(){
         let comments = [];
-        for(let i=0;i<this.state.comments.length; i++){
+        const commentsShownCount = this.state.comments.length < MAX_COUNT_COMMENTS_SHOWN ? this.state.comments.length : MAX_COUNT_COMMENTS_SHOWN; 
+        for(let i=0;i<commentsShownCount; i++){
             comments.push(
                 <Comment
                     depth = {'0'}

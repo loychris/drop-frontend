@@ -15,7 +15,7 @@ class Stream extends Component {
     render() {
         let elements = [];
         for(let i=0; i<20;i++){
-            elements.push(<StreamElement position={20-i} key={19-i}/>)
+            elements.push(<StreamElement position={20-i} key={20-i}/>)
         }
         return (
             <Aux className={classes.stream}>
