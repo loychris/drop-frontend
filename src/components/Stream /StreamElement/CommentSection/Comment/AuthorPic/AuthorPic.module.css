@@ -1,0 +1,10 @@
+.AuthorPic{
+    position: absolute;
+    border-radius: 14px;
+    height: 25px; 
+    width: 25px;
+    margin: 0px 10px 0px 0px;
+    background-color: #c4c4c4;
+    display: inline-block;;
+    clear: right;
+}

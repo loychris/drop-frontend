@@ -12,11 +12,10 @@ const layout = props => {
     marginLeft: 'auto',
     marginRight: 'auto',
     margin: 'auto',
-    width: '330px'
   }
   return(
   <Aux>
-    <img src={River} style={riverStyles} alt = ""/>
+    <img src={River} alt='' style={riverStyles}/>
     <main>{props.children}</main>
   </Aux>
   )

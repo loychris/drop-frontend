@@ -11,54 +11,78 @@ class CommentSection extends Component {
             {
                 author: "Chris",
                 points: 99999999,
-                comment: "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", //105
+                comment: "That's what your Mom saied last night", //105
                 path: '0',
                 subComments: [
                     {
                         author: "Chris 2",
                         points: 12,
-                        comment: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore ",
                         path: '0/0',
+                        comment: 'No u',
                         subComments: [
                             {
                                 author: "Chris 2",
                                 points: 12,
-                                comment: "---------------- 0/0/0",
+                                comment: 'No u',
+                                path: '0/0/0',
+                                subComments: [
+                                    {
+                                        author: "Chris 2",
+                                        points: 12,
+                                        comment: 'No u',
+                                        path: '0/0/0',
+                                        subComments: [],
+                                    },
+                                ],
+                            },  
+                            {
+                                author: "Chris 2",
+                                points: 12,
+                                comment: 'No u',
+                                path: '0/0/0',
+                                subComments: [],
+                            },      
+                        ],
+                    },
+                    {
+                        author: "Chris 2",
+                        points: 12,
+                        comment: 'No u',
+                        path: '0/0/0',
+                        subComments: [],
+                    },
+                ]
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '5',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", //105
+                path: '0',
+                subComments: [
+                    {
+                        author: "Chris 2",
+                        points: 12,
+                        path: '0/0',
+                        comment: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt",
+                        subComments: [
+                            {
+                                author: "Chris 2",
+                                points: 12,
+                                comment: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt",
                                 path: '0/0/0',
                                 subComments: [],
                             },
                             {
                                 author: "Chris 2",
                                 points: 12,
-                                comment: "---------------- 0/0/1",
-                                path: '0/0/1',
-                                subComments: []
-                            },
-                            {
-                                author: "Chris 2",
-                                points: 12,
-                                comment: "---------------- 0/0/2",
-                                path: '0/0/2',
-                                subComments: [],
-                            },
-                            {
-                                author: "Chris 2",
-                                points: 12,
-                                comment: "---------------- 0/0/3",
-                                path: '0/0/3',
-                                subComments: [],
-                            },
-                            {
-                                author: "Cejbfqnkönwklqdhris 2",
-                                points: 12,
-                                comment: "---------------- 0/0/1/0/0",
-                                path: '0/0/1/0/0',
-                                subComments: [],
-                            },
-                            {
-                                author: "Chris 2",
-                                points: 12,
-                                comment: "---------------- 0/0/1/0/1",
+                                comment: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore ",
                                 path: '0/0/1/0/1',
                                 subComments: [],
                             },
@@ -79,101 +103,9 @@ class CommentSection extends Component {
                                 subComments: [],
                             },
                         ],
-                    }
+                    }    
                 ]
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 1",
-                path: '1',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 2",
-                path: '2',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 3",
-                path: '3',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 4",
-                path: '4',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 5",
-                path: '5',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 6",
-                path: '6',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 7",
-                path: '7',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 8",
-                path: '8',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 9",
-                path: '9',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 10",
-                path: '10',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 11",
-                path: '11',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 12",
-                path: '12',
-                subComments: []
-            },
-            {
-                author: "Chris",
-                points: 99999999,
-                comment: "---------------- 13",
-                path: '13',
-                subComments: []
-            },
-             
+            }       
         ]
     }
 
@@ -263,7 +195,6 @@ class CommentSection extends Component {
 
         return(
             <div className={classes.CommentSection}>
-                <button onClick={() => this.addCommentToTree('abc')}>Add Comment</button>
                 {comments}
             </div>
         )
