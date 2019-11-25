@@ -21,7 +21,6 @@ class Options extends Component {
     
 
     render() {
-        const hiddenStyle = { display: 'none' }
         return(
             <div>
                 <img onClick={this.hideOrShow} src={dots} className={classes.dots} alt=''/> 

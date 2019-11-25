@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 
-const MAX_COUNT_COMMENTS_SHOWN = 10;
 
 class CommentSection extends Component {
 
     state = {
+        CommentsShown: 10,
         comments: [
             {
                 author: "Chris",
@@ -57,14 +57,14 @@ class CommentSection extends Component {
                 author: "Chris",
                 points: 99999999,
                 comment: "---------------- 5",
-                path: '5',
+                path: '1',
                 subComments: []
             },
             {
                 author: "Chris",
                 points: 99999999,
                 comment: "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", //105
-                path: '0',
+                path: '2',
                 subComments: [
                     {
                         author: "Chris 2",
@@ -105,7 +105,140 @@ class CommentSection extends Component {
                         ],
                     }    
                 ]
-            }       
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '3',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '4',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '5',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '6',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '7',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '8',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '9',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '10',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '11',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '12',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '13',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '14',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '15',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '16',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '17',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '18',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '19',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '20',
+                subComments: []
+            },
+            {
+                author: "Chris",
+                points: 99999999,
+                comment: "---------------- 5",
+                path: '15',
+                subComments: []
+            }  
         ]
     }
 
@@ -167,12 +300,16 @@ class CommentSection extends Component {
             currentComments.splice(pathArray[0],1);
             this.setState({currentComments});
         }
+    }
 
+    loadMoreComments = () => {
+        const oldCount = this.state.CommentsShown;
+        this.setState({CommentsShown: oldCount + 10});
     }
 
     render(){
         let comments = [];
-        const commentsShownCount = this.state.comments.length < MAX_COUNT_COMMENTS_SHOWN ? this.state.comments.length : MAX_COUNT_COMMENTS_SHOWN; 
+        const commentsShownCount = this.state.comments.length < this.state.CommentsShown ? this.state.comments.length : this.state.CommentsShown; 
         for(let i=0;i<commentsShownCount; i++){
             comments.push(
                 <Comment
@@ -188,14 +325,20 @@ class CommentSection extends Component {
                 />
             )
         }
+        let loadMoreCommentsButton = [];
+
+        if(this.state.comments.length > this.state.CommentsShown){
+            loadMoreCommentsButton = <div onClick={this.loadMoreComments} className={classes.ShowMoreComments}>Load More Comments</div>
+            console.log("LOAD MORE COMMENTS");
+        }
         if(this.props.showComments === false){
             comments = [];
-            console.log(this.state);
         }
 
         return(
             <div className={classes.CommentSection}>
                 {comments}
+                {loadMoreCommentsButton}
             </div>
         )
     }

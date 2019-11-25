@@ -15,7 +15,7 @@ const MAX_SUBCOMMENTS = 4
 
 const SpeechBubbleArrow = <svg className={classes.SpeechBubbleArrow} 
                                width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill="#00020A" fill-opacity="0.6"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill="#00020A" fillOpacity="0.6"/>
                         </svg>
 
 class Comment extends Component {
@@ -64,7 +64,7 @@ class Comment extends Component {
         switch(type){
             case 'I': height = this.state.height+22; break;
             case 'IL': height = 53; break;
-            case 'start': height = this.state.height-40; break;
+            case 'start': if(this.state.height > 40) height = this.state.height-40; break;
             default: console.log('DIESE NACHRICHT SOLLE NIE KOMMEN');
         }
         return( <svg key={depth}
