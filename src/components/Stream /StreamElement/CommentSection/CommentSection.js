@@ -1,35 +1,40 @@
 import React, { Component } from 'react';
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
-import comm from './comments';
+
 //import axios from 'axios';
 
-const SERVER_PORT = 3500;
+//const SERVER_PORT = 3500;
 
 class CommentSection extends Component {
 
     state = {
         CommentsShown: 10,
         loadedComments: null,
-        comments: []
+        comments: [],
+        highlightedComment: false
     }
 
-    componentDidMount () {
-        if(!this.state.loadedComments){
-            this.setState({comments: comm});
-            // axios.get('////////////////////////')
-            //     .then( response => {
-            //         console.log(response.data);
-            //         this.setState( { comments: [{
-            //             author: 'chris',
-            //             points: 12,
-            //             comment: response.data,
-            //             path: '0',
-            //             subComments: [] 
-            //         }]}); 
-            //     })
+    // componentDidMount () {
+    //     if(!this.state.loadedComments){
+    //         this.setState({comments: comm});
+    //         // axios.get('////////////////////////')
+    //         //     .then( response => {
+    //         //         console.log(response.data);
+    //         //         this.setState( { comments: [{
+    //         //             author: 'chris',
+    //         //             points: 12,
+    //         //             comment: response.data,
+    //         //             path: '0',
+    //         //             subComments: [] 
+    //         //         }]}); 
+    //         //     })
 
-        }
+    //     }
+    // }
+
+    someCommentHighlighted(path){
+        this.setState({highlightedComment: path})
     }
 
     addCommentToTree = (content) => {
@@ -54,7 +59,6 @@ class CommentSection extends Component {
     }
 
     addSubCommentToTree = (parentPath, content) => {
-        console.log('foweihfjpwefjpqwejfowpjfoe', parentPath);
         let comments = this.state.comments;
         const parentPathArray = parentPath.split('/').map(x => parseInt(x));
         let current = comments[parentPathArray[0]];
@@ -96,41 +100,39 @@ class CommentSection extends Component {
         this.setState({CommentsShown: oldCount + 10});
     }
 
-    render(){
-        let comments = [];
-        const commentsShownCount =  this.state.comments.length < this.state.CommentsShown ? this.state.comments.length : this.state.CommentsShown; 
-        for(let i=0;i<commentsShownCount; i++){
-            comments.push(
-                <Comment
-                    depth = {'0'}
-                    key = {`${i}`}
-                    path = { `${i}`}
-                    selected = { false }
-                    author = { this.state.comments[i].author }
-                    points = { this.state.comments[i].points }
-                    actualComment = { this.state.comments[i].comment }
-                    subComments = { this.state.comments[i].subComments }
-                    addSubComment = { this.addSubCommentToTree }
-                    deleteSubComment = { this.deleteSubCommentFromTree }
-                />
-            )
-        }
-        let loadMoreCommentsButton = [];
+    swipeLeft = () => {
+        
+    }
 
+    render(){
+        let loadMoreCommentsButton = [];
         if(this.state.comments.length > this.state.CommentsShown){
             loadMoreCommentsButton = <div onClick={this.loadMoreComments} className={classes.ShowMoreComments}>Load More Comments</div>
         }
-        if(this.props.showComments === false){
-            comments = [];
-        }
+       // if(!this.props.showComments) comments = [];
 
         return(
-            <div className={classes.CommentSection}>
-                {comments}
+            <div className={classes.CommentSection} tabIndex='0'>
+                <Comment path='1'/>
+                <Comment path='2'/>
+                <Comment path='3'/>
+                <Comment path='4'/>
+                <Comment path='5'/>
+                <Comment path='6'/>
+                <Comment path='7'/>
+                <Comment path='8'/>
+                <Comment path='9'/>
+                <Comment path='10'/>
+                <Comment path='11'/>
+                <Comment path='12'/>
+                <Comment path='13'/>
+                <Comment path='14'/>
                 {loadMoreCommentsButton}
             </div>
         )
     }
+
+    
 
 }
 

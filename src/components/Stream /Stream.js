@@ -2,11 +2,12 @@ import React from 'react';
 import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
 import classes from './Stream.module.css';
-//import useWindowDimensions from './useWindowDimensions/userWindowDimensions'
 
 const Stream = () => {
 
-    //const { height, width } = useWindowDimensions();
+
+
+
     
 
     let elements = [];
@@ -15,8 +16,7 @@ const Stream = () => {
     }
     return (
         <Aux className={classes.stream}>
-
-            {elements}                
+            {elements}    
         </Aux>     
     )
 

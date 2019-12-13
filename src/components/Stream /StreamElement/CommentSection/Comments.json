@@ -1,0 +1,48 @@
+
+[
+    {
+        "author": "Chris",
+        "points": 99999999,
+        "comment": "That's what your Mom saied last night",
+        "path": "0",
+        "subComments": [
+            {
+                "author": "Chris 2",
+                "points": 12,
+                "path": "0/0",
+                "comment": "No u",
+                "subComments": [
+                    {
+                    "author": "Chris 2",
+                    "points": 12,
+                    "comment": "No u",
+                    "path": "0/0/0",
+                    "subComments": [
+                        {
+                            "author": "Chris 2",
+                            "points": 12,
+                            "comment": "No u",
+                            "path": "0/0/0",
+                            "subComments": []
+                        }
+                    ]
+                    },
+                    {
+                    "author": "Chris 2",
+                    "points": 12,
+                    "comment": "No u",
+                    "path": "0/0/0",
+                    "subComments": []
+                    }
+                ]
+            },
+            {
+                "author": "Chris 2",
+                "points": 12,
+                "comment": "No u",
+                "path": "0/0/0",
+                "subComments": []
+            }
+        ]
+    }
+]

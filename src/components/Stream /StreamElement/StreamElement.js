@@ -36,17 +36,28 @@ class StreamElement extends Component {
         return styles; 
     }
 
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+            console.log('enter press here!');
+        }
+    }
+
+    move(){
+        
+    }
     
 
     render(){
-
-
         const commentSection = this.state.showComments === true ? <CommentSection/> : [];
         const showHideCommentsButton = this.state.showComments ? 
                 <button className={classes.hideCommentsButton} onClick={this.hideComments}>HideComments</button> :
                 <button className={classes.showCommentsButton} onClick={this.showComments}>Show Comments</button>
+
+                
         return(
             <div 
+                onKeyPress={this.handleKeyPress}
+                tabIndex="0"
                 className={classes.StreamElement}
                 style={this.calcStyles(this.state.position)}>
                     <h3 className={classes.title}>Title of the Drop</h3>

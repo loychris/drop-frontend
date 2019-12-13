@@ -1,0 +1,38 @@
+<svg width="270" height="158" viewBox="0 0 270 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="91" y="80" width="88" height="77" rx="14" stroke="black" stroke-width="2"/>
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="90" y="79" width="90" height="79">
+<path d="M105.5 135.5L108.5 138L168.5 137.5L173 133V85.5L172 83L180 79V158H90L105.5 135.5Z" fill="#FF0000"/>
+</mask>
+<g mask="url(#mask0)">
+<rect x="90.0002" y="79.0002" width="90" height="79" rx="15" fill="black"/>
+</g>
+<rect x="103" y="81" width="70" height="57" rx="7" stroke="black" stroke-width="2"/>
+<path d="M125 103H149L137 117L125 103Z" fill="black"/>
+<rect x="1" y="80" width="88" height="77" rx="14" stroke="black" stroke-width="2"/>
+<mask id="mask1" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="79" width="90" height="79">
+<path d="M15.5 135.5L18.5 138L78.5 137.5L83 133V85.5L82 83L90 79V158H0L15.5 135.5Z" fill="#FF0000"/>
+</mask>
+<g mask="url(#mask1)">
+<rect x="0.000244141" y="79.0002" width="90" height="79" rx="15" fill="black"/>
+</g>
+<rect x="13" y="81" width="70" height="57" rx="7" stroke="black" stroke-width="2"/>
+<path d="M54 98V122L40 110L54 98Z" fill="black"/>
+<rect x="181" y="80" width="88" height="77" rx="14" stroke="black" stroke-width="2"/>
+<mask id="mask2" mask-type="alpha" maskUnits="userSpaceOnUse" x="180" y="79" width="90" height="79">
+<path d="M195.5 135.5L198.5 138L258.5 137.5L263 133V85.5L262 83L270 79V158H180L195.5 135.5Z" fill="#FF0000"/>
+</mask>
+<g mask="url(#mask2)">
+<rect x="180" y="79.0002" width="90" height="79" rx="15" fill="black"/>
+</g>
+<rect x="193" y="81" width="70" height="57" rx="7" stroke="black" stroke-width="2"/>
+<path d="M224 122V98L238 110L224 122Z" fill="black"/>
+<rect x="91" y="1" width="88" height="77" rx="14" stroke="black" stroke-width="2"/>
+<mask id="mask3" mask-type="alpha" maskUnits="userSpaceOnUse" x="90" y="0" width="90" height="79">
+<path d="M105.5 56.5L108.5 59L168.5 58.5L173 54V6.5L172 4L180 0V79H90L105.5 56.5Z" fill="#FF0000"/>
+</mask>
+<g mask="url(#mask3)">
+<rect x="90.0002" y="0.000213623" width="90" height="79" rx="15" fill="black"/>
+</g>
+<rect x="103" y="2" width="70" height="57" rx="7" stroke="black" stroke-width="2"/>
+<path d="M149 38H125L137 24L149 38Z" fill="black"/>
+</svg>

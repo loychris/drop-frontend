@@ -7,9 +7,9 @@
     padding-bottom: 20px;
 }
 
-/* .SelectClickTarget{
+.SelectClickTarget{
 
-} */
+}
 
 .Atlas {
     position: absolute;
@@ -27,8 +27,6 @@
 }
 
 .actualComment {
-    left: 40px;
-    max-width: 545px;
     padding: 5px 3px;
     margin: 0px 0px;
     max-width: 500px;

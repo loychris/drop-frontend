@@ -6,7 +6,9 @@ class Content extends Component {
     render() {
         return(
             <div
-                className={classes.Content}></div>
+                className={classes.Content}>
+                </div>    //const { height, width } = useWindowDimensions();
+
         )
     }
 }
