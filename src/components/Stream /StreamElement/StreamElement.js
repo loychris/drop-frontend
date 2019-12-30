@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './StreamElement.module.css';
 import Content from './Content/Content'
 import CommentSection from './CommentSection/CommentSection';
+import DropButton from '../../UI/DropButton/DropButton';
 
 const R = 200;  //Distance eye to projection
 const Y = 150;  //vertical position of th object
@@ -30,7 +31,7 @@ class StreamElement extends Component {
         const yy = 5+R*Math.tan(Math.atan(Y/(x+R)));  //projected posY
         const bb = 2*R*Math.tan(Math.atan((B/2)/(x+R))); //projected width
         const styles = {
-            marginTop: yy,
+            marginTop: yy-62,
             width: bb, 
         };
         return styles; 
@@ -41,19 +42,14 @@ class StreamElement extends Component {
             console.log('enter press here!');
         }
     }
-
-    move(){
-        
-    }
     
 
     render(){
-        const commentSection = this.state.showComments === true ? <CommentSection/> : [];
-        const showHideCommentsButton = this.state.showComments ? 
-                <button className={classes.hideCommentsButton} onClick={this.hideComments}>HideComments</button> :
-                <button className={classes.showCommentsButton} onClick={this.showComments}>Show Comments</button>
+        const commentSection = this.state.showComments ? <CommentSection/> : [];
+        // const showHideCommentsButton = this.state.showComments ? 
+        //         <button className={classes.hideCommentsButton} onClick={this.hideComments}>HideComments</button> :
+        //         <button className={classes.showCommentsButton} onClick={this.showComments}>Show Comments</button>
 
-                
         return(
             <div 
                 onKeyPress={this.handleKeyPress}
@@ -62,7 +58,8 @@ class StreamElement extends Component {
                 style={this.calcStyles(this.state.position)}>
                     <h3 className={classes.title}>Title of the Drop</h3>
                     <Content/>
-                    {showHideCommentsButton}
+                    <DropButton clicked={this.props.openDropMenu}/>
+                    {/* {showHideCommentsButton} */}
                     {commentSection}
             </div>
         )

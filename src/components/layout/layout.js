@@ -3,19 +3,9 @@ import Aux from '../../hoc/Aux';
 import River from '../../SVGs/River.svg';
 
 const layout = props => {
-
-
-  const riverStyles = {
-    position: 'absolute',
-    left: '0',
-    right: '0',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    margin: 'auto',
-  }
   return(
   <Aux>
-    <img src={River} alt='' style={riverStyles}/>
+    <img src={River} alt='' className='River'/>
     <main>{props.children}</main>
   </Aux>
   )

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 
+
 //import axios from 'axios';
 
 //const SERVER_PORT = 3500;
@@ -113,20 +114,10 @@ class CommentSection extends Component {
 
         return(
             <div className={classes.CommentSection} tabIndex='0'>
+                <h3>Comments: </h3>
                 <Comment path='1'/>
                 <Comment path='2'/>
                 <Comment path='3'/>
-                <Comment path='4'/>
-                <Comment path='5'/>
-                <Comment path='6'/>
-                <Comment path='7'/>
-                <Comment path='8'/>
-                <Comment path='9'/>
-                <Comment path='10'/>
-                <Comment path='11'/>
-                <Comment path='12'/>
-                <Comment path='13'/>
-                <Comment path='14'/>
                 {loadMoreCommentsButton}
             </div>
         )
