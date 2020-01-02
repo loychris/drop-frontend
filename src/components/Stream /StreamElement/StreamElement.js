@@ -3,6 +3,8 @@ import classes from './StreamElement.module.css';
 import Content from './Content/Content'
 import CommentSection from './CommentSection/CommentSection';
 import DropButton from '../../UI/DropButton/DropButton';
+import DropOptionsMenu from '../../UI/DropOptionsMenu/DropOptionsMenu';
+import Modal from '../../UI/Modal/Modal';
 
 const R = 200;  //Distance eye to projection
 const Y = 150;  //vertical position of th object

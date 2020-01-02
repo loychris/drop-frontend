@@ -3,6 +3,8 @@ import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
 import classes from './Stream.module.css';
 
+import River from '../../SVGs/River.svg';
+
 const Stream = () => {
 
     
@@ -12,6 +14,7 @@ const Stream = () => {
     }
     return (
         <Aux className={classes.stream}>
+            <img src={River} alt='' className='River'/>
             {elements}    
         </Aux>     
     )

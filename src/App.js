@@ -11,14 +11,12 @@ function App() {
   const offSet = `${(width-700)/4-0.05*width}px`;
   return (
     <div className='App'>
-      <Layout>
         <header className='AppHeader'></header>
         <div className='ArrowKeys'>
           <img className='ArrowKeysLeft' src={arrowKeys} style={{marginLeft: offSet}} alt=''/>
           <img className='ArrowKeysRight' src={arrowKeys} style={{marginRight: offSet}} alt=''/>
         </div>  
           <Stream></Stream>
-      </Layout>
     </div>
   );
 }
