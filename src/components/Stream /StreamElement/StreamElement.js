@@ -14,6 +14,7 @@ const X = 100;  //Distance projection to element
 class StreamElement extends Component {
 
     state = {
+        show: '1',
         position: this.props.position,
         showComments: this.props.position === 1 ? true : false
     }
@@ -27,24 +28,20 @@ class StreamElement extends Component {
         this.setState({showComments: false});
     }
 
-    // Height should not be fix/calculated
     calcStyles(pos){
         const x = X + pos * 20;
         const yy = 5+R*Math.tan(Math.atan(Y/(x+R)));  //projected posY
         const bb = 2*R*Math.tan(Math.atan((B/2)/(x+R))); //projected width
+        console.log("yy", yy)
         const styles = {
             marginTop: yy-62,
             width: bb, 
+            transform: this.state.show ? 'rotate(0turn)' : 'rotate(0.5turn)',
+            opacity: this.state.show ? '1' : '0'
         };
         return styles; 
     }
-
-    handleKeyPress = (event) => {
-        if(event.key === 'Enter'){
-            console.log('enter press here!');
-        }
-    }
-    
+  
 
     render(){
         const commentSection = this.state.showComments ? <CommentSection/> : [];

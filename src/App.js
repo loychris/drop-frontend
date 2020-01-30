@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "./components/layout/layout";
 import Stream from "./components/Stream /Stream";
 import arrowKeys from './SVGs/ArrowKeys.svg';
 import useWindowDimensions from './components/useWindowDimensions/userWindowDimensions'

@@ -13,6 +13,7 @@
     border-top: 1px solid #C7E1FF;
     border-bottom: 2px solid #000000;
     border-radius: 20px;
+    transition: all 0.3s ease-out;
 }
 
 .title{
