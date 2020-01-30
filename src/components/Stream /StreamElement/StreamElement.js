@@ -4,7 +4,6 @@ import Content from './Content/Content'
 import CommentSection from './CommentSection/CommentSection';
 import DropButton from '../../UI/DropButton/DropButton';
 import DropOptionsMenu from '../../UI/DropOptionsMenu/DropOptionsMenu';
-import Modal from '../../UI/Modal/Modal';
 
 const R = 200;  //Distance eye to projection
 const Y = 150;  //vertical position of th object
@@ -32,7 +31,6 @@ class StreamElement extends Component {
         const x = X + pos * 20;
         const yy = 5+R*Math.tan(Math.atan(Y/(x+R)));  //projected posY
         const bb = 2*R*Math.tan(Math.atan((B/2)/(x+R))); //projected width
-        console.log("yy", yy)
         const styles = {
             marginTop: yy-62,
             width: bb, 

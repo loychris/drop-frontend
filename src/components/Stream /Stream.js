@@ -30,7 +30,8 @@ class Stream extends Component {
             {position: 3, show:'1'},
             {position: 2, show:'1'},
             {position: 1, show:'1'}
-        ]
+        ],
+        currentlyDropping: false
     }
 
 
@@ -44,7 +45,12 @@ class Stream extends Component {
         this.setState({streamElements: newElements});
     }
 
-
+    abortDroppingHandler = () => {
+        this.setState({currentlyDropping: false});
+    }
+    droppingHandler = () => {
+        this.setState({currentlyDropping: true});
+    }
 
     render = () => {
         let elements = [];
@@ -53,6 +59,17 @@ class Stream extends Component {
         });
         return (
             <Aux className={classes.stream}>
+                <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
+                    <ul>
+                        <li>jgeaogwaoeginawogn</li>
+                        <li>jgeaogwaoeginawogn</li>
+                        <li>jgeaogwaoeginawogn</li>
+                        <li>jgeaogwaoeginawogn</li>
+                        <li>jgeaogwaoeginawogn</li>
+                        <li>jgeaogwaoeginawogn</li>
+                    </ul>
+                </Modal>
+                <button style={{left: '40px'}}onClick={this.droppingHandler}>DROP IT</button>
                 <button onClick={this.swipeHandler}>Swipe</button>
                 <img src={River} alt='' className='River'/>
                 {elements}    
