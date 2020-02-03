@@ -3,7 +3,6 @@ import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
 import classes from './Stream.module.css';
 import Modal from '../UI/Modal/Modal';
-
 import River from '../../SVGs/River.svg';
 
 class Stream extends Component {
@@ -39,7 +38,7 @@ class Stream extends Component {
         let newElements = this.state.streamElements.map(element => {
             return {position: element.position-1, show: element.show}
         });
-        // newElements.pop();
+        
         newElements[0].show = '0';
         console.log("new elements: ", newElements);
         this.setState({streamElements: newElements});
@@ -58,22 +57,22 @@ class Stream extends Component {
             elements.push(<StreamElement show={element.show} position={element.position} key={element.position}/>)
         });
         return (
-            <Aux className={classes.stream}>
-                <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
-                    <ul>
-                        <li>jgeaogwaoeginawogn</li>
-                        <li>jgeaogwaoeginawogn</li>
-                        <li>jgeaogwaoeginawogn</li>
-                        <li>jgeaogwaoeginawogn</li>
-                        <li>jgeaogwaoeginawogn</li>
-                        <li>jgeaogwaoeginawogn</li>
-                    </ul>
-                </Modal>
-                <button style={{left: '40px'}}onClick={this.droppingHandler}>DROP IT</button>
-                <button onClick={this.swipeHandler}>Swipe</button>
-                <img src={River} alt='' className='River'/>
-                {elements}    
-            </Aux>     
+                <Aux className={classes.stream}>
+                    <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
+                        <ul>
+                            <li>jgeaogwaoeginawogn</li>
+                            <li>jgeaogwaoeginawogn</li>
+                            <li>jgeaogwaoeginawogn</li>
+                            <li>jgeaogwaoeginawogn</li>
+                            <li>jgeaogwaoeginawogn</li>
+                            <li>jgeaogwaoeginawogn</li>
+                        </ul>
+                    </Modal>
+                    <button style={{left: '40px'}}onClick={this.droppingHandler}>DROP IT</button>
+                    <button onClick={this.swipeHandler}>Swipe</button>
+                    <img src={River} alt='' className='River'/>
+                    {elements}    
+                </Aux> 
         )
     }
 }

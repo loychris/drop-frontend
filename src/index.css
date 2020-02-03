@@ -6,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 html{
@@ -22,31 +23,47 @@ body, html {
   height: 100%;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* width */
+::-webkit-scrollbar:hover {
+  width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #0b0d16;
+}
+
+/* Track */
+::-webkit-scrollbar-track:hover {
+  background: #0b0d16;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #202040;
+  border-radius: 100px;
+  width: 40px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #202040;
+}
+
 .App {
   background: rgb(0,10,47);
-  background: linear-gradient(90deg, #0b0d16 0%, #202639 50%, #0b0d16 100%);
-  /* background-image: linear-gradient(to right, #E5E5BE 0%, #476E8A 61.22%, #003973 100%); 
-  background-size: 300%;
-  animation: bg-animation 10s infinite alternate; */
+  background: linear-gradient(90deg, #0b0d16 0%, #202639 50%, #0b0d16 100%);  
   width: 100vw;
   height: 1000vh;
 }
 
-@keyframes bg-animation {
-  0% {background-position: left}
-  100% {background-position: right}
-}
 
-.AppHeader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 @media screen and (min-width: 800px) {
-
   
   .ArrowKeys {
     position: absolute;
