@@ -30,7 +30,8 @@ class Stream extends Component {
             {position: 4, show: 'show', id:'0004'},
             {position: 3, show: 'show', id:'0003'},
             {position: 2, show: 'show', id:'0002'},
-            {position: 1, show: 'show', id:'0001'}
+            {position: 1, show: 'show', id:'0001'},
+            {position: 0, show: 'left', id:'0000'}
         ]
     }
 
