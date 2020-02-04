@@ -11,28 +11,29 @@ class Stream extends Component {
     state = {
         nextId: 21,
         streamElements: [
-            {position: 20, show: 'show', id:'0020'},
-            {position: 19, show: 'show', id:'0019'},
-            {position: 18, show: 'show', id:'0018'},
-            {position: 17, show: 'show', id:'0017'},
-            {position: 16, show: 'show', id:'0016'},
-            {position: 15, show: 'show', id:'0015'},
-            {position: 14, show: 'show', id:'0014'},
-            {position: 13, show: 'show', id:'0013'},
-            {position: 12, show: 'show', id:'0012'},
-            {position: 11, show: 'show', id:'0011'},
-            {position: 10, show: 'show', id:'0010'},
-            {position: 9, show: 'show', id:'0009'},
-            {position: 8, show: 'show', id:'0008'},
-            {position: 7, show: 'show', id:'0007'},
-            {position: 6, show: 'show', id:'0006'},
-            {position: 5, show: 'show', id:'0005'},
-            {position: 4, show: 'show', id:'0004'},
-            {position: 3, show: 'show', id:'0003'},
-            {position: 2, show: 'show', id:'0002'},
-            {position: 1, show: 'show', id:'0001'},
-            {position: 0, show: 'left', id:'0000'}
-        ]
+            {position: 20, show: 'show', id:'20'},
+            {position: 19, show: 'show', id:'19'},
+            {position: 18, show: 'show', id:'18'},
+            {position: 17, show: 'show', id:'17'},
+            {position: 16, show: 'show', id:'16'},
+            {position: 15, show: 'show', id:'15'},
+            {position: 14, show: 'show', id:'14'},
+            {position: 13, show: 'show', id:'13'},
+            {position: 12, show: 'show', id:'12'},
+            {position: 11, show: 'show', id:'11'},
+            {position: 10, show: 'show', id:'10'},
+            {position: 9, show: 'show', id:'9'},
+            {position: 8, show: 'show', id:'8'},
+            {position: 7, show: 'show', id:'7'},
+            {position: 6, show: 'show', id:'6'},
+            {position: 5, show: 'show', id:'5'},
+            {position: 4, show: 'show', id:'4'},
+            {position: 3, show: 'show', id:'3'},
+            {position: 2, show: 'show', id:'2'},
+            {position: 1, show: 'show', id:'1'},
+            {position: 0, show: 'left', id:'0'}
+        ],
+        currentlyDropping: false
     }
 
     componentDidMount(){
@@ -68,26 +69,24 @@ class Stream extends Component {
     abortDroppingHandler = () => {
         this.setState({currentlyDropping: false});
     }
-    droppingHandler = () => {
+    droppingHandler = (id) => {
         this.setState({currentlyDropping: true});
     }
 
     render = () => {
         let elements = [];
         this.state.streamElements.forEach(element => {
-            elements.push(<StreamElement show={element.show} position={element.position} key={element.id}/>)
+            elements.push(<StreamElement 
+                            show={element.show} 
+                            position={element.position} 
+                            id={element.id} 
+                            key={element.id}
+                            dropping={this.droppingHandler}/>)
         });
         return (
                 <Aux className={classes.stream}>
                     <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
-                        <ul>
-                            <li>jgeaogwaoeginawogn</li>
-                            <li>jgeaogwaoeginawogn</li>
-                            <li>jgeaogwaoeginawogn</li>
-                            <li>jgeaogwaoeginawogn</li>
-                            <li>jgeaogwaoeginawogn</li>
-                            <li>jgeaogwaoeginawogn</li>
-                        </ul>
+                        <h2>Drop options for Drop #<span>{this.state.streamElements[19].id}</span></h2>
                     </Modal>
                     <button style={{left: '40px'}}onClick={this.droppingHandler}>DROP IT</button>
                     <img src={River} alt='' className='River'/>

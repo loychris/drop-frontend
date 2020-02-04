@@ -34,9 +34,9 @@ class StreamElement extends Component {
                 tabIndex="0"
                 className={cssClasses.join(' ')}
                 style={this.calcStyles(this.props.position)}>
-                    <h3 className={classes.title}>Title of the Drop</h3>
+                    <h3 className={classes.title}>Title of Drop #{this.props.id}</h3>
                     <Content/>
-                    <DropButton clicked={this.props.openDropMenu}/>
+                    <DropButton clicked={this.props.dropping}/>
                     {/* {showHideCommentsButton} */}
                     {commentSection}
             </div>
