@@ -32,5 +32,8 @@
 }
 
 .FadedLeft {
-    transform: translateX(-200%);
+    transform: translateX(-100vw);
+}
+.FadedRight {
+    transform: translateX(+100vw);
 }

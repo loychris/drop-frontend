@@ -5,9 +5,11 @@ import classes from './Stream.module.css';
 import Modal from '../UI/Modal/Modal';
 import River from '../../SVGs/River.svg';
 
+
 class Stream extends Component {
 
     state = {
+        nextId: 21,
         streamElements: [
             {position: 20, show: 'show', id:'0020'},
             {position: 19, show: 'show', id:'0019'},
@@ -29,20 +31,37 @@ class Stream extends Component {
             {position: 3, show: 'show', id:'0003'},
             {position: 2, show: 'show', id:'0002'},
             {position: 1, show: 'show', id:'0001'}
-        ],
-        currentlyDropping: false
+        ]
     }
 
+    componentDidMount(){
+        document.addEventListener("keyup", this.swipeHandler, false);
+      }
 
-    swipeLeftHandler = () => {
-        let newElements = this.state.streamElements.map(element => {
-            return {position: element.position-1,
-                    id: element.id,
-                    show: element.position-1 === 0 ? 'left' : 'show'}
-            });
-        if(newElements[newElements.length-1].position < 0) newElements.pop()
-        console.log("newElements", newElements);
-        this.setState({streamElements: newElements});
+    swipeHandler = (event) => {
+        if(event.keyCode === 37){
+            let newElements = this.state.streamElements.map(element => {
+                return {position: element.position-1,
+                        id: element.id,
+                        show: element.position-1 === 0 ? 'left' : 'show'}
+                    });
+                if(newElements[newElements.length-1].position < 0) {
+                    newElements.pop();
+                    newElements.unshift({position: 20, show: 'show', id: `${this.state.nextId}`})
+                }
+                this.setState({nextId: this.state.nextId+1, streamElements: newElements});
+        }else if(event.keyCode === 39){
+            let newElements = this.state.streamElements.map(element => {
+                return {position: element.position-1,
+                        id: element.id,
+                        show: element.position-1 === 0 ? 'right' : 'show'}
+                });
+            if(newElements[newElements.length-1].position < 0) {
+                newElements.pop();
+                newElements.unshift({position: 20, show: 'show', id: `${this.state.nextId}`})
+            }
+            this.setState({nextId: this.state.nextId+1, streamElements: newElements});
+        }
     }
 
     abortDroppingHandler = () => {
@@ -70,7 +89,6 @@ class Stream extends Component {
                         </ul>
                     </Modal>
                     <button style={{left: '40px'}}onClick={this.droppingHandler}>DROP IT</button>
-                    <button onClick={this.swipeLeftHandler}>Swipe</button>
                     <img src={River} alt='' className='River'/>
                     {elements}    
                 </Aux> 

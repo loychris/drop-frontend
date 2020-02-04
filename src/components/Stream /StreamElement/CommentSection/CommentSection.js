@@ -16,23 +16,7 @@ class CommentSection extends Component {
         highlightedComment: false
     }
 
-    // componentDidMount () {
-    //     if(!this.state.loadedComments){
-    //         this.setState({comments: comm});
-    //         // axios.get('////////////////////////')
-    //         //     .then( response => {
-    //         //         console.log(response.data);
-    //         //         this.setState( { comments: [{
-    //         //             author: 'chris',
-    //         //             points: 12,
-    //         //             comment: response.data,
-    //         //             path: '0',
-    //         //             subComments: [] 
-    //         //         }]}); 
-    //         //     })
 
-    //     }
-    // }
 
     someCommentHighlighted(path){
         this.setState({highlightedComment: path})
