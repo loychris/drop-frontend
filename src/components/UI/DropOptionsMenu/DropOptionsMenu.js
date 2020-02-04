@@ -1,8 +1,6 @@
 import React from 'react';
 
-import classes from './DropOptionsMenu.module.css';
 import Aux from '../../../hoc/Aux';
-import Backdrop from '../Backdrop/Backdrop';
 
 const dropOptionsMenu = ( props ) => (
     <Aux>

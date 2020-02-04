@@ -13,6 +13,7 @@
     border-top: 1px solid #C7E1FF;
     border-bottom: 2px solid #000000;
     border-radius: 20px;
+    transition: all 0.5s ease-out;
 }
 
 
@@ -24,4 +25,12 @@
 .hideCommentsButton, .showCommentsButton {
     margin: 0 auto;
     display: block;
+}
+
+.ShowDrop {
+    transform: translateX(0);
+}
+
+.FadedLeft {
+    transform: translateX(-200%);
 }
