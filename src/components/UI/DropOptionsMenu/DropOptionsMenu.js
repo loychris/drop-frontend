@@ -24,27 +24,41 @@ class DropOptionsMenu extends Component {
             {type: 'person', profilePic: '', name: 'Elon Musk', id:8}
             
         ],
-        selected: []
+        selected: [],
+        searchBarValue: ''
     }
 
     getFriendsList = () => {
-        let friends = this.state.friends.map(x => {
+        let friends = this.state.friends;
+        if(this.state.searchBarValue !== '')
+        return friends.filter( x => {
+            return x.name.toLowerCase().startsWith(this.state.searchBarValue.toLowerCase());
+        })
+        .map(x => {
             return <FriendsListItem type={x.type} profilePic={x.profilePic} name={x.name}/>
         });
-        return friends;
+        return friends.map(x => {
+            return <FriendsListItem type={x.type} profilePic={x.profilePic} name={x.name}/>
+        });
+    }
+
+    handleSearchBarChange = (event) => {
+        this.setState({searchBarValue: event.target.value});
     }
 
     render() {
-        console.log('DropOptionsMenu render()');
         const friends = this.getFriendsList();
-        console.log(friends);
         return(
         <Aux className={classes.DropOptionsMenu}>
             <h2 className={classes.MenuHeader}>Drop this picture to: </h2>
             <div className={classes.DropOptionsList}>
                 {friends}
-            </div> 
-            <DropButton></DropButton>
+            </div>
+            <p>{this.state.searchBarValue}</p>
+            <input className={classes.SearchBar} 
+                   type='text' 
+                   value={this.state.value}
+                   onChange={this.handleSearchBarChange}/> 
         </Aux>
         )
     }

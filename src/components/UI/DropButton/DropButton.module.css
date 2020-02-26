@@ -5,7 +5,6 @@
     background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(102.42deg, #BBD2C5 -11.1%, #536976 28.12%, #292E49 76.14%);
     box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
-    margin-bottom: 15px; 
     padding-top: 5px; 
     cursor: pointer;
 }

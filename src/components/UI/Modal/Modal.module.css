@@ -1,9 +1,8 @@
 .Modal {
     position: fixed;
     z-index: 500;
-    background-color: rgb(13, 29, 85);
+    background-color: #191e2c;
     width: 70%;
-    box-shadow: 1px 1px 1px black;
     padding: 30px;
     left: 15%;
     top: 13%;

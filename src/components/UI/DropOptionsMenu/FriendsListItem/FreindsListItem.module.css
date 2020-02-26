@@ -1,11 +1,11 @@
 .FriendsListItem {
     max-height: 50px;
     cursor: pointer;
-    background-color: #2c3455;
-    color: #FFFFFF;
+    background-color: rgba(0, 2, 10, 0.6);
     border-radius: 25px; 
-    border-bottom: 1px solid grey;
-    margin-bottom: 5px;  
+    border-bottom: 2px solid #000000;
+    margin-bottom: 5px; 
+    color: #FFFFFF;
 }
 
 
