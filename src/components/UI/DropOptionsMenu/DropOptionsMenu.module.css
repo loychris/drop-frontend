@@ -1,0 +1,46 @@
+.DropOptionsMenu{
+    background-color: #777777;
+}
+
+.MenuHeader {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    color: white;
+}
+
+.DropOptionsList {
+    position:relative; 
+    max-height: 500px;
+    overflow-y: scroll;
+    margin-bottom: 20px; 
+}
+
+.DropOptionsList:before {
+    content: "";
+    position: fixed;
+    top: 90px;
+    height: 40px;
+    width: 440px;
+    z-index: 1000;
+    box-shadow: inset 0px 12px 12px -7px rgba(0,0,0,1);
+    left: 30px;
+}
+
+.DropOptionsList:after {
+    content: "";
+    position: fixed;
+    bottom: 120px;
+    height: 40px;
+    width: 440px;
+    z-index: 1000;
+    box-shadow: inset 0px -12px 12px -7px rgba(0,0,0,1);
+    left: 30px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgb(13, 29, 85);
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}

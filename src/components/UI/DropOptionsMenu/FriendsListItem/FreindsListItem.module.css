@@ -1,0 +1,35 @@
+.FriendsListItem {
+    max-height: 50px;
+    cursor: pointer;
+    background-color: #2c3455;
+    color: #FFFFFF;
+    border-radius: 25px; 
+    border-bottom: 1px solid grey;
+    margin-bottom: 5px;  
+}
+
+
+.ProfilePicContainer, .CheckboxContainer, .NameContainer {
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+.Checkbox {
+    margin-right: 10px;
+}
+
+.ProfilePictureFriend {
+    height: 40px; 
+    margin: 5px 10px 5px 0px; 
+}
+
+.NameContainer {
+    padding-top: 6px; 
+}
+
+.Name { 
+    font-size: 1.2em;
+    font-weight: bold;
+}
+

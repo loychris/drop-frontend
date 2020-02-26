@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
 import classes from './Stream.module.css';
+import DropOptionsMenu from '../UI/DropOptionsMenu/DropOptionsMenu'
 import Modal from '../UI/Modal/Modal';
 import River from '../../SVGs/River.svg';
+// import URLs from './URLs.json';
 
 
 class Stream extends Component {
@@ -86,7 +88,8 @@ class Stream extends Component {
         return (
                 <Aux className={classes.stream}>
                     <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
-                        <h2>Drop options for Drop #<span>{this.state.streamElements[19].id}</span></h2>
+                        <DropOptionsMenu
+                            postID={this.state.streamElements[19].id}/>
                     </Modal>
                     <button style={{left: '40px'}}onClick={this.droppingHandler}>DROP IT</button>
                     <img src={River} alt='' className='River'/>
