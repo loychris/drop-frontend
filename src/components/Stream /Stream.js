@@ -91,7 +91,6 @@ class Stream extends Component {
                         <DropOptionsMenu
                             postID={this.state.streamElements[19].id}/>
                     </Modal>
-                    <button style={{left: '40px'}}onClick={this.droppingHandler}>DROP IT</button>
                     <img src={River} alt='' className='River'/>
                     {elements}    
                 </Aux> 

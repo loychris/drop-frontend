@@ -7,8 +7,8 @@
     right: 0;
     /* background: #191e2c; */
     /* background: linear-gradient(90deg, rgba(0,10,47,1) 0%, rgba(30,65,112,1) 50%, rgba(0,10,47,1) 100%); */
-    background: radial-gradient(50% 100% at 50% 50%, #1E4170 0%, #000A2F 100%); 
     /* background: #000A2F; */
+    background-color: #11192c;
     color: #ffffff;
     border-top: 1px solid #C7E1FF;
     border-bottom: 2px solid #000000;

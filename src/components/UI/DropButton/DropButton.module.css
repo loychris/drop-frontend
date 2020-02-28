@@ -1,16 +1,26 @@
 .DropButton {
     height: 50px;
-    color: #000;
     min-width: 100px;
-    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(102.42deg, #BBD2C5 -11.1%, #536976 28.12%, #292E49 76.14%);
-    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
+    background: #0c1220;
+    background: #11192C;
+    box-shadow: -6px -6px 6px rgba(66, 60, 60, 0.25), 6px 6px 6px rgba(0, 0, 0, 0.349);
+    border-radius: 25px;
     padding-top: 5px; 
     cursor: pointer;
+}
+
+.DropButton:active {
+    box-shadow: none; 
 }
 
 .LogoForButton {
     display: block; 
     margin: auto; 
-    background: radial-gradient(130.77deg, #5D70C8 34.65%, #5D70C8 0%);
+    height: 40px; 
+    padding-top: 3px;
+    background-color: #000000 0%;     
+}
+
+.DropButton:active > .LogoForButton {
+    box-shadow: none;
 }

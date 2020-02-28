@@ -57,7 +57,7 @@ body, html {
 
 .App {
   background: rgb(0,10,47);
-  background: linear-gradient(90deg, #0b0d16 0%, #202639 50%, #0b0d16 100%);  
+  background: linear-gradient(90deg, #06070c 0%, #323952 50%, #06070c 100%);  
   width: 100vw;
   height: 1000vh;
 }
