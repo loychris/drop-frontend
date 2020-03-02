@@ -1,7 +1,8 @@
-.Modal {
+.SecondModal {
     position: fixed;
     z-index: 500;
     background-color: #11192c;
+    color: #FFFFFF;
     width: 70%;
     padding: 30px;
     left: 15%;
@@ -13,9 +14,12 @@
     border-bottom: 2px solid #000000;
 }
 
+
+
 @media (min-width: 600px) {
-    .Modal {
-        width: 500px;
-        left: calc(50% - 250px);
+    .SecondModal {
+        width: 350px;
+        left: calc(50% + 270px);
     }
 }
+

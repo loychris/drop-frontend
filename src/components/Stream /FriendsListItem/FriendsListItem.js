@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classes from './FreindsListItem.module.css';
-import profilePic from '../../../../media/DefaultProfilePic.png';
+import profilePic from '../../../media/DefaultProfilePic.png';
 
 class FriendsListItem extends Component {
     render() {

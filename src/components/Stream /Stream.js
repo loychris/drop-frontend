@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
 import classes from './Stream.module.css';
-import DropOptionsMenu from '../UI/DropOptionsMenu/DropOptionsMenu'
+import DropOptionsMenu from './DropOptionsMenu/DropOptionsMenu'
 import Modal from '../UI/Modal/Modal';
+import SecondModal from '../UI/SecondModal/SecondModal';
 import River from '../../SVGs/River.svg';
+import DropTargets from './DropTargets/DropTargets';
 // import URLs from './URLs.json';
 
 
@@ -35,7 +37,32 @@ class Stream extends Component {
             {position: 1, show: 'show', id:'1'},
             {position: 0, show: 'left', id:'0'}
         ],
-        currentlyDropping: false
+        currentlyDropping: false,
+        targets: [
+            {type: 'person', profilePic: '', name: 'Felix', id:0},
+            {type: 'person', profilePic: '', name: 'Alessio', id:1},
+            {type: 'person', profilePic: '', name: 'Kirill', id:2},
+            {type: 'person', profilePic: '', name: 'Ullreich', id:3},
+            {type: 'person', profilePic: '', name: 'Erdolars', id:4},
+            {type: 'person', profilePic: '', name: 'Max Mustenann', id:5},
+            {type: 'person', profilePic: '', name: 'Frank Buschmann', id:6},
+            {type: 'person', profilePic: '', name: 'Enton', id:7},
+            {type: 'person', profilePic: '', name: 'David', id:8},
+            {type: 'person', profilePic: '', name: 'Jon Bovi', id:9},
+            {type: 'person', profilePic: '', name: 'Donald Trump', id:10},
+            {type: 'person', profilePic: '', name: 'Elon Musk', id:11}
+        ],
+        selectedTargets: [
+            {type: 'person', profilePic: '', name: 'Ullreich', id:3},
+            {type: 'person', profilePic: '', name: 'Erdolars', id:4},
+            {type: 'person', profilePic: '', name: 'Max Mustenann', id:5},
+            {type: 'person', profilePic: '', name: 'Frank Buschmann', id:6},
+            {type: 'person', profilePic: '', name: 'Enton', id:7},
+            {type: 'person', profilePic: '', name: 'David', id:8},
+            {type: 'person', profilePic: '', name: 'Jon Bovi', id:8},
+            {type: 'person', profilePic: '', name: 'Donald Trump', id:9},
+            {type: 'person', profilePic: '', name: 'Elon Musk', id:10}
+        ]
     }
 
     componentDidMount(){
@@ -71,6 +98,7 @@ class Stream extends Component {
     abortDroppingHandler = () => {
         this.setState({currentlyDropping: false});
     }
+
     droppingHandler = (id) => {
         this.setState({currentlyDropping: true});
     }
@@ -86,14 +114,17 @@ class Stream extends Component {
                             dropping={this.droppingHandler}/>)
         });
         return (
-                <Aux className={classes.stream}>
-                    <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
-                        <DropOptionsMenu
-                            postID={this.state.streamElements[19].id}/>
-                    </Modal>
-                    <img src={River} alt='' className='River'/>
-                    {elements}    
-                </Aux> 
+            <Aux className={classes.stream}>
+                <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
+                    <DropOptionsMenu targets={this.state.targets}
+                        postID={this.state.streamElements[19].id}/>
+                </Modal>
+                <SecondModal show={this.state.currentlyDropping}>
+                    <DropTargets selectedTargets={this.state.selectedTargets}/>
+                </SecondModal>
+                <img src={River} alt='' className='River'/>
+                {elements}    
+            </Aux> 
         )
     }
 }

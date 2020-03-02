@@ -3,7 +3,9 @@ import classes from './StreamElement.module.css';
 import Content from './Content/Content'
 import CommentSection from './CommentSection/CommentSection';
 import DropButton from '../../UI/DropButton/DropButton';
-// import DropOptionsMenu from '../../UI/DropOptionsMenu/DropOptionsMenu';
+
+import LogoForButton from '../../../media/LogoForButton.png';
+
 
 const R = 200;  //Distance eye to projection
 const Y = 150;  //vertical position of th object
@@ -36,7 +38,9 @@ class StreamElement extends Component {
                 style={this.calcStyles(this.props.position)}>
                     <h3 className={classes.title}>Title of Drop #{this.props.id}</h3>
                     <Content id={this.props.id}/>
-                    <DropButton clicked={this.props.dropping}/>
+                    <DropButton clicked={this.props.dropping}>
+                        <img src={LogoForButton} className={classes.LogoForButton} alt='Logo For Button'/>
+                    </DropButton>
                     {/* {showHideCommentsButton} */}
                     {commentSection}
             </div>

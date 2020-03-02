@@ -16,7 +16,7 @@
     padding: 0px 5px;
 }
 
-.DropOptionsList:before {
+/* .DropOptionsList:before {
     content: "";
     position: fixed;
     top: 90px;
@@ -30,13 +30,13 @@
 .DropOptionsList:after {
     content: "";
     position: fixed;
-    bottom: 105px;
+    bottom: 95px;
     height: 40px;
     width: 440px;
     z-index: 1000;
     box-shadow: inset 0px -8px 15px -7px rgba(0,0,0,1);
     left: 30px;
-}
+} */
 
 .SearchBar {
     width: 100%;
