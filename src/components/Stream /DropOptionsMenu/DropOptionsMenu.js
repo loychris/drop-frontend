@@ -8,23 +8,24 @@ import classes from './DropOptionsMenu.module.css';
 class DropOptionsMenu extends Component {
 
     state = {
-        selected: [],
         searchBarValue: '',
         targets: this.props.targets
     }
 
     getTargetsList = () => {
-        let targets = this.state.targets;
-        console.log(targets); 
-        if(this.state.searchBarValue !== '')
-        return targets.filter( x => {
-            return x.name.toLowerCase().startsWith(this.state.searchBarValue.toLowerCase());
-        })
-        .map(x => {
-            return <FriendsListItem type={x.type} profilePic={x.profilePic} name={x.name} key={x.id}/>
-        });
+        let targets = this.props.targets;
+        console.log('targets', targets);
+        if(this.state.searchBarValue !== ''){
+            return targets.filter( x => {
+                return x.name.toLowerCase().startsWith(this.state.searchBarValue.toLowerCase());
+            }).map(x => {
+                return <FriendsListItem select={this.props.selectTarget} type={x.type} profilePic={x.profilePic} selected={x.selected} name={x.name} id={x.id} key={x.id}/>
+            }); 
+        }
+        console.log('targets abc ', targets);
+
         return targets.map(x => {
-            return <FriendsListItem type={x.type} profilePic={x.profilePic} name={x.name} key={x.id}/>
+            return <FriendsListItem select={this.props.selectTarget} type={x.type} profilePic={x.profilePic} selected={x.selected} name={x.name} id={x.id} key={x.id}/>
         });
     }
 
@@ -40,10 +41,8 @@ class DropOptionsMenu extends Component {
             <div className={classes.DropOptionsList}>
                 {targets}
             </div>
-            <p>{this.state.searchBarValue}</p>
             <input className={classes.SearchBar} 
                    type='text' 
-                   value={this.state.value}
                    onChange={this.handleSearchBarChange}/> 
         </Aux>
         )

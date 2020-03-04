@@ -17,3 +17,7 @@
 .DropButton:active > .LogoForButton {
     box-shadow: none;
 }
+
+.DropButton > img {
+    margin-left: calc(50% - 24px);
+}
