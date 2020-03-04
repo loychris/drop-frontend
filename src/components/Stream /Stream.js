@@ -98,9 +98,17 @@ class Stream extends Component {
         targetsNew.unshift(target);
         let selectedTargetsNew = this.state.selectedTargets;
         selectedTargetsNew.unshift(target);
-        selectedTargetsNew.sort((x,y) => { return x.name > y.name ? 1 : -1});
         targetsNew.sort((x,y) => { return x.name > y.name ? 1 : -1});
-        console.log("new Targets", targetsNew);
+        this.setState({targets: targetsNew, selectedTargets: selectedTargetsNew});
+    }
+
+    unselectTargetHandler = (id) => {
+        let target = this.state.selectedTargets.filter(x => x.id === id)[0];
+        target.selected = false;
+        let targetsNew = this.state.targets.filter(x => x.id !== id);
+        targetsNew.unshift(target);
+        targetsNew.sort((x,y) => { return x.name > y.name ? 1 : -1});
+        let selectedTargetsNew = this.state.selectedTargets.filter(x => x.id !== id);
         this.setState({targets: targetsNew, selectedTargets: selectedTargetsNew});
     }
 
@@ -125,11 +133,11 @@ class Stream extends Component {
         return (
             <Aux className={classes.stream}>
                 <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
-                    <DropOptionsMenu selectTarget={this.selectTargetHandler} targets={this.state.targets}
+                    <DropOptionsMenu selectTarget={this.selectTargetHandler} unselectTarget={this.unselectTargetHandler} targets={this.state.targets}
                         postID={this.state.streamElements[19].id}/>
                 </Modal>
                 <SecondModal show={this.state.currentlyDropping}>
-                    <DropTargets selectedTargets={this.state.selectedTargets}/>
+                    <DropTargets selectedTargets={this.state.selectedTargets} unselectTarget={this.unselectTargetHandler}/>
                 </SecondModal>
                 <img src={River} alt='' className='River'/>
                 {elements}    

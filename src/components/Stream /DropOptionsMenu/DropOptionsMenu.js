@@ -14,18 +14,29 @@ class DropOptionsMenu extends Component {
 
     getTargetsList = () => {
         let targets = this.props.targets;
-        console.log('targets', targets);
         if(this.state.searchBarValue !== ''){
             return targets.filter( x => {
                 return x.name.toLowerCase().startsWith(this.state.searchBarValue.toLowerCase());
             }).map(x => {
-                return <FriendsListItem select={this.props.selectTarget} type={x.type} profilePic={x.profilePic} selected={x.selected} name={x.name} id={x.id} key={x.id}/>
+                return <FriendsListItem 
+                            clicked={x.selected ? this.props.unselectTarget : this.props.selectTarget} 
+                            type={x.type} 
+                            profilePic={x.profilePic} 
+                            selected={x.selected} 
+                            name={x.name} 
+                            id={x.id} 
+                            key={x.id}/>
             }); 
         }
-        console.log('targets abc ', targets);
-
         return targets.map(x => {
-            return <FriendsListItem select={this.props.selectTarget} type={x.type} profilePic={x.profilePic} selected={x.selected} name={x.name} id={x.id} key={x.id}/>
+            return <FriendsListItem 
+                            clicked={x.selected ? this.props.unselectTarget : this.props.selectTarget} 
+                            type={x.type} 
+                            profilePic={x.profilePic} 
+                            selected={x.selected} 
+                            name={x.name} 
+                            id={x.id} 
+                            key={x.id}/>
         });
     }
 

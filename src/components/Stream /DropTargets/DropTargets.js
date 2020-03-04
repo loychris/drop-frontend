@@ -8,7 +8,14 @@ class DropTargets extends Component {
 
     render() {
         let selectedTargets = this.props.selectedTargets && this.props.selectedTargets.length > 0 ? this.props.selectedTargets.map(x => {
-            return <FriendsListItem select={this.props.selectTarget} type={x.type} profilePic={x.profilePic} selected={x.selected} name={x.name} id={x.id} key={x.id}/>
+            return <FriendsListItem 
+                        clicked={this.props.unselectTarget} 
+                        type={x.type} 
+                        profilePic={x.profilePic} 
+                        selected={x.selected} 
+                        name={x.name} 
+                        id={x.id} 
+                        key={x.id}/>
         }) : [];
         
 

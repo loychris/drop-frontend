@@ -6,7 +6,7 @@ class FriendsListItem extends Component {
     render() {
         const styleClasses = [this.props.selected ? classes.selected : classes.notSelected, classes.FriendsListItem];
         return(
-            <div className={styleClasses.join(' ')} onClick={() => {console.log('firing select');this.props.select(this.props.id)}}>
+            <div className={styleClasses.join(' ')} onClick={() => {this.props.clicked(this.props.id)}}>
                 <img src={profilePic} className={classes.ProfilePictureFriend} alt='Profile Pic Friend/group'/> 
                 <div className={classes.NameContainer}>
                     <span className={classes.Name}>{this.props.name}</span>
