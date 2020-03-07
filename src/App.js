@@ -1,5 +1,5 @@
 import React from "react";
-import Stream from "./components/Stream /Stream";
+import Stream from "./components/Stream/Stream";
 import arrowKeys from './SVGs/ArrowKeys.svg';
 import useWindowDimensions from './components/useWindowDimensions/userWindowDimensions'
 
