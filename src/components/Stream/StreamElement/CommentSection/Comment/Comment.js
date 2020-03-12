@@ -24,14 +24,14 @@ class Comment extends Component {
     comment: {
         author: 'Chris',
         points: 99999999,
-        comment: 'That\'s what your Mom saied last night That\'s what your Mom saied last night That\'s what your Mom saied last night That\'s what your Mom saied last night That\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last nightThat\'s what your Mom saied last night',
+        comment: "First Comment of the comment section",
         path: '0',
         subComments: [
           {
             author: 'Chris 2',
             points: 12,
             path: '0/0',
-            comment: 'No u',
+            comment: "Longer reply to comment of comment to test/show the tree structure of comment. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque sed est non interdum. Quisque dapibus vitae mauris et eleifend. Quisque at augue elementum, mattis quam non, pulvinar mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque laoreet pharetra odio in interdum. Quisque convallis est non pellentesque vestibulum. In molestie elit sed sem mollis rutrum. Praesent vulputate justo tellus, vitae mollis urna porta et. In quis lobortis eros. Morbi eu nunc pharetra urna blandit dictum. Aliquam erat volutpat. Donec volutpat odio vel justo porta ornare.",
             subComments: [
               {
                 author: 'Chris 2',

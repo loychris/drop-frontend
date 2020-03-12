@@ -14,7 +14,13 @@ const X = 100;  //Distance projection to element
 
 class StreamElement extends Component {
     
+    componentDidUpdate() {
+        console.log('updated StreamElement');
+    }
 
+    shouldComponentUpdate(){
+        return !this.props.currentlyDropping;
+    }
 
     calcStyles(pos){
         const x = X + pos * 20;

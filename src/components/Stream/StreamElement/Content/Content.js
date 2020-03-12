@@ -8,21 +8,23 @@ import meme4 from './4.jpg';
 
 class Content extends Component {
 
+    componentDidUpdate() {
+        // console.log('updated Content');
+    }
+
     render() {
-        // const url = JSON.parse(URLs).links[this.props.id];
         let meme = [];
         switch(this.props.id % 4){
             case 1: meme = meme1;break;
-            case 1: meme = meme2;break;
-            case 1: meme = meme3;break;
-            case 1: meme = meme4;break;
+            case 2: meme = meme2;break;
+            case 3: meme = meme3;break;
+            case 4: meme = meme4;break;
             default: meme = meme0;
         }
         return(
             <div className={classes.Content}>
                 <img className={classes.Meme} src={meme} alt={`meme ${this.props.id}`}/>
-                    {/* <img src={url} alt ='Shits not working'/> */}
-            </div>    //const { height, width } = useWindowDimensions();
+            </div> 
         )
     }
 }

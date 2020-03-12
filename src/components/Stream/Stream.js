@@ -6,7 +6,8 @@ import DropOptionsMenu from './DropOptionsMenu/DropOptionsMenu'
 import Modal from '../UI/Modal/Modal';
 import SecondModal from '../UI/SecondModal/SecondModal';
 import River from '../../SVGs/River.svg';
-import DropTargets from './DropTargets/DropTargets';
+import SelectedDropTargets from './SelectedDropTargets/SelectedDropTargets';
+import axios from 'axios';
 // import URLs from './URLs.json';
 
 
@@ -56,9 +57,17 @@ class Stream extends Component {
         ]
     }
 
+    componentDidUpdate(){
+        console.log("updated Stream")
+    }
+
     componentDidMount(){
         document.addEventListener("keyup", this.swipeHandler, false);
-      }
+        axios.get('localhost:5000/api/getMeme')
+            .then(response => {
+                console.log(response);
+            })
+    }
 
     swipeHandler = (event) => {
         if(event.keyCode === 37){
@@ -125,13 +134,14 @@ class Stream extends Component {
     }
 
     render = () => {
-        let elements = [];
+        let StreamElements = [];
         this.state.streamElements.forEach(element => {
-            elements.unshift(<StreamElement 
+            StreamElements.unshift(<StreamElement 
                             show={element.show} 
                             position={element.position} 
                             id={element.id} 
                             key={element.id}
+                            currentlyDropping={this.state.currentlyDropping}
                             dropping={this.droppingHandler}/>)
         });
         return (
@@ -141,10 +151,10 @@ class Stream extends Component {
                         postID={this.state.streamElements[19].id}/>
                 </Modal>
                 <SecondModal show={this.state.currentlyDropping}>
-                    <DropTargets selectedTargets={this.state.selectedTargets} unselectTarget={this.unselectTargetHandler}/>
+                    <SelectedDropTargets selectedTargets={this.state.selectedTargets} unselectTarget={this.unselectTargetHandler}/>
                 </SecondModal>
                 <img src={River} alt='' className='River'/>
-                {elements}    
+                {StreamElements}    
             </Aux> 
         )
     }

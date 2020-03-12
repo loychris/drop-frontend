@@ -16,7 +16,9 @@ class CommentSection extends Component {
         highlightedComment: false
     }
 
-
+    componentDidUpdate() {
+        console.log('updated CommentSection');
+    }
 
     someCommentHighlighted(path){
         this.setState({highlightedComment: path})

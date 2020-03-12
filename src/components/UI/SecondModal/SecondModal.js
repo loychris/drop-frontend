@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import classes from './SecondModal.module.css';
 
-const SecondModal = ( props ) => (
-        <div
-            className={classes.SecondModal}
+class SecondModal extends Component {
+
+    componentDidUpdate(){
+        console.log('updated SecondModal');
+    }
+
+    shouldComponentUpdate(){
+        return this.props.show === true;
+    }
+
+    render(){
+        return(
+            <div className={classes.SecondModal}
             style={{
                 backgorundColor: '#000a2f',
-                transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
-                opacity: props.show ? '1' : '0'
+                transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
+                opacity: this.props.show ? '1' : '0'
             }}>
-            {props.children}
-        </div>
-);
+            {this.props.children}
+        </div>)
+    }
+}
 
 export default SecondModal;

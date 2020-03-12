@@ -1,11 +1,13 @@
 import React, { Component } from 'react'; 
 import DropButton from '../../UI/DropButton/DropButton';
 import FriendsListItem from '../FriendsListItem/FriendsListItem';
-import classes from './DropTargets.Module.css';
+import classes from './SelectedDropTargets.Module.css';
 
-class DropTargets extends Component {
+class SelectedDropTargets extends Component {
 
-
+    componentDidUpdate(){
+        console.log("updated SelectedDropTargets");
+    }
 
     render() {
         let selectedTargets = this.props.selectedTargets && this.props.selectedTargets.length > 0 ? this.props.selectedTargets.map(x => {
@@ -33,4 +35,4 @@ class DropTargets extends Component {
     }
 }
 
-export default DropTargets;
+export default SelectedDropTargets;
