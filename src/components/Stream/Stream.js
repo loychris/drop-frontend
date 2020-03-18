@@ -63,7 +63,7 @@ class Stream extends Component {
 
     componentDidMount(){
         document.addEventListener("keyup", this.swipeHandler, false);
-        axios.get('localhost:5000/api/getMeme')
+        axios.get('http://localhost:5000/post/0')
             .then(response => {
                 console.log(response);
             })
@@ -155,7 +155,7 @@ class Stream extends Component {
                 </SecondModal>
                 <img src={River} alt='' className='River'/>
                 {StreamElements}    
-            </Aux> 
+            </Aux>
         )
     }
 }

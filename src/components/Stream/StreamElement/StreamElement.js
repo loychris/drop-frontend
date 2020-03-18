@@ -22,13 +22,16 @@ class StreamElement extends Component {
         return !this.props.currentlyDropping;
     }
 
+    //////////////////////////////////////////////////////////////////////////
     calcStyles(pos){
         const x = X + pos * 20;
         const yy = 5+R*Math.tan(Math.atan(Y/(x+R)));  //projected posY
         const bb = 2*R*Math.tan(Math.atan((B/2)/(x+R))); //projected width
         return {marginTop: yy-62, width: bb}; 
     }
-  
+    //////////////////////////////////////////////////////////////////////////
+
+
 
     render(){
         const commentSection = this.props.position < 2 ? <CommentSection/> : [];
