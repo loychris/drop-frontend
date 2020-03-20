@@ -7,7 +7,6 @@ import Modal from '../UI/Modal/Modal';
 import SecondModal from '../UI/SecondModal/SecondModal';
 import River from '../../SVGs/River.svg';
 import SelectedDropTargets from './SelectedDropTargets/SelectedDropTargets';
-import axios from 'axios';
 // import URLs from './URLs.json';
 
 
@@ -53,8 +52,8 @@ class Stream extends Component {
             {type: 'person', profilePic: '', name: 'Max Mustenann', selected: false, id:5},
             {type: 'person', profilePic: '', name: 'Ullreich', selected: false, id:3},
         ],
-        selectedTargets: [
-        ]
+        selectedTargets: [],
+        initialPageLoad: true
     }
 
     componentDidUpdate(){
@@ -63,10 +62,6 @@ class Stream extends Component {
 
     componentDidMount(){
         document.addEventListener("keyup", this.swipeHandler, false);
-        axios.get('http://localhost:5000/post/0')
-            .then(response => {
-                console.log(response);
-            })
     }
 
     swipeHandler = (event) => {
