@@ -4,6 +4,8 @@ import classes from './StreamElement.module.css';
 import Content from './Content/Content'
 import CommentSection from './CommentSection/CommentSection';
 import DropButton from '../../UI/DropButton/DropButton';
+import FriendsListItem from '../FriendsListItem/FriendsListItem'
+import DroppedToYouBy from './DroppedToYouBy/DroppedToYouBy';
 
 
 import LogoForButton from '../../../media/LogoForButton.png';
@@ -22,7 +24,7 @@ class StreamElement extends Component {
 
     componentDidMount() {
         if(!this.state.postLoaded){
-            axios.get(`http://localhost:5000/post/${this.props.id}`)
+            axios.get(`/post/${this.props.id}`)
                 .then(response => {
                     this.setState({postLoaded: true, post: response.data});
                 });
@@ -50,9 +52,14 @@ class StreamElement extends Component {
 
     render(){
         const commentSection = 
+            this.props.position < 2  ? 
+            <CommentSection postId = {this.props.id}/> : [];
+
+        const droppedToYouBy = 
             this.props.position < 2 
-            ? <CommentSection postId = {this.props.id}/> 
-            : [];
+            && this.state.postLoaded 
+            && this.state.post.droppedBy ?
+            <DroppedToYouBy names={this.state.post.droppedBy}/> : [];
 
 
 
@@ -61,6 +68,9 @@ class StreamElement extends Component {
         else if(this.props.show === 'right') {cssClasses.push(classes.FadedRight);}
         else if(this.props.show === 'left') {cssClasses.push(classes.FadedLeft);}
         
+        if(this.state.postLoaded && this.state.post.droppedBy) {
+            cssClasses.push('classes.DroppedByFriend');
+        }
         
         
         return(
@@ -69,8 +79,9 @@ class StreamElement extends Component {
                 tabIndex="0"
                 className={cssClasses.join(' ')}
                 style={this.calcStyles(this.props.position)}>
+                    {droppedToYouBy}
                     <h3 className={classes.title}>{this.state.post ? this.state.post.title : []}</h3>
-                    <Content id={this.props.id}/>
+                    <Content position={this.props.position} id={this.props.id}/>
                     <DropButton clicked={this.props.dropping}>
                         <img src={LogoForButton} className={classes.LogoForButton} alt='Logo For Button'/>
                     </DropButton>

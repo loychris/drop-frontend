@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 
 
-//import axios from 'axios';
 
-//const SERVER_PORT = 3500;
 
 class CommentSection extends Component {
 
     state = {
         highlightedComment: false,
         commentsLoaded: false,
+        someCommentSelected: false,
         comments: []
     }
 
     componentDidMount() {
         if(!this.state.commentsLoaded){
-            axios.get(`http://localhost:5000/post/${this.props.postId}/comments`)
+            axios.get(`/post/${this.props.postId}/comments`)
                 .then(response => {
                     console.log('FETCHING COMMENTS', response.data);
                     this.setState({commentsLoaded: true, comments: response.data});

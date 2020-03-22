@@ -1,4 +1,5 @@
 import React, { Component } from 'react'; 
+import axios from 'axios';
 import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
 import classes from './Stream.module.css';
@@ -53,6 +54,7 @@ class Stream extends Component {
             {type: 'person', profilePic: '', name: 'Ullreich', selected: false, id:3},
         ],
         selectedTargets: [],
+        dropTargetsLoaded: false,
         initialPageLoad: true
     }
 
@@ -62,6 +64,13 @@ class Stream extends Component {
 
     componentDidMount(){
         document.addEventListener("keyup", this.swipeHandler, false);
+
+        if(!this.state.dropTargetsLoaded){
+            axios.get(`/dropTargets`)
+                .then(response => {
+                    this.setState({dropTargetsLoaded: true, targets: response.data});
+                });
+        }
     }
 
     swipeHandler = (event) => {

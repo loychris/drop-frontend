@@ -11,10 +11,10 @@ function App() {
   return (
     <div className='App'>
         <header className='AppHeader'></header>
-        <div className='ArrowKeys'>
+        {/* <div className='ArrowKeys'>
           <img className='ArrowKeysLeft' src={arrowKeys} style={{marginLeft: offSet}} alt=''/>
           <img className='ArrowKeysRight' src={arrowKeys} style={{marginRight: offSet}} alt=''/>
-        </div>  
+        </div>   */}
           <Stream></Stream>
     </div>
   );

@@ -9,7 +9,6 @@ import classes from "./Comment.module.css";
 
 //import content from './Comment.js';
 
-const MAX_SUBCOMMENTS = 4;
 export const COLOR_COMMENT_BACKGROUND = 'rgba(0, 2, 10, 0.6)';
 export const COLOR_COMMENT_BACKGORUND_HIGHLIGHTED = 'rgba(100, 0, 0, 0.6)';
 
@@ -18,52 +17,7 @@ class Comment extends Component {
   
   state = {
     selected: false,
-    height: 0,
-    // comment: {
-    //     author: 'Chris',
-    //     points: 99999999,
-    //     comment: "First Comment of the comment section",
-    //     path: '0',
-    //     subComments: [
-    //       {
-    //         author: 'Chris 2',
-    //         points: 12,
-    //         path: '0/0',
-    //         comment: "Longer reply to comment of comment to test/show the tree structure of comment. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque sed est non interdum. Quisque dapibus vitae mauris et eleifend. Quisque at augue elementum, mattis quam non, pulvinar mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque laoreet pharetra odio in interdum. Quisque convallis est non pellentesque vestibulum. In molestie elit sed sem mollis rutrum. Praesent vulputate justo tellus, vitae mollis urna porta et. In quis lobortis eros. Morbi eu nunc pharetra urna blandit dictum. Aliquam erat volutpat. Donec volutpat odio vel justo porta ornare.",
-    //         subComments: [
-    //           {
-    //             author: 'Chris 2',
-    //             points: 12,
-    //             comment: 'No u',
-    //             path: '0/0/0',
-    //             subComments: [
-    //               {
-    //                 author: 'Chris 2',
-    //                 points: 12,
-    //                 comment: 'No u',
-    //                 path: '0/0/0',
-    //                 subComments: []
-    //               }
-    //             ]
-    //           },
-    //           {
-    //             author: 'Chris 2',
-    //             points: 12,
-    //             comment: 'No u',
-    //             path: '0/0/0',
-    //             subComments: []
-    //           }
-    //         ]
-    //       },
-    //       {
-    //         author: 'Chris 2',
-    //         points: 12,
-    //         comment: 'No u',
-    //         path: '0/0/0',
-    //         subComments: []
-    //       }
-    //     ]
-    //  }
+    height: 0
   }
 
 

@@ -11,7 +11,7 @@ class Content extends Component {
 
     componentDidMount(){
         if(!this.state.loaded){
-            axios.get(`http://localhost:5000/meme/${this.props.id}`)
+            axios.get(`/meme/${this.props.id}`)
                 .then(response => {
                     this.setState({loaded: true, img: response.data})
                 });
@@ -23,9 +23,14 @@ class Content extends Component {
     }
 
     render() {
+
         return(
             <div className={classes.Content}>
-                <img alt={`Meme ${this.props.id}`} className={classes.Meme} src={`http://localhost:5000/meme/${this.props.id}`} />                    
+                {
+                    this.props.position < 5 ?
+                    <img alt={`Meme ${this.props.id}`} className={classes.Meme} src={`http://localhost:5000/meme/${this.props.id}`} /> : []                  
+
+                }
             </div> 
         )
     }
