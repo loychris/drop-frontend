@@ -11,6 +11,8 @@ import SelectedDropTargets from './SelectedDropTargets/SelectedDropTargets';
 // import URLs from './URLs.json';
 
 
+const TIME_BLOCK_NEXT_SWIPE = 500;
+
 class Stream extends Component {
 
     state = {
@@ -39,23 +41,11 @@ class Stream extends Component {
             {position: 20, show: 'show', id:'20'}
         ],
         currentlyDropping: false,
-        targets: [
-            {type: 'person', profilePic: '', name: 'Alessio', selected: false, id:1},
-            {type: 'person', profilePic: '', name: 'David', selected: false, id:8},
-            {type: 'person', profilePic: '', name: 'Donald Trump', selected: false, id:10},
-            {type: 'person', profilePic: '', name: 'Elon Musk', selected: false, id:11},
-            {type: 'person', profilePic: '', name: 'Enton', selected: false, id:7},
-            {type: 'person', profilePic: '', name: 'Erdolars', selected: false, id:4},
-            {type: 'person', profilePic: '', name: 'Felix', selected: false, id:0},
-            {type: 'person', profilePic: '', name: 'Frank Buschmann', selected: false, id:6},
-            {type: 'person', profilePic: '', name: 'Jon Bovi', selected: false, id:9},
-            {type: 'person', profilePic: '', name: 'Kirill', selected: false, id:2},
-            {type: 'person', profilePic: '', name: 'Max Mustenann', selected: false, id:5},
-            {type: 'person', profilePic: '', name: 'Ullreich', selected: false, id:3},
-        ],
+        targets: [],
         selectedTargets: [],
         dropTargetsLoaded: false,
-        initialPageLoad: true
+        initialPageLoad: true,
+        timeStampLastSwipe: 0
     }
 
     componentDidUpdate(){
@@ -74,32 +64,39 @@ class Stream extends Component {
     }
 
     swipeHandler = (event) => {
-        if(event.keyCode === 37){
+        const currentTimestamp = Date.now();
+        if(currentTimestamp - TIME_BLOCK_NEXT_SWIPE > this.state.timeStampLastSwipe && event.keyCode === 37 ){
             let newElements = this.state.streamElements.map(element => {
                 return {position: element.position-1,
                         id: element.id,
                         show: element.position-1 === 0 ? 'left' : 'show'}
-                    });
-                if(newElements[0].position < 0) {
-                    newElements.shift();
-                    newElements.push({position: 20, id: `${this.state.nextId}`, show: 'show'})
-                }
-                const nextId = this.state.nextId+1;
-                this.setState({nextId: nextId, streamElements: newElements});
-
-
-        }else if(event.keyCode === 39){
-            let newElements = this.state.streamElements.map(element => {
-                return {position: element.position-1,
-                        id: element.id,
-                        show: element.position-1 === 0 ? 'right' : 'show'}
-                });
+            });
             if(newElements[0].position < 0) {
                 newElements.shift();
                 newElements.push({position: 20, id: `${this.state.nextId}`, show: 'show'})
             }
             const nextId = this.state.nextId+1;
-            this.setState({nextId: nextId, streamElements: newElements});
+            this.setState({
+                nextId: nextId, 
+                streamElements: newElements,
+                timeStampLastSwipe: currentTimestamp
+            });
+        }else if(currentTimestamp - TIME_BLOCK_NEXT_SWIPE > this.state.timeStampLastSwipe && event.keyCode === 39){
+            let newElements = this.state.streamElements.map(element => {
+                return {position: element.position-1,
+                        id: element.id,
+                        show: element.position-1 === 0 ? 'right' : 'show'}
+            });
+            if(newElements[0].position < 0) {
+                newElements.shift();
+                newElements.push({position: 20, id: `${this.state.nextId}`, show: 'show'})
+            }
+            const nextId = this.state.nextId+1;
+            this.setState({
+                nextId: nextId, 
+                streamElements: newElements,
+                timeStampLastSwipe: currentTimestamp
+            });
         }
     }
 
@@ -140,13 +137,15 @@ class Stream extends Component {
     render = () => {
         let StreamElements = [];
         this.state.streamElements.forEach(element => {
-            StreamElements.unshift(<StreamElement 
-                            show={element.show} 
-                            position={element.position} 
-                            id={element.id} 
-                            key={element.id}
-                            currentlyDropping={this.state.currentlyDropping}
-                            dropping={this.droppingHandler}/>)
+            StreamElements.unshift(
+                <StreamElement 
+                    show={element.show} 
+                    position={element.position} 
+                    id={element.id} 
+                    key={element.id}
+                    currentlyDropping={this.state.currentlyDropping}
+                    dropping={this.droppingHandler}/>
+            )
         });
         return (
             <Aux className={classes.stream}>

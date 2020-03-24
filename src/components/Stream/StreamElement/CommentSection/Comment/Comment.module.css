@@ -5,13 +5,8 @@
 .Comment {
     min-height: 50px;
     padding-bottom: 20px;
-    margin-top: 50px; 
-    
+    margin-top: 20px; 
 }
-
-/* .SelectClickTarget{
-
-} */
 
 .Atlas {
     position: absolute;

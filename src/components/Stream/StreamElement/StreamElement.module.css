@@ -10,9 +10,22 @@
     border-top: 1px solid #C7E1FF;
     border-bottom: 2px solid #000000;
     border-radius: 20px;
-    transition: all 0.5s linear;
+    transition: all 0.3s linear;
     -webkit-appearance: none;
 }
+
+.DropButton {
+    width: 100%;
+    height: 50px;
+    min-width: 100px;
+    border-radius: 25px;
+    padding-top: 5px; 
+    margin-bottom: 50px; 
+    border: none;
+    color: #ffffff;
+    background: linear-gradient(120.66deg, #0A12D5 -9.61%, #00D1FF 37.48%, #00EA33 105.07%);
+}
+
 
 .LogoForButton {
     margin-left: auto; 

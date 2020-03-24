@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import SubComment from './SubComment/SubComment';
 import Voting from "./Voting/Voting";
 import Options from "./Options/Options";
-import AuthorPic from "./AuthorPic/AuthorPic";
+import AuthorPic from "../AuthorPic/AuthorPic";
 
 import classes from "./Comment.module.css";
 
@@ -100,7 +100,7 @@ class Comment extends Component {
     ///////////////////////////////////////////////////////////////////
 
 
-    const options = this.state.selected ? (<Options path={this.props.path}/>) : []
+    const options = this.state.selected ? <Options path={this.props.path}/> : []
 
 
       return (

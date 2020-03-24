@@ -1,0 +1,30 @@
+.CommentFormContainer{
+    position: relative;
+}
+
+.CommentForm {
+    width: 100%;
+}
+
+.TextArea {
+    background-color: #dddddd;
+    margin-left: 42px;
+    padding-top: 5px;
+    min-height: 55px; 
+    padding: 3px 5px 3px 15px;
+    position: relative; 
+    display: block; 
+    border-radius: 14px; 
+    width: 625.5px;
+    border: none; 
+    resize: none;
+    overflow: auto;
+    outline: none; 
+    border-bottom: 2px solid black; 
+}
+
+.SpeechBubbleArrow{
+    position: absolute;
+    left: 28px;
+    top: 3px;
+}

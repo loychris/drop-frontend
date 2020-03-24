@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
+import CommentForm from './CommentForm/CommentForm';
 
 
 
@@ -20,7 +21,6 @@ class CommentSection extends Component {
         if(!this.state.commentsLoaded){
             axios.get(`/post/${this.props.postId}/comments`)
                 .then(response => {
-                    console.log('FETCHING COMMENTS', response.data);
                     this.setState({commentsLoaded: true, comments: response.data});
                 });
         }
@@ -28,6 +28,19 @@ class CommentSection extends Component {
 
     componentDidUpdate() {
         console.log('updated CommentSection');
+    }
+
+    addComment(comment){
+        const newComment = {
+            commentId: 12345678,
+            author: 'user',
+            points: 0,
+            comment: comment,
+            subComments: []
+        }
+        axios.post(`/post/${this.props.postId}/comment`, newComment);
+        const commentsNew = [newComment, ...this.state.comments]
+        this.setState({comments: commentsNew});
     }
 
 
@@ -40,6 +53,7 @@ class CommentSection extends Component {
         return(
             <div className={classes.CommentSection} tabIndex='0'>
                 <h3>Comments: </h3>
+                <CommentForm id={this.props.postId} addComment={this.addComment.bind(this)}/>
                 {comments}
             </div>
         )

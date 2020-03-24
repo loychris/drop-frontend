@@ -1,7 +1,7 @@
 import React, { Component } from 'react'; 
-import DropButton from '../../UI/DropButton/DropButton';
 import FriendsListItem from '../FriendsListItem/FriendsListItem';
 import classes from './SelectedDropTargets.Module.css';
+import NeumorphismButton from '../../UI/NeumorphismButton/NeumorphismButton';
 
 class SelectedDropTargets extends Component {
 
@@ -27,8 +27,12 @@ class SelectedDropTargets extends Component {
                 <h2>Drop it to: </h2>
                 <div className={classes.SelectedTargetsList}>
                     {selectedTargets}
-                    <DropButton active={selectedTargets.length > 0}/>
-
+                    <NeumorphismButton
+                        buttonType='DropButton'
+                        colorTheme='dark'
+                        clicked={() => {}}>
+                        <h2>Drop</h2>
+                    </NeumorphismButton>
                 </div>
             </div>
         )

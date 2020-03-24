@@ -3,8 +3,7 @@ import axios from 'axios';
 import classes from './StreamElement.module.css';
 import Content from './Content/Content'
 import CommentSection from './CommentSection/CommentSection';
-import DropButton from '../../UI/DropButton/DropButton';
-import FriendsListItem from '../FriendsListItem/FriendsListItem'
+import NeumorphismButton from '../../UI/NeumorphismButton/NeumorphismButton';
 import DroppedToYouBy from './DroppedToYouBy/DroppedToYouBy';
 
 
@@ -80,11 +79,11 @@ class StreamElement extends Component {
                 className={cssClasses.join(' ')}
                 style={this.calcStyles(this.props.position)}>
                     {droppedToYouBy}
-                    <h3 className={classes.title}>{this.state.post ? this.state.post.title : []}</h3>
+                    <h3 className={classes.title}>{this.state.post ? this.state.post.title : `title of post ${this.props.id}`}</h3>
                     <Content position={this.props.position} id={this.props.id}/>
-                    <DropButton clicked={this.props.dropping}>
-                        <img src={LogoForButton} className={classes.LogoForButton} alt='Logo For Button'/>
-                    </DropButton>
+                    <button onClick={this.props.dropping} className={classes.DropButton}>
+                        <h3>DROP</h3>
+                    </button>
                     { commentSection }
             </div>
         )

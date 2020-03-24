@@ -23,14 +23,15 @@ class Content extends Component {
     }
 
     render() {
-
+        const meme = this.props.position < 3 ? 
+            <img 
+                alt={`Meme ${this.props.id}`} 
+                className={classes.Meme} 
+                src={`http://localhost:5000/meme/${this.props.id}`} /> : [];
+                
         return(
             <div className={classes.Content}>
-                {
-                    this.props.position < 5 ?
-                    <img alt={`Meme ${this.props.id}`} className={classes.Meme} src={`http://localhost:5000/meme/${this.props.id}`} /> : []                  
-
-                }
+                {meme}
             </div> 
         )
     }
