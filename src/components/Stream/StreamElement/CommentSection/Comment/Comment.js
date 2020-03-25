@@ -110,7 +110,10 @@ class Comment extends Component {
           <div className={classes.CommentBackground}
                style={this.getBackgroundColor()}
                ref={divElement => (this.divElement = divElement)}>
-            <Voting points={this.props.comment.points} />
+            <Voting 
+              commentId={this.props.commentId}
+              postId={this.props.postId}
+              points={this.props.comment.points} />
             <div className={classes.SelectClickTarget}                
                  onClick={this.select}>
               <span className={classes.actualComment}>

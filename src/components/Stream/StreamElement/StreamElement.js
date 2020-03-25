@@ -3,11 +3,10 @@ import axios from 'axios';
 import classes from './StreamElement.module.css';
 import Content from './Content/Content'
 import CommentSection from './CommentSection/CommentSection';
-import NeumorphismButton from '../../UI/NeumorphismButton/NeumorphismButton';
 import DroppedToYouBy from './DroppedToYouBy/DroppedToYouBy';
 
 
-import LogoForButton from '../../../media/LogoForButton.png';
+// import LogoForButton from '../../../media/LogoForButton.png';
 
 
 const R = 200;  //Distance eye to projection

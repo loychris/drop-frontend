@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import classes from './Voting.module.css';
 import arrowUpWhite from './Upvote_Icon_white.svg';
 import arrowUpGrey from './Upvote_Icon_grey.svg';
 import arrowDownWhite from './Downvote_Icon_white.svg';
 import arrowDownGrey from './Downvote_Icon_grey.svg';
+
 
 class Voting extends Component {
 
@@ -19,6 +21,7 @@ class Voting extends Component {
     upvote = () => {
         if(!this.state.didUpvote){
             let newState = {};
+            axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'up', user:'Voting User'});
             if(this.state.didDownvote){ // Up:0 down:1
                 newState = { didUpvote:true, didDownvote:false, points:this.state.points+2 }
             } else {                    // Up:0 down:0
@@ -32,6 +35,7 @@ class Voting extends Component {
     downvote = () => {
         if(!this.state.didDownvote){
             let newState = {};
+            axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'down', user:'Voting User'});
             if(this.state.didUpvote){ // Up:1 down:0
                 newState = { didDownvote:true, didUpvote:false, points:this.state.points-2 }
             } else {                    // Up:0 down:0
@@ -44,12 +48,16 @@ class Voting extends Component {
 
     unvote = () => {
         let newState = {};
+        console.log(this.state)
         if(this.state.didDownvote){
+            axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'neutral', user:'Voting User'});
             newState = { didDownvote:false, didUpvote:false, points:this.state.points+1}
+            this.setState(newState);
         } else if(this.state.didUpvote){
+            axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'neutral', user:'Voting User'});
             newState = { didDownvote:false, didUpvote:false, points:this.state.points-1}
+            this.setState(newState);
         }
-        this.setState(newState);
     }
     
     //transforms the exact number of up/downvotes to a more presentable String 

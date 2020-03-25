@@ -47,7 +47,7 @@ class CommentSection extends Component {
     render(){
        let comments = this.state.comments.length > 0 ? 
             this.state.comments.map(x => {
-                return <Comment key={x.commentId} comment={x}/>
+                return <Comment key={x.commentId} comment={x} postId={this.props.postId} commentId={x.commentId}/>
             }) : [];
 
         return(
