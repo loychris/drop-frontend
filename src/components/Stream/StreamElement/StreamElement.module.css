@@ -7,7 +7,7 @@
     right: 0;
     background-color: #11192c;
     color: #ffffff;
-    border-top: 1px solid #C7E1FF;
+    border-top: 4.5px solid #C7E1FF;
     border-bottom: 4px solid #000000;
     border-radius: 20px;
     transition: all 0.4s ease;
@@ -26,8 +26,8 @@
     height: 50px;
     min-width: 100px;
     border-radius: 25px;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     border: none;
     color: #ffffff;
     cursor: pointer;
@@ -51,8 +51,6 @@
     text-shadow: 0px 0px 5px black;
     font-family: 'Baloo 2'
 }
-
-
 
 
 .LogoForButton {
