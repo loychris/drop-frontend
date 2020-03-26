@@ -51,9 +51,11 @@ class StreamElement extends Component {
     calcStyles2(pos){
         const transY = pos*-2;
         const transZ = pos*100;
+        
         return {
             transform: `translate3d( 0, ${transY}px, ${transZ}px)`,
             perspective: `${transZ}px`
+            
         }
     }
 
@@ -99,7 +101,7 @@ class StreamElement extends Component {
         let cssClasses = [classes.StreamElement];
         let buttonClasses = [classes.DropButton];
 
-        // cssClasses.push(this.getPosClass(this.props.position));
+        cssClasses.push(this.getPosClass(this.props.position));
         
         if(NEUMORPHISM){buttonClasses.push(classes.DropButtonNeumorphism)} else {buttonClasses.push(classes.DropButtonFlat)}
         if(this.props.show === 'show') {cssClasses.push(classes.ShowDrop);}
