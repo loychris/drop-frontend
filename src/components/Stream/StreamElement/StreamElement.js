@@ -118,8 +118,6 @@ class StreamElement extends Component {
 
         }
 
-        console.log(`
-            `);
         return(
             <div
                 onKeyPress={this.handleKeyPress}
