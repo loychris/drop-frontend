@@ -13,7 +13,7 @@ const NEUMORPHISM = true;
 
 const R = 200;  //Distance eye to projection
 const Y = 150;  //vertical position of th object
-const B = 1100; //width of the object 
+const B = 1100; //width of the object
 const X = 100;  //Distance projection to element
 
 class StreamElement extends Component {
@@ -30,7 +30,7 @@ class StreamElement extends Component {
                 });
         }
     }
-    
+
     componentDidUpdate() {
         console.log('updated StreamElement');
     }
@@ -44,16 +44,15 @@ class StreamElement extends Component {
         const x = X + pos * 20;
         const yy = 5+R*Math.tan(Math.atan(Y/(x+R)));  //projected posY
         const bb = 2*R*Math.tan(Math.atan((B/2)/(x+R))); //projected width
-        return {marginTop: yy-62, width: bb}; 
+        return {marginTop: yy-62, width: bb};
     }
     //////////////////////////////////////////////////////////////////////////
 
     calcStyles2(pos){
         const transY = pos*-2;
-        const transZ = pos*100;
+        const transZ = pos*-100;
         return {
-            transform: `translate3d( 0, ${transY}px, ${transZ}px)`,
-            perspective: `${transZ}px`
+            transform: `translate3d( 0, ${transY}px, ${transZ}px)`
         }
     }
 
@@ -87,9 +86,9 @@ class StreamElement extends Component {
 
     render(){
         //CommentSection is not loaded with the post but does its own api call
-        const commentSection = 
-            this.props.position < 2  ? 
-            <CommentSection 
+        const commentSection =
+            this.props.position < 2  ?
+            <CommentSection
                 postId = {this.props.id}
                 neuMorphism={NEUMORPHISM}
             /> : [];
@@ -100,7 +99,7 @@ class StreamElement extends Component {
         let buttonClasses = [classes.DropButton];
 
         // cssClasses.push(this.getPosClass(this.props.position));
-        
+
         if(NEUMORPHISM){buttonClasses.push(classes.DropButtonNeumorphism)} else {buttonClasses.push(classes.DropButtonFlat)}
         if(this.props.show === 'show') {cssClasses.push(classes.ShowDrop);}
         else if(this.props.show === 'right') {cssClasses.push(classes.FadedRight);}
@@ -108,20 +107,20 @@ class StreamElement extends Component {
         if(this.state.postLoaded){
             if(this.props.position < 2 && this.state.post.droppedBy){
                 droppedToYouBy =  <DroppedToYouBy names={this.state.post.droppedBy}/>;
-            }   
+            }
             if(this.state.post.droppedBy) {
                 cssClasses.push('classes.DroppedByFriend');
             }
             if(this.state.post.source){
                 source = <Source sourceURL={this.state.post.source}/>
             }
-        
+
         }
 
         console.log(`
             `);
         return(
-            <div 
+            <div
                 onKeyPress={this.handleKeyPress}
                 tabIndex="0"
                 className={cssClasses.join(' ')}
