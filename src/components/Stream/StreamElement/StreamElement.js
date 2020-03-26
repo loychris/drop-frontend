@@ -50,9 +50,10 @@ class StreamElement extends Component {
 
     calcStyles2(pos){
         const transY = pos*-2;
-        const transZ = pos*-100;
+        const transZ = pos*-4;
         return {
-            transform: `translate3d( 0, ${transY}px, ${transZ}px)`
+            transform: `translate3d( 0, ${transY}px, ${transZ}px)`,
+            WebkitTransform:  `translate3d( 0, ${transY}px, ${transZ}px)`,
         }
     }
 
