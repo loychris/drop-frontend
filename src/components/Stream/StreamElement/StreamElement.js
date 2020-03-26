@@ -62,15 +62,6 @@ class StreamElement extends Component {
         return styles;
     }
 
-    // calcStyles2(pos){
-    //     const transY = pos*-2;
-    //     const transZ = pos*-4;
-    //     return {
-    //         transform: `translate3d( 0, ${transY}px, ${transZ}px)`,
-    //         WebkitTransform:  `translate3d( 0, ${transY}px, ${transZ}px)`,
-    //     }
-    // }
-
     getPosClass(pos){
         switch(pos){
             case 0: return classes.Pos0;
