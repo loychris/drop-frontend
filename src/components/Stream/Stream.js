@@ -148,7 +148,7 @@ class Stream extends Component {
             )
         });
         return (
-            <Aux className={classes.stream}>
+            <div className={classes.stream}>
                 <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
                     <DropOptionsMenu selectTarget={this.selectTargetHandler} unselectTarget={this.unselectTargetHandler} targets={this.state.targets}
                         postID={this.state.streamElements[19].id}/>
@@ -158,7 +158,7 @@ class Stream extends Component {
                 </SecondModal>
                 <img src={River} alt='' className='River'/>
                 {StreamElements}    
-            </Aux>
+            </div>
         )
     }
 }
