@@ -27,6 +27,10 @@
     clear: right;
 }
 
+.Disabled {
+    cursor: not-allowed;
+}
+
 /* .DropButton {
     width: 100%;
     height: 50px;

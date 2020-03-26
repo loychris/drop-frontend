@@ -13,6 +13,7 @@ class NeumorphismButton extends Component {
                 default: console.log('no type given');
             }
         }
+        if(this.props.disabled) styleClasses.push(classes.Disabled);
         if(this.props.colorTheme === 'light') styleClasses.push(classes.Light);
         if(this.props.colorTheme === 'dark') styleClasses.push(classes.Dark);
         return(

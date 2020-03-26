@@ -4,6 +4,7 @@ import classes from './StreamElement.module.css';
 import Content from './Content/Content'
 import CommentSection from './CommentSection/CommentSection';
 import DroppedToYouBy from './DroppedToYouBy/DroppedToYouBy';
+import Source from './Source/Source';
 
 
 // import LogoForButton from '../../../media/LogoForButton.png';
@@ -49,28 +50,32 @@ class StreamElement extends Component {
 
 
     render(){
+        //CommentSection is not loaded with the post but does its own api call
         const commentSection = 
             this.props.position < 2  ? 
             <CommentSection postId = {this.props.id}/> : [];
 
-        const droppedToYouBy = 
-            this.props.position < 2 
-            && this.state.postLoaded 
-            && this.state.post.droppedBy ?
-            <DroppedToYouBy names={this.state.post.droppedBy}/> : [];
-
-
-
+        let droppedToYouBy = []
+        let source = [];
         let cssClasses = [classes.StreamElement];
         if(this.props.show === 'show') {cssClasses.push(classes.ShowDrop);}
         else if(this.props.show === 'right') {cssClasses.push(classes.FadedRight);}
         else if(this.props.show === 'left') {cssClasses.push(classes.FadedLeft);}
+
+
+            if(this.state.postLoaded){
+                if(this.props.position < 2 && this.state.post.droppedBy){
+                    droppedToYouBy =  <DroppedToYouBy names={this.state.post.droppedBy}/>;
+                }   
+                if(this.state.post.droppedBy) {
+                    cssClasses.push('classes.DroppedByFriend');
+                }
+                if(this.state.post.source){
+                    source = <Source sourceURL={this.state.post.source}/>
+
+                }
         
-        if(this.state.postLoaded && this.state.post.droppedBy) {
-            cssClasses.push('classes.DroppedByFriend');
         }
-        
-        
         return(
             <div 
                 onKeyPress={this.handleKeyPress}
@@ -80,8 +85,9 @@ class StreamElement extends Component {
                     {droppedToYouBy}
                     <h3 className={classes.title}>{this.state.post ? this.state.post.title : `title of post ${this.props.id}`}</h3>
                     <Content position={this.props.position} id={this.props.id}/>
+                    { source }
                     <button onClick={this.props.dropping} className={classes.DropButton}>
-                        <h3>DROP</h3>
+                        <h3 className={classes.DROP}>Drop</h3>
                     </button>
                     { commentSection }
             </div>

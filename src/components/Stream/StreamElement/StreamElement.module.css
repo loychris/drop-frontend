@@ -8,10 +8,10 @@
     background-color: #11192c;
     color: #ffffff;
     border-top: 1px solid #C7E1FF;
-    border-bottom: 2px solid #000000;
+    border-bottom: 4px solid #000000;
     border-radius: 20px;
     transition: all 0.3s linear;
-    -webkit-appearance: none;
+    -webkit-appearance: none; 
 }
 
 .DropButton {
@@ -19,12 +19,21 @@
     height: 50px;
     min-width: 100px;
     border-radius: 25px;
-    padding-top: 5px; 
+    margin-top: 50px;
     margin-bottom: 50px; 
     border: none;
     color: #ffffff;
-    background: linear-gradient(120.66deg, #0A12D5 -9.61%, #00D1FF 37.48%, #00EA33 105.07%);
+    background: linear-gradient(120.66deg, #007991 -9.61%, #78ffd6 105.07%);
 }
+
+.DROP{
+    font-size: 25pt;
+    margin: 0px;
+    text-shadow: 0px 0px 5px black; 
+    font-family: 'Baloo 2'
+}
+
+
 
 
 .LogoForButton {

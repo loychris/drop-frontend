@@ -4,6 +4,8 @@
 
 .CommentForm {
     width: 100%;
+    margin-top: 20px;
+    margin-bottom: 50px;
 }
 
 .TextArea {
@@ -16,11 +18,13 @@
     display: block; 
     border-radius: 14px; 
     width: 625.5px;
-    border: none; 
     resize: none;
     overflow: auto;
-    outline: none; 
-    border-bottom: 2px solid black; 
+    outline: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;  
+    border-bottom: 4px solid #dddddd; 
 }
 
 .SpeechBubbleArrow{

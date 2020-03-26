@@ -52,7 +52,7 @@ class CommentSection extends Component {
 
         return(
             <div className={classes.CommentSection} tabIndex='0'>
-                <h3>Comments: </h3>
+                <h3>Comment Section: </h3>
                 <CommentForm id={this.props.postId} addComment={this.addComment.bind(this)}/>
                 {comments}
             </div>
