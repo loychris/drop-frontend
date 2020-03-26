@@ -16,5 +16,3 @@
 
 
 ### User Left & Right Arrow keys to evaluate the current piece of content and move to the next.
-
-## Test
