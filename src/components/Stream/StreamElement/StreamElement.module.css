@@ -11,7 +11,7 @@
     border-bottom: 4px solid #000000;
     border-radius: 20px;
     transition: all 0.3s linear;
-    -webkit-appearance: none; 
+    -webkit-appearance: none;
 }
 
 .DropButton {
@@ -20,7 +20,7 @@
     min-width: 100px;
     border-radius: 25px;
     margin-top: 50px;
-    margin-bottom: 50px; 
+    margin-bottom: 50px;
     border: none;
     color: #ffffff;
 
@@ -32,15 +32,15 @@
 
 .DropButtonNeumorphism {
      background: #11192C;
-    box-shadow: -6px -6px 5px rgba(255, 255, 255, 0.04), 
-                 6px  6px 5px rgba(  0,   0,   0, 0.25); 
+    box-shadow: -6px -6px 5px rgba(255, 255, 255, 0.04),
+                 6px  6px 5px rgba(  0,   0,   0, 0.25);
 }
 
 
 .DROP{
     font-size: 25pt;
     margin: 0px;
-    text-shadow: 0px 0px 5px black; 
+    text-shadow: 0px 0px 5px black;
     font-family: 'Baloo 2'
 }
 
@@ -48,7 +48,7 @@
 
 
 .LogoForButton {
-    margin-left: auto; 
+    margin-left: auto;
 }
 
 .title{
@@ -66,8 +66,73 @@
 }
 
 .FadedLeft {
-    transform: translateX(-100vw);
+    transform: translate3d(-100vw,0,0);
 }
 .FadedRight {
-    transform: translateX(+100vw);
+    transform: translate3d(+100vw,0,0);
 }
+
+/* Positionen der Posts */
+
+.Pos1{
+    transform: translate3d(0,0,0);
+}
+.Pos2{
+    transform: translate3d(0,0,-1);
+}
+.Pos3{
+    transform: translate3d(0,0,0);
+}
+.Pos4{
+    transform: translate3d(0,0,0);
+}
+.Pos5{
+    transform: translate3d(0,0,0);
+}
+.Pos6{
+    transform: translate3d(0,0,0);
+}
+.Pos7{
+    transform: translate3d(0,0,0);
+}
+.Pos8{
+    transform: translate3d(0,0,0);
+}
+.Pos9{
+    transform: translate3d(0,0,0);
+}
+.Pos10{
+    transform: translate3d(0,0,0);
+}
+.Pos11{
+    transform: translate3d(0,0,0);
+}
+.Pos12{
+    transform: translate3d(0,0,0);
+}
+.Pos13{
+    transform: translate3d(0,0,0);
+}
+.Pos14{
+    transform: translate3d(0,0,0);
+}
+.Pos15{
+    transform: translate3d(0,0,0);
+}
+.Pos16{
+    transform: translate3d(0,0,0);
+}
+.Pos17{
+    transform: translate3d(0,0,0);
+}
+.Pos18{
+    transform: translate3d(0,0,0);
+}
+.Pos19{
+    transform: translate3d(0,0,0);
+}
+.Pos20{
+    transform: translate3d(0,0,0);
+}
+
+/* Ende Positionen der Posts */
