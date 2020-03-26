@@ -16,6 +16,7 @@ function App() {
           <img className='ArrowKeysRight' src={arrowKeys} style={{marginRight: offSet}} alt=''/>
         </div>   */}
           <Stream></Stream>
+          <div className='Background'></div>
     </div>
   );
 }

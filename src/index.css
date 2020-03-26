@@ -69,6 +69,15 @@ body, html {
   /* transform-style: preserve-3d; */
 }
 
+.Background {
+  position: absolute; 
+  height: 100vh;
+  width: 100vw;
+  z-index: -200;
+  background: linear-gradient(90deg, #06070c 0%, #323952 50%, #06070c 100%);
+
+}
+
 
 @media screen and (min-width: 800px) {
 
