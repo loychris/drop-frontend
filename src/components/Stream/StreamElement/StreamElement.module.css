@@ -10,14 +10,14 @@
     border-top: 1px solid #C7E1FF;
     border-bottom: 4px solid #000000;
     border-radius: 20px;
-    transition: all 0.3s linear;
+    transition: all 0.4s ease;
     -webkit-appearance: none;
     transform-style: preserve-3d;
 
 
     /*//////////////////// Styles Pos1 ////////////////////////*/
-    margin-top: 36.75px; 
-    width: 687.5px; 
+    margin-top: 36.75px;
+    width: 687.5px;
     /*/////////////////////////////////////////////////////////*/
 }
 
@@ -73,73 +73,8 @@
 }
 
 .FadedLeft {
-    transform: translate3d(-100vw,0,0);
+    transform: translate3d(-100,0,0);
 }
 .FadedRight {
     transform: translate3d(+100vw,0,0);
 }
-
-/* Positionen der Posts */
-
-.Pos1{
-    transform: translate3d(0,0,0);
-}
-.Pos2{
-    transform: translate3d(0,0,0);
-}
-.Pos3{
-    transform: translate3d(0,0,0);
-}
-.Pos4{
-    transform: translate3d(0,0,0);
-}
-.Pos5{
-    transform: translate3d(0,0,0);
-}
-.Pos6{
-    transform: translate3d(0,0,0);
-}
-.Pos7{
-    transform: translate3d(0,0,0);
-}
-.Pos8{
-    transform: translate3d(0,0,0);
-}
-.Pos9{
-    transform: translate3d(0,0,0);
-}
-.Pos10{
-    transform: translate3d(0,0,0);
-}
-.Pos11{
-    transform: translate3d(0,0,0);
-}
-.Pos12{
-    transform: translate3d(0,0,0);
-}
-.Pos13{
-    transform: translate3d(0,0,0);
-}
-.Pos14{
-    transform: translate3d(0,0,0);
-}
-.Pos15{
-    transform: translate3d(0,0,0);
-}
-.Pos16{
-    transform: translate3d(0,0,0);
-}
-.Pos17{
-    transform: translate3d(0,0,0);
-}
-.Pos18{
-    transform: translate3d(0,0,0);
-}
-.Pos19{
-    transform: translate3d(0,0,0);
-}
-.Pos20{
-    transform: translate3d(0,0,0);
-}
-
-/* Ende Positionen der Posts */
