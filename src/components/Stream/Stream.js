@@ -1,4 +1,4 @@
-import React, { Component } from 'react'; 
+import React, { Component } from 'react';
 import axios from 'axios';
 import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
@@ -77,7 +77,7 @@ class Stream extends Component {
             }
             const nextId = this.state.nextId+1;
             this.setState({
-                nextId: nextId, 
+                nextId: nextId,
                 streamElements: newElements,
                 timeStampLastSwipe: currentTimestamp
             });
@@ -93,7 +93,7 @@ class Stream extends Component {
             }
             const nextId = this.state.nextId+1;
             this.setState({
-                nextId: nextId, 
+                nextId: nextId,
                 streamElements: newElements,
                 timeStampLastSwipe: currentTimestamp
             });
@@ -138,17 +138,17 @@ class Stream extends Component {
         let StreamElements = [];
         this.state.streamElements.forEach(element => {
             StreamElements.unshift(
-                <StreamElement 
-                    show={element.show} 
-                    position={element.position} 
-                    id={element.id} 
+                <StreamElement
+                    show={element.show}
+                    position={element.position}
+                    id={element.id}
                     key={element.id}
                     currentlyDropping={this.state.currentlyDropping}
                     dropping={this.droppingHandler}/>
             )
         });
         return (
-            <Aux className={classes.stream}>
+            <div className={classes.stream}>
                 <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
                     <DropOptionsMenu selectTarget={this.selectTargetHandler} unselectTarget={this.unselectTargetHandler} targets={this.state.targets}
                         postID={this.state.streamElements[19].id}/>
@@ -157,8 +157,8 @@ class Stream extends Component {
                     <SelectedDropTargets selectedTargets={this.state.selectedTargets} unselectTarget={this.unselectTargetHandler}/>
                 </SecondModal>
                 <img src={River} alt='' className='River'/>
-                {StreamElements}    
-            </Aux>
+                {StreamElements}
+            </div>
         )
     }
 }
