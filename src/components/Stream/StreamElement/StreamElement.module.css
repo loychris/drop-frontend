@@ -12,6 +12,13 @@
     border-radius: 20px;
     transition: all 0.3s linear;
     -webkit-appearance: none;
+    transform-style: preserve-3d;
+
+
+    /*//////////////////// Styles Pos1 ////////////////////////*/
+    margin-top: 36.75px; 
+    width: 687.5px; 
+    /*/////////////////////////////////////////////////////////*/
 }
 
 .DropButton {
@@ -78,7 +85,7 @@
     transform: translate3d(0,0,0);
 }
 .Pos2{
-    transform: translate3d(0,0,-1);
+    transform: translate3d(0,0,0);
 }
 .Pos3{
     transform: translate3d(0,0,0);

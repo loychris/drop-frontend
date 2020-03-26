@@ -48,6 +48,41 @@ class StreamElement extends Component {
     }
     //////////////////////////////////////////////////////////////////////////
 
+    calcStyles2(pos){
+        const transY = pos*-2;
+        const transZ = pos*100;
+        return {
+            transform: `translate3d( 0, ${transY}px, ${transZ}px)`,
+            perspective: `${transZ}px`
+        }
+    }
+
+    getPosClass(pos){
+        switch(pos){
+            case 0: return classes.Pos0;
+            case 1: return classes.Pos1;
+            case 2: return classes.Pos2;
+            case 3: return classes.Pos3;
+            case 4: return classes.Pos4;
+            case 5: return classes.Pos5;
+            case 6: return classes.Pos6;
+            case 7: return classes.Pos7;
+            case 8: return classes.Pos8;
+            case 9: return classes.Pos9;
+            case 10: return classes.Pos10;
+            case 11: return classes.Pos11;
+            case 12: return classes.Pos12;
+            case 13: return classes.Pos13;
+            case 14: return classes.Pos14;
+            case 15: return classes.Pos15;
+            case 16: return classes.Pos16;
+            case 17: return classes.Pos17;
+            case 18: return classes.Pos18;
+            case 19: return classes.Pos19;
+            case 20: return classes.Pos20;
+            default: console.log('Invalid Position!');
+        }
+    }
 
 
     render(){
@@ -62,7 +97,10 @@ class StreamElement extends Component {
         let droppedToYouBy = []
         let source = [];
         let cssClasses = [classes.StreamElement];
-        let buttonClasses = [classes.DropButton]
+        let buttonClasses = [classes.DropButton];
+
+        // cssClasses.push(this.getPosClass(this.props.position));
+        
         if(NEUMORPHISM){buttonClasses.push(classes.DropButtonNeumorphism)} else {buttonClasses.push(classes.DropButtonFlat)}
         if(this.props.show === 'show') {cssClasses.push(classes.ShowDrop);}
         else if(this.props.show === 'right') {cssClasses.push(classes.FadedRight);}
@@ -79,12 +117,16 @@ class StreamElement extends Component {
             }
         
         }
+
+        console.log(`
+            `);
         return(
             <div 
                 onKeyPress={this.handleKeyPress}
                 tabIndex="0"
                 className={cssClasses.join(' ')}
-                style={this.calcStyles(this.props.position)}>
+                style={this.calcStyles2(this.props.position)}
+                >
                     { droppedToYouBy }
                     <h3 className={classes.title}>{this.state.post ? this.state.post.title : `title of post ${this.props.id}`}</h3>
                     <Content position={this.props.position} id={this.props.id}/>
