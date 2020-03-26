@@ -110,6 +110,7 @@ class SubComment extends Component {
         const lastProp = i === this.props.subComments.length - 1 ? true : false;
         subComments.push(
           <SubComment
+            neuMorphism={this.props.neuMorphism}
             tree={nextTreeString}
             last={lastProp}
             depth={`${depth + 1}`}
@@ -142,18 +143,19 @@ class SubComment extends Component {
   }
 
   render() {
-    const color = !this.state.highlighted ? COLOR_COMMENT_BACKGROUND : COLOR_COMMENT_BACKGROUND_HIGHLIGHTED;
-    const SpeechBubbleArrow = 
+    const SpeechBubbleArrow = !this.props.neuMorphism ? 
     <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= {color}/>
-    </svg>
+      <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill={COLOR_COMMENT_BACKGROUND}/>
+    </svg> : []
     const depth = this.props.path.split("/").length - 1;
     let commentStyle = { paddingLeft: `${depth * INDENT}px` };
     const contentStyle = {
       left: `${depth * INDENT + 40}px`,
       maxWidth: `${545 - INDENT * depth}px`
     };
-    const backgorundStyle = { backgroundColor: color } 
+
+    let backgroundStyleClasses = [classes.CommentBackground]
+    if(this.props.neuMorphism){backgroundStyleClasses.push(classes.CommentBackgroundNeumorphism)}else{backgroundStyleClasses.push(classes.CommnetBackgroundFlat)}
     /////////////////////////////  visual tree algorithm // DO NOT FUCKING TOUCH   /////////////////////////////
     let inheritance = this.props.tree ? this.props.tree : [];
     let thisTreeString = this.props.last === true ? [...inheritance, "L"].slice(1) : [...inheritance, "T"].slice(1);
@@ -168,8 +170,7 @@ class SubComment extends Component {
       <div className={classes.CommentContainer} style={this.props.last ? {marginBottom: '50px'} : []}>
         <div className={classes.Comment} style={commentStyle}>
           <AuthorPic depth={this.props.depth} indent={INDENT} />
-          <div className={classes.CommentBackground} 
-               style={backgorundStyle} 
+          <div className={backgroundStyleClasses.join(' ')} 
                ref={divElement => (this.divElement = divElement)}>
             <Voting points={this.props.points} />
             <div className={classes.SelectClickTarget} onClick={this.select}>

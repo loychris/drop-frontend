@@ -53,6 +53,7 @@ class Comment extends Component {
         const lastProp = i === this.props.comment.subComments.length - 1 ? true : false;
         subComments.push(
           <SubComment
+            neuMorphism={this.props.neuMorphism}
             tree={'I'}
             last={lastProp}
             depth={1}
@@ -93,12 +94,13 @@ class Comment extends Component {
         <path d={`M0 0H2V${this.state.height}H0V0Z`} fill="#ffffff" />
       </svg> : []
 
-    const SpeechBubbleArrow = 
+    const SpeechBubbleArrow = !this.props.neuMorphism ? 
       <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= {!this.state.selected ? COLOR_COMMENT_BACKGROUND : COLOR_COMMENT_BACKGORUND_HIGHLIGHTED}/>
-      </svg>
+      </svg> : []
     ///////////////////////////////////////////////////////////////////
-
+    let backgroundStyleClasses = [classes.CommentBackground]
+    if(this.props.neuMorphism){backgroundStyleClasses.push(classes.CommentBackgroundNeumorphism)} else {backgroundStyleClasses.push(classes.CommnetBackgroundFlat)}
 
     const options = this.state.selected ? <Options path={this.props.path}/> : []
 
@@ -107,8 +109,7 @@ class Comment extends Component {
       <div className={classes.CommentContainer}>
         <div className={classes.Comment}>
           <AuthorPic depth={0} indent={0} />
-          <div className={classes.CommentBackground}
-               style={this.getBackgroundColor()}
+          <div className={backgroundStyleClasses.join(' ')}
                ref={divElement => (this.divElement = divElement)}>
             <Voting 
               commentId={this.props.commentId}

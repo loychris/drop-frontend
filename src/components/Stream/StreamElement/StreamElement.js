@@ -9,6 +9,7 @@ import Source from './Source/Source';
 
 // import LogoForButton from '../../../media/LogoForButton.png';
 
+const NEUMORPHISM = true;
 
 const R = 200;  //Distance eye to projection
 const Y = 150;  //vertical position of th object
@@ -53,27 +54,29 @@ class StreamElement extends Component {
         //CommentSection is not loaded with the post but does its own api call
         const commentSection = 
             this.props.position < 2  ? 
-            <CommentSection postId = {this.props.id}/> : [];
+            <CommentSection 
+                postId = {this.props.id}
+                neuMorphism={NEUMORPHISM}
+            /> : [];
 
         let droppedToYouBy = []
         let source = [];
         let cssClasses = [classes.StreamElement];
+        let buttonClasses = [classes.DropButton]
+        if(NEUMORPHISM){buttonClasses.push(classes.DropButtonNeumorphism)} else {buttonClasses.push(classes.DropButtonFlat)}
         if(this.props.show === 'show') {cssClasses.push(classes.ShowDrop);}
         else if(this.props.show === 'right') {cssClasses.push(classes.FadedRight);}
         else if(this.props.show === 'left') {cssClasses.push(classes.FadedLeft);}
-
-
-            if(this.state.postLoaded){
-                if(this.props.position < 2 && this.state.post.droppedBy){
-                    droppedToYouBy =  <DroppedToYouBy names={this.state.post.droppedBy}/>;
-                }   
-                if(this.state.post.droppedBy) {
-                    cssClasses.push('classes.DroppedByFriend');
-                }
-                if(this.state.post.source){
-                    source = <Source sourceURL={this.state.post.source}/>
-
-                }
+        if(this.state.postLoaded){
+            if(this.props.position < 2 && this.state.post.droppedBy){
+                droppedToYouBy =  <DroppedToYouBy names={this.state.post.droppedBy}/>;
+            }   
+            if(this.state.post.droppedBy) {
+                cssClasses.push('classes.DroppedByFriend');
+            }
+            if(this.state.post.source){
+                source = <Source sourceURL={this.state.post.source}/>
+            }
         
         }
         return(
@@ -82,11 +85,11 @@ class StreamElement extends Component {
                 tabIndex="0"
                 className={cssClasses.join(' ')}
                 style={this.calcStyles(this.props.position)}>
-                    {droppedToYouBy}
+                    { droppedToYouBy }
                     <h3 className={classes.title}>{this.state.post ? this.state.post.title : `title of post ${this.props.id}`}</h3>
                     <Content position={this.props.position} id={this.props.id}/>
                     { source }
-                    <button onClick={this.props.dropping} className={classes.DropButton}>
+                    <button onClick={this.props.dropping} className={buttonClasses.join(' ')}>
                         <h3 className={classes.DROP}>Drop</h3>
                     </button>
                     { commentSection }

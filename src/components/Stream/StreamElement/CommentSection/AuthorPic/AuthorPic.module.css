@@ -7,4 +7,10 @@
     background-color: #c4c4c4;
     display: inline-block;;
     clear: right;
+
+    /*/////////////////Alternative Design////////////////////*/
+    box-shadow: -4px -4px 5px rgba(255, 255, 255, 0.04), 
+                 4px  4px 5px rgba(  0,   0,   0, 0.25);
+    /*///////////////////////////////////////////////////////*/
+
 }

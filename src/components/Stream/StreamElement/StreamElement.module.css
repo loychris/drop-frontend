@@ -23,8 +23,19 @@
     margin-bottom: 50px; 
     border: none;
     color: #ffffff;
+
+}
+
+.DropButtonFlat {
     background: linear-gradient(120.66deg, #007991 -9.61%, #78ffd6 105.07%);
 }
+
+.DropButtonNeumorphism {
+     background: #11192C;
+    box-shadow: -6px -6px 5px rgba(255, 255, 255, 0.04), 
+                 6px  6px 5px rgba(  0,   0,   0, 0.25); 
+}
+
 
 .DROP{
     font-size: 25pt;

@@ -45,13 +45,23 @@ class CommentSection extends Component {
 
 
     render(){
-       let comments = this.state.comments.length > 0 ? 
+        let comments = this.state.comments.length > 0 ? 
             this.state.comments.map(x => {
-                return <Comment key={x.commentId} comment={x} postId={this.props.postId} commentId={x.commentId}/>
+                return <Comment 
+                        key={x.commentId} 
+                        comment={x} 
+                        postId={this.props.postId} 
+                        commentId={x.commentId}
+                        neuMorphism={this.props.neuMorphism}
+                        />
             }) : [];
 
+        let styleClasses = [classes.CommentSection];
+        if(this.props.neuMorphism) styleClasses.push(classes.NeuMorphism);
+
+
         return(
-            <div className={classes.CommentSection} tabIndex='0'>
+            <div className={styleClasses.join(' ')} tabIndex='0'>
                 <h3>Comment Section: </h3>
                 <CommentForm id={this.props.postId} addComment={this.addComment.bind(this)}/>
                 {comments}
