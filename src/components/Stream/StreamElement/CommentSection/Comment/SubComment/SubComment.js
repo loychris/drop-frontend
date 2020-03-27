@@ -169,7 +169,7 @@ class SubComment extends Component {
     return (
       <div className={classes.CommentContainer} style={this.props.last ? {marginBottom: '50px'} : []}>
         <div className={classes.Comment} style={commentStyle}>
-          <AuthorPic depth={this.props.depth} indent={INDENT} />
+          <AuthorPic depth={this.props.depth} indent={INDENT} neuMorphism={this.props.neuMorphism}/>
           <div className={backgroundStyleClasses.join(' ')} 
                ref={divElement => (this.divElement = divElement)}>
             <Voting points={this.props.points} />

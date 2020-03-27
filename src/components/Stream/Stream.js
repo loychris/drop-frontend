@@ -1,4 +1,4 @@
-import React, { Component } from 'react'; 
+import React, { Component } from 'react';
 import axios from 'axios';
 import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
@@ -77,7 +77,7 @@ class Stream extends Component {
             }
             const nextId = this.state.nextId+1;
             this.setState({
-                nextId: nextId, 
+                nextId: nextId,
                 streamElements: newElements,
                 timeStampLastSwipe: currentTimestamp
             });
@@ -93,7 +93,7 @@ class Stream extends Component {
             }
             const nextId = this.state.nextId+1;
             this.setState({
-                nextId: nextId, 
+                nextId: nextId,
                 streamElements: newElements,
                 timeStampLastSwipe: currentTimestamp
             });
@@ -138,10 +138,10 @@ class Stream extends Component {
         let StreamElements = [];
         this.state.streamElements.forEach(element => {
             StreamElements.unshift(
-                <StreamElement 
-                    show={element.show} 
-                    position={element.position} 
-                    id={element.id} 
+                <StreamElement
+                    show={element.show}
+                    position={element.position}
+                    id={element.id}
                     key={element.id}
                     currentlyDropping={this.state.currentlyDropping}
                     dropping={this.droppingHandler}/>
@@ -158,6 +158,7 @@ class Stream extends Component {
                 </SecondModal>
                 <img src={River} alt='' className='River'/>
                 {StreamElements}    
+
             </div>
         )
     }

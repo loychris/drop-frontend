@@ -40,7 +40,7 @@ class CommentForm extends Component {
         return(
             <div className={classes.CommentFormContainer}>
                 <form className={classes.CommentForm} id={`commentForm${this.props.id}`}>
-                    <AuthorPic depth={0} indent={0} />
+                    <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
                     <TextareaAutosize 
                         className={classes.TextArea}
                         onChange={this.inputChangedHandler} 

@@ -7,6 +7,8 @@
     margin-right: auto;
     left: 0;
     right: 0;
+    perspective: 55px;
+    -webkit-perspective: 55px;
 }
 .pic {
     width: 90%;

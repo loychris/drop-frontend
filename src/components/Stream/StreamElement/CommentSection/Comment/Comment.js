@@ -108,7 +108,7 @@ class Comment extends Component {
       return (
       <div className={classes.CommentContainer}>
         <div className={classes.Comment}>
-          <AuthorPic depth={0} indent={0} />
+          <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
           <div className={backgroundStyleClasses.join(' ')}
                ref={divElement => (this.divElement = divElement)}>
             <Voting 

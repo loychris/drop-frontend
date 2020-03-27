@@ -9,7 +9,7 @@ import Source from './Source/Source';
 
 // import LogoForButton from '../../../media/LogoForButton.png';
 
-const NEUMORPHISM = true;
+const NEUMORPHISM = false;
 
 const R = 200;  //Distance eye to projection
 const Y = 150;  //vertical position of th object
@@ -49,8 +49,8 @@ class StreamElement extends Component {
     //////////////////////////////////////////////////////////////////////////
 
     calcStyles2(pos){
-        const transY = pos*-2;
-        const transZ = pos*-4;
+        const transY = (pos-1)*-2;
+        const transZ = (pos-1)*-4;
         const styles = {};
         if(this.props.show === 'left') {styles.transform = `translate3d(-100vw,0,0)`}
         else if(this.props.show === 'right') {styles.transform = `translate3d(+100vw,0,0)`}
@@ -120,7 +120,6 @@ class StreamElement extends Component {
             if(this.state.post.source){
                 source = <Source sourceURL={this.state.post.source}/>
             }
-
         }
 
         return(
