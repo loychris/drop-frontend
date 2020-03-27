@@ -62,18 +62,15 @@ body, html {
   background: rgb(0,10,47);
   background: linear-gradient(90deg, #06070c 0%, #323952 50%, #06070c 100%);
   width: 100vw;
-  height: 100%;
-  perspective: 55px;
-  -webkit-perspective: 55px;
-  /* -webkit-transform-style: preserve-3d; */
-  /* transform-style: preserve-3d; */
+  height: 100vh;
 }
 
 .Background {
-  position: fixed; 
-  height: 100vh;
+    margin-top: -20vh;
+  position: fixed;
+  height: 200vh;
   width: 100vw;
-  z-index: -200;
+  z-index: -200 ;
   background: linear-gradient(90deg, #06070c 0%, #323952 50%, #06070c 100%);
 
 }
