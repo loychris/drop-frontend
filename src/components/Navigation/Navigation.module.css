@@ -15,19 +15,33 @@
 
 }
 
-.Navigation a {
+/*/////////////////////////////*/
+.Navigation span {
     text-decoration: none; 
     color: #ffffff;
     padding: 10px 20px 10px 20px;
     width: 80px; 
     transition:  0.3s ease;
- 
 }
+/*/////////////////////////////*/
+
+/* .Navigation a {
+    text-decoration: none; 
+    color: #ffffff;
+    padding: 10px 20px 10px 20px;
+    width: 80px; 
+    transition:  0.3s ease;
+} */
 
 .active{
     font-weight: bold;
     font-size: 20pt;
     border-bottom: 2px solid #0059ff;
+    cursor: pointer;
+}
+
+.inactive{
+    cursor: pointer;
 }
 
 .Navigation a:hover{

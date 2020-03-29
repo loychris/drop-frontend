@@ -2,14 +2,44 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Baloo+2:800&display=swap');
 
-.stream{
+.Stream{
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
     perspective: 55px;
     -webkit-perspective: 55px;
+    display: block; 
+    transition: 0.3s ease; 
 }
-.pic {
-    width: 90%;
+
+.OutRight {
+    transform: translateX(+100vw);
 }
+
+
+.River {
+    z-index: 1;
+    display: block;
+    margin: auto;
+    width: 380px;
+  }
+
+.Boat1 {
+    position: absolute; 
+    top: 33px;
+    width: 50px; 
+    display: block; 
+    left: 43vw;
+    z-index: 1000;   
+  }
+  
+  .Boat2 {
+    transform: scaleX(-1);
+    position: absolute; 
+    top: 33px;
+    width: 40px; 
+    display: block; 
+    left: 57vw;
+    z-index: 1000;  
+  }

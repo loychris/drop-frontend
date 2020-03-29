@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
 import classes from './Navigation.module.css';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 
 class Navigation extends Component {
@@ -12,19 +12,25 @@ class Navigation extends Component {
                 <nav>
                     <ul>
                         <li>
-                            <NavLink  
+                            {/* <NavLink  
                                 to='/chat'
                                 activeClassName={classes.active}>
                                     Chat
-                            </NavLink>
+                            </NavLink> */}
+                            <span 
+                                className={this.props.showing==='chat' ? classes.active : classes.inactive}
+                                onClick={() => {this.props.changeTab('chat')}}>Chat</span>
                         </li>
                         <li>
-                            <NavLink 
+                            {/* <NavLink 
                                 exact 
                                 to='/'
                                 activeClassName={classes.active}>
                                     Stream
-                            </NavLink>
+                            </NavLink> */}
+                            <span 
+                                className={this.props.showing==='stream' ? classes.active : classes.inactive}
+                                onClick={() => {this.props.changeTab('stream')}}>Stream</span>
                         </li>
 
                     </ul>

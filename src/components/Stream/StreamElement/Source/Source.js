@@ -10,7 +10,7 @@ class Source extends Component {
                 <p className={classes.Header}>Source:</p>
                 <a  className={classes.Link} 
                     href={this.props.sourceURL}
-                    target='_blank'>
+                    >
                     {this.props.sourceURL}
                 </a>
             </div>

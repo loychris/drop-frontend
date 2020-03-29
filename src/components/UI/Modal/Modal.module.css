@@ -4,8 +4,7 @@
     background-color: #11192c;
     width: 70%;
     padding: 30px;
-    left: 15%;
-    top: 13%;
+    top: 13vh;
     box-sizing: border-box;
     transition: all 0.3s ease-out;
     border-radius: 30px;     

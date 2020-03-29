@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import StreamElement from './StreamElement/StreamElement';
-import Aux from '../../hoc/Aux';
 import classes from './Stream.module.css';
 import DropOptionsMenu from './DropOptionsMenu/DropOptionsMenu'
 import Modal from '../UI/Modal/Modal';
 import SecondModal from '../UI/SecondModal/SecondModal';
 import River from '../../SVGs/River.svg';
+import Boat from '../../media/Boat.png';
 import SelectedDropTargets from './SelectedDropTargets/SelectedDropTargets';
 // import URLs from './URLs.json';
 
@@ -55,6 +55,7 @@ class Stream extends Component {
         if(!this.state.dropTargetsLoaded){
             axios.get(`/dropTargets`)
                 .then(response => {
+                    console.log(response.data); 
                     this.setState({dropTargetsLoaded: true, targets: response.data});
                 });
         }
@@ -144,8 +145,14 @@ class Stream extends Component {
                     dropping={this.droppingHandler}/>
             )
         });
+
+        const styleClasses = [classes.Stream];
+        if(this.props.showing !== true) {
+            styleClasses.push(classes.OutRight);
+            console.log(styleClasses); 
+        }
         return (
-            <div className={classes.stream}>
+            <div className={styleClasses.join(' ')}>
                 <Modal show={this.state.currentlyDropping} modalClosed={this.abortDroppingHandler}>
                     <DropOptionsMenu selectTarget={this.selectTargetHandler} unselectTarget={this.unselectTargetHandler} targets={this.state.targets}
                         postID={this.state.streamElements[19].id}/>
@@ -153,7 +160,9 @@ class Stream extends Component {
                 <SecondModal show={this.state.currentlyDropping}>
                     <SelectedDropTargets selectedTargets={this.state.selectedTargets} unselectTarget={this.unselectTargetHandler}/>
                 </SecondModal>
-                <img src={River} alt='' className='River'/>
+                <img src={River} alt='' className={classes.River}/>
+                <img src={Boat} alt='' className={classes.Boat1}/>
+                <img src={Boat} alt='' className={classes.Boat2}/>
                 {StreamElements}    
             </div>
         )

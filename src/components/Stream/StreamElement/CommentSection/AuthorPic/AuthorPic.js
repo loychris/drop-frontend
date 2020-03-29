@@ -6,7 +6,11 @@ class AuthorPic extends Component {
 
     render(){
         return (
-            <img src={DefaultPic} className={classes.AuthorPic} style={{left: `${this.props.depth*this.props.indent}px`}}/>
+            <img 
+                src={DefaultPic} 
+                className={classes.AuthorPic} 
+                style={{left: `${this.props.depth*this.props.indent}px`}}
+                alt=' '/>
         )
     }
 

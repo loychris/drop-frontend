@@ -12,7 +12,6 @@ const INDENT = 17;
 //const INDENTFRACTION = 17; //precent of width of a depth=0 Comment
 const MAX_SUBCOMMENTS = 4;
 const COLOR_COMMENT_BACKGROUND = 'rgba(0, 2, 10, 0.6)';
-const COLOR_COMMENT_BACKGROUND_HIGHLIGHTED = 'rgba(100, 0, 0, 0.6)';
 
 
 class SubComment extends Component {

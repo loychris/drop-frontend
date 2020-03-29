@@ -1,0 +1,12 @@
+.Message {
+    position: relative; 
+}
+
+.UserMsg {
+    right: 0px;
+}
+
+.OtherMsg {
+    left: 0px;
+}
+
