@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route } from 'react-router-dom';
 
-
 import Stream from "./components/Stream/Stream";
 import Chat from './components/Chat/Chat';
 import Navigation from './components/Navigation/Navigation';

@@ -4,9 +4,6 @@ import classes from './SecondModal.module.css';
 
 class SecondModal extends Component {
 
-    componentDidUpdate(){
-        console.log('updated SecondModal');
-    }
 
     shouldComponentUpdate(){
         return this.props.show === true;

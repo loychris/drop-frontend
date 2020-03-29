@@ -26,9 +26,6 @@ class CommentSection extends Component {
         }
     }
 
-    componentDidUpdate() {
-        console.log('updated CommentSection');
-    }
 
     addComment(comment){
         const newComment = {

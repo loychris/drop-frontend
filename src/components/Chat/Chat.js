@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import ChatPrev from './ChatPrev/ChatPrev'; 
 import classes from './Chat.module.css';
+import { NavLink, BrowserRouter, Route } from 'react-router-dom';
+
 
 class Chat extends Component {
 
     state = {
         chats: [
             {
+                chatId: 0,
                 name: 'Pokern', 
                 type: 'group', 
                 preview: 'this is the last message, that was sent in Group1',
@@ -17,6 +20,7 @@ class Chat extends Component {
                     {sender: 'User', time: '17:31', message: 'Ja! Ich schaue mal, ob ich noch in meinen Acc komme'},
                 ]}, 
             {
+                chatId: 1,
                 name: 'Josua Sievers', 
                 type: 'person', 
                 preview: 'I bims, der Joshua',
@@ -24,12 +28,14 @@ class Chat extends Component {
                     {sender: 'Josua', time: '12:43', message: 'I bims, der Joshua'}
                 ]}, 
             {   
+                chatId: 2,
                 name: 'Group2', 
                 type: 'group', 
-                preview: 'this is the last message, that was sent in Group2',
+                preview: '',
                 latestMessages: []
             }, 
             {
+                chatId: 3,
                 name: 'Elon Musk', 
                 type: 'group', 
                 preview: 'please stop contacting me',
@@ -37,18 +43,24 @@ class Chat extends Component {
                     {user: true, time: '00:42', message: 'Huhu'},
                     {user: false, time: '04:05', message: 'please stop contacting me'}
                 ]
-            }, 
-            {name: 'Group1', type: 'group', preview: 'this is the last message, that was sent in Group1'}   
+            }   
         ]
     }
 
     render(){
 
         const chats = this.state.chats.map(x => {
-            return <ChatPrev {...x} />
+            return (
+                <NavLink 
+                    key={x.chatId}
+                    to={`/chat/${x.name}`}
+                    activeClassName={classes.Active}>
+                    <ChatPrev {...x} />
+                </NavLink>)
         })
 
         return(
+            <BrowserRouter>
             <div className={classes.Chat}>
                 <div className={classes.Previews}>
                     {chats}
@@ -61,10 +73,8 @@ class Chat extends Component {
 
                     </div>
                 </div>
-
-            
-            
             </div>
+            </BrowserRouter>
         )
     }
 }

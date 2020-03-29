@@ -49,10 +49,6 @@ class Stream extends Component {
         timeStampLastSwipe: 0
     }
 
-    componentDidUpdate(){
-        console.log("updated Stream")
-    }
-
     componentDidMount(){
         document.addEventListener("keyup", this.swipeHandler, false);
 

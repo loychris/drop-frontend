@@ -30,3 +30,7 @@
     height: 15%; 
     border: 1px solid grey; 
 }
+
+.Active {
+    font-weight: bold;
+}

@@ -48,7 +48,6 @@ class Voting extends Component {
 
     unvote = () => {
         let newState = {};
-        console.log(this.state)
         if(this.state.didDownvote){
             axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'neutral', user:'Voting User'});
             newState = { didDownvote:false, didUpvote:false, points:this.state.points+1}

@@ -12,9 +12,6 @@ class DropOptionsMenu extends Component {
         targets: this.props.targets
     }
 
-    componentDidUpdate(){
-        console.log('updated DropOptionsMenu');
-    }
 
     getTargetsList = () => {
         let targets = this.props.targets;

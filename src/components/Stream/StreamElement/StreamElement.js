@@ -31,9 +31,7 @@ class StreamElement extends Component {
         }
     }
 
-    componentDidUpdate() {
-        console.log('updated StreamElement');
-    }
+
 
     shouldComponentUpdate(){
         return !this.props.currentlyDropping;
@@ -58,7 +56,6 @@ class StreamElement extends Component {
             styles.transform = `translate3d( 0, ${transY}px, ${transZ}px)`;
             styles.WebkitTransform =  `translate3d( 0, ${transY}px, ${transZ}px)`;
         }
-        console.log('Styles: ', styles)
         return styles;
     }
 

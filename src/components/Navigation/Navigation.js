@@ -12,8 +12,7 @@ class Navigation extends Component {
                 <nav>
                     <ul>
                         <li>
-                            <NavLink 
-                                exact 
+                            <NavLink  
                                 to='/chat'
                                 activeClassName={classes.active}>
                                     Chat

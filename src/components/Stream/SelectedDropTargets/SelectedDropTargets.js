@@ -5,9 +5,6 @@ import NeumorphismButton from '../../UI/NeumorphismButton/NeumorphismButton';
 
 class SelectedDropTargets extends Component {
 
-    componentDidUpdate(){
-        console.log("updated SelectedDropTargets");
-    }
 
     render() {
         let selectedTargets = this.props.selectedTargets && this.props.selectedTargets.length > 0 ? this.props.selectedTargets.map(x => {

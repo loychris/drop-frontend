@@ -18,10 +18,6 @@ class Content extends Component {
         }
     }
 
-    componentDidUpdate(){
-        // console.log('updated Content');
-    }
-
     render() {
         const meme = this.props.position < 3 ? 
             <img 
