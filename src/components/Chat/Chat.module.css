@@ -1,0 +1,32 @@
+.Chat {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 10vh; 
+    left: 0;
+    right: 0;
+    border: 1px solid red; 
+    width: 65vw;
+    height: 80vh;
+    display: flex; 
+}
+
+.Previews {
+    width: 30%;
+    height: 100%;
+}
+
+.ChatWindow {
+    width: 70%;
+    height: 100%;
+}
+
+.Messages {
+    height: 85%; 
+    border: 1px solid grey; 
+}
+
+.TextField {
+    height: 15%; 
+    border: 1px solid grey; 
+}

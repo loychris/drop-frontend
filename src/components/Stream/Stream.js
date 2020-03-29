@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+
 import StreamElement from './StreamElement/StreamElement';
 import Aux from '../../hoc/Aux';
 import classes from './Stream.module.css';
@@ -158,7 +159,6 @@ class Stream extends Component {
                 </SecondModal>
                 <img src={River} alt='' className='River'/>
                 {StreamElements}    
-
             </div>
         )
     }
