@@ -63,38 +63,40 @@ class Stream extends Component {
 
     swipeHandler = (event) => {
         const currentTimestamp = Date.now();
-        if(currentTimestamp - TIME_BLOCK_NEXT_SWIPE > this.state.timeStampLastSwipe && event.keyCode === 37 ){
-            let newElements = this.state.streamElements.map(element => {
-                return {position: element.position-1,
-                        id: element.id,
-                        show: element.position-1 === 0 ? 'left' : 'show'}
-            });
-            if(newElements[0].position < 0) {
-                newElements.shift();
-                newElements.push({position: 20, id: `${this.state.nextId}`, show: 'show'})
+        if(this.props.showing && currentTimestamp - TIME_BLOCK_NEXT_SWIPE > this.state.timeStampLastSwipe){
+            if(event.keyCode === 37 ){
+                let newElements = this.state.streamElements.map(element => {
+                    return {position: element.position-1,
+                            id: element.id,
+                            show: element.position-1 === 0 ? 'left' : 'show'}
+                });
+                if(newElements[0].position < 0) {
+                    newElements.shift();
+                    newElements.push({position: 20, id: `${this.state.nextId}`, show: 'show'})
+                }
+                const nextId = this.state.nextId+1;
+                this.setState({
+                    nextId: nextId,
+                    streamElements: newElements,
+                    timeStampLastSwipe: currentTimestamp
+                });
+            }else if(event.keyCode === 39){
+                let newElements = this.state.streamElements.map(element => {
+                    return {position: element.position-1,
+                            id: element.id,
+                            show: element.position-1 === 0 ? 'right' : 'show'}
+                });
+                if(newElements[0].position < 0) {
+                    newElements.shift();
+                    newElements.push({position: 20, id: `${this.state.nextId}`, show: 'show'})
+                }
+                const nextId = this.state.nextId+1;
+                this.setState({
+                    nextId: nextId,
+                    streamElements: newElements,
+                    timeStampLastSwipe: currentTimestamp
+                });
             }
-            const nextId = this.state.nextId+1;
-            this.setState({
-                nextId: nextId,
-                streamElements: newElements,
-                timeStampLastSwipe: currentTimestamp
-            });
-        }else if(currentTimestamp - TIME_BLOCK_NEXT_SWIPE > this.state.timeStampLastSwipe && event.keyCode === 39){
-            let newElements = this.state.streamElements.map(element => {
-                return {position: element.position-1,
-                        id: element.id,
-                        show: element.position-1 === 0 ? 'right' : 'show'}
-            });
-            if(newElements[0].position < 0) {
-                newElements.shift();
-                newElements.push({position: 20, id: `${this.state.nextId}`, show: 'show'})
-            }
-            const nextId = this.state.nextId+1;
-            this.setState({
-                nextId: nextId,
-                streamElements: newElements,
-                timeStampLastSwipe: currentTimestamp
-            });
         }
     }
 
