@@ -50,6 +50,13 @@ class Chat extends Component {
         })
       : [];
 
+    console.log(
+      `loaded: ${this.state.recentChatsLoaded}
+       found: ${this.state.recentChats.filter(x => {
+         return x.chatId === this.state.currentChatId;
+       })}`
+    );
+
     const messages =
       this.state.recentChatsLoaded &&
       this.state.recentChats.includes(x => {
@@ -66,6 +73,8 @@ class Chat extends Component {
 
     const styleClasses = [classes.Chat];
     if (this.props.showing !== true) styleClasses.push(classes.OutLeft);
+
+    console.log(messages);
 
     return (
       <div className={styleClasses.join(" ")}>
