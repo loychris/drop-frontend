@@ -50,16 +50,9 @@ class Chat extends Component {
         })
       : [];
 
-    console.log(
-      `loaded: ${this.state.recentChatsLoaded}
-       found: ${this.state.recentChats.filter(x => {
-         return x.chatId === this.state.currentChatId;
-       })}`
-    );
-
     const messages =
       this.state.recentChatsLoaded &&
-      this.state.recentChats.includes(x => {
+      this.state.recentChats.some(x => {
         return x.chatId === this.state.currentChatId;
       })
         ? this.state.recentChats
