@@ -6,6 +6,7 @@
     "@types/react-transition-group": "^4.2.3",
     "axios": "^0.19.2",
     "css-loader": "^3.4.2",
+    "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-lazy-load-image-component": "^1.4.1",

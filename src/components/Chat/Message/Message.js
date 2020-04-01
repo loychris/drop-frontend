@@ -1,23 +1,25 @@
-import React, { Component } from 'react';
-import classes from './Message.module.css';
+import React, { Component } from "react";
+import classes from "./Message.module.css";
 
 class Message extends Component {
-    render() {
+  render() {
+    let styleClasses = [classes.MessageContainer];
+    styleClasses.push(this.props.sent ? classes.SentMsg : classes.ReceivedMsg);
 
-        let styleClasses = [classes.Message];
-        styleClasses.push(this.props.user 
-            ? classes.UserMsg 
-            : classes.OtherMsg);
+    let sender = this.props.sent ? (
+      []
+    ) : (
+      <span className={classes.Sender}>{this.props.sender}</span>
+    );
 
-        console.log(this.props);
-        
-
-        return(
-            <div className={styleClasses.join(' ')}>
-                {this.props.message}
-            </div>
-        )
-    }
+    return (
+      <div className={styleClasses.join(" ")}>
+        {sender}
+        <p className={classes.Message}>{this.props.message}</p>
+        <span className={classes.Time}>{this.props.time}</span>
+      </div>
+    );
+  }
 }
 
-export default Message; 
+export default Message;

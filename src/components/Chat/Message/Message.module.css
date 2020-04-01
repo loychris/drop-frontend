@@ -1,12 +1,37 @@
+.MessageContainer {
+    clear: both;
+    position: relative;
+    word-wrap: break-word;
+    padding: 3px 3px;
+    margin: 3px;
+    color: #ffffff;
+}
+
+.SentMsg {
+    border-radius: 10px 0px 10px 10px;
+    float: right;
+    background-color: #11192c;
+}
+
+.ReceivedMsg {
+    border-radius: 0px 10px 10px 10px;
+    float: left;
+    background-color: #11192c;
+}
+
 .Message {
-    position: relative; 
+    margin: 0px 15px;
 }
 
-.UserMsg {
-    right: 0px;
+.Sender {
+    font-weight: bold;
+    font-size: 9pt;
+    margin: 0px 15px 0px 0px;
 }
 
-.OtherMsg {
-    left: 0px;
+.Time {
+    float: right;
+    color: #c4c4c4;
+    font-size: 8pt;
+    font-weight: bold;
 }
-

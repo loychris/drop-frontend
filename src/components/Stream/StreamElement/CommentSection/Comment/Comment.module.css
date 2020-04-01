@@ -5,7 +5,7 @@
 .Comment {
     min-height: 50px;
     padding-bottom: 20px;
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 
 .Atlas {
@@ -14,14 +14,6 @@
     left: 11px;
 }
 
-.VotingDummy {
-    height: 57.5px; 
-    width: 45px;
-    margin: 0px 0px 0px 10px;
-    background-color: red;
-    float: right;
-    clear: right;
-}
 
 .actualComment {
     left: 40px;
@@ -44,7 +36,7 @@
 
 .CommentBackground {
     padding: 3px 5px 3px 15px;
-    border-radius: 14px; 
+    border-radius: 14px;
     min-height: 55px;
     margin-left: 42px;
     position: relative;
@@ -57,11 +49,11 @@
 
 .CommentBackgroundNeumorphism {
     background-color: rgb(17, 25, 44);
-    box-shadow: -4px -4px 5px rgba(255, 255, 255, 0.04), 
-                 4px  4px 5px rgba(  0,   0,   0, 0.25); 
+    box-shadow: -4px -4px 5px rgba(255, 255, 255, 0.04),
+        4px 4px 5px rgba(0, 0, 0, 0.25);
 }
 
-.SpeechBubbleArrow{
+.SpeechBubbleArrow {
     position: absolute;
     left: -14px;
     top: 4px;

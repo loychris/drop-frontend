@@ -1,49 +1,40 @@
 .Navigation {
-    position: fixed;
-    top: 20px; 
-    z-index: 400; 
-    text-align: center; 
+  position: fixed;
+  top: 20px;
+  z-index: 100;
+  text-align: center;
 }
 
 .Navigation ul {
-    margin: 0px; 
+  margin: 0px;
 }
 
 .Navigation li {
-    display: inline-block; 
-    list-style: none;
-
+  display: inline-block;
+  list-style: none;
 }
 
 /*/////////////////////////////*/
 .Navigation span {
-    text-decoration: none; 
-    color: #ffffff;
-    padding: 10px 20px 10px 20px;
-    width: 80px; 
-    transition:  0.3s ease;
+  color: #ffffff;
+  padding: 10px 20px 10px 20px;
+  width: 80px;
+  transition: 0.3s ease;
 }
+
 /*/////////////////////////////*/
 
-/* .Navigation a {
-    text-decoration: none; 
-    color: #ffffff;
-    padding: 10px 20px 10px 20px;
-    width: 80px; 
-    transition:  0.3s ease;
-} */
-
-.active{
-    font-weight: bold;
-    font-size: 20pt;
-    border-bottom: 2px solid #0059ff;
-    cursor: pointer;
+.active {
+  font-weight: bold;
+  font-size: 20pt;
+  border-bottom: 2px solid #0059ff;
+  cursor: pointer;
 }
 
-.inactive{
-    cursor: pointer;
+.inactive {
+  cursor: pointer;
 }
 
-.Navigation a:hover{
-    cursor: pointer; 
+.Navigation a:hover {
+  cursor: pointer;
 }
