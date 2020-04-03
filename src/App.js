@@ -5,14 +5,14 @@ import axios from "axios";
 import Stream from "./components/Stream/Stream";
 import Chat from "./components/Chat/Chat";
 import Navigation from "./components/Navigation/Navigation";
-// import arrowKeys from './SVGs/ArrowKeys.svg';
-// import useWindowDimensions from './components/useWindowDimensions/userWindowDimensions'
+import Drop from "./components/Drop/Drop";
 
 class App extends Component {
   state = {
     currentlyShowing: "stream",
     contacts: [],
-    loadedContacts: false
+    loadedContacts: false,
+    darkmode: true
   };
 
   componentDidMount() {
@@ -22,14 +22,6 @@ class App extends Component {
       });
     }
   }
-
-  //const { height, width } = useWindowDimensions();
-  // const { width } = useWindowDimensions();
-  // const offSet = `${(width-700)/4-0.05*width}px`;
-  /* <div className='ArrowKeys'>
-          <img className='ArrowKeysLeft' src={arrowKeys} style={{marginLeft: offSet}} alt=''/>
-          <img className='ArrowKeysRight' src={arrowKeys} style={{marginRight: offSet}} alt=''/>
-        </div>   */
 
   changeTab = show => {
     this.setState({ currentlyShowing: show });
@@ -43,22 +35,25 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <div className="Background"></div>
-          <header className="AppHeader"></header>
+          <div darkmode={this.state.darkmode} className="Background"></div>
           <Navigation
+            darkmode={this.state.darkmode}
             changeTab={this.changeTab}
             showing={this.state.currentlyShowing}
           />
           <Stream
+            darkmode={this.state.darkmode}
             send={this.send}
             loaded={this.state.loadedContacts}
             contacts={this.state.contacts}
             showing={this.state.currentlyShowing === "stream"}
           />
           <Chat
+            darkmode={this.state.darkmode}
             contacts={this.state.contacts}
             showing={this.state.currentlyShowing === "chat"}
           />
+          <Drop />
           {/* <Route path='/' exact component={Stream}/> 
           <Route path='/chat' exact component={Chat}/> */}
         </div>

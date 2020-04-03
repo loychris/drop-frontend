@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 
 class Navigation extends Component {
   render() {
+    
     return (
       <div className={classes.Navigation}>
         <nav>
