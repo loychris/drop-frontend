@@ -1,4 +1,5 @@
 .Container {
+    z-index: 100;
     height: 100vh;
     width: 100vh;
     position: fixed;
@@ -12,6 +13,7 @@
 }
 
 .Drop {
+    z-index: 100;
     position: fixed;
     top: 0px;
     right: -50px;
