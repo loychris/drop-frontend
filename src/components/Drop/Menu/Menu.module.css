@@ -1,0 +1,8 @@
+.Menu {
+    border: 1px solid green;
+    width: 300px;
+    position: absolute;
+    right: 0px;
+    top: 250px;
+
+}

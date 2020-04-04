@@ -8,37 +8,29 @@ class Chat extends Component {
   state = {
     searchBarValue: "",
     currentChatId: 0,
-    recentChats: [],
-    recentChatsLoaded: false
   };
 
-  componentDidMount() {
-    if (!this.state.recentChatsLoaded) {
-      axios.get("/recentchats").then(response => {
-        this.setState({ recentChatsLoaded: true, recentChats: response.data });
-      });
-    }
-  }
-
-  changeChat = newChatId => {
+  changeChat = (newChatId) => {
     console.log("Changing chat to ", newChatId);
     this.setState({ currentChatId: newChatId });
   };
 
   render() {
-    const recentChats = this.state.recentChats.map(x => {
-      return (
-        <ChatPrev
-          active={this.state.currentChatId === x.chatId}
-          changeChat={this.changeChat}
-          key={x.chatId}
-          {...x}
-        />
-      );
-    });
+    const recentChats = this.props.chats
+      ? this.props.chats.map((x) => {
+          return (
+            <ChatPrev
+              active={this.state.currentChatId === x.chatId}
+              changeChat={this.changeChat}
+              key={x.chatId}
+              {...x}
+            />
+          );
+        })
+      : [];
 
     const contacts = this.props.contacts
-      ? this.props.contacts.map(x => {
+      ? this.props.contacts.map((x) => {
           return (
             <ChatPrev
               active={this.state.currentChatId === x.id}
@@ -50,24 +42,18 @@ class Chat extends Component {
         })
       : [];
 
-    const messages =
-      this.state.recentChatsLoaded &&
-      this.state.recentChats.some(x => {
-        return x.chatId === this.state.currentChatId;
-      })
-        ? this.state.recentChats
-            .find(x => x.chatId === this.state.currentChatId)
-            .latestMessages.map(x => {
-              return (
-                <Message changeChat={this.changeChat} key={x.msgId} {...x} />
-              );
-            })
-        : [];
+    const messages = this.props.loadedChats
+      ? this.props.chats
+          .find((x) => {
+            return x.chatId === this.state.currentChatId;
+          })
+          .latestMessages.map((x) => {
+            return <Message {...x} key={x.msgId} />;
+          })
+      : ["There are no chats"];
 
     const styleClasses = [classes.Chat];
     if (this.props.showing !== true) styleClasses.push(classes.OutLeft);
-
-    console.log(messages);
 
     return (
       <div className={styleClasses.join(" ")}>
@@ -78,7 +64,16 @@ class Chat extends Component {
         </div>
         <div className={classes.ChatWindow}>
           <div className={classes.Messages}>{messages}</div>
-          <div className={classes.TextField}></div>
+          <div className={classes.TextField}>
+            <button
+              onClick={() => {
+                console.log("sending");
+                this.props.send("Test message", this.state.currentChatId);
+              }}
+            >
+              send
+            </button>
+          </div>
         </div>
       </div>
     );

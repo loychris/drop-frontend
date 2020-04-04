@@ -4,13 +4,12 @@ import { NavLink } from "react-router-dom";
 
 class Navigation extends Component {
   render() {
-    
     return (
       <div className={classes.Navigation}>
         <nav>
           <ul>
             <li>
-              <NavLink style={{ textDecoration: "none" }} to="chat">
+              <NavLink style={{ textDecoration: "none" }} to="/chat">
                 <span
                   className={
                     this.props.showing === "chat"

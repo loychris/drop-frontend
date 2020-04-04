@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import classes from "./Drop.module.css";
+import Menu from "./Menu/Menu";
 
 class Drop extends Component {
   constructor(props) {
@@ -156,6 +157,7 @@ class Drop extends Component {
             []
           )}
         </div>
+        {this.state.activated ? <Menu /> : []}
       </div>
     );
   }

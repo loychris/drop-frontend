@@ -1,15 +1,12 @@
 .Container {
     z-index: 100;
-    height: 100vh;
-    width: 100vh;
-    position: fixed;
+    margin-top: -56px;
 }
 
 .Overlay {
     position: fixed;
     height: 100vh;
     width: 100vw;
-    margin-top: -56px;
 }
 
 .Drop {
@@ -20,17 +17,12 @@
     justify-content: center;
     align-items: center;
     transition: all 0.1s ease;
+    cursor: pointer;
 }
 
-.Shadow {}
 
 .Drop:hover {
     transform: scale(1.2);
-}
-
-.Drop:hover .Shadow {
-    /* transform: translateY(-5px); */
-    cy: 224.615
 }
 
 .Drop:hover .eye {

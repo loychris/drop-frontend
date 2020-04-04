@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import classes from "./ChatPrev.module.css";
 import DefaultProfilePic from "../../../media/DefaultProfilePic.png";
 import DefaultGroupPic from "../../../media/DefaultGroupPic.png";
-import { NavLink } from "react-router-dom";
 
 class ChatPrev extends Component {
   render() {
