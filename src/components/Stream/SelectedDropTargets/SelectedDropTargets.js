@@ -7,7 +7,7 @@ class SelectedDropTargets extends Component {
   render() {
     let selectedTargets =
       this.props.selectedTargets && this.props.selectedTargets.length > 0
-        ? this.props.selectedTargets.map(x => {
+        ? this.props.selectedTargets.map((x) => {
             return (
               <FriendsListItem
                 clicked={this.props.unselectTarget}
@@ -23,7 +23,7 @@ class SelectedDropTargets extends Component {
         : [];
 
     let buttonString = this.props.selectedTargets
-      .map(x => {
+      .map((x) => {
         return x.name;
       })
       .join(", ");
@@ -33,7 +33,7 @@ class SelectedDropTargets extends Component {
 
     return (
       <div>
-        <h2>Drop it to: </h2>
+        <h2>Drop to: </h2>
         <div className={classes.SelectedTargetsList}>
           {selectedTargets}
           <DropButton
@@ -41,7 +41,7 @@ class SelectedDropTargets extends Component {
               this.props.sendMessage({
                 type: "drop",
                 postId: this.props.currentPostId,
-                targets: this.props.selectedTargets
+                targets: this.props.selectedTargets,
               });
             }}
           >

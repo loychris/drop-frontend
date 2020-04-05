@@ -1,0 +1,40 @@
+.Menu {
+    width: 300px;
+    position: absolute;
+    right: 0px;
+    top: 250px;
+    background-color: #11192c;
+    color: #ffffff;
+    border-bottom: 4px solid #000000;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding: 20px;
+}
+
+.Menu h2 {
+    margin: 0px;
+    text-align: left;
+    padding-bottom: 8px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ffffff;
+}
+
+.Menu ul {
+    list-style-type: none;
+    padding: 0px;
+}
+
+.Menu ul li {
+    border-bottom: 2px solid #000000;
+    background-color: rgba(0, 2, 10, 0.6);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.TourButton {
+    font-size: 18pt;
+    margin: 0px;
+    text-shadow: 0px 0px 5px black;
+    font-family: 'Baloo 2'
+}

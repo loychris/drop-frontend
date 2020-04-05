@@ -5,7 +5,7 @@ import axios from "axios";
 import Stream from "./components/Stream/Stream";
 import Chat from "./components/Chat/Chat";
 import Navigation from "./components/Navigation/Navigation";
-import Drop from "./components/Drop/Drop";
+import Assistant from "./components/Assistant/Assistant";
 
 class App extends Component {
   state = {
@@ -80,7 +80,7 @@ class App extends Component {
             contacts={this.state.contacts}
             showing={this.state.currentlyShowing === "chat"}
           />
-          <Drop />
+          <Assistant />
           {/* <Route path='/' exact component={Stream}/> 
           <Route path='/chat' exact component={Chat}/> */}
         </div>

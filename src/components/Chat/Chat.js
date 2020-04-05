@@ -8,11 +8,16 @@ class Chat extends Component {
   state = {
     searchBarValue: "",
     currentChatId: 0,
+    textValue: "initial Message",
   };
 
   changeChat = (newChatId) => {
     console.log("Changing chat to ", newChatId);
     this.setState({ currentChatId: newChatId });
+  };
+
+  upadeChatValue = (event) => {
+    this.setState({ textValue: event.target.value });
   };
 
   render() {
@@ -50,7 +55,7 @@ class Chat extends Component {
           .latestMessages.map((x) => {
             return <Message {...x} key={x.msgId} />;
           })
-      : ["There are no chats"];
+      : [];
 
     const styleClasses = [classes.Chat];
     if (this.props.showing !== true) styleClasses.push(classes.OutLeft);
@@ -65,10 +70,15 @@ class Chat extends Component {
         <div className={classes.ChatWindow}>
           <div className={classes.Messages}>{messages}</div>
           <div className={classes.TextField}>
+            <imput
+              type="textArea"
+              value={this.state.textValue}
+              onChange={this.upadeChatValue}
+            />
             <button
               onClick={() => {
                 console.log("sending");
-                this.props.send("Test message", this.state.currentChatId);
+                this.props.send(this.state.textValue, this.state.currentChatId);
               }}
             >
               send

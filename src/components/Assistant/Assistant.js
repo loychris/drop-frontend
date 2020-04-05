@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import classes from "./Drop.module.css";
+import classes from "./Assistant.module.css";
 import Menu from "./Menu/Menu";
 
-class Drop extends Component {
+class Assistant extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,7 +10,8 @@ class Drop extends Component {
       width: 0,
       height: 0,
       mouseX: 0,
-      mouseY: 0
+      mouseY: 0,
+      pos: [93, 21],
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
@@ -114,19 +115,28 @@ class Drop extends Component {
     );
   };
 
-  onMouseMove = event => {
+  onMouseMove = (event) => {
     this.setState({
       mouseX: event.screenX,
-      mouseY: event.screenY
+      mouseY: event.screenY,
     });
   };
 
-  getStyles = () => {
+  //LeftEye:  1785 208
+  //RightEye: 1825 208
+  //Middle:   1803 208    93vw 21vh
+  calcStyles = (left) => {
     const { width, height, mouseX, mouseY } = this.state;
-    const x = (mouseX / width - 1.2) * 15;
-    const y = (mouseY / height - 0.1) * 15;
+    const diffX = (mouseX / width) * 100 - this.state.pos[0];
+    const diffY = (mouseY / height) * 100 - this.state.pos[1];
+    const X =
+      ((left ? 1 + (0.8 - mouseX / width) : 1 + (1 - mouseX / width)) /
+        Math.sqrt(diffX * diffX + diffY * diffY)) *
+      diffX;
+    const Y = (1 / Math.sqrt(diffX * diffX + diffY * diffY)) * diffY;
+
     return {
-      transform: `translate(${x}px, ${y}px)`
+      transform: `translate(${X}vh, ${Y}vh)`,
     };
   };
 
@@ -136,31 +146,46 @@ class Drop extends Component {
   };
 
   render() {
+    const menu = this.state.activated ? (
+      <Menu onMouseMove={this.onMouseMove.bind(this)} />
+    ) : (
+      []
+    );
+    const eyes = this.state.activated ? (
+      <div className={classes.eyes}>
+        <div style={this.calcStyles(true)} className={classes.eye}></div>
+        <div style={this.calcStyles()} className={classes.eye}></div>
+      </div>
+    ) : (
+      []
+    );
+    const overlay = this.state.activated ? (
+      <div
+        onMouseMove={this.onMouseMove.bind(this)}
+        className={classes.Overlay}
+        onClick={this.onOff}
+      ></div>
+    ) : (
+      []
+    );
+
     return (
       <div className={classes.Container}>
-        {this.state.activated ? (
-          <div
-            onMouseMove={this.onMouseMove.bind(this)}
-            className={classes.Overlay}
-          ></div>
-        ) : (
-          []
-        )}
-        <div onClick={this.onOff} className={classes.Drop}>
+        {overlay}
+        <div
+          onMouseMove={this.onMouseMove.bind(this)}
+          onClick={this.onOff}
+          className={classes.Assistant}
+          backgroundImage={this.getLogoBackground()}
+        >
           {this.getLogoBackground()}
-          {this.state.activated ? (
-            <div className={classes.eyes}>
-              <div style={this.getStyles()} className={classes.eye}></div>
-              <div style={this.getStyles()} className={classes.eye}></div>
-            </div>
-          ) : (
-            []
-          )}
+          {eyes}
         </div>
-        {this.state.activated ? <Menu /> : []}
+
+        {menu}
       </div>
     );
   }
 }
 
-export default Drop;
+export default Assistant;
