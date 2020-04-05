@@ -129,11 +129,8 @@ class Assistant extends Component {
     const { width, height, mouseX, mouseY } = this.state;
     const diffX = (mouseX / width) * 100 - this.state.pos[0];
     const diffY = (mouseY / height) * 100 - this.state.pos[1];
-    const X =
-      ((left ? 1 + (0.8 - mouseX / width) : 1 + (1 - mouseX / width)) /
-        Math.sqrt(diffX * diffX + diffY * diffY)) *
-      diffX;
-    const Y = (1 / Math.sqrt(diffX * diffX + diffY * diffY)) * diffY;
+    const X = (0.8 / Math.sqrt(diffX * diffX + diffY * diffY)) * diffX;
+    const Y = (0.5 / Math.sqrt(diffX * diffX + diffY * diffY)) * diffY;
 
     return {
       transform: `translate(${X}vh, ${Y}vh)`,
