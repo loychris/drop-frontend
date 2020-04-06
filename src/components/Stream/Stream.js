@@ -35,39 +35,39 @@ class Stream extends Component {
       { position: 17, show: "show", id: "17" },
       { position: 18, show: "show", id: "18" },
       { position: 19, show: "show", id: "19" },
-      { position: 20, show: "show", id: "20" }
+      { position: 20, show: "show", id: "20" },
     ],
-    currentlyDropping: false,
+    currentlyDropping: true,
     selectedTargets: [],
     initialPageLoad: true,
     timeStampLastSwipe: 0,
-    currentPostId: 4
+    currentPostId: 4,
   };
 
   componentDidMount() {
     document.addEventListener("keyup", this.swipeHandler, false);
   }
 
-  drop = msg => {
+  drop = (msg) => {
     this.props.send(msg);
     this.setState({
       currentlyDropping: false,
-      selectedTargets: []
+      selectedTargets: [],
     });
   };
 
-  swipeHandler = event => {
+  swipeHandler = (event) => {
     const currentTimestamp = Date.now();
     if (
       this.props.showing &&
       currentTimestamp - TIME_BLOCK_NEXT_SWIPE > this.state.timeStampLastSwipe
     ) {
       if (event.keyCode === 37) {
-        let newElements = this.state.streamElements.map(element => {
+        let newElements = this.state.streamElements.map((element) => {
           return {
             position: element.position - 1,
             id: element.id,
-            show: element.position - 1 === 0 ? "left" : "show"
+            show: element.position - 1 === 0 ? "left" : "show",
           };
         });
         if (newElements[0].position < 0) {
@@ -75,21 +75,21 @@ class Stream extends Component {
           newElements.push({
             position: 20,
             id: `${this.state.nextId}`,
-            show: "show"
+            show: "show",
           });
         }
         const nextId = this.state.nextId + 1;
         this.setState({
           nextId: nextId,
           streamElements: newElements,
-          timeStampLastSwipe: currentTimestamp
+          timeStampLastSwipe: currentTimestamp,
         });
       } else if (event.keyCode === 39) {
-        let newElements = this.state.streamElements.map(element => {
+        let newElements = this.state.streamElements.map((element) => {
           return {
             position: element.position - 1,
             id: element.id,
-            show: element.position - 1 === 0 ? "right" : "show"
+            show: element.position - 1 === 0 ? "right" : "show",
           };
         });
         if (newElements[0].position < 0) {
@@ -97,23 +97,23 @@ class Stream extends Component {
           newElements.push({
             position: 20,
             id: `${this.state.nextId}`,
-            show: "show"
+            show: "show",
           });
         }
         const nextId = this.state.nextId + 1;
         this.setState({
           nextId: nextId,
           streamElements: newElements,
-          timeStampLastSwipe: currentTimestamp
+          timeStampLastSwipe: currentTimestamp,
         });
       }
     }
   };
 
-  selectTargetHandler = id => {
-    let target = this.props.contacts.filter(x => x.id === id)[0];
+  selectTargetHandler = (id) => {
+    let target = this.props.contacts.filter((x) => x.id === id)[0];
     target.selected = true;
-    let targetsNew = this.props.contacts.filter(x => x.id !== id);
+    let targetsNew = this.props.contacts.filter((x) => x.id !== id);
     targetsNew.unshift(target);
     let selectedTargetsNew = this.state.selectedTargets;
     selectedTargetsNew.unshift(target);
@@ -123,16 +123,16 @@ class Stream extends Component {
     this.setState({ targets: targetsNew, selectedTargets: selectedTargetsNew });
   };
 
-  unselectTargetHandler = id => {
-    let target = this.state.selectedTargets.filter(x => x.id === id)[0];
+  unselectTargetHandler = (id) => {
+    let target = this.state.selectedTargets.filter((x) => x.id === id)[0];
     target.selected = false;
-    let targetsNew = this.props.contacts.filter(x => x.id !== id);
+    let targetsNew = this.props.contacts.filter((x) => x.id !== id);
     targetsNew.unshift(target);
     targetsNew.sort((x, y) => {
       return x.name > y.name ? 1 : -1;
     });
     let selectedTargetsNew = this.state.selectedTargets.filter(
-      x => x.id !== id
+      (x) => x.id !== id
     );
     this.setState({ targets: targetsNew, selectedTargets: selectedTargetsNew });
   };
@@ -141,7 +141,7 @@ class Stream extends Component {
     this.setState({ currentlyDropping: false });
   };
 
-  droppingHandler = id => {
+  droppingHandler = (id) => {
     this.setState({ currentlyDropping: true });
   };
 
@@ -151,7 +151,7 @@ class Stream extends Component {
 
   render = () => {
     let StreamElements = [];
-    this.state.streamElements.forEach(element => {
+    this.state.streamElements.forEach((element) => {
       StreamElements.unshift(
         <StreamElement
           show={element.show}

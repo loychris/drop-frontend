@@ -144,7 +144,7 @@ class Assistant extends Component {
 
   render() {
     const menu = this.state.activated ? (
-      <Menu onMouseMove={this.onMouseMove.bind(this)} />
+      <Menu theme="light" onMouseMove={this.onMouseMove.bind(this)} />
     ) : (
       []
     );
@@ -173,7 +173,6 @@ class Assistant extends Component {
           onMouseMove={this.onMouseMove.bind(this)}
           onClick={this.onOff}
           className={classes.Assistant}
-          backgroundImage={this.getLogoBackground()}
         >
           {this.getLogoBackground()}
           {eyes}

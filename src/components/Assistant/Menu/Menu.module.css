@@ -1,5 +1,5 @@
 .Menu {
-    width: 300px;
+    width: 500px;
     position: absolute;
     right: 0px;
     top: 250px;
@@ -14,9 +14,10 @@
 .Menu h2 {
     margin: 0px;
     text-align: left;
-    padding-bottom: 8px;
+    padding-bottom: 3px;
     margin-bottom: 30px;
-    border-bottom: 1px solid #ffffff;
+    text-align: center;
+    border-bottom: 2px solid #ffffff;
 }
 
 .Menu ul {
@@ -37,4 +38,94 @@
     margin: 0px;
     text-shadow: 0px 0px 5px black;
     font-family: 'Baloo 2'
+}
+
+.MenuItem {
+    margin: 0;
+    border-radius: 10px;
+    padding: 0;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, .3);
+}
+
+.Menu span {
+    /* padding: 10px 20px 10px 20px; */
+    /* width: 80px; */
+    padding: 10px 20px;
+    display: block;
+    transition: .5s ease;
+    color: #273043;
+
+}
+
+.Theme {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin-left: auto;
+
+}
+
+.Dark {
+    padding: 10px 10px 10px 20px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    color: #ffffff;
+    background-color: #202020;
+    box-shadow: inset 3px 3px 5px #000000;
+    display: flex;
+}
+
+.Light {
+    padding: 10px 20px 10px 10px;
+    color: #000000;
+    background-color: #ffffff;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+}
+
+.Active {
+    transition: all .3s ease;
+}
+
+.Inactive {
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.Light.Active {
+    box-shadow: inset 5px 2px 5px #6e6e6e;
+}
+
+.Light.Inactive {
+    box-shadow: inset -5px -5px 5px #6e6e6e;
+}
+
+.Light.Inactive:hover span {
+    color: #526180
+}
+
+.Dark.Active {
+    box-shadow: inset 3px 0px 5px #000000;
+}
+
+.Dark.Inactive {
+    box-shadow: inset -3px -3px 5px #000000;
+}
+
+
+
+.Dark span {
+    padding: 0;
+    padding-right: 10px;
+    color: #ffffff;
+}
+
+.Light span {
+    padding: 0;
+    padding-left: 10px;
+}
+
+.Icon {
+    height: 18px;
 }

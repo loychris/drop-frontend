@@ -1,21 +1,54 @@
 .MenuHeader {
-    margin-top: 10px;
+    margin-top: 0;
     margin-bottom: 25px;
     color: white;
 }
 
 .DropOptionsList {
-    position:relative; 
+    position: relative;
     max-height: 500px;
     overflow-y: scroll;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
     padding: 0px 5px;
 }
 
 .SearchBar {
     width: 100%;
     height: 40px;
-    border-radius: 20px;  
+    border-radius: 20px;
+}
+
+.Options {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-between;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.Options li {
+    width: 32%;
+    text-align: center;
+    color: #ffffff;
+    display: block;
+}
+
+.NoFriends {
+    color: #ffffff;
+    text-align: center;
+}
+
+
+.Active {
+    padding-bottom: 7px;
+    font-weight: bold;
+    border-bottom: 4px solid #ffffff;
+}
+
+.Inactive {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eeeeee;
+    cursor: pointer;
 }
 
 ::-webkit-scrollbar-track {
@@ -23,6 +56,6 @@
 }
 
 ::-webkit-scrollbar {
-    display: none; 
+    display: none;
     width: 10px;
 }
