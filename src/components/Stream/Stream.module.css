@@ -25,6 +25,16 @@
     width: 380px;
   }
 
+.RiverGlow {
+  z-index: 2; 
+  position: absolute; 
+  /* display: block;  */
+  top: 80px; 
+  margin: auto;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .Boat1 {
     position: absolute; 
     top: 33px;

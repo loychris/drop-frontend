@@ -59,8 +59,9 @@ body, html {
 }
 
 .App {
-  background: rgb(0,10,47);
+  /* background: rgb(0,10,47); */
   background: linear-gradient(90deg, #06070c 0%, #323952 50%, #06070c 100%);
+  /* background: #bdaaaa; */
   width: 100vw;
   height: 100vh;
 }
@@ -71,8 +72,8 @@ body, html {
   height: 200vh;
   width: 100vw;
   z-index: -100;
-  background: linear-gradient(90deg, #06070c 0%, #323952 50%, #06070c 100%);
-
+  /* background: linear-gradient(90deg, #06070c 0%, #323952 50%, #06070c 100%); */
+  background: #000000;
 }
 
 

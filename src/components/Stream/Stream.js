@@ -5,6 +5,8 @@ import DropOptionsMenu from "./DropOptionsMenu/DropOptionsMenu";
 import Modal from "../UI/Modal/Modal";
 import SecondModal from "../UI/SecondModal/SecondModal";
 import River from "../../SVGs/River.svg";
+import RiverWhite from "../../SVGs/RiverWhite.svg";
+import RiverGlow from "../../SVGs/RiverGlow.svg";
 import Boat from "../../media/Boat.png";
 import SelectedDropTargets from "./SelectedDropTargets/SelectedDropTargets";
 // import URLs from './URLs.json';
@@ -37,7 +39,7 @@ class Stream extends Component {
       { position: 19, show: "show", id: "19" },
       { position: 20, show: "show", id: "20" },
     ],
-    currentlyDropping: true,
+    currentlyDropping: false,
     selectedTargets: [],
     initialPageLoad: true,
     timeStampLastSwipe: 0,
@@ -189,7 +191,8 @@ class Stream extends Component {
             unselectTarget={this.unselectTargetHandler}
           />
         </SecondModal>
-        <img src={River} alt="" className={classes.River} />
+        <img src={RiverWhite} alt="" className={classes.River} />
+        <img src={RiverGlow} alt="" className={classes.RiverGlow} />
         <img src={Boat} alt="" className={classes.Boat1} />
         <img src={Boat} alt="" className={classes.Boat2} />
         {StreamElements}
