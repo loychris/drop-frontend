@@ -9,6 +9,17 @@ class Chat extends Component {
     searchBarValue: "",
     currentChatId: 0,
     textValue: "initial Message",
+    chats: [{
+      chatId: 0,
+      latestMessages: [
+        {
+          message: 'THis is a chat message',
+          time: new Date(), 
+          sender: "chris",
+          sent: true 
+        }
+      ]
+    }]
   };
 
   changeChat = (newChatId) => {
@@ -20,9 +31,27 @@ class Chat extends Component {
     this.setState({ textValue: event.target.value });
   };
 
+  send = (msg, chatId) => {
+    var today = new Date();
+    console.log(`Sending ${msg} to ${chatId}`);
+    let chatsNew = [...this.state.chats];
+    chatsNew
+      .find((x) => {
+        return x.chatId === chatId;
+      })
+      .latestMessages.push({
+        msgId: 1000000,
+        sent: true,
+        sender: "user",
+        time: today.getHours() + ":" + today.getMinutes(),
+        message: msg,
+      });
+    this.setState({ chats: chatsNew });
+  };
+
   render() {
-    const recentChats = this.props.chats
-      ? this.props.chats.map((x) => {
+    const recentChats = this.state.chats
+      ? this.state.chats.map((x) => {
           return (
             <ChatPrev
               active={this.state.currentChatId === x.chatId}
@@ -48,7 +77,7 @@ class Chat extends Component {
       : [];
 
     const messages = this.props.loadedChats
-      ? this.props.chats
+      ? this.state.chats
           .find((x) => {
             return x.chatId === this.state.currentChatId;
           })
@@ -68,7 +97,9 @@ class Chat extends Component {
           {contacts}
         </div>
         <div className={classes.ChatWindow}>
-          <div className={classes.Messages}>{messages}</div>
+          <div className={classes.Messages}>
+            {messages}
+          </div>
           <div className={classes.TextField}>
             <imput
               type="textArea"

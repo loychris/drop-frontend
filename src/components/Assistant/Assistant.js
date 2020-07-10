@@ -177,7 +177,6 @@ class Assistant extends Component {
           {this.getLogoBackground()}
           {eyes}
         </div>
-
         {menu}
       </div>
     );

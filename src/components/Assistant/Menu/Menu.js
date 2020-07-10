@@ -1,32 +1,40 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../store/actionTypes';
+
+
 import classes from "./Menu.module.css";
 import DropButton from "../../UI/DropButton/DropButton";
+
 
 import Sun from "./Sun.png";
 import Moon from "./Moon.png";
 
 class Menu extends Component {
-  state = {
-    theme: "dark",
-  };
+
 
   changeTheme = (t) => {
     this.setState({ theme: t });
   };
 
   render() {
-    let lightClasses = [classes.Light];
-    let darkClasses = [classes.Dark];
-    lightClasses.push(
-      this.state.theme === "light" ? classes.Active : classes.Inactive
-    );
-    darkClasses.push(
-      this.state.theme === "dark" ? classes.Active : classes.Inactive
-    );
+    let menuClasses = [classes.Menu];
+    let lightButtonClasses = [classes.LightButton];
+    let darkButtonClasses = [classes.DarkButton];
+    if(this.props.darkmode){
+      menuClasses.push(classes.DarkMenu); 
+      darkButtonClasses.push(classes.Active);
+      lightButtonClasses.push(classes.Inactive);
+    } else {
+      menuClasses.push(classes.LightMenu); 
+      lightButtonClasses.push(classes.Active);
+      darkButtonClasses.push(classes.Inactive);
+    }
 
     return (
-      <div className={classes.Menu}>
+      <div className={menuClasses.join(' ')}>
         <h2>Settings</h2>
+        <hr/>
         <ul>
           <li className={classes.MenuItem}>
             <h3>Wtf is going on here?</h3>
@@ -42,15 +50,15 @@ class Menu extends Component {
           <li className={classes.MenuItem}>
             <div className={classes.Theme}>
               <div
-                onClick={() => this.changeTheme("dark")}
-                className={darkClasses.join(" ")}
+                onClick={this.props.onGoDark}
+                className={darkButtonClasses.join(" ")}
               >
                 <span>Dark Mode</span>
                 <img src={Moon} alt="" className={classes.Icon} />
               </div>
               <div
-                onClick={() => this.changeTheme("light")}
-                className={lightClasses.join(" ")}
+                onClick={this.props.onGoLight}
+                className={lightButtonClasses.join(" ")}
               >
                 <img src={Sun} alt="" className={classes.Icon} />
                 <span>Light Mode</span>
@@ -63,4 +71,18 @@ class Menu extends Component {
   }
 }
 
-export default Menu;
+const mapStateToProps = state => {
+  return {
+    darkmode: state.ui.darkmode,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onGoDark: () => dispatch({type: actionTypes.GO_DARK}),
+    onGoLight: () => dispatch({type: actionTypes.GO_LIGHT})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+

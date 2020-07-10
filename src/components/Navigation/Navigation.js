@@ -1,6 +1,11 @@
 import React, { Component } from "react";
-import classes from "./Navigation.module.css";
+import { connect } from 'react-redux';
 import { NavLink } from "react-router-dom";
+
+
+import classes from "./Navigation.module.css";
+
+import * as actionTypes from '../../store/actionTypes';
 
 class Navigation extends Component {
   render() {
@@ -12,12 +17,12 @@ class Navigation extends Component {
               <NavLink style={{ textDecoration: "none" }} to="/chat">
                 <span
                   className={
-                    this.props.showing === "chat"
+                    this.props.openTab === "chat"
                       ? classes.active
                       : classes.inactive
                   }
                   onClick={() => {
-                    this.props.changeTab("chat");
+                    this.props.onSwitchTab("chat");
                   }}
                 >
                   Chat
@@ -28,12 +33,12 @@ class Navigation extends Component {
               <NavLink style={{ textDecoration: "none" }} to="/stream">
                 <span
                   className={
-                    this.props.showing === "stream"
+                    this.props.openTab === "stream"
                       ? classes.active
                       : classes.inactive
                   }
                   onClick={() => {
-                    this.props.changeTab("stream");
+                    this.props.onSwitchTab("stream");
                   }}
                 >
                   Stream
@@ -47,4 +52,16 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation;
+const mapStateToProps = state => {
+  return {
+    openTab: state.ui.openTab
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSwitchTab: (tab) => dispatch({type: actionTypes.SWITCH_TAB, tab: tab}),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

@@ -1,14 +1,22 @@
 .Menu {
-    width: 500px;
+    width: 300px;
     position: absolute;
     right: 0px;
     top: 250px;
-    background-color: #11192c;
-    color: #ffffff;
     border-bottom: 4px solid #000000;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     padding: 20px;
+}
+
+.LightMenu {
+    background-color: lightgrey;
+    color: #000000;
+}
+
+.DarkMenu {
+    background-color: #11192c;
+    color: #ffffff;
 }
 
 .Menu h2 {
@@ -17,7 +25,6 @@
     padding-bottom: 3px;
     margin-bottom: 30px;
     text-align: center;
-    border-bottom: 2px solid #ffffff;
 }
 
 .Menu ul {
@@ -65,7 +72,7 @@
 
 }
 
-.Dark {
+.DarkButton {
     padding: 10px 10px 10px 20px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -75,7 +82,7 @@
     display: flex;
 }
 
-.Light {
+.LightButton {
     padding: 10px 20px 10px 10px;
     color: #000000;
     background-color: #ffffff;
@@ -93,35 +100,35 @@
     transition: all .3s ease;
 }
 
-.Light.Active {
+.LightButton.Active {
     box-shadow: inset 5px 2px 5px #6e6e6e;
 }
 
-.Light.Inactive {
+.LightButton.Inactive {
     box-shadow: inset -5px -5px 5px #6e6e6e;
 }
 
-.Light.Inactive:hover span {
+.LightButton.Inactive:hover span {
     color: #526180
 }
 
-.Dark.Active {
+.DarkButton.Active {
     box-shadow: inset 3px 0px 5px #000000;
 }
 
-.Dark.Inactive {
+.DarkButton.Inactive {
     box-shadow: inset -3px -3px 5px #000000;
 }
 
 
 
-.Dark span {
+.DarkButton span {
     padding: 0;
     padding-right: 10px;
     color: #ffffff;
 }
 
-.Light span {
+.LightButton span {
     padding: 0;
     padding-left: 10px;
 }
