@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+
+import * as actionTypes from '../../store/actionTypes';
 import classes from "./Assistant.module.css";
 import Menu from "./Menu/Menu";
 
@@ -138,17 +141,17 @@ class Assistant extends Component {
   };
 
   onOff = () => {
-    const next = !this.state.activated;
+    const next = !this.props.menuOpen;
     this.setState({ activated: next });
   };
 
   render() {
-    const menu = this.state.activated ? (
+    const menu = this.props.menuOpen ? (
       <Menu theme="light" onMouseMove={this.onMouseMove.bind(this)} />
     ) : (
       []
     );
-    const eyes = this.state.activated ? (
+    const eyes = this.props.menuOpen ? (
       <div className={classes.eyes}>
         <div style={this.calcStyles(true)} className={classes.eye}></div>
         <div style={this.calcStyles()} className={classes.eye}></div>
@@ -156,7 +159,7 @@ class Assistant extends Component {
     ) : (
       []
     );
-    const overlay = this.state.activated ? (
+    const overlay = this.props.menuOpen ? (
       <div
         onMouseMove={this.onMouseMove.bind(this)}
         className={classes.Overlay}
@@ -171,7 +174,7 @@ class Assistant extends Component {
         {overlay}
         <div
           onMouseMove={this.onMouseMove.bind(this)}
-          onClick={this.onOff}
+          onClick={this.props.menuOpen ? this.props.onCloseMenu : this.props.onOpenMenu}
           className={classes.Assistant}
         >
           {this.getLogoBackground()}
@@ -183,4 +186,17 @@ class Assistant extends Component {
   }
 }
 
-export default Assistant;
+const mapStateToProps = state => {
+  return {
+    menuOpen: state.ui.menuOpen
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onOpenMenu: () => dispatch({type: actionTypes.OPEN_MENU}),
+    onCloseMenu: () => dispatch({type: actionTypes.CLOSE_MENU})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Assistant);

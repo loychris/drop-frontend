@@ -11,6 +11,9 @@ export const GO_LIGHT = 'GO_LIGHT';
 export const SWITCH_TAB = 'SWITCH_TAB';
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
+export const OPEN_MENU = 'OPEN_MENU';
+export const CLOSE_MENU = 'CLOSE_MENU';
+
 
 export const SELECT_DROPTARGET = 'SELECT_DROPTARGET';
 export const UNSELECT_DROPTARGET = 'UNSELECT_DROPTARGET';

@@ -3,8 +3,8 @@ import * as actionTypes from '../actionTypes';
 const initialState = {
     darkmode: true,
     modalOpen: false,
-    currentTab: 'stream'
-
+    currentTab: 'stream',
+    menuOpen: false
 }
 
 const reducer = (state = initialState, action ) => {
@@ -34,6 +34,16 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state,
                 modalOpen: false
+            }
+        case actionTypes.OPEN_MENU: 
+            return {
+                ...state,
+                menuOpen: true
+            }
+        case actionTypes.CLOSE_MENU: 
+            return {
+                ...state,
+                menuOpen: false
             }
         default: return state;
     }
