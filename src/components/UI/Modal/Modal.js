@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../store/actionTypes';
 
 import classes from './Modal.module.css';
 import Aux from '../../../hoc/Aux';
@@ -14,18 +16,26 @@ class Modal extends Component {
     render(){
         return(
             <Aux>
-                <Backdrop show={this.props.show} clicked={this.props.modalClosed} />
+                <Backdrop show={this.props.modalOpen} clicked={this.props.onCloseModal} />
                 <div
-                    className={classes.Modal}
-                    style={{
-                        backgorundColor: '#000a2f',
-                        transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
-                        opacity: this.props.show ? '1' : '0'
-                    }}>
+                    className={classes.Modal}>
                     {this.props.children}
                 </div>
             </Aux>
         );
     }
 }
-export default Modal;
+const mapStateToProps = state => {
+    return {
+        modalOpen: state.ui.modalOpen,
+        darkmode: state.ui.darkmode
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      onCloseModal: () => dispatch({type: actionTypes.CLOSE_MODAL}),
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Modal);

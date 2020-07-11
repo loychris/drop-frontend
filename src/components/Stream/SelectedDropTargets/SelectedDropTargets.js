@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../store/actionTypes';
+
+
 import FriendsListItem from "../FriendsListItem/FriendsListItem";
 import classes from "./SelectedDropTargets.Module.css";
 import DropButton from "../../UI/DropButton/DropButton";
@@ -53,4 +57,17 @@ class SelectedDropTargets extends Component {
   }
 }
 
-export default SelectedDropTargets;
+const mapStateToProps = state => {
+  return {
+    selectedTargets: state.stream.selectedTargets,
+    dropTargets: state.stream.dropTargets
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    unselectTarget: (id) => dispatch({type: actionTypes.UNSELECT_DROPTARGET, id: id})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectedDropTargets);

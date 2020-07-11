@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
-import { connect } from 'react-redux';
 import axios from "axios";
-import * as actionTypes from './store/actionTypes'; 
 
 import Stream from "./components/Stream/Stream";
 import Chat from "./components/Chat/Chat";
@@ -34,9 +32,6 @@ class App extends Component {
     }
   }
 
-  changeTab = (show) => {
-    this.setState({ currentlyShowing: show });
-  };
 
   render() {
     console.log('+++++++++++++++++++++++++++++++++++')
@@ -46,9 +41,7 @@ class App extends Component {
         <div className="App">
           <div className="Background"></div>
           {/* <Auth/> */}
-          <Navigation
-            changeTab={this.changeTab}
-          />
+          <Navigation/>
           <Stream
             send={this.send}
             loaded={this.state.loadedContacts}

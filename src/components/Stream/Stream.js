@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
+
+import * as actionTypes from '../../store/actionTypes';
+
 import StreamElement from "./StreamElement/StreamElement";
 import classes from "./Stream.module.css";
-import DropOptionsMenu from "./DropOptionsMenu/DropOptionsMenu";
 import Modal from "../UI/Modal/Modal";
 import SecondModal from "../UI/SecondModal/SecondModal";
 import RiverWhite from "../../SVGs/RiverWhite.svg";
 import RiverGlow from "../../SVGs/RiverGlow.svg";
 import Boat from "../../media/Boat.png";
-import * as actions from '../../store/actions/streamActions.js'
+import DropOptionsMenu from "./DropOptionsMenu/DropOptionsMenu";
 import SelectedDropTargets from "./SelectedDropTargets/SelectedDropTargets";
 // import URLs from './URLs.json';
 
@@ -86,7 +88,7 @@ class Stream extends Component {
   swipeHandler = (event) => {
     const currentTimestamp = Date.now();
     if (
-      this.props.showing &&
+      this.props.currentTab === 'stream' &&
       currentTimestamp - TIME_BLOCK_NEXT_SWIPE > this.state.timeStampLastSwipe
     ) {
       
@@ -125,17 +127,6 @@ class Stream extends Component {
   //   this.setState({ targets: targetsNew, selectedTargets: selectedTargetsNew });
   // };
 
-  abortDroppingHandler = () => {
-    this.setState({ currentlyDropping: false });
-  };
-
-  droppingHandler = (id) => {
-    this.setState({ currentlyDropping: true });
-  };
-
-  dropConfirmedHandler = () => {
-    this.setState({ currentlyDropping: false });
-  };
 
   render = () => {
     let StreamElements = [];
@@ -152,30 +143,24 @@ class Stream extends Component {
     });
 
     const styleClasses = [classes.Stream];
-    if (this.props.showing !== true) {
+    if (this.props.currentTab !== 'stream') {
       styleClasses.push(classes.OutRight);
     }
+
+    const modal = this.props.modalOpen ? 
+      <Modal> 
+        <DropOptionsMenu/> 
+      </Modal> : null; 
+
+    const secondModal = this.props.modalOpen ? 
+      <SecondModal>
+        <SelectedDropTargets/> 
+      </SecondModal> : null; 
+
     return (
       <div className={styleClasses.join(" ")}>
-        {/* <Modal
-          show={this.state.currentlyDropping}
-          modalClosed={this.abortDroppingHandler}
-        > 
-          <DropOptionsMenu
-            selectTarget={this.selectTargetHandler}
-            unselectTarget={this.unselectTargetHandler}
-            targets={this.props.contacts}
-            postID={this.state.streamElements[19].id}
-          />
-        </Modal>
-        <SecondModal show={this.state.currentlyDropping}>
-          <SelectedDropTargets
-            sendMessage={this.drop}
-            currentPostId={this.state.currentPostId}
-            selectedTargets={this.props.selectedTargets}
-            unselectTarget={this.unselectTargetHandler}
-          />
-        </SecondModal>*/}
+        {modal}
+        {secondModal}
         <img src={RiverWhite} alt="" className={classes.River} />
         <img src={RiverGlow} alt="" className={classes.RiverGlow} />
         <img src={Boat} alt="" className={classes.Boat1} />
@@ -188,19 +173,15 @@ class Stream extends Component {
 
 const mapStateToProps = state => {
   return {
-    nextId: state.stream.nextId,
-    streamElements: state.stream.StreamElements,
-    currentlyDropping: state.stream.currentlyDropping,
-    initialPageLoad: state.stream.initialPageLoad,
-    timeStampLastSwipe: state.stream.timeStampLastSwipe,
-    currentPostId: state.stream.currentPostId
+    currentTab: state.ui.currentTab,
+    modalOpen: state.ui.modalOpen
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSwipeLeft: () => dispatch(actions.swipeLeft),
-    onSwipeRight: () => dispatch(actions.swipeRight)
+    onOpenModal: () => dispatch({type: actionTypes.OPEN_MODAL}),
+    onCloseModal: () => dispatch({type: actionTypes.CLOSE_MODAL})
   }
 }
 

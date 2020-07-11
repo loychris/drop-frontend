@@ -1,6 +1,22 @@
 import * as actionTypes from '../actionTypes';
 
 const initialState = {
+    dropTargets: [
+        {
+          selected: true,
+          type: 'group',
+          name: 'Chris Loy',
+          id: 1
+        }
+    ],
+    selectedTargets: [
+        {
+            selected: true,
+            type: 'group',
+            name: 'Chris Loy',
+            id: 1
+        }
+    ],
     StreamElements: [
         { position: 0, show: "left", id: "0" },
         { position: 1, show: "show", id: "1" },
@@ -30,12 +46,34 @@ const initialState = {
     currentPostId: 4
 }
 
-const swipe = () => {
 
-}
 
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
+        case actionTypes.SELECT_DROPTARGET: 
+            console.log(`selecting target ${action.id}`)
+            return {
+                ...state,
+                dropTargets: state.dropTargets.map(x => {
+                    if(x.id === action.id){
+                        state.selectedTargets.push({ ...x, selected: true });
+                        return { ...x, selected: true }
+                    } 
+                    return x;
+                })
+            }
+        case actionTypes.UNSELECT_DROPTARGET:
+            console.log(`selecting target ${action.id}`)
+            return {
+                ...state,
+                selectedTargets: state.selectedTargets.filter(x => x.id !== action.id),
+                dropTargets: state.dropTargets.map(x => {
+                    if(x.id === action.id){
+                        return { ...x, selected: false }
+                    } 
+                    return x;
+                })
+            }
         case actionTypes.SWIPE_LEFT: return state;
         case actionTypes.SWIPE_RIGHT: return state; 
         default: return state;

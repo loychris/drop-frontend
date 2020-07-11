@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import axios from "axios";
+import { connect } from 'react-redux';
+
 import ChatPrev from "./ChatPrev/ChatPrev";
 import classes from "./Chat.module.css";
 import Message from "./Message/Message";
-import axios from "axios";
 
 class Chat extends Component {
   state = {
@@ -87,7 +89,7 @@ class Chat extends Component {
       : [];
 
     const styleClasses = [classes.Chat];
-    if (this.props.showing !== true) styleClasses.push(classes.OutLeft);
+    if (this.props.currentTab !== 'chat') styleClasses.push(classes.OutLeft);
 
     return (
       <div className={styleClasses.join(" ")}>
@@ -121,4 +123,16 @@ class Chat extends Component {
   }
 }
 
-export default Chat;
+const mapStateToProps = state => {
+  return {
+    currentTab: state.ui.currentTab,
+    darkmode: state.ui.currentTab
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);

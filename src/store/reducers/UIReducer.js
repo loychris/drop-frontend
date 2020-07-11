@@ -2,7 +2,9 @@ import * as actionTypes from '../actionTypes';
 
 const initialState = {
     darkmode: true,
-    openTab: 'stream'
+    modalOpen: false,
+    currentTab: 'stream'
+
 }
 
 const reducer = (state = initialState, action ) => {
@@ -21,9 +23,18 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SWITCH_TAB: 
             return {
                 ...state,
-                openTab: action.tab
+                currentTab: action.tab
             }
-
+        case actionTypes.OPEN_MODAL: 
+            return {
+                ...state,
+                modalOpen: true
+            }
+        case actionTypes.CLOSE_MODAL: 
+            return {
+                ...state,
+                modalOpen: false
+            }
         default: return state;
     }
 }

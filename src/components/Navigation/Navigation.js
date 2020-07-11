@@ -17,7 +17,7 @@ class Navigation extends Component {
               <NavLink style={{ textDecoration: "none" }} to="/chat">
                 <span
                   className={
-                    this.props.openTab === "chat"
+                    this.props.currentTab === "chat"
                       ? classes.active
                       : classes.inactive
                   }
@@ -33,7 +33,7 @@ class Navigation extends Component {
               <NavLink style={{ textDecoration: "none" }} to="/stream">
                 <span
                   className={
-                    this.props.openTab === "stream"
+                    this.props.currentTab === "stream"
                       ? classes.active
                       : classes.inactive
                   }
@@ -54,7 +54,8 @@ class Navigation extends Component {
 
 const mapStateToProps = state => {
   return {
-    openTab: state.ui.openTab
+    currentTab: state.ui.currentTab,
+    darkmode: state.ui.darkmode
   }
 }
 

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../store/actionTypes';
 
 import Aux from "../../../hoc/Aux";
 import FriendsListItem from "../FriendsListItem/FriendsListItem";
@@ -45,8 +47,8 @@ class DropOptionsMenu extends Component {
         <path
           d="M67 146.449C67 146.449 76.8426 149.797 80.6062 154.757C84.2264 159.527 85 169.449 85 169.449"
           stroke="#48656F"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M163.208 157.712C163.735 159.712 179.596 180.212 179.596 180.212C179.596 180.212 153.096 166.712 146.596 163.712C140.096 160.712 125.096 172.212 139.096 180.212C153.096 188.212 187.266 201.573 187.266 201.573C187.266 201.573 202.596 206.712 199.721 195.501C196.845 184.289 169.096 141.212 167.825 139.212C166.554 137.212 162.682 155.712 163.208 157.712Z"
@@ -55,7 +57,7 @@ class DropOptionsMenu extends Component {
         <path
           d="M135.407 146.449C135.407 146.449 125.564 149.797 121.8 154.757C118.18 159.527 117.407 169.449 117.407 169.449"
           stroke="#48656F"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <defs>
           <linearGradient
@@ -66,8 +68,8 @@ class DropOptionsMenu extends Component {
             y2="9.00001"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#677AD4" />
-            <stop offset="1" stop-color="#A7EBFA" />
+            <stop stopColor="#677AD4" />
+            <stop offset="1" stopColor="#A7EBFA" />
           </linearGradient>
           <radialGradient
             id="paint1_radial"
@@ -77,26 +79,27 @@ class DropOptionsMenu extends Component {
             gradientUnits="userSpaceOnUse"
             gradientTransform="translate(104.5 223.5) rotate(90) scale(23.5 97.5)"
           >
-            <stop stop-color="#AFAFAF" stop-opacity="0.72" />
+            <stop stopColor="#AFAFAF" stopOpacity="0.72" />
             <stop
               offset="0.0001"
-              stop-color="#BFBFBF"
-              stop-opacity="0.607348"
+              stopColor="#BFBFBF"
+              stopOpacity="0.607348"
             />
             <stop
               offset="0.539302"
-              stop-color="#CFCFCF"
-              stop-opacity="0.489212"
+              stopColor="#CFCFCF"
+              stopOpacity="0.489212"
             />
-            <stop offset="1" stop-color="white" stop-opacity="0" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
           </radialGradient>
         </defs>
       </svg>
     );
   };
 
+
   getFriendsList = () => {
-    let targets = this.props.targets;
+    let targets = this.props.dropTargets;
     if (this.state.searchBarValue !== "") {
       return targets
         .filter((x) => {
@@ -108,10 +111,8 @@ class DropOptionsMenu extends Component {
           return (
             <FriendsListItem
               clicked={
-                x.selected ? this.props.unselectTarget : this.props.selectTarget
-              }
+                x.selected ? () => this.props.onUnSelectDropTarget(x.id) : () => this.props.onSelectDropTarget(x.id)              }
               type={x.type}
-              profilePic={x.profilePic}
               selected={x.selected}
               name={x.name}
               id={x.id}
@@ -124,7 +125,7 @@ class DropOptionsMenu extends Component {
       return (
         <FriendsListItem
           clicked={
-            x.selected ? this.props.unselectTarget : this.props.selectTarget
+            x.selected ? () => this.props.onUnSelectDropTarget(x.id) : () => this.props.onSelectDropTarget(x.id)
           }
           type={x.type}
           profilePic={x.profilePic}
@@ -160,30 +161,17 @@ class DropOptionsMenu extends Component {
         <ul className={classes.Options}>
           <li
             onClick={() => this.selectOption("recent chats")}
-            className={
-              this.state.active === "recent chats"
-                ? classes.Active
-                : classes.Inactive
-            }
-          >
+            className={ this.state.active === "recent chats" ? classes.Active : classes.Inactive }>
             Recent
           </li>
           <li
             onClick={() => this.selectOption("friends")}
-            className={
-              this.state.active === "friends"
-                ? classes.Active
-                : classes.Inactive
-            }
-          >
+            className={ this.state.active === "friends" ? classes.Active : classes.Inactive }>
             Friends
           </li>
           <li
             onClick={() => this.selectOption("groups")}
-            className={
-              this.state.active === "groups" ? classes.Active : classes.Inactive
-            }
-          >
+            className={ this.state.active === "groups" ? classes.Active : classes.Inactive }>
             Groups
           </li>
         </ul>
@@ -197,4 +185,18 @@ class DropOptionsMenu extends Component {
     );
   }
 }
-export default DropOptionsMenu;
+const mapStateToProps = state => {
+  return {
+    selectedTargets: state.stream.selectedTargets,
+    dropTargets: state.stream.dropTargets
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSelectDropTarget: (id) => dispatch({type: actionTypes.SELECT_DROPTARGET, id: id}),
+    onUnSelectDropTarget: (id) => dispatch({type: actionTypes.UNSELECT_DROPTARGET, id: id}),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DropOptionsMenu);
