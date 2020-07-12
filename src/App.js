@@ -42,15 +42,8 @@ class App extends Component {
           <div className="Background"></div>
           {/* <Auth/> */}
           <Navigation/>
-          <Stream
-            send={this.send}
-            loaded={this.state.loadedContacts}
-            contacts={this.state.contacts}
-          />
-          <Chat
-            loadedChats={this.state.loadedChats}
-            contacts={this.state.contacts}
-          />
+          <Stream/>
+          <Chat/>
           <Assistant />
           {/* <Route path='/' exact component={Stream}/> 
           <Route path='/chat' exact component={Chat}/> */}

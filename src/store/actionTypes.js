@@ -15,5 +15,6 @@ export const OPEN_MENU = 'OPEN_MENU';
 export const CLOSE_MENU = 'CLOSE_MENU';
 
 
+export const SWIPE = 'SWIPE';
 export const SELECT_DROPTARGET = 'SELECT_DROPTARGET';
 export const UNSELECT_DROPTARGET = 'UNSELECT_DROPTARGET';

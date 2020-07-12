@@ -40,10 +40,9 @@ const initialState = {
         { position: 19, show: "show", id: "19" },
         { position: 20, show: "show", id: "20" },
     ],
-    currentlyDropping: false,
     initialPageLoad: true,
     timeStampLastSwipe: 0,
-    currentPostId: 4
+    nextId: '21'
 }
 
 
@@ -51,7 +50,6 @@ const initialState = {
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
         case actionTypes.SELECT_DROPTARGET: 
-            console.log(`selecting target ${action.id}`)
             return {
                 ...state,
                 dropTargets: state.dropTargets.map(x => {
@@ -63,7 +61,6 @@ const reducer = (state = initialState, action ) => {
                 })
             }
         case actionTypes.UNSELECT_DROPTARGET:
-            console.log(`selecting target ${action.id}`)
             return {
                 ...state,
                 selectedTargets: state.selectedTargets.filter(x => x.id !== action.id),
@@ -74,8 +71,30 @@ const reducer = (state = initialState, action ) => {
                     return x;
                 })
             }
-        case actionTypes.SWIPE_LEFT: return state;
-        case actionTypes.SWIPE_RIGHT: return state; 
+        case actionTypes.SWIPE: 
+            const timestamp  = Date.now();
+            let newElements = state.StreamElements.map(s => {
+                return {
+                    ...s, 
+                    position: s.position - 1,
+                    show: s.position-1 === 0 ? action.dir : 'show'
+                }
+            })
+            .filter(s => {
+                return s.position >= 0
+            })
+            newElements.push({
+                position: 20,
+                show: 'show',
+                id: state.nextId
+            })
+            const nextId = `${Number(state.nextId)+1}`;
+            return {
+                ...state,
+                nextId: nextId,
+                StreamElements: newElements,
+                timeStampLastSwipe: timestamp,
+            }
         default: return state;
     }
 }
