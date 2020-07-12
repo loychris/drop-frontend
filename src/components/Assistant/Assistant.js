@@ -32,8 +32,8 @@ class Assistant extends Component {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
-  getLogoBackground = () => {
-    return (
+  getLogoBackground = (glow) => {
+    return ( !glow ? 
       <svg
         className={classes.LogoBackgorund}
         width={280}
@@ -114,6 +114,29 @@ class Assistant extends Component {
             <stop offset={1} stopColor="#A7FAE6" />
           </linearGradient>
         </defs>
+      </svg> : 
+      <svg 
+        className={classes.LogoBackgorund}
+        width="230" height="264" viewBox="0 0 230 264" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_dd)">
+        <path d="M154.399 142.434C154.399 145.877 155.269 184.893 114.93 184.893C74.0107 184.893 75.7519 142.434 75.7519 142.434C75.7519 119.77 113.189 72.7213 114.93 71C116.672 72.7213 154.399 113.746 154.399 142.434Z" fill="white"/>
+        </g>
+        <defs>
+        <filter id="filter0_dd" x="0.741211" y="0" width="228.659" height="263.893" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+        <feOffset dy="4"/>
+        <feGaussianBlur stdDeviation="37.5"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0.0685603 0 0 0 0 0.608795 0 0 0 0 1 0 0 0 1 0"/>
+        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+        <feOffset/>
+        <feGaussianBlur stdDeviation="10"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0.58106 0 0 0 0 0.798909 0 0 0 0 1 0 0 0 0.8 0"/>
+        <feBlend mode="normal" in2="effect1_dropShadow" result="effect2_dropShadow"/>
+        <feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow" result="shape"/>
+        </filter>
+        </defs>
       </svg>
     );
   };
@@ -125,24 +148,15 @@ class Assistant extends Component {
     });
   };
 
-  //LeftEye:  1785 208
-  //RightEye: 1825 208
-  //Middle:   1803 208    93vw 21vh
   calcStyles = (left) => {
     const { width, height, mouseX, mouseY } = this.state;
     const diffX = (mouseX / width) * 100 - this.state.pos[0];
     const diffY = (mouseY / height) * 100 - this.state.pos[1];
     const X = (0.8 / Math.sqrt(diffX * diffX + diffY * diffY)) * diffX;
     const Y = (0.5 / Math.sqrt(diffX * diffX + diffY * diffY)) * diffY;
-
     return {
       transform: `translate(${X}vh, ${Y}vh)`,
     };
-  };
-
-  onOff = () => {
-    const next = !this.props.menuOpen;
-    this.setState({ activated: next });
   };
 
   render() {
@@ -163,7 +177,7 @@ class Assistant extends Component {
       <div
         onMouseMove={this.onMouseMove.bind(this)}
         className={classes.Overlay}
-        onClick={this.onOff}
+        onClick={this.props.onCloseMenu}
       ></div>
     ) : (
       []
@@ -177,7 +191,7 @@ class Assistant extends Component {
           onClick={this.props.menuOpen ? this.props.onCloseMenu : this.props.onOpenMenu}
           className={classes.Assistant}
         >
-          {this.getLogoBackground()}
+          {this.getLogoBackground(!this.props.menuOpen)}
           {eyes}
         </div>
         {menu}

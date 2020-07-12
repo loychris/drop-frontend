@@ -3,19 +3,14 @@ import * as actionTypes from '../actionTypes';
 const initialState = {
     dropTargets: [
         {
-          selected: true,
+          selected: false,
           type: 'group',
           name: 'Chris Loy',
           id: 1
         }
     ],
     selectedTargets: [
-        {
-            selected: true,
-            type: 'group',
-            name: 'Chris Loy',
-            id: 1
-        }
+        
     ],
     StreamElements: [
         { position: 0, show: "left", id: "0" },
