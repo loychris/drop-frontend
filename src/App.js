@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
+import { connect } from 'react-redux';
 import axios from "axios";
 
 import Stream from "./components/Stream/Stream";
@@ -9,12 +10,11 @@ import Assistant from "./components/Assistant/Assistant";
 // import Auth from './components/Auth/Auth';
 
 class App extends Component {
+
   state = {
-    contacts: [],
-    chats: [],
-    loadedContacts: false,
-    loadedChats: false,
-  };
+    loadedChats: true,
+    loadedContacts: true
+  }
 
   componentDidMount() {
     if (!this.state.loadedContacts) {
@@ -34,12 +34,10 @@ class App extends Component {
 
 
   render() {
-    console.log('+++++++++++++++++++++++++++++++++++')
-    console.log(this.props);
     return (
       <BrowserRouter>
-        <div className="App">
-          <div className="Background"></div>
+        <div className={`App ${this.props.darkmode ? 'Dark' : 'Light'}`}>
+          {/* <div className="Background"></div> */}
           {/* <Auth/> */}
           <Navigation/>
           <Stream/>
@@ -53,4 +51,14 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    darkmode: state.ui.darkmode
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

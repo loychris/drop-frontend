@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import { connect } from 'react-redux';
 
+import * as actionTypes from '../../store/actionTypes'; 
+
 import ChatPrev from "./ChatPrev/ChatPrev";
 import classes from "./Chat.module.css";
 import Message from "./Message/Message";
@@ -9,25 +11,10 @@ import Message from "./Message/Message";
 class Chat extends Component {
   state = {
     searchBarValue: "",
-    currentChatId: 0,
     textValue: "initial Message",
-    chats: [{
-      chatId: 0,
-      latestMessages: [
-        {
-          message: 'THis is a chat message',
-          time: new Date(), 
-          sender: "chris",
-          sent: true 
-        }
-      ]
-    }]
+
   };
 
-  changeChat = (newChatId) => {
-    console.log("Changing chat to ", newChatId);
-    this.setState({ currentChatId: newChatId });
-  };
 
   upadeChatValue = (event) => {
     this.setState({ textValue: event.target.value });
@@ -36,7 +23,7 @@ class Chat extends Component {
   send = (msg, chatId) => {
     var today = new Date();
     console.log(`Sending ${msg} to ${chatId}`);
-    let chatsNew = [...this.state.chats];
+    let chatsNew = [...this.props.chats];
     chatsNew
       .find((x) => {
         return x.chatId === chatId;
@@ -52,11 +39,11 @@ class Chat extends Component {
   };
 
   render() {
-    const recentChats = this.state.chats
-      ? this.state.chats.map((x) => {
+    const recentChats = this.props.chats
+      ? this.props.chats.map((x) => {
           return (
             <ChatPrev
-              active={this.state.currentChatId === x.chatId}
+              active={this.props.currentChatId === x.chatId}
               changeChat={this.changeChat}
               key={x.chatId}
               {...x}
@@ -69,7 +56,7 @@ class Chat extends Component {
       ? this.props.contacts.map((x) => {
           return (
             <ChatPrev
-              active={this.state.currentChatId === x.id}
+              active={this.props.currentChatId === x.id}
               changeChat={this.changeChat}
               key={x.id}
               {...x}
@@ -78,15 +65,16 @@ class Chat extends Component {
         })
       : [];
 
-    const messages = this.props.loadedChats
-      ? this.state.chats
+    const latestMessages = this.props.loadedChats
+      ? this.props.chats
           .find((x) => {
-            return x.chatId === this.state.currentChatId;
+            return x.chatId === this.props.currentChatId;
           })
           .latestMessages.map((x) => {
             return <Message {...x} key={x.msgId} />;
           })
-      : [];
+      : null;
+
 
     const styleClasses = [classes.Chat];
     if (this.props.currentTab !== 'chat') styleClasses.push(classes.OutLeft);
@@ -100,7 +88,7 @@ class Chat extends Component {
         </div>
         <div className={classes.ChatWindow}>
           <div className={classes.Messages}>
-            {messages}
+            {latestMessages}
           </div>
           <div className={classes.TextField}>
             <imput
@@ -111,7 +99,7 @@ class Chat extends Component {
             <button
               onClick={() => {
                 console.log("sending");
-                this.props.send(this.state.textValue, this.state.currentChatId);
+                this.props.send(this.state.textValue, this.props.currentChatId);
               }}
             >
               send
@@ -126,12 +114,18 @@ class Chat extends Component {
 const mapStateToProps = state => {
   return {
     currentTab: state.ui.currentTab,
-    darkmode: state.ui.currentTab
+    darkmode: state.ui.currentTab,
+    loadedChats: state.chat.loadedChats,
+    contacts: state.chat.contacts,
+    currentChatId: state.chat.currentChatId,
+    chats: state.chat.chats
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    onSend: (msg) => dispatch({type: actionTypes.SEND, msg: msg}),
+    changeChat: (chatId) => dispatch({type: actionTypes.CHANGE_CHAT, chatId: chatId})
   }
 }
 

@@ -8,6 +8,7 @@ import classes from "./Stream.module.css";
 import Modal from "../UI/Modal/Modal";
 import SecondModal from "../UI/SecondModal/SecondModal";
 import RiverWhite from "../../SVGs/RiverWhite.svg";
+import River from "../../SVGs/River.svg";
 import RiverGlow from "../../SVGs/RiverGlow.svg";
 import Boat from "../../media/Boat.png";
 import DropOptionsMenu from "./DropOptionsMenu/DropOptionsMenu";
@@ -103,12 +104,21 @@ class Stream extends Component {
         <SelectedDropTargets/> 
       </SecondModal> : null; 
 
+    const river = this.props.darkmode ? 
+      <img src={RiverWhite} alt="" className={classes.River} /> : 
+      <img src={River} alt="" className={classes.River} />
+
+    const riverGlow = this.props.darkmode ? 
+      <img src={RiverGlow} alt="" className={classes.RiverGlow} /> :
+      null
+
+
     return (
       <div className={styleClasses.join(" ")}>
         {modal}
         {secondModal}
-        <img src={RiverWhite} alt="" className={classes.River} />
-        <img src={RiverGlow} alt="" className={classes.RiverGlow} />
+        {river}
+        {riverGlow}
         <img src={Boat} alt="" className={classes.Boat1} />
         <img src={Boat} alt="" className={classes.Boat2} />
         {StreamElements}
@@ -122,7 +132,8 @@ const mapStateToProps = state => {
     timeStampLastSwipe: state.stream.timeStampLastSwipe,
     currentTab: state.ui.currentTab,
     modalOpen: state.ui.modalOpen,
-    streamElements: state.stream.StreamElements
+    streamElements: state.stream.StreamElements,
+    darkmode: state.ui.darkmode
   }
 }
 

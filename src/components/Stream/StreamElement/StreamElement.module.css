@@ -5,11 +5,6 @@
     padding: 20px;
     left: 0;
     right: 0;
-    background-color: #11192c;
-    color: #ffffff;
-    border-top: 4.5px solid #ffffff; 
-    /* border-top: 4.5px solid #C7E1FF; */
-    border-bottom: 4px solid #000000;
     border-radius: 20px;
     transition: all 0.4s ease;
     -webkit-appearance: none;
@@ -18,8 +13,22 @@
 
     /*//////////////////// Styles Pos1 ////////////////////////*/
     margin-top: 36.75px;
-    width: 687.5px;
+    width: 687px;
     /*/////////////////////////////////////////////////////////*/
+}
+
+.Light {
+    background: #ffffff;
+    color: #000000;
+    border-top: 4.5px solid #C7E1FF;
+    border-bottom: 4px solid #dadada;
+}
+
+.Dark {
+    background-color: #11192c;
+    color: #ffffff;
+    border-bottom: 4px solid #000000;
+    border-top: 4.5px solid #ffffff; 
 }
 
 

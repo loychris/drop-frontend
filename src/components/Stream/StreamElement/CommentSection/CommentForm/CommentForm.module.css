@@ -9,7 +9,6 @@
 }
 
 .TextArea {
-    background-color: #dddddd;
     margin-left: 42px;
     padding-top: 5px;
     min-height: 55px; 
@@ -21,14 +20,16 @@
     resize: none;
     overflow: auto;
     outline: none;
+    border: none; 
     border-top: none;
     border-left: none;
     border-right: none;  
-    border-bottom: 4px solid #dddddd; 
+    background: #EEEEEE;
 }
 
 .SpeechBubbleArrow{
     position: absolute;
     left: 28px;
     top: 3px;
+    
 }
