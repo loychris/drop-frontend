@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, compose  } from 'redux';
 
 import axios from 'axios';
 
@@ -20,9 +20,13 @@ const rootReducer = combineReducers({
     ui: UIReducer
 });
 
+const enhancers = compose(
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
 const store = createStore(
     rootReducer, /* preloadedState, */
- +  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    enhancers
   );
 
 ReactDOM.render(

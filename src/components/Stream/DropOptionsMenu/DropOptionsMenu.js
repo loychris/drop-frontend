@@ -157,7 +157,9 @@ class DropOptionsMenu extends Component {
     if (this.state.active === "friends") targets = this.getFriendsList();
     return (
       <Aux className={classes.DropOptionsMenu}>
-        <h2 className={classes.MenuHeader}>Select Friends/Groups </h2>
+        <h2 className={classes.MenuHeader} >Select Friends</h2>
+
+
         <ul className={classes.Options}>
           <li
             onClick={() => this.selectOption("recent chats")}

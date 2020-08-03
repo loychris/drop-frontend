@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+
 import classes from "./ChatPrev.module.css";
 import DefaultProfilePic from "../../../media/DefaultProfilePic.png";
 import DefaultGroupPic from "../../../media/DefaultGroupPic.png";
+import * as actionTypes from '../../../store/actionTypes';
 
 class ChatPrev extends Component {
   render() {
@@ -9,7 +12,7 @@ class ChatPrev extends Component {
     if (this.props.active) styleClasses.push(classes.Active);
     return (
       <div
-        onClick={() => this.props.changeChat(this.props.chatId)}
+        onClick={() => this.props.onChangeChat(this.props.chatId)}
         className={styleClasses.join(" ")}
       >
         <img
@@ -28,4 +31,16 @@ class ChatPrev extends Component {
   }
 }
 
-export default ChatPrev;
+const mapStateToProps = state => {
+  return {
+    darkmode: state.ui.darkmode
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onChangeChat: (chatId) => dispatch({type: actionTypes.CHANGE_CHAT, chatId: chatId}),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatPrev);
