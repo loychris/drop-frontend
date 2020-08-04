@@ -1,5 +1,17 @@
 .Content{
     margin-bottom: 6px;
+    min-height: 400px; 
+    position: relative;
+}
+
+.Spinner{
+    position: absolute;
+    height: 50px;
+    width: 50px; 
+    left: 50%;
+    top: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
 }
 
 .Meme {

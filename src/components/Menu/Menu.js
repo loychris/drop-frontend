@@ -39,30 +39,12 @@ class Menu extends Component {
                 </div>
                 <div className={`${classes.menu} ${this.props.darkmode ? classes.dark : classes.light}`}>
                     <div className={classes.menuOption}>
-                        <label>Darkmode</label>
+                        <label>Darkmode   </label>
                         <ToggleSwitch 
                             id="123456789"
                             text={["ON", "OFF"]}
                             defaultChecked={this.props.darkmode}
-                            Small
-                            onChange={this.props.darkmode ? this.props.onGoLight : this.props.onGoDark} />
-                    </div>
-                    <div className={classes.menuOption}>
-                        <label>Slow Connection Mode</label>
-                        <ToggleSwitch 
-                            id="1234567"
-                            text={["ON", "OFF"]}
-                            defaultChecked={this.props.darkmode}
-                            Small
-                            onChange={this.props.darkmode ? this.props.onGoLight : this.props.onGoDark} />
-                    </div>
-                    <div className={classes.menuOption}>
-                        <label>Whatever else</label>
-                        <ToggleSwitch 
-                            id="12345678"
-                            text={["ON", "OFF"]}
-                            defaultChecked={this.props.darkmode}
-                            Small
+                            Small = {true}
                             onChange={this.props.darkmode ? this.props.onGoLight : this.props.onGoDark} />
                     </div>
                 </div>

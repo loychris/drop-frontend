@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from 'react-redux';
+
 import * as actionTypes from '../../../store/actionTypes';
-
-
 import classes from "./StreamElement.module.css";
+
 import Content from "./Content/Content";
 import CommentSection from "./CommentSection/CommentSection";
 import DroppedToYouBy from "./DroppedToYouBy/DroppedToYouBy";
@@ -21,14 +21,13 @@ const NEUMORPHISM = false;
 // const X = 100; //Distance projection to element
 
 class StreamElement extends Component {
-  state = {
-    postLoaded: false
-  };
+
 
   componentDidMount() {
-    if (!this.state.postLoaded) {
-      axios.get(`/post/${this.props.id}`).then(response => {
-        this.setState({ postLoaded: true, post: response.data });
+    if (!this.props.status === 'loaded') {
+      axios.get(`/post/${this.props.id}`)
+      .then(response => {
+        console.log(response);
       });
     }
   }
@@ -63,7 +62,7 @@ class StreamElement extends Component {
       this.props.position < 2 ? (
         <CommentSection postId={this.props.id} neuMorphism={NEUMORPHISM} />
       ) : (
-        []
+        null
       );
 
     let droppedToYouBy = [];
@@ -75,30 +74,27 @@ class StreamElement extends Component {
     if (this.props.show === "left")  cssClasses.push(classes.FadedLeft);
     cssClasses.push(this.props.darkmode ? classes.Dark : classes.Light)
 
-    if (this.state.postLoaded) {
-      if (this.props.position < 2 && this.state.post.droppedBy) {
-        droppedToYouBy = <DroppedToYouBy names={this.state.post.droppedBy} />;
+    if (this.props.status === 'loaded') {
+      if (this.props.position < 2 && this.props.post.droppedBy) {
+        droppedToYouBy = <DroppedToYouBy names={this.props.post.droppedBy} />;
       }
-      if (this.state.post.droppedBy) {
+      if (this.props.post.droppedBy) {
         cssClasses.push("classes.DroppedByFriend");
       }
-      if (this.state.post.source) {
-        source = <Source sourceURL={this.state.post.source} />;
-      }
+      source = this.props.post.source ? <Source sourceURL={this.props.post.source} /> : null
     }
 
     return (
       <div
-        onKeyPress={this.handleKeyPress}
-        tabIndex="0"
+          tabIndex="0"
         className={cssClasses.join(" ")}
         style={this.calcStyles2(this.props.position)}
       >
         {droppedToYouBy}
         <h3 className={classes.title}>
-          {this.state.post
-            ? this.state.post.title
-            : `title of post ${this.props.id}`}
+          {this.props.post
+            ? this.props.post.title
+            : ''}
         </h3>
         <Content position={this.props.position} id={this.props.id} />
         {source}
@@ -113,7 +109,7 @@ class StreamElement extends Component {
 
 const mapStateToProps = state => {
   return {
-    darkmode: state.ui.darkmode
+    darkmode: state.ui.darkmode,    
   }
 }
 

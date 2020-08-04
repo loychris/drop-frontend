@@ -17,7 +17,7 @@ class ToggleSwitch extends Component {
     render() {
       return (
         <div
-          className={`${classes.toggleSwitch} + ${this.props.Small ? classes.smallSwitch : ''}`}
+          className={`${classes.toggleSwitch} + ${classes.smallSwitch}`}
         >
           <input
             type="checkbox"
