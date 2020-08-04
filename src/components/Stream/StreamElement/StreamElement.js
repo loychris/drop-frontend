@@ -15,10 +15,10 @@ import Source from "./Source/Source";
 
 const NEUMORPHISM = false;
 
-const R = 200; //Distance eye to projection
-const Y = 150; //vertical position of th object
-const B = 1100; //width of the object
-const X = 100; //Distance projection to element
+// const R = 200; //Distance eye to projection
+// const Y = 150; //vertical position of th object
+// const B = 1100; //width of the object
+// const X = 100; //Distance projection to element
 
 class StreamElement extends Component {
   state = {

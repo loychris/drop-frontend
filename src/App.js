@@ -6,7 +6,8 @@ import axios from "axios";
 import Stream from "./components/Stream/Stream";
 import Chat from "./components/Chat/Chat";
 import Navigation from "./components/Navigation/Navigation";
-import Assistant from "./components/Assistant/Assistant";
+//import Assistant from "./components/Assistant/Assistant";
+import Menu from './components/Menu/Menu';
 // import Auth from './components/Auth/Auth';
 
 class App extends Component {
@@ -42,7 +43,8 @@ class App extends Component {
           <Navigation/>
           <Stream/>
           <Chat/>
-          <Assistant />
+          {/* <Assistant /> */}
+          <Menu/>
           {/* <Route path='/' exact component={Stream}/> 
           <Route path='/chat' exact component={Chat}/> */}
         </div>

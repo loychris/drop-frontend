@@ -44,7 +44,6 @@ class Chat extends Component {
           return (
             <ChatPrev
               active={this.props.currentChatId === x.chatId}
-              changeChat={this.changeChat}
               key={x.chatId}
               {...x}
             />
@@ -57,7 +56,6 @@ class Chat extends Component {
           return (
             <ChatPrev
               active={this.props.currentChatId === x.id}
-              changeChat={this.changeChat}
               key={x.id}
               {...x}
             />
