@@ -75,7 +75,7 @@ class StreamElement extends Component {
     cssClasses.push(this.props.darkmode ? classes.Dark : classes.Light)
 
     if (this.props.status === 'loaded') {
-      if (this.props.position < 2 && this.props.post.droppedBy) {
+      if (this.props.position < 2 && this.props.post && this.props.post.droppedBy) {
         droppedToYouBy = <DroppedToYouBy names={this.props.post.droppedBy} />;
       }
       if (this.props.post.droppedBy) {

@@ -84,6 +84,7 @@ class Stream extends Component {
           position={element.position}
           id={element.id}
           key={element.id}
+          {...element}
           dropping={this.droppingHandler}
         />
       );

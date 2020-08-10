@@ -14,7 +14,7 @@ const initialState = {
     ],
     StreamElements: [
         { position: 0, show: "left", id: "0", status: 'loading'},
-        { position: 1, show: "show", id: "1" , status: 'loading'},
+        { position: 1, show: "show", id: "1" , status: 'loaded', post: {source: "facebook.com", title: "Title of the post"}},
         { position: 2, show: "show", id: "2" , status: 'loading'},
         { position: 3, show: "show", id: "3" , status: 'loading'},
         { position: 4, show: "show", id: "4" , status: 'loading'},
@@ -34,10 +34,11 @@ const initialState = {
         { position: 18, show: "show", id: "18", status: 'loading'},
         { position: 19, show: "show", id: "19", status: 'loading'},
         { position: 20, show: "show", id: "20", status: 'loading'},
+        { position: 21, show: "show", id: "21", status: 'loading'},
     ],
     initialPageLoad: true,
     timeStampLastSwipe: 0,
-    nextId: '21'
+    nextId: '22'
 }
 
 
@@ -81,9 +82,10 @@ const reducer = (state = initialState, action ) => {
             newElements.push({
                 position: 20,
                 show: 'show',
-                id: state.nextId
+                id: state.nextId,
+                status: 'loading'
             })
-            const nextId = `${Number(state.nextId)+1}`;
+            const nextId = `${state.timeStampLastSwipe}`;
             return {
                 ...state,
                 nextId: nextId,

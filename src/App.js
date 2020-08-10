@@ -37,8 +37,8 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className={`App ${this.props.darkmode ? 'Dark' : 'Light'}`}>
-          {/* <div className="Background"></div> */}
+        <div className={`App`}>
+          <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
           {/* <Auth/> */}
           <Navigation/>
           <Stream/>

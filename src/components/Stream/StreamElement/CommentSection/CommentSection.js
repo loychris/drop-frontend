@@ -14,15 +14,31 @@ class CommentSection extends Component {
         highlightedComment: false,
         commentsLoaded: false,
         someCommentSelected: false,
-        comments: []
+        comments: [{
+            commentId: 12345678,
+            author: 'user',
+            points: 0,
+            comment: "comment",
+            subComments: [{
+                author: "Chris Loy",
+                points: 100,
+                comment: "subcomment",
+                subComments: [{
+                    author: "Chris Loy",
+                    points: 100,
+                    comment: "subcomment",
+                    subComments: []
+                }]
+            }]
+        }]
     }
 
     componentDidMount() {
         if(!this.state.commentsLoaded){
             axios.get(`/post/${this.props.postId}/comments`)
-                .then(response => {
-                    this.setState({commentsLoaded: true, comments: response.data});
-                });
+            .then(response => {
+                this.setState({commentsLoaded: true, comments: response.data});
+            });
         }
     }
 
