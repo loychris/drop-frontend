@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loader from 'css-loader';
+import Loader from 'react-loader-spinner'
 
 import * as actionTypes from '../../../../store/actionTypes';
 import classes from './CommentSection.module.css';
@@ -17,29 +17,29 @@ class CommentSection extends Component {
 
 
     render(){
+        let comments;
         const element = this.props.streamElements.find(e => e.id === this.props.postId);
         if(element.commentsStatus === 'loading'){
-            return (
-                <Loader 
-                    className={classes.Spinner} 
-                    type="Puff" 
-                    color="#00BFFF" 
-                    height={40} 
-                    width={40}/>
-            )      
+            comments = <Loader 
+                        className={classes.Spinner} 
+                        type="ThreeDots" 
+                        color="#00BFFF" 
+                        height={30} 
+                        width={30}/>
+        }else{
+            comments = 
+                element.comments.length > 0 ? 
+                element.comments.map(x => {
+                    return <Comment 
+                            key={x.commentId} 
+                            comment={x} 
+                            postId={this.props.postId} 
+                            commentId={x.commentId}
+                            neuMorphism={this.props.neuMorphism}
+                            />
+                }) 
+                : null;
         }
-        console.log('ELEMENT', element);
-        const comments = element.comments.length > 0 ? 
-            element.comments.map(x => {
-                return <Comment 
-                        key={x.commentId} 
-                        comment={x} 
-                        postId={this.props.postId} 
-                        commentId={x.commentId}
-                        neuMorphism={this.props.neuMorphism}
-                        />
-            }) : [];
-
         let styleClasses = [classes.CommentSection];
         if(this.props.neuMorphism) styleClasses.push(classes.NeuMorphism);
 
@@ -47,7 +47,10 @@ class CommentSection extends Component {
         return(
             <div className={styleClasses.join(' ')} tabIndex='0'>
                 <CommentForm id={this.props.postId}/>
-                {comments}
+                <div className={classes.comments}>
+                    {comments}
+                </div>
+
             </div>
         )
     }

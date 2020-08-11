@@ -1,3 +1,8 @@
+
+.comments{
+    position: relative;
+}
+
 .ShowMoreComments {
     cursor: pointer;
     text-align: center;
@@ -11,4 +16,12 @@
     padding-top: 20px;
     padding-left: 15px;
     padding-right: 15px; 
+}
+
+.Spinner{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
 }
