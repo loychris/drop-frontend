@@ -59,11 +59,9 @@ class StreamElement extends Component {
 
   render() {
     const commentSection =
-      this.props.position < 2 ? (
-        <CommentSection postId={this.props.id} neuMorphism={NEUMORPHISM} />
-      ) : (
-        null
-      );
+      this.props.position < 2 ?
+        <CommentSection postId={this.props.id} pos={this.props.position}/>
+        : null;
 
     let droppedToYouBy = [];
     let source = [];

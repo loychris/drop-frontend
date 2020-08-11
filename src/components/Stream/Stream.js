@@ -80,9 +80,6 @@ class Stream extends Component {
     this.props.streamElements.forEach((element) => {
       StreamElements.unshift(
         <StreamElement
-          show={element.show}
-          position={element.position}
-          id={element.id}
           key={element.id}
           {...element}
           dropping={this.droppingHandler}

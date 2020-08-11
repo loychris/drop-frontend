@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import Loader from 'css-loader';
 
+import * as actionTypes from '../../../../store/actionTypes';
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 import CommentForm from './CommentForm/CommentForm';
@@ -10,56 +12,25 @@ import CommentForm from './CommentForm/CommentForm';
 
 class CommentSection extends Component {
 
-    state = {
-        highlightedComment: false,
-        commentsLoaded: false,
-        someCommentSelected: false,
-        comments: [{
-            commentId: 12345678,
-            author: 'user',
-            points: 0,
-            comment: "comment",
-            subComments: [{
-                author: "Chris Loy",
-                points: 100,
-                comment: "subcomment",
-                subComments: [{
-                    author: "Chris Loy",
-                    points: 100,
-                    comment: "subcomment",
-                    subComments: []
-                }]
-            }]
-        }]
-    }
-
-    componentDidMount() {
-        if(!this.state.commentsLoaded){
-            axios.get(`/post/${this.props.postId}/comments`)
-            .then(response => {
-                this.setState({commentsLoaded: true, comments: response.data});
-            });
-        }
-    }
 
 
-    addComment(comment){
-        const newComment = {
-            commentId: 12345678,
-            author: 'user',
-            points: 0,
-            comment: comment,
-            subComments: []
-        }
-        axios.post(`/post/${this.props.postId}/comment`, newComment);
-        const commentsNew = [newComment, ...this.state.comments]
-        this.setState({comments: commentsNew});
-    }
 
 
     render(){
-        let comments = this.state.comments.length > 0 ? 
-            this.state.comments.map(x => {
+        const element = this.props.streamElements.find(e => e.id === this.props.postId);
+        if(element.commentsStatus === 'loading'){
+            return (
+                <Loader 
+                    className={classes.Spinner} 
+                    type="Puff" 
+                    color="#00BFFF" 
+                    height={40} 
+                    width={40}/>
+            )      
+        }
+        console.log('ELEMENT', element);
+        const comments = element.comments.length > 0 ? 
+            element.comments.map(x => {
                 return <Comment 
                         key={x.commentId} 
                         comment={x} 
@@ -75,7 +46,7 @@ class CommentSection extends Component {
 
         return(
             <div className={styleClasses.join(' ')} tabIndex='0'>
-                <CommentForm id={this.props.postId} addComment={this.addComment.bind(this)}/>
+                <CommentForm id={this.props.postId}/>
                 {comments}
             </div>
         )
@@ -85,4 +56,17 @@ class CommentSection extends Component {
 
 }
 
-export default CommentSection;
+const mapStateToProps = state => {
+    return {
+      darkmode: state.ui.darkmode, 
+      streamElements: state.stream.StreamElements
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      onOpenModal: () => dispatch({type: actionTypes.OPEN_MODAL}),
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(CommentSection);
