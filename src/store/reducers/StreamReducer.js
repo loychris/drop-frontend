@@ -50,6 +50,50 @@ const initialState = {
                     comment: "subcomment",
                     subComments: []
                 }]
+            },{
+                commentId: 12345678,
+                author: 'user',
+                points: 0,
+                comment: "comment",
+                subComments: [{
+                    author: "Chris Loy",
+                    points: 100,
+                    comment: "subcomment",
+                    subComments: [{
+                        author: "Chris Loy",
+                        points: 100,
+                        comment: "subcomment",
+                        subComments: []
+                    },{
+                        author: "Chris Loy",
+                        points: 100,
+                        comment: "subcomment2",
+                        subComments: []
+                    }]
+                },{
+                    author: "Chris Loy",
+                    points: 100,
+                    comment: "subcomment",
+                    subComments: []
+                }]
+            },{
+                commentId: 3543,
+                author: 'user',
+                points: 0,
+                comment: "comment",
+                subComments: []
+            },{
+                commentId: 23524,
+                author: 'user',
+                points: 0,
+                comment: "comment",
+                subComments: []
+            },{
+                commentId: 5342,
+                author: 'user',
+                points: 0,
+                comment: "comment",
+                subComments: []
             }]
         },
         { position: 2, show: "show", id: "2" , status: 'loading', commentsStatus: 'loading', comments: []},
@@ -139,7 +183,7 @@ const reducer = (state = initialState, action ) => {
                 comment: action.comment,
                 subComments: []
             }
-            console.log(`Add Comment ${newComment}`)
+            console.log(`Add Comment ${action.comment} ${action.id}`)
         default: return state;
     }
 }

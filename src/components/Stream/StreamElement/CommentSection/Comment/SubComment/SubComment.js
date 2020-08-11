@@ -166,7 +166,7 @@ class SubComment extends Component {
         deleteSubComment={this.props.deleteSubComment} 
         path={this.props.path}/> : [];
     return (
-      <div className={classes.CommentContainer} style={this.props.last ? {marginBottom: '50px'} : []}>
+      <div className={classes.CommentContainer}>
         <div className={classes.Comment} style={commentStyle}>
           <AuthorPic depth={this.props.depth} indent={INDENT} neuMorphism={this.props.neuMorphism}/>
           <div className={backgroundStyleClasses.join(' ')} 

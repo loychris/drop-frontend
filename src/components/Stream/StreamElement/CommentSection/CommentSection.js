@@ -46,7 +46,7 @@ class CommentSection extends Component {
 
         return(
             <div className={styleClasses.join(' ')} tabIndex='0'>
-                <CommentForm id={this.props.postId}/>
+                <CommentForm postId={this.props.postId}/>
                 <div className={classes.comments}>
                     {comments}
                 </div>

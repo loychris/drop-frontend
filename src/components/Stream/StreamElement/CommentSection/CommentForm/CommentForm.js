@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import * as actionTypes from '../../../../../store/actionTypes';
 import classes from './CommentForm.module.css';
 import TextareaAutosize from 'react-textarea-autosize';
 import AuthorPic from '../AuthorPic/AuthorPic';
@@ -20,7 +23,7 @@ class CommentForm extends Component {
     submitHandler = (event) => {
         event.preventDefault();
         this.setState({textareaValue: '', disabled: true})
-        this.props.addComment(this.state.textareaValue);
+        this.props.onAddComment(this.state.textareaValue, this.props.postId);
     }
 
     render(){
@@ -63,4 +66,14 @@ class CommentForm extends Component {
     }
 }
 
-export default CommentForm;
+const mapStateToProps = state => {
+
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      onAddComment: (comment, id) => dispatch({type: actionTypes.ADD_COMMENT, comment, id})
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);

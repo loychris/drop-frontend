@@ -1,10 +1,11 @@
 .CommentContainer {
+    margin-bottom: 50px; 
     position: relative;
 }
 
 .Comment {
     min-height: 50px;
-    padding-bottom: 20px;
+    margin-bottom: 20px;
     margin-top: 20px;
 }
 
