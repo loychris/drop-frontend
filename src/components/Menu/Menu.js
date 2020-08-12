@@ -47,6 +47,24 @@ class Menu extends Component {
                             Small = {true}
                             onChange={this.props.darkmode ? this.props.onGoLight : this.props.onGoDark} />
                     </div>
+                    <div className={classes.menuOption}>
+                        <label>NSFW   </label>
+                        <ToggleSwitch 
+                            id="5423"
+                            text={["ON", "OFF"]}
+                            defaultChecked={this.props.darkmode}
+                            Small = {true}
+                            onChange={() => console.log("Turned NSFW on/off")} />
+                    </div>
+                    <div className={classes.menuOption}>
+                        <label>Slow connection mode   </label>
+                        <ToggleSwitch 
+                            id="52342345"
+                            text={["ON", "OFF"]}
+                            defaultChecked={this.props.darkmode}
+                            Small = {true}
+                            onChange={() => console.log("Turned Slow connection mode on/off")} />
+                    </div>
                 </div>
             </div>
         )
