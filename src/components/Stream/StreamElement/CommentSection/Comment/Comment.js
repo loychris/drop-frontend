@@ -100,7 +100,9 @@ class Comment extends Component {
       </svg> : []
     ///////////////////////////////////////////////////////////////////
     let backgroundStyleClasses = [classes.CommentBackground]
-    if(this.props.neuMorphism){backgroundStyleClasses.push(classes.CommentBackgroundNeumorphism)} else {backgroundStyleClasses.push(classes.CommnetBackgroundFlat)}
+    if(this.props.comment.status && this.props.comment.status === 'sending'){
+      backgroundStyleClasses.push(classes.sending);
+    }
 
     const options = this.state.selected ? <Options path={this.props.path}/> : []
 

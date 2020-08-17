@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { connect } from 'react-redux';
 
-import * as actionTypes from '../../../store/actionTypes';
+import * as UIActions from '../../../store/actions/index';
 import classes from "./StreamElement.module.css";
 
 import Content from "./Content/Content";
@@ -113,7 +113,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOpenModal: () => dispatch({type: actionTypes.OPEN_MODAL}),
+    onOpenModal: () => dispatch(UIActions.openModal()),
   }
 }
 

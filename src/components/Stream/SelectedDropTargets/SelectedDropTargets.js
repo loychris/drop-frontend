@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import * as actionTypes from '../../../store/actionTypes';
+import * as streamActions from '../../../store/actions/index';
 
 
 import FriendsListItem from "../FriendsListItem/FriendsListItem";
@@ -66,7 +66,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    unselectTarget: (id) => dispatch({type: actionTypes.UNSELECT_DROPTARGET, id: id})
+    unselectTarget: (id) => dispatch(streamActions.selectDropTarget(id))
   }
 }
 

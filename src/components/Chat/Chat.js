@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { connect } from 'react-redux';
 
-import * as actionTypes from '../../store/actionTypes'; 
+import * as chatActions from '../../store/actions/index'; 
 
 import ChatPrev from "./ChatPrev/ChatPrev";
 import classes from "./Chat.module.css";
@@ -122,8 +122,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSend: (msg) => dispatch({type: actionTypes.SEND, msg: msg}),
-    changeChat: (chatId) => dispatch({type: actionTypes.CHANGE_CHAT, chatId: chatId})
+    onSend: (msg) => dispatch(chatActions.send(msg)),
+    changeChat: (chatId) => dispatch(chatActions.changeChat(chatId))
   }
 }
 

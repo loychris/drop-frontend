@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import * as actionTypes from '../../store/actionTypes';
+import * as UIActions from '../../store/actions/index';
 import classes from "./Assistant.module.css";
 import Menu from "./Menu/Menu";
 
@@ -208,8 +208,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOpenMenu: () => dispatch({type: actionTypes.OPEN_MENU}),
-    onCloseMenu: () => dispatch({type: actionTypes.CLOSE_MENU})
+    onOpenMenu: () => dispatch(UIActions.openMenu()),
+    onCloseMenu: () => dispatch(UIActions.closeMenu())
   }
 }
 

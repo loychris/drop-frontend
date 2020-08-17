@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classes from "./ChatPrev.module.css";
 import DefaultProfilePic from "../../../media/DefaultProfilePic.png";
 import DefaultGroupPic from "../../../media/DefaultGroupPic.png";
-import * as actionTypes from '../../../store/actionTypes';
+import * as chatActions from '../../../store/actions/index';
 
 class ChatPrev extends Component {
   render() {
@@ -39,7 +39,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onChangeChat: (chatId) => dispatch({type: actionTypes.CHANGE_CHAT, chatId: chatId}),
+    onChangeChat: (chatId) => dispatch(chatActions.changeChat(chatId)),
   }
 }
 

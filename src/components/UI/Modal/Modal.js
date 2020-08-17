@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../../store/actionTypes';
+import * as UIActions from '../../../store/actions/index';
 
 import classes from './Modal.module.css';
 import Aux from '../../../hoc/Aux';
@@ -34,7 +34,7 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-      onCloseModal: () => dispatch({type: actionTypes.CLOSE_MODAL}),
+      onCloseModal: () => dispatch(UIActions.closeModal()),
     }
   }
   

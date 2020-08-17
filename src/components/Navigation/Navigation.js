@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 
 import classes from "./Navigation.module.css";
 
-import * as actionTypes from '../../store/actionTypes';
+import * as UIActions from '../../store/actions/index';
 
 class Navigation extends Component {
   render() {
@@ -61,7 +61,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSwitchTab: (tab) => dispatch({type: actionTypes.SWITCH_TAB, tab: tab}),
+    onSwitchTab: (tab) => dispatch(UIActions.switchTab(tab)),
   }
 }
 

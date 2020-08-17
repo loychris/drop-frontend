@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import * as actionTypes from '../../store/actionTypes';
+import * as streamActions from '../../store/actions/index';
+import * as UIActions from '../../store/actions/index';
 
 import StreamElement from "./StreamElement/StreamElement";
 import classes from "./Stream.module.css";
@@ -137,9 +138,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSwipe: (dir) => dispatch({type: actionTypes.SWIPE, dir: dir}),
-    onOpenModal: () => dispatch({type: actionTypes.OPEN_MODAL}),
-    onCloseModal: () => dispatch({type: actionTypes.CLOSE_MODAL})
+    onSwipe: (dir) => dispatch(streamActions.swipe(dir)),
   }
 }
 

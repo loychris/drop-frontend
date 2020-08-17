@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as actionTypes from '../../../../../store/actionTypes';
+import * as streamActions from '../../../../../store/actions/index';
 import classes from './CommentForm.module.css';
 import TextareaAutosize from 'react-textarea-autosize';
 import AuthorPic from '../AuthorPic/AuthorPic';
@@ -68,12 +68,12 @@ class CommentForm extends Component {
 
 const mapStateToProps = state => {
 
-  }
+}
   
-  const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
     return {
-      onAddComment: (comment, id) => dispatch({type: actionTypes.ADD_COMMENT, comment, id})
+        onAddComment: (comment, id) => dispatch(streamActions.addComment(comment, id))
     }
-  }
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);

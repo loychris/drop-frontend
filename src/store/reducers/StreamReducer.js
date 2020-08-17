@@ -1,4 +1,4 @@
-import * as actionTypes from '../actionTypes';
+import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     dropTargets: [
@@ -51,7 +51,7 @@ const initialState = {
                     subComments: []
                 }]
             },{
-                commentId: 12345678,
+                commentId: 123425678,
                 author: 'user',
                 points: 0,
                 comment: "comment",
@@ -177,13 +177,28 @@ const reducer = (state = initialState, action ) => {
             }
         case actionTypes.ADD_COMMENT:
             const newComment = {
-                commentId: 12345678,
+                commentId: Math.random(),
                 author: 'user',
                 points: 0,
                 comment: action.comment,
-                subComments: []
+                subComments: [],
+                status: 'sending'
             }
-            console.log(`Add Comment ${action.comment} ${action.id}`)
+            const streamElementsNew = state.StreamElements.map(s => {
+                if(s.id === action.id){
+                    const commentsNew = [...s.comments, newComment]
+                    return {
+                        ...s,
+                        comments: commentsNew
+                    }
+                }else {
+                    return s
+                }
+            })
+            return {
+                ...state,
+                StreamElements: streamElementsNew
+            }
         default: return state;
     }
 }

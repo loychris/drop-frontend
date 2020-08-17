@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import * as actionTypes from '../../../store/actionTypes';
+import * as UIActions from '../../../store/actions/index';
 
 
 import classes from "./Menu.module.css";
@@ -79,8 +79,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGoDark: () => dispatch({type: actionTypes.GO_DARK}),
-    onGoLight: () => dispatch({type: actionTypes.GO_LIGHT})
+    onGoDark: () => dispatch(UIActions.goDark),
+    onGoLight: () => dispatch(UIActions.goLight)
   }
 }
 

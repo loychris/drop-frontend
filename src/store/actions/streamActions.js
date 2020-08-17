@@ -1,17 +1,51 @@
-import * as actionTypes from '../actionTypes';
+import * as actionTypes from './actionTypes';
 
-export const swipeLeft = ( ) => {
+export const swipe = (dir) => {
     return {
-        type: actionTypes.SWIPE_LEFT
+        type: actionTypes.SWIPE,
+        dir: dir
     }
 }
 
-export const swipeRight = ( ) => {
+export const selectDropTarget = (id) => {
     return {
-        type: actionTypes.SWIPE_LEFT
+        type: actionTypes.SELECT_DROPTARGET,
+        id: id
     }
 }
 
-export const initStream = () => {
+export const unSelectDropTarget = (id) => {
+    return {
+        type: actionTypes.UNSELECT_DROPTARGET,
+        id: id
+    }
+}
 
+export const addComment = (comment, id) => {
+    return {
+        type: actionTypes.ADD_COMMENT,
+        comment: comment,
+        id: id
+    }
+}
+
+export const deleteComment = (id) => {
+    return {
+        type: actionTypes.DELETE_COMMENT,
+        id: id
+    }
+}
+
+export const selectComment = (id) => {
+    return {
+        type: actionTypes.SELECT_COMMENT,
+        id: id
+    }
+}
+
+export const unSelectComment = (id) => {
+    return {
+        type: actionTypes.UNSELECT_COMMENT,
+        id: id
+    }
 }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
 
-import * as actionTypes from '../../../../store/actionTypes';
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 import CommentForm from './CommentForm/CommentForm';
@@ -34,9 +33,7 @@ class CommentSection extends Component {
                             key={x.commentId} 
                             comment={x} 
                             postId={this.props.postId} 
-                            commentId={x.commentId}
-                            neuMorphism={this.props.neuMorphism}
-                            />
+                            commentId={x.commentId}/>
                 }) 
                 : null;
         }
@@ -64,12 +61,7 @@ const mapStateToProps = state => {
       darkmode: state.ui.darkmode, 
       streamElements: state.stream.StreamElements
     }
-  }
+}
   
-  const mapDispatchToProps = dispatch => {
-    return {
-      onOpenModal: () => dispatch({type: actionTypes.OPEN_MODAL}),
-    }
-  }
   
-  export default connect(mapStateToProps, mapDispatchToProps)(CommentSection);
+export default connect(mapStateToProps)(CommentSection);

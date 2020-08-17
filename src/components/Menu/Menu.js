@@ -5,7 +5,7 @@ import ToggleSwitch from '../UI/ToggleSwitch/ToggleSwitch';
 
 
 import classes from './Menu.module.css';
-import * as actionTypes from '../../store/actionTypes';
+import * as UIActions from '../../store/actions/index';
 import gear from './gear.svg';
 
 class Menu extends Component {
@@ -80,8 +80,8 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-        onGoDark: () => dispatch({type: actionTypes.GO_DARK}),
-        onGoLight: () => dispatch({type: actionTypes.GO_LIGHT})
+        onGoDark: () => dispatch(UIActions.goDark),
+        onGoLight: () => dispatch(UIActions.goLight)
     }
   }
   
