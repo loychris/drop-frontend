@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import * as actionTypes from './actionTypes';
 
 export const swipe = (dir) => {
@@ -47,5 +49,13 @@ export const unSelectComment = (id) => {
     return {
         type: actionTypes.UNSELECT_COMMENT,
         id: id
+    }
+}
+
+export const initStream = () => {
+    return dispatch => {
+        axios.get('/api/drop')
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err))
     }
 }
