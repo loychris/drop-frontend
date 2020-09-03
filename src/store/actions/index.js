@@ -5,7 +5,9 @@ export {
     openModal,
     closeModal,
     openMenu,
-    closeMenu
+    closeMenu,
+    openAuth,
+    closeAuth
 } from './UIActions';
 
 export {
@@ -22,3 +24,11 @@ export {
     send,
     changeChat
 } from './chatActions';
+
+export {
+    login,
+    logout,
+    signup,
+    checkEmail,
+    checkHandle
+} from './authActions';

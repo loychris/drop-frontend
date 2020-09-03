@@ -1,20 +1,18 @@
-.formControl {
+.InputContainer {
   margin: 1rem 0;
 }
 
-.formControl label,
-.formControl input,
-.formControl textarea {
+.Label,
+.InputContainer input {
   display: block;
+  text-align: left;
+  margin-left: 10%;
 }
 
-.formControl label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
 
-.formControl input,
-.formControl textarea {
+
+.InputContainer input {
+  text-align: left;
   width: 100%;
   font: inherit;
   border: 1px solid #ccc;
@@ -22,20 +20,27 @@
   padding: 0.15rem 0.25rem;
 }
 
-.formControl input:focus,
-.formControl textarea:focus {
+.InputContainer input:focus,
+.InputContainer textarea:focus {
   outline: none;
   background: #ebebeb;
   border-color: #510077;
 }
 
-.formControl--invalid label,
-.formControl--invalid p {
+.ErrorText {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: 10%;
+  font-size: 10pt;
+  text-align: right;
+}
+
+.InputContainerInvalid .ErrorText {
   color: red;
 }
 
-.formControl--invalid input,
-.formControl--invalid textarea {
-  border-color: red;
+.InputContainerInvalid .Input {
+  border: 1px solid red;
   background: #ffd1d1;
 }
+

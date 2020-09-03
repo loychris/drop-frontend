@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from 'react-redux';
 
 import * as chatActions from '../../store/actions/index'; 
@@ -7,14 +6,9 @@ import * as chatActions from '../../store/actions/index';
 import ChatPrev from "./ChatPrev/ChatPrev";
 import classes from "./Chat.module.css";
 import Message from "./Message/Message";
+import Textarea from './Textarea/Textarea';
 
 class Chat extends Component {
-  state = {
-    searchBarValue: "",
-    textValue: "initial Message",
-
-  };
-
 
   upadeChatValue = (event) => {
     this.setState({ textValue: event.target.value });
@@ -87,22 +81,8 @@ class Chat extends Component {
         <div className={classes.ChatWindow}>
           <div className={classes.Messages}>
             {latestMessages}
-          </div>
-          <div className={classes.TextField}>
-            <imput
-              type="textArea"
-              value={this.state.textValue}
-              onChange={this.upadeChatValue}
-            />
-            <button
-              onClick={() => {
-                console.log("sending");
-                this.props.send(this.state.textValue, this.props.currentChatId);
-              }}
-            >
-              send
-            </button>
-          </div>
+        </div>
+        <Textarea/>
         </div>
       </div>
     );

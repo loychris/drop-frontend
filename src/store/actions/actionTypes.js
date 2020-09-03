@@ -13,6 +13,8 @@ export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const OPEN_MENU = 'OPEN_MENU';
 export const CLOSE_MENU = 'CLOSE_MENU';
+export const OPEN_AUTH = 'OPEN_AUTH';
+export const CLOSE_AUTH = 'CLOSE_AUTH';
 
 
 export const SWIPE = 'SWIPE';
@@ -25,3 +27,9 @@ export const UNSELECT_COMMENT = 'UNSELECT_COMMENT';
 
 export const SEND = 'SEND';
 export const CHANGE_CHAT = 'CHANGE_CHAT';
+
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const SINGUP = 'SIGNUP';
+export const CHECK_EMAIL = 'CHECK_EMAIL';
+export const CHECK_HANDLE = 'CHECK_HANDLE';

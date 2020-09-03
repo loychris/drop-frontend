@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from './actionTypes';
 
 export const goDark = () => {
     return {
@@ -40,5 +40,17 @@ export const openMenu = () => {
 export const closeMenu = () => {
     return {
         type: actionTypes.CLOSE_MENU
+    }
+}
+
+export const openAuth = () => {
+    return {
+        type: actionTypes.OPEN_AUTH
+    }
+}
+
+export const closeAuth = () => {
+    return {
+        type: actionTypes.CLOSE_AUTH
     }
 }

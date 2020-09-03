@@ -8,7 +8,7 @@ import Chat from "./components/Chat/Chat";
 import Navigation from "./components/Navigation/Navigation";
 //import Assistant from "./components/Assistant/Assistant";
 import Menu from './components/Menu/Menu';
-// import Auth from './components/Auth/Auth';
+import Auth from './components/Auth/Auth';
 
 class App extends Component {
 
@@ -39,7 +39,7 @@ class App extends Component {
       <BrowserRouter>
         <div className={`App`}>
           <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
-          {/* <Auth/> */}
+          <Auth/>
           <Navigation/>
           <Stream/>
           <Chat/>

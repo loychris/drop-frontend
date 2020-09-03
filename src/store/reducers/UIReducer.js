@@ -4,7 +4,8 @@ const initialState = {
     darkmode: true,
     modalOpen: false,
     currentTab: 'stream',
-    menuOpen: false
+    menuOpen: false,
+    authOpen: false
 }
 
 const reducer = (state = initialState, action ) => {
@@ -44,6 +45,16 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state,
                 menuOpen: false
+            }
+        case actionTypes.OPEN_AUTH: 
+            return {
+                ...state,
+                authOpen: true
+            }
+        case actionTypes.CLOSE_AUTH: 
+            return {
+                ...state,
+                authOpen: false
             }
         default: return state;
     }

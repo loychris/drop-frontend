@@ -8,7 +8,7 @@ const initialState = {
             chatId: 0,
             latestMessages: [
             {
-                message: 'THis is a chat message',
+                message: 'First message chat 1',
                 time: '14:32', 
                 sender: "chris",
                 sent: true 
