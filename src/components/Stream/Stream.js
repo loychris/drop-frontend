@@ -21,12 +21,12 @@ const TIME_BLOCK_NEXT_SWIPE = 500;
 class Stream extends Component {
 
   state = {
-    initialPageLoad: true,
     timeStampLastSwipe: 0,
 }
 
   componentDidMount() {
     document.addEventListener("keyup", this.swipeHandler, false);
+    this.props.onFetchIds();
   }
 
   drop = (msg) => {
@@ -129,15 +129,17 @@ class Stream extends Component {
 const mapStateToProps = state => {
   return {
     timeStampLastSwipe: state.stream.timeStampLastSwipe,
+    streamElements: state.stream.StreamElements,
+    initialStreamLoad: state.stream.initialStreamLoad,
     currentTab: state.ui.currentTab,
     modalOpen: state.ui.modalOpen,
-    streamElements: state.stream.StreamElements,
     darkmode: state.ui.darkmode
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    onFetchIds: () => dispatch(streamActions.fetchIds()),
     onSwipe: (dir) => dispatch(streamActions.swipe(dir)),
   }
 }

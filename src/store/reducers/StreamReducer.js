@@ -2,12 +2,12 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     dropTargets: [
-        {
-          selected: false,
-          type: 'group',
-          name: 'Chris Loy',
-          id: 1
-        }
+        // {
+        //   selected: false,
+        //   type: 'group',
+        //   name: 'Chris Loy',
+        //   id: 1
+        // }
     ],
     selectedTargets: [
         
@@ -15,10 +15,7 @@ const initialState = {
     StreamElements: [
         { position: 0, show: "left", id: "0", status: 'loading', commentsStatus: 'loading', comments: []},
         { 
-            position: 1, 
-            show: "show", 
-            id: "1" , 
-            status: 'loaded', 
+            position: 1, show: "show", id: "1" , status: 'loaded', 
             post: { 
                 source: "facebook.com", 
                 title: "Title of the post"
@@ -33,67 +30,8 @@ const initialState = {
                     author: "Chris Loy",
                     points: 100,
                     comment: "subcomment",
-                    subComments: [{
-                        author: "Chris Loy",
-                        points: 100,
-                        comment: "subcomment",
-                        subComments: []
-                    },{
-                        author: "Chris Loy",
-                        points: 100,
-                        comment: "subcomment2",
-                        subComments: []
-                    }]
-                },{
-                    author: "Chris Loy",
-                    points: 100,
-                    comment: "subcomment",
                     subComments: []
                 }]
-            },{
-                commentId: 123425678,
-                author: 'user',
-                points: 0,
-                comment: "comment",
-                subComments: [{
-                    author: "Chris Loy",
-                    points: 100,
-                    comment: "subcomment",
-                    subComments: [{
-                        author: "Chris Loy",
-                        points: 100,
-                        comment: "subcomment",
-                        subComments: []
-                    },{
-                        author: "Chris Loy",
-                        points: 100,
-                        comment: "subcomment2",
-                        subComments: []
-                    }]
-                },{
-                    author: "Chris Loy",
-                    points: 100,
-                    comment: "subcomment",
-                    subComments: []
-                }]
-            },{
-                commentId: 3543,
-                author: 'user',
-                points: 0,
-                comment: "comment",
-                subComments: []
-            },{
-                commentId: 23524,
-                author: 'user',
-                points: 0,
-                comment: "comment",
-                subComments: []
-            },{
-                commentId: 5342,
-                author: 'user',
-                points: 0,
-                comment: "comment",
-                subComments: []
             }]
         },
         { position: 2, show: "show", id: "2" , status: 'loading', commentsStatus: 'loading', comments: []},
@@ -117,7 +55,7 @@ const initialState = {
         { position: 20, show: "show", id: "20", status: 'loading', commentsStatus: 'loading', comments: []},
         { position: 21, show: "show", id: "21", status: 'loading', commentsStatus: 'loading', comments: []},
     ],
-    initialPageLoad: true,
+    initialStreamLoad: 'not loaded',
     timeStampLastSwipe: 0,
     nextId: '22'
 }
@@ -198,6 +136,24 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state,
                 StreamElements: streamElementsNew
+            }
+        case actionTypes.SET_IDS: 
+            console.log('IDS: ', action.ids); 
+            const streamElementsWithIds = state.StreamElements.map(element => {
+                if(element.position > action.ids-1){
+                    return element
+                }else {
+                    return { ...element, id: action.ids[element.position]}
+                }
+            })
+            return {
+                ...state,
+                StreamElements: streamElementsWithIds
+            }
+        case actionTypes.FETCH_IDS_FAILED: 
+            return {
+                ...state,
+                initialStreamLoad: 'Fetch ids failed'
             }
         default: return state;
     }

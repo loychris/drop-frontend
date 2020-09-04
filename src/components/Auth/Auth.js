@@ -49,6 +49,21 @@ class Auth extends Component {
 
   signupHandler = (event) => {
     event.preventDefault();
+    axios.post(
+      '/api/users/signup', 
+      JSON.stringify({
+          email: this.state.email.value,
+          password: this.state.password.value,
+          handle: this.state.handle.value,
+          name: this.state.name.value
+      }), {
+      headers: { 'Content-Type': 'application/json' }
+    }).then(res => {
+      console.log(res.data);
+      this.props.onCloseAuth();
+    }).catch(err => {
+      console.log('ERRRRRRRRROR', err)
+    })
     console.log(`
       SIGNING UP 
       ${this.state.name.value},

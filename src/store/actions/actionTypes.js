@@ -1,6 +1,8 @@
 export const SWIPE_LEFT = 'SWIPE_LEFT';
 export const SWIPE_RIGHT = 'SWIPE_RIGHT';
 export const INIT_STREAM = 'INIT_STREAM';
+export const SET_IDS = 'SET_IDS';
+export const FETCH_IDS_FAILED = 'FETCH_IDS_FAILED';
 
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';

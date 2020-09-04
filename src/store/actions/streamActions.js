@@ -52,10 +52,27 @@ export const unSelectComment = (id) => {
     }
 }
 
-export const initStream = () => {
+export const setIds = (ids) => {
+    return {
+        type: actionTypes.SET_IDS,
+        ids: ids
+    }
+}
+
+export const fetchIdsFailed = () => {
+    return {
+        type: actionTypes.FETCH_IDS_FAILED
+    }
+}
+
+export const fetchIds = () => {
     return dispatch => {
-        axios.get('/api/drop')
-        .then(res => console.log(res.data))
-        .catch(err => console.log(err))
+        axios.get('/api/drop/ids')
+        .then(res => {
+            dispatch(setIds(res.data))
+        })
+        .catch(err => {
+            dispatch(fetchIdsFailed())
+        })
     }
 }

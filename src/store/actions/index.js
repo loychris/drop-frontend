@@ -11,6 +11,7 @@ export {
 } from './UIActions';
 
 export {
+    fetchIds,
     swipe,
     selectDropTarget,
     unSelectDropTarget,
