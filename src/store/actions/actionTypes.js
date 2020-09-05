@@ -1,8 +1,5 @@
-export const SWIPE_LEFT = 'SWIPE_LEFT';
-export const SWIPE_RIGHT = 'SWIPE_RIGHT';
-export const INIT_STREAM = 'INIT_STREAM';
-export const SET_IDS = 'SET_IDS';
-export const FETCH_IDS_FAILED = 'FETCH_IDS_FAILED';
+
+
 
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
@@ -26,6 +23,9 @@ export const ADD_COMMENT = 'ADD_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const SELECT_COMMENT = 'SELECT_COMMENT';
 export const UNSELECT_COMMENT = 'UNSELECT_COMMENT';
+export const FETCH_IDS = 'FETCH_IDS';
+export const SET_IDS = 'SET_IDS';
+export const FETCH_IDS_FAILED = 'FETCH_IDS_FAILED';
 
 export const SEND = 'SEND';
 export const CHANGE_CHAT = 'CHANGE_CHAT';

@@ -29,11 +29,11 @@ class CommentSection extends Component {
             comments = 
                 element.comments.length > 0 ? 
                 element.comments.map(x => {
-                    return <Comment 
+                    return <Comment {...x}
                             key={x.commentId} 
                             comment={x} 
                             postId={this.props.postId} 
-                            commentId={x.commentId}/>
+                           />
                 }) 
                 : null;
         }

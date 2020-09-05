@@ -38,17 +38,16 @@ export const deleteComment = (id) => {
     }
 }
 
-export const selectComment = (id) => {
+export const selectComment = (commentId) => {
     return {
         type: actionTypes.SELECT_COMMENT,
-        id: id
+        commentId
     }
 }
 
-export const unSelectComment = (id) => {
+export const unSelectComment = () => {
     return {
-        type: actionTypes.UNSELECT_COMMENT,
-        id: id
+        type: actionTypes.UNSELECT_COMMENT
     }
 }
 
@@ -76,3 +75,4 @@ export const fetchIds = () => {
         })
     }
 }
+

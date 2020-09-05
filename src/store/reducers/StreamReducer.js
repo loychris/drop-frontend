@@ -9,9 +9,8 @@ const initialState = {
         //   id: 1
         // }
     ],
-    selectedTargets: [
-        
-    ],
+    selectedTargets: [],
+    ids: [],
     StreamElements: [
         { position: 0, show: "left", id: "0", status: 'loading', commentsStatus: 'loading', comments: []},
         { 
@@ -26,13 +25,15 @@ const initialState = {
                 author: 'user',
                 points: 0,
                 comment: "comment",
+                selected: false,
                 subComments: [{
                     author: "Chris Loy",
                     points: 100,
                     comment: "subcomment",
                     subComments: []
                 }]
-            }]
+            }], 
+            selectedComment: null
         },
         { position: 2, show: "show", id: "2" , status: 'loading', commentsStatus: 'loading', comments: []},
         { position: 3, show: "show", id: "3" , status: 'loading', commentsStatus: 'loading', comments: []},
@@ -64,6 +65,7 @@ const initialState = {
 
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
+
         case actionTypes.SELECT_DROPTARGET: 
             return {
                 ...state,
@@ -75,6 +77,7 @@ const reducer = (state = initialState, action ) => {
                     return x;
                 })
             }
+
         case actionTypes.UNSELECT_DROPTARGET:
             return {
                 ...state,
@@ -86,6 +89,7 @@ const reducer = (state = initialState, action ) => {
                     return x;
                 })
             }
+
         case actionTypes.SWIPE: 
             const timestamp  = Date.now();
             let newElements = state.StreamElements.map(s => {
@@ -113,6 +117,7 @@ const reducer = (state = initialState, action ) => {
                 StreamElements: newElements,
                 timeStampLastSwipe: timestamp,
             }
+
         case actionTypes.ADD_COMMENT:
             const newComment = {
                 commentId: Math.random(),
@@ -137,23 +142,70 @@ const reducer = (state = initialState, action ) => {
                 ...state,
                 StreamElements: streamElementsNew
             }
+
         case actionTypes.SET_IDS: 
             console.log('IDS: ', action.ids); 
-            const streamElementsWithIds = state.StreamElements.map(element => {
+            const streamElementsWithIds = state.StreamElements.map((element, i) => {
                 if(element.position > action.ids-1){
-                    return element
+                    return {...element, id: 'no more' + Math.random(), status: 'no more' } 
                 }else {
-                    return { ...element, id: action.ids[element.position]}
+                    return { ...element, id: action.ids[element.position], status:'id loaded'}
                 }
             })
             return {
                 ...state,
                 StreamElements: streamElementsWithIds
             }
+
         case actionTypes.FETCH_IDS_FAILED: 
             return {
                 ...state,
                 initialStreamLoad: 'Fetch ids failed'
+            }
+
+        case actionTypes.SELECT_COMMENT: 
+            const StreamElementsCommentSelected = state.StreamElements.map(s => {
+                if(s.position === 1){
+                    return {
+                        ...s,
+                        comments: s.comments.map(c => {
+                            if(c.commentId === action.commentId){
+                                return { ... c, selected: true }
+                            }else { 
+                                return c 
+                            }
+                        }),
+                        selectedComment: action.commentId
+                    }
+                }else { return s }
+                    
+            });
+            return {
+                ...state,
+                StreamElements: StreamElementsCommentSelected
+            }
+
+        case actionTypes.UNSELECT_COMMENT: 
+            console.log('UNSELECTING COMMENT')
+            const streamElementsUnselectedComments = state.StreamElements.map(s => {
+                if(s.position === 1){
+                    return {
+                        ...s,
+                        comments: s.comments.map(c => {
+                            return {
+                                ...c,
+                                selected: false
+                            }
+                        }),
+                        selectedComment: null
+                    }
+                }else { 
+                    return s 
+                }
+            })
+            return {
+                ...state,
+                StreamElements: streamElementsUnselectedComments
             }
         default: return state;
     }

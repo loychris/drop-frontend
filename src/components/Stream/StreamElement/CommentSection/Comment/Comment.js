@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 
 import SubComment from './SubComment/SubComment';
 import Voting from "./Voting/Voting";
 import Options from "./Options/Options";
 import AuthorPic from "../AuthorPic/AuthorPic";
+import * as streamActions from '../../../../../store/actions/index';
 
 import classes from "./Comment.module.css";
 
@@ -117,8 +119,13 @@ class Comment extends Component {
               commentId={this.props.commentId}
               postId={this.props.postId}
               points={this.props.comment.points} />
-            <div className={classes.SelectClickTarget}                
-                 onClick={this.select}>
+            <div 
+              className={classes.SelectClickTarget}                
+              onClick={
+                this.props.selected ? 
+                  () => this.props.onUnselectComment() : 
+                  () => this.props.onSelectComment(this.props.commentId)
+              }>
               <span className={classes.actualComment}>
                 {this.props.comment.comment}
                 {options}
@@ -134,4 +141,16 @@ class Comment extends Component {
   }
 }
 
-export default Comment;
+const mapStateToProps = state => {
+  return {
+  }
+}
+
+const mapDispatchToProps = dispatch => { 
+  return {
+    onSelectComment: (commentId) => dispatch(streamActions.selectComment(commentId)),
+    onUnselectComment: () => dispatch(streamActions.unSelectComment())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comment);
