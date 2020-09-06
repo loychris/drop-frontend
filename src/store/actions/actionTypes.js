@@ -14,6 +14,8 @@ export const OPEN_MENU = 'OPEN_MENU';
 export const CLOSE_MENU = 'CLOSE_MENU';
 export const OPEN_AUTH = 'OPEN_AUTH';
 export const CLOSE_AUTH = 'CLOSE_AUTH';
+export const OPEN_BACKDROP = 'OPEN_BACKDROP';
+export const CLOSE_BACKDROP = 'CLOSE_BACKDROP';
 
 
 export const SWIPE = 'SWIPE';

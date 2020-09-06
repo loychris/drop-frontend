@@ -54,3 +54,16 @@ export const closeAuth = () => {
         type: actionTypes.CLOSE_AUTH
     }
 }
+
+export const openBackdrop = (zIndex) => {
+    return {
+        type: actionTypes.OPEN_BACKDROP,
+        zIndex: zIndex
+    }
+}
+
+export const closeBackdrop = () => {
+    return {
+        type: actionTypes.CLOSE_BACKDROP
+    }
+}

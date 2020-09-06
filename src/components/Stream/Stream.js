@@ -25,7 +25,6 @@ class Stream extends Component {
 }
 
   componentDidMount() {
-    console.log('MOUNTING')
     document.addEventListener("keyup", this.swipeHandler, false);
     this.props.onFetchIds();
   }

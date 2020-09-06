@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Voting from "../Voting/Voting";
 import Options from "../Options/Options";
 import AuthorPic from "../../AuthorPic/AuthorPic";
+import Backdrop from '../../../../../UI/Backdrop/Backdrop';
 
 import classes from "./SubComment.module.css";
 import C from "./Connector.svg";
@@ -109,7 +110,6 @@ class SubComment extends Component {
         const lastProp = i === this.props.subComments.length - 1 ? true : false;
         subComments.push(
           <SubComment
-            neuMorphism={this.props.neuMorphism}
             tree={nextTreeString}
             last={lastProp}
             depth={`${depth + 1}`}
@@ -142,10 +142,10 @@ class SubComment extends Component {
   }
 
   render() {
-    const SpeechBubbleArrow = !this.props.neuMorphism ? 
+    const SpeechBubbleArrow = 
     <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill={COLOR_COMMENT_BACKGROUND}/>
-    </svg> : []
+      <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= {!this.props.parentSelected ? COLOR_COMMENT_BACKGROUND : "rgba(87, 122, 161, 0.6)"}/>
+    </svg> 
     const depth = this.props.path.split("/").length - 1;
     let commentStyle = { paddingLeft: `${depth * INDENT}px` };
     const contentStyle = {
@@ -154,7 +154,7 @@ class SubComment extends Component {
     };
 
     let backgroundStyleClasses = [classes.CommentBackground]
-    if(this.props.neuMorphism){backgroundStyleClasses.push(classes.CommentBackgroundNeumorphism)}else{backgroundStyleClasses.push(classes.CommnetBackgroundFlat)}
+    backgroundStyleClasses.push(classes.CommnetBackgroundFlat);
     /////////////////////////////  visual tree algorithm // DO NOT FUCKING TOUCH   /////////////////////////////
     let inheritance = this.props.tree ? this.props.tree : [];
     let thisTreeString = this.props.last === true ? [...inheritance, "L"].slice(1) : [...inheritance, "T"].slice(1);
@@ -166,9 +166,13 @@ class SubComment extends Component {
         deleteSubComment={this.props.deleteSubComment} 
         path={this.props.path}/> : [];
     return (
-      <div className={classes.CommentContainer}>
+      <div className={`${classes.CommentContainer} ${this.props.parentSelected ? classes.selected : null}`}>
+        {this.props.selected ? 
+          <Backdrop clicked={this.props.onUnselectComment}/>
+          : null
+        }
         <div className={classes.Comment} style={commentStyle}>
-          <AuthorPic depth={this.props.depth} indent={INDENT} neuMorphism={this.props.neuMorphism}/>
+          <AuthorPic depth={this.props.depth} indent={INDENT}/>
           <div className={backgroundStyleClasses.join(' ')} 
                ref={divElement => (this.divElement = divElement)}>
             <Voting points={this.props.points} />

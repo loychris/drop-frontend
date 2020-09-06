@@ -92,31 +92,51 @@ const reducer = (state = initialState, action ) => {
 
         case actionTypes.SWIPE: 
             const timestamp  = Date.now();
-            let newElements = state.StreamElements.map(s => {
+            if(state.StreamElements[1].selectedComment){
+                console.log('UNSELECTING COMMENT')
+                const streamElementsUnselectedComments = state.StreamElements.map(s => {
+                    if(s.position === 1){
+                        return {
+                            ...s,
+                            comments: s.comments.map(c => {
+                                return { ...c, selected: false }
+                            }),
+                            selectedComment: null
+                        }
+                    }else { return s }
+                })
                 return {
-                    ...s, 
-                    position: s.position - 1,
-                    show: s.position-1 === 0 ? action.dir : 'show'
+                    ...state,
+                    StreamElements: streamElementsUnselectedComments
                 }
-            })
-            .filter(s => {
-                return s.position >= 0
-            })
-            newElements.push({
-                position: 20,
-                show: 'show',
-                id: state.nextId,
-                status: 'loading',
-                commentsStatus: 'loading',
-                comments: []
-            })
-            const nextId = `${state.timeStampLastSwipe}`;
-            return {
-                ...state,
-                nextId: nextId,
-                StreamElements: newElements,
-                timeStampLastSwipe: timestamp,
+            }else{
+                let newElements = state.StreamElements.map(s => {
+                    return {
+                        ...s, 
+                        position: s.position - 1,
+                        show: s.position-1 === 0 ? action.dir : 'show'
+                    }
+                })
+                .filter(s => {
+                    return s.position >= 0
+                })
+                newElements.push({
+                    position: 20,
+                    show: 'show',
+                    id: state.nextId,
+                    status: 'loading',
+                    commentsStatus: 'loading',
+                    comments: []
+                })
+                const nextId = `${state.timeStampLastSwipe}`;
+                return {
+                    ...state,
+                    nextId: nextId,
+                    StreamElements: newElements,
+                    timeStampLastSwipe: timestamp,
+                }
             }
+            
 
         case actionTypes.ADD_COMMENT:
             const newComment = {
@@ -134,9 +154,7 @@ const reducer = (state = initialState, action ) => {
                         ...s,
                         comments: commentsNew
                     }
-                }else {
-                    return s
-                }
+                }else { return s }
             })
             return {
                 ...state,
@@ -146,7 +164,7 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SET_IDS: 
             console.log('IDS: ', action.ids); 
             const streamElementsWithIds = state.StreamElements.map((element, i) => {
-                if(element.position > action.ids-1){
+                if(element.position > action.ids.length-1){
                     return {...element, id: 'no more' + Math.random(), status: 'no more' } 
                 }else {
                     return { ...element, id: action.ids[element.position], status:'id loaded'}
@@ -170,10 +188,13 @@ const reducer = (state = initialState, action ) => {
                         ...s,
                         comments: s.comments.map(c => {
                             if(c.commentId === action.commentId){
-                                return { ... c, selected: true }
-                            }else { 
-                                return c 
-                            }
+                                if(action.path === '/'){
+                                    return { ... c, selected: true }
+                                }
+                                else {
+                                    console.log('TODO: find subcomment')
+                                }
+                            } else { return c }
                         }),
                         selectedComment: action.commentId
                     }

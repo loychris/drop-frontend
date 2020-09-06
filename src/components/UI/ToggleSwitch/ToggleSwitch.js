@@ -56,44 +56,5 @@ class ToggleSwitch extends Component {
     };
   }
   
-  ToggleSwitch.propTypes = {
-    id: PropTypes.string.isRequired,
-    Text: PropTypes.string.isRequired,
-    Name: PropTypes.string,
-    onChange: PropTypes.func,
-    defaultChecked: PropTypes.bool,
-    Small: PropTypes.bool,
-    currentValue: PropTypes.bool,
-    disabled: PropTypes.bool
-  };
   
   export default ToggleSwitch;
-
-// import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-
-// import classes from './ToggleSwitch.module.css';
-
-
-// class ToggleSwitch extends Component {
-
-
-//     render() {
-//         return(
-//             <div className={classes.toggleSwitch}>
-//                 <imput 
-//                     type='checkbox' 
-//                     value={this.props.value}
-//                     onClick={this.props.clicked}/> 
-//             </div>
-//         )
-//     }
-// }
-
-// const mapStateToProps = state => {
-//     return{
-//         darkmode: state.ui.darkmode
-//     }
-// }
-
-// export default connect(mapStateToProps)(ToggleSwitch);

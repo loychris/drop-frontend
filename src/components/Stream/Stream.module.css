@@ -11,6 +11,7 @@
     -webkit-perspective: 55px;
     display: block; 
     transition: 0.3s ease; 
+    opacity: 0.99
 }
 
 .OutRight {

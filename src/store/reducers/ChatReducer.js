@@ -11,12 +11,14 @@ const initialState = {
                 message: 'First message chat 1',
                 time: '14:32', 
                 sender: "chris",
+                id: 1,
                 sent: true 
             },
             {
                 message: 'THis is a chat message',
                 time: '14:32', 
                 sender: "chris",
+                id: 2,
                 sent: false 
             }
             ]
@@ -28,12 +30,14 @@ const initialState = {
                     message: 'THis is a chat message',
                     time: '14:32', 
                     sender: "chris",
+                    id: 1,
                     sent: true 
                 },
                 {
                     message: 'THis is a chat message',
                     time: '14:32', 
                     sender: "chris",
+                    id: 1,
                     sent: false 
                 }
             ]

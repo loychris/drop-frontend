@@ -45,6 +45,12 @@
     background-color: rgba(0, 2, 10, 0.6);
 }
 
+.selected {
+    background-color: rgba(87, 122, 161, 0.6);
+    position: relative;
+    z-index: 200;
+}
+
 .sending {
     background-color: rgba(255,255,255,0.5);
 }
@@ -60,4 +66,3 @@
     left: -14px;
     top: 4px;
 }
-

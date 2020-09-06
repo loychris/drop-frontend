@@ -7,7 +7,7 @@ export {
     openMenu,
     closeMenu,
     openAuth,
-    closeAuth
+    closeAuth,
 } from './UIActions';
 
 export {

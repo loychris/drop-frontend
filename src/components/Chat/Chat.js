@@ -63,7 +63,7 @@ class Chat extends Component {
             return x.chatId === this.props.currentChatId;
           })
           .latestMessages.map((x) => {
-            return <Message {...x} key={x.msgId} />;
+            return <Message {...x} key={x.id} />;
           })
       : null;
 

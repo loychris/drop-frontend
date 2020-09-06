@@ -25,7 +25,7 @@ class StreamElement extends Component {
 
   componentDidMount() {
     if (!this.props.status === 'loaded') {
-      axios.get(`/post/${this.props.id}`)
+      axios.get(`/api/drop/${this.props.id}`)
       .then(response => {
         console.log(response);
       });

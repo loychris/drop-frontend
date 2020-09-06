@@ -38,10 +38,11 @@ export const deleteComment = (id) => {
     }
 }
 
-export const selectComment = (commentId) => {
+export const selectComment = (commentId, path) => {
     return {
         type: actionTypes.SELECT_COMMENT,
-        commentId
+        commentId,
+        path
     }
 }
 

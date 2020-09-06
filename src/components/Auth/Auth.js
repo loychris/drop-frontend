@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import Input from './FormElements/Input';
 import Button from './FormElements/Button';
+import Backdrop from '../UI/Backdrop/Backdrop';
 
 import * as authActions from '../../store/actions/index';
 import classes from './Auth.module.css';
@@ -245,7 +246,7 @@ class Auth extends Component {
     console.log("VALID", this.formStateValid())
     return (
       <div className={this.props.authOpen ? null: classes.hidden}>
-          <div className={classes.backDrop}></div>
+          {this.props.authOpen ? <Backdrop clicked={this.props.onCloseAuth} zIndex='100' /> : null}
           <div className={classes.login}>
               <h2>Login Required</h2>
               <hr />

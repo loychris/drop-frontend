@@ -18,9 +18,10 @@ class Voting extends Component {
         }
     }
 
-    upvote = () => {
+    upvote = (event) => {
         if(!this.state.didUpvote){
-            let newState = {};
+            event.stopPropagation();
+            let newState;
             axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'up', user:'Voting User'});
             if(this.state.didDownvote){ // Up:0 down:1
                 newState = { didUpvote:true, didDownvote:false, points:this.state.points+2 }
@@ -32,9 +33,10 @@ class Voting extends Component {
         // nothing should happen otherwise; either already upvoted or both are true (should not happen)
     }
 
-    downvote = () => {
+    downvote = (event) => {
         if(!this.state.didDownvote){
-            let newState = {};
+            event.stopPropagation();
+            let newState;
             axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'down', user:'Voting User'});
             if(this.state.didUpvote){ // Up:1 down:0
                 newState = { didDownvote:true, didUpvote:false, points:this.state.points-2 }
@@ -46,8 +48,9 @@ class Voting extends Component {
         // nothing should happen otherwise; either already downvoted or both are true (should not happen)
     }
 
-    unvote = () => {
-        let newState = {};
+    unvote = (event) => {
+        event.stopPropagation();
+        let newState;
         if(this.state.didDownvote){
             axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'neutral', user:'Voting User'});
             newState = { didDownvote:false, didUpvote:false, points:this.state.points+1}

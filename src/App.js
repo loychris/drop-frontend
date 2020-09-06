@@ -55,7 +55,7 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    darkmode: state.ui.darkmode
+    darkmode: state.ui.darkmode,
   }
 }
 
