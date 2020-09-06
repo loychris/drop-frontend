@@ -4,6 +4,7 @@ import * as streamActions from '../../../store/actions/index';
 
 import Aux from "../../../hoc/Aux";
 import FriendsListItem from "../FriendsListItem/FriendsListItem";
+import Backdrop from '../../UI/Backdrop/Backdrop';
 
 import classes from "./DropOptionsMenu.module.css";
 
@@ -157,6 +158,11 @@ class DropOptionsMenu extends Component {
     if (this.state.active === "friends") targets = this.getFriendsList();
     return (
       <Aux className={classes.DropOptionsMenu}>
+        {this.props.modalOpen ? 
+          <Backdrop
+            clicked={this.props.onCloseModal}
+          />
+          : null}
         <h2 className={classes.MenuHeader} >Select Friends</h2>
 
 
@@ -189,6 +195,7 @@ class DropOptionsMenu extends Component {
 }
 const mapStateToProps = state => {
   return {
+    modalOpen: state.ui.modalOpen,
     selectedTargets: state.stream.selectedTargets,
     dropTargets: state.stream.dropTargets
   }
@@ -196,6 +203,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    onCloseModal: () => dispatch(streamActions.closeModal()),
     onSelectDropTarget: (id) => dispatch(streamActions.selectDropTarget(id)),
     onUnSelectDropTarget: (id) => dispatch(streamActions.unSelectDropTarget(id)),
   }

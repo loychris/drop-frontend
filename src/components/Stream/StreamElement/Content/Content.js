@@ -13,12 +13,12 @@ class Content extends Component {
     }
 
     componentDidMount(){
-        if(!this.state.loaded){
-            axios.get(`/meme/${this.props.id}`)
-                .then(response => {
-                    this.setState({loaded: true, img: response.data})
-                });
-        }
+        // if(!this.state.loaded){
+        //     axios.get(`/meme/${this.props.id}`)
+        //         .then(response => {
+        //             this.setState({loaded: true, img: response.data})
+        //         });
+        // }
     }
 
     render() {

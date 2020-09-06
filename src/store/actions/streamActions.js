@@ -77,3 +77,11 @@ export const fetchIds = () => {
     }
 }
 
+export const setDrop = (dropId, drop) => {
+    return {
+        type: actionTypes.SET_DROP,
+        dropId,
+        drop
+    }
+}
+

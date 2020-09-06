@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import * as streamActions from '../../store/actions/index';
-import * as UIActions from '../../store/actions/index';
 
 import StreamElement from "./StreamElement/StreamElement";
 import classes from "./Stream.module.css";

@@ -5,7 +5,7 @@ const initialState = {
     modalOpen: false,
     currentTab: 'stream',
     menuOpen: false,
-    authOpen: true,
+    authOpen: false,
 }
 
 const reducer = (state = initialState, action ) => {

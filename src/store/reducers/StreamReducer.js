@@ -12,7 +12,7 @@ const initialState = {
     selectedTargets: [],
     ids: [],
     StreamElements: [
-        { position: 0, show: "left", id: "0", status: 'loading', commentsStatus: 'loading', comments: []},
+        { position: 0, show: "left", id: "0", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
         { 
             position: 1, show: "show", id: "1" , status: 'loaded', 
             post: { 
@@ -35,28 +35,27 @@ const initialState = {
             }], 
             selectedComment: null
         },
-        { position: 2, show: "show", id: "2" , status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 3, show: "show", id: "3" , status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 4, show: "show", id: "4" , status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 5, show: "show", id: "5" , status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 6, show: "show", id: "6" , status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 7, show: "show", id: "7" , status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 8, show: "show", id: "8" , status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 9, show: "show", id: "9" , status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 10, show: "show", id: "10", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 11, show: "show", id: "11", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 12, show: "show", id: "12", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 13, show: "show", id: "13", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 14, show: "show", id: "14", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 15, show: "show", id: "15", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 16, show: "show", id: "16", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 17, show: "show", id: "17", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 18, show: "show", id: "18", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 19, show: "show", id: "19", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 20, show: "show", id: "20", status: 'loading', commentsStatus: 'loading', comments: []},
-        { position: 21, show: "show", id: "21", status: 'loading', commentsStatus: 'loading', comments: []},
+        { position: 2, show: "show", id: "2" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 3, show: "show", id: "3" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 4, show: "show", id: "4" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 5, show: "show", id: "5" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 6, show: "show", id: "6" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 7, show: "show", id: "7" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 8, show: "show", id: "8" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 9, show: "show", id: "9" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 10, show: "show", id: "10", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 11, show: "show", id: "11", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 12, show: "show", id: "12", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 13, show: "show", id: "13", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 14, show: "show", id: "14", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 15, show: "show", id: "15", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 16, show: "show", id: "16", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 17, show: "show", id: "17", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 18, show: "show", id: "18", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 19, show: "show", id: "19", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 20, show: "show", id: "20", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 21, show: "show", id: "21", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
     ],
-    initialStreamLoad: 'not loaded',
     timeStampLastSwipe: 0,
     nextId: '22'
 }
@@ -162,7 +161,6 @@ const reducer = (state = initialState, action ) => {
             }
 
         case actionTypes.SET_IDS: 
-            console.log('IDS: ', action.ids); 
             const streamElementsWithIds = state.StreamElements.map((element, i) => {
                 if(element.position > action.ids.length-1){
                     return {...element, id: 'no more' + Math.random(), status: 'no more' } 
@@ -207,7 +205,6 @@ const reducer = (state = initialState, action ) => {
             }
 
         case actionTypes.UNSELECT_COMMENT: 
-            console.log('UNSELECTING COMMENT')
             const streamElementsUnselectedComments = state.StreamElements.map(s => {
                 if(s.position === 1){
                     return {
@@ -227,6 +224,24 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state,
                 StreamElements: streamElementsUnselectedComments
+            }
+        case actionTypes.SET_DROP: 
+            const streamElementsWithDrop = state.StreamElements.map(s => {
+                if(s.id === action.dropId){
+                    return {
+                        ...s,
+                        ...action.drop,
+                        // title: action.drop.title ? action.drop.title : null,
+                        // source: action.drop.source ? action.drop.source : null,
+                        status: 'drop loaded'
+                    }
+                }else {
+                    return s
+                }
+            })
+            return {
+                ...state,
+                StreamElements: streamElementsWithDrop
             }
         default: return state;
     }

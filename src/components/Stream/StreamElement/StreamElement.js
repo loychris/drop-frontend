@@ -24,10 +24,13 @@ class StreamElement extends Component {
 
 
   componentDidMount() {
-    if (!this.props.status === 'loaded') {
+    if (this.props.status === 'id loaded') {
       axios.get(`/api/drop/${this.props.id}`)
       .then(response => {
-        console.log(response);
+        this.props.onSetDrop(this.props.id, response.data.drop);
+      })
+      .catch(err => {
+        console.log('FETCHING DROP FAILED, ', err);
       });
     }
   }
@@ -64,7 +67,8 @@ class StreamElement extends Component {
         : null;
 
     let droppedToYouBy = [];
-    let source = [];
+    const source = this.props.source ? <Source sourceURL={this.props.source} /> : null
+
     let cssClasses = [classes.StreamElement];
 
     if (this.props.show === "show") cssClasses.push(classes.ShowDrop);
@@ -79,7 +83,6 @@ class StreamElement extends Component {
       if (this.props.post.droppedBy) {
         cssClasses.push("classes.DroppedByFriend");
       }
-      source = this.props.post.source ? <Source sourceURL={this.props.post.source} /> : null
     }
 
     return (
@@ -89,11 +92,7 @@ class StreamElement extends Component {
         style={this.calcStyles2(this.props.position)}
       >
         {droppedToYouBy}
-        <h3 className={classes.title}>
-          {this.props.post
-            ? this.props.post.title
-            : ''}
-        </h3>
+        {this.props.title ? <h3 className={classes.title}>{this.props.title}</h3>: null }
         <Content position={this.props.position} id={this.props.id} />
         {source}
         <DropButton theme={NEUMORPHISM} clicked={this.props.onOpenModal}>
@@ -107,13 +106,14 @@ class StreamElement extends Component {
 
 const mapStateToProps = state => {
   return {
-    darkmode: state.ui.darkmode,    
+    darkmode: state.ui.darkmode
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     onOpenModal: () => dispatch(UIActions.openModal()),
+    onSetDrop: (dropId, drop) => dispatch(UIActions.setDrop(dropId, drop))
   }
 }
 

@@ -18,7 +18,8 @@ export {
     addComment,
     deleteComment,
     selectComment,
-    unSelectComment
+    unSelectComment,
+    setDrop
 } from './streamActions';
 
 export {

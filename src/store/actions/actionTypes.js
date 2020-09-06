@@ -28,6 +28,7 @@ export const UNSELECT_COMMENT = 'UNSELECT_COMMENT';
 export const FETCH_IDS = 'FETCH_IDS';
 export const SET_IDS = 'SET_IDS';
 export const FETCH_IDS_FAILED = 'FETCH_IDS_FAILED';
+export const SET_DROP = 'SET_DROP';
 
 export const SEND = 'SEND';
 export const CHANGE_CHAT = 'CHANGE_CHAT';
