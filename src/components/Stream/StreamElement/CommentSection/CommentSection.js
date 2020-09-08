@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
 
+import * as streamActions from '../../../../store/actions/index';
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 import CommentForm from './CommentForm/CommentForm';
@@ -12,56 +13,60 @@ import CommentForm from './CommentForm/CommentForm';
 class CommentSection extends Component {
 
 
-
+    componentDidUpdate = () => {
+        if(this.props.dropLoaded && this.props.commentStatus === 'not loaded'){
+            this.props.onFetchComments(this.props.postId);
+        }
+    }
 
 
     render(){
-        let comments;
-        const element = this.props.streamElements.find(e => e.id === this.props.postId);
-        if(element.commentsStatus === 'loading'){
-            comments = <Loader 
-                        className={classes.Spinner} 
-                        type="ThreeDots" 
-                        color="#00BFFF" 
-                        height={30} 
-                        width={30}/>
-        }else{
-            comments = 
-                element.comments.length > 0 ? 
-                element.comments.map(x => {
-                    return <Comment {...x}
+        let comments = null;
+        if(this.props.position <= 2){
+            if(this.props.commentStatus === 'not loaded'){
+                comments = <Loader 
+                            className={classes.Spinner} 
+                            type="ThreeDots" 
+                            color="#00BFFF" 
+                            height={30} 
+                            width={30}/>
+            }else{
+                console.log('RENDERING COMMENTS')
+                comments = this.props.comments.map(x => {
+                    return(
+                        <Comment 
+                            {...x}
                             key={x.commentId} 
                             comment={x} 
                             postId={this.props.postId} 
-                           />
+                        />
+                    )
                 }) 
-                : null;
+            }
         }
-        let styleClasses = [classes.CommentSection];
-        if(this.props.neuMorphism) styleClasses.push(classes.NeuMorphism);
-
 
         return(
-            <div className={styleClasses.join(' ')} tabIndex='0'>
+            <div className={classes.CommentSection} tabIndex='0'>
                 <CommentForm postId={this.props.postId}/>
                 <div className={classes.comments}>
                     {comments}
                 </div>
-
             </div>
         )
     }
+}
 
-    
-
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchComments: (dropId) => dispatch(streamActions.fetchComments(dropId))
+    }
 }
 
 const mapStateToProps = state => {
     return {
       darkmode: state.ui.darkmode, 
-      streamElements: state.stream.StreamElements
     }
 }
   
   
-export default connect(mapStateToProps)(CommentSection);
+export default connect(mapStateToProps, mapDispatchToProps)(CommentSection);

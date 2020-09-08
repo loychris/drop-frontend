@@ -61,11 +61,6 @@ class StreamElement extends Component {
   }
 
   render() {
-    const commentSection =
-      this.props.position < 2 ?
-        <CommentSection postId={this.props.id} pos={this.props.position}/>
-        : null;
-
     let droppedToYouBy = [];
     const source = this.props.source ? <Source sourceURL={this.props.source} /> : null
 
@@ -80,25 +75,29 @@ class StreamElement extends Component {
       if (this.props.position < 2 && this.props.post && this.props.post.droppedBy) {
         droppedToYouBy = <DroppedToYouBy names={this.props.post.droppedBy} />;
       }
-      if (this.props.post.droppedBy) {
+      if (this.props.droppedBy) {
         cssClasses.push("classes.DroppedByFriend");
       }
     }
 
     return (
       <div
-          tabIndex="0"
+        tabIndex="0"
         className={cssClasses.join(" ")}
-        style={this.calcStyles2(this.props.position)}
-      >
+        style={this.calcStyles2(this.props.position)}>
         {droppedToYouBy}
         {this.props.title ? <h3 className={classes.title}>{this.props.title}</h3>: null }
-        <Content position={this.props.position} id={this.props.id} />
+        <Content position={this.props.position} id={this.props.id} status={this.props.status} />
         {source}
         <DropButton theme={NEUMORPHISM} clicked={this.props.onOpenModal}>
           <h3 className={classes.DROP}>Drop</h3>
         </DropButton>
-        {commentSection}
+        <CommentSection 
+          position={this.props.position}
+          postId={this.props.id} 
+          comments={this.props.comments} 
+          dropLoaded={this.props.status === 'drop loaded'}
+          commentStatus={this.props.commentsStatus}/>      
       </div>
     );
   }

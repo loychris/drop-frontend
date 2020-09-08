@@ -77,6 +77,36 @@ export const fetchIds = () => {
     }
 }
 
+export const setComments = (dropId, comments) => {
+    return {
+        type: actionTypes.SET_COMMENTS,
+        dropId,
+        comments
+    }
+}
+
+export const fetchCommentsFailed = () => {
+    return {
+        type: actionTypes.FETCH_COMMENTS_FAILED
+    }
+}
+
+export const fetchComments = (dropId) => {
+    return dispatch => {
+        axios.get(`/api/drop/${dropId}/comment`)
+        .then(res => {
+            if(res.data.comments.length > 0){
+                console.log(dropId);
+                console.log(res.data);
+            }
+            dispatch(setComments(dropId, res.data.comments));
+        })
+        .catch(err => {
+            dispatch(fetchCommentsFailed())
+        })
+    }
+}
+
 export const setDrop = (dropId, drop) => {
     return {
         type: actionTypes.SET_DROP,

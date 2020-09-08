@@ -31,7 +31,8 @@ class Comment extends Component {
   }
 
   generateRoot = () => {
-      if (this.props.comment.subComments.length > 0)
+      console.log(this.props.comment)
+      if (this.props.comment.subComments && this.props.comment.subComments.length > 0)
       return(
       <svg
         key={1001}
@@ -89,11 +90,12 @@ class Comment extends Component {
   }
 
   render() {
+    console.log("COMMENT: ", this.props.comment); 
     /////////////////////////// DESIGN ELEMENTS ///////////////////////
-    const root = this.props.comment.subComments.length > 0 ?
+    const root = this.props.comment.subComments && this.props.comment.subComments.length > 0 ?
       <svg key={1000} className={classes.Atlas} width={"2px"} height={`${this.state.height}px`} viewBox={`0 0 2 ${this.state.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d={`M0 0H2V${this.state.height}H0V0Z`} fill="#ffffff" />
-      </svg> : []
+      </svg> : null
 
     const SpeechBubbleArrow = !this.props.neuMorphism ? 
       <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -130,7 +132,7 @@ class Comment extends Component {
             <Voting 
               commentId={this.props.commentId}
               postId={this.props.postId}
-              points={this.props.comment.points} />
+              points={this.props.score} />
             <div className={classes.SelectClickTarget}>
               <span className={classes.actualComment}>
                 {this.props.comment.comment}
@@ -141,7 +143,7 @@ class Comment extends Component {
           </div>
         </div>
         {root}
-        {this.createSubComments()}
+        {this.props.comment.subComments ? this.createSubComments() : null}
       </div>
     );
   }

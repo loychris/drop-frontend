@@ -12,6 +12,7 @@ export {
 
 export {
     fetchIds,
+    fetchComments,
     swipe,
     selectDropTarget,
     unSelectDropTarget,

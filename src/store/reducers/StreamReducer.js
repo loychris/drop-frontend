@@ -1,40 +1,12 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    dropTargets: [
-        // {
-        //   selected: false,
-        //   type: 'group',
-        //   name: 'Chris Loy',
-        //   id: 1
-        // }
-    ],
+    dropTargets: [],
     selectedTargets: [],
     ids: [],
     StreamElements: [
         { position: 0, show: "left", id: "0", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { 
-            position: 1, show: "show", id: "1" , status: 'loaded', 
-            post: { 
-                source: "facebook.com", 
-                title: "Title of the post"
-            },
-            commentsStatus: 'loaded',
-            comments: [{
-                commentId: 12345678,
-                author: 'user',
-                points: 0,
-                comment: "comment",
-                selected: false,
-                subComments: [{
-                    author: "Chris Loy",
-                    points: 100,
-                    comment: "subcomment",
-                    subComments: []
-                }]
-            }], 
-            selectedComment: null
-        },
+        { position: 1, show: "show", id: "1" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
         { position: 2, show: "show", id: "2" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
         { position: 3, show: "show", id: "3" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
         { position: 4, show: "show", id: "4" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
@@ -109,6 +81,7 @@ const reducer = (state = initialState, action ) => {
                     StreamElements: streamElementsUnselectedComments
                 }
             }else{
+                let ids = state.ids;
                 let newElements = state.StreamElements.map(s => {
                     return {
                         ...s, 
@@ -122,17 +95,17 @@ const reducer = (state = initialState, action ) => {
                 newElements.push({
                     position: 20,
                     show: 'show',
-                    id: state.nextId,
-                    status: 'loading',
-                    commentsStatus: 'loading',
+                    id: ids.pop(),
+                    status: 'not loaded',
+                    commentsStatus: 'not loaded',
                     comments: []
                 })
                 const nextId = `${state.timeStampLastSwipe}`;
                 return {
                     ...state,
-                    nextId: nextId,
                     StreamElements: newElements,
                     timeStampLastSwipe: timestamp,
+                    ids
                 }
             }
             
@@ -161,15 +134,17 @@ const reducer = (state = initialState, action ) => {
             }
 
         case actionTypes.SET_IDS: 
+            let ids = action.ids;
             const streamElementsWithIds = state.StreamElements.map((element, i) => {
                 if(element.position > action.ids.length-1){
                     return {...element, id: 'no more' + Math.random(), status: 'no more' } 
                 }else {
-                    return { ...element, id: action.ids[element.position], status:'id loaded'}
+                    return { ...element, id: ids.pop(), status:'id loaded'}
                 }
             })
             return {
                 ...state,
+                ids,
                 StreamElements: streamElementsWithIds
             }
 
@@ -242,6 +217,23 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state,
                 StreamElements: streamElementsWithDrop
+            }
+
+        case actionTypes.SET_COMMENTS: 
+            const streamElementsWithComments = state.StreamElements.map(s => {
+                if(s.id === action.dropId){
+                    return {
+                        ...s,
+                        commentsStatus: 'loaded',
+                        comments: action.comments
+                    }
+                } else {
+                    return s;
+                }
+            }) 
+            return {
+                ...state,
+                StreamElements: streamElementsWithComments
             }
         default: return state;
     }

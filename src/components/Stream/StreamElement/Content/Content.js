@@ -9,12 +9,13 @@ import classes from './Content.module.css';
 class Content extends Component {
 
     state = {
+        img: null,
         loaded: false
     }
 
     componentDidMount(){
-        // if(!this.state.loaded){
-        //     axios.get(`/meme/${this.props.id}`)
+        // if(!this.state.loaded && !this.props.id.startsWith("no")){
+        //     axios.get(`/api/meme/${this.props.id}`)
         //         .then(response => {
         //             this.setState({loaded: true, img: response.data})
         //         });
@@ -22,7 +23,7 @@ class Content extends Component {
     }
 
     render() {
-        if(!this.state.loaded){
+        if(this.props.status === 'not loaded'){
             return(
                 <div className={classes.Content}>
                     {
@@ -41,7 +42,9 @@ class Content extends Component {
                         <img 
                             alt={`Meme ${this.props.id}`} 
                             className={classes.Meme} 
-                            src={`http://localhost:5000/meme/${this.props.id}`} /> 
+                            //src={this.state.img ? this.state.img : null}/>
+                            //src={`http://localhost:5000/api/meme/5f552d928b538f58fca4ecf2`}/>
+                            src={`http://localhost:5000/api/meme/${this.props.id}`} /> 
                     : null
                 }
             </div> 
