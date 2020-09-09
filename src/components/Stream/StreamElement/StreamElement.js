@@ -62,7 +62,6 @@ class StreamElement extends Component {
 
   render() {
     let droppedToYouBy = [];
-    const source = this.props.source ? <Source sourceURL={this.props.source} /> : null
 
     let cssClasses = [classes.StreamElement];
 
@@ -87,8 +86,16 @@ class StreamElement extends Component {
         style={this.calcStyles2(this.props.position)}>
         {droppedToYouBy}
         {this.props.title ? <h3 className={classes.title}>{this.props.title}</h3>: null }
-        <Content position={this.props.position} id={this.props.id} status={this.props.status} />
-        {source}
+        <Content 
+          position={this.props.position} 
+          id={this.props.id} 
+          status={this.props.status} 
+          memeStatus={this.props.memeStatus}/>
+        {
+          this.props.source ? 
+          <Source sourceURL={this.props.source} /> 
+          : null
+        }
         <DropButton theme={NEUMORPHISM} clicked={this.props.onOpenModal}>
           <h3 className={classes.DROP}>Drop</h3>
         </DropButton>

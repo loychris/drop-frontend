@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { connect, dispatch } from 'react-redux';
+import { connect } from 'react-redux';
 
 import ToggleSwitch from '../UI/ToggleSwitch/ToggleSwitch';
 
 
 import classes from './Menu.module.css';
 import * as UIActions from '../../store/actions/index';
-import gear from './gear.svg';
 
 class Menu extends Component {
 

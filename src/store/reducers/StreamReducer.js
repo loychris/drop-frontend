@@ -5,28 +5,28 @@ const initialState = {
     selectedTargets: [],
     ids: [],
     StreamElements: [
-        { position: 0, show: "left", id: "0", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 1, show: "show", id: "1" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 2, show: "show", id: "2" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 3, show: "show", id: "3" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 4, show: "show", id: "4" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 5, show: "show", id: "5" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 6, show: "show", id: "6" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 7, show: "show", id: "7" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 8, show: "show", id: "8" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 9, show: "show", id: "9" , status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 10, show: "show", id: "10", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 11, show: "show", id: "11", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 12, show: "show", id: "12", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 13, show: "show", id: "13", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 14, show: "show", id: "14", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 15, show: "show", id: "15", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 16, show: "show", id: "16", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 17, show: "show", id: "17", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 18, show: "show", id: "18", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 19, show: "show", id: "19", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 20, show: "show", id: "20", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
-        { position: 21, show: "show", id: "21", status: 'not loaded', commentsStatus: 'not loaded', comments: []},
+        { position: 0, show: "left", id: "0", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 1, show: "show", id: "1" , status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 2, show: "show", id: "2" , status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 3, show: "show", id: "3" , status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 4, show: "show", id: "4" , status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 5, show: "show", id: "5" , status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 6, show: "show", id: "6" , status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 7, show: "show", id: "7" , status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 8, show: "show", id: "8" , status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 9, show: "show", id: "9" , status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 10, show: "show", id: "10", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 11, show: "show", id: "11", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 12, show: "show", id: "12", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 13, show: "show", id: "13", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 14, show: "show", id: "14", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 15, show: "show", id: "15", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 16, show: "show", id: "16", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 17, show: "show", id: "17", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 18, show: "show", id: "18", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 19, show: "show", id: "19", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 20, show: "show", id: "20", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 21, show: "show", id: "21", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
     ],
     timeStampLastSwipe: 0,
     nextId: '22'
@@ -96,11 +96,10 @@ const reducer = (state = initialState, action ) => {
                     position: 20,
                     show: 'show',
                     id: ids.pop(),
-                    status: 'not loaded',
+                    status: 'id loaded',
                     commentsStatus: 'not loaded',
                     comments: []
                 })
-                const nextId = `${state.timeStampLastSwipe}`;
                 return {
                     ...state,
                     StreamElements: newElements,
@@ -135,11 +134,13 @@ const reducer = (state = initialState, action ) => {
 
         case actionTypes.SET_IDS: 
             let ids = action.ids;
-            const streamElementsWithIds = state.StreamElements.map((element, i) => {
-                if(element.position > action.ids.length-1){
-                    return {...element, id: 'no more' + Math.random(), status: 'no more' } 
+
+            const streamElementsWithIds = state.StreamElements.map((s, i) => {
+                const memeStatus = s.position === 1 ? 'loading' : 'not loaded'
+                if(s.position > action.ids.length-1){
+                    return {...s, id: 'no more' + Math.random(), status: 'no more', memeStatus} 
                 }else {
-                    return { ...element, id: ids.pop(), status:'id loaded'}
+                    return { ...s, id: ids.pop(), status:'id loaded', memeStatus}
                 }
             })
             return {
@@ -162,10 +163,11 @@ const reducer = (state = initialState, action ) => {
                         comments: s.comments.map(c => {
                             if(c.commentId === action.commentId){
                                 if(action.path === '/'){
-                                    return { ... c, selected: true }
+                                    return { ...c, selected: true }
                                 }
                                 else {
                                     console.log('TODO: find subcomment')
+                                    return null
                                 }
                             } else { return c }
                         }),
@@ -234,6 +236,30 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state,
                 StreamElements: streamElementsWithComments
+            }
+
+        case actionTypes.MEME_LOADED: 
+            let currentPosition;
+            const StreamElementWithMeme = state.StreamElements.map(s => {
+                if(s.id === action.dropId){
+                    currentPosition = s.position
+                    return {
+                        ...s,
+                        memeStatus: 'loaded'
+                    }
+                }
+                else if(s.position === currentPosition + 1 ){
+                    return {
+                        ...s,
+                        memeStatus: 'loading'
+                    }
+                }else {
+                    return s
+                }
+            })
+            return {
+                ...state,
+                StreamElements: StreamElementWithMeme
             }
         default: return state;
     }

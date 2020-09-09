@@ -90,7 +90,6 @@ class Comment extends Component {
   }
 
   render() {
-    console.log("COMMENT: ", this.props.comment); 
     /////////////////////////// DESIGN ELEMENTS ///////////////////////
     const root = this.props.comment.subComments && this.props.comment.subComments.length > 0 ?
       <svg key={1000} className={classes.Atlas} width={"2px"} height={`${this.state.height}px`} viewBox={`0 0 2 ${this.state.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">

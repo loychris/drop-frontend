@@ -31,12 +31,11 @@ class CommentSection extends Component {
                             height={30} 
                             width={30}/>
             }else{
-                console.log('RENDERING COMMENTS')
                 comments = this.props.comments.map(x => {
                     return(
                         <Comment 
                             {...x}
-                            key={x.commentId} 
+                            key={x._id} 
                             comment={x} 
                             postId={this.props.postId} 
                         />

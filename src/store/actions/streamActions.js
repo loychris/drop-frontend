@@ -95,15 +95,18 @@ export const fetchComments = (dropId) => {
     return dispatch => {
         axios.get(`/api/drop/${dropId}/comment`)
         .then(res => {
-            if(res.data.comments.length > 0){
-                console.log(dropId);
-                console.log(res.data);
-            }
             dispatch(setComments(dropId, res.data.comments));
         })
         .catch(err => {
             dispatch(fetchCommentsFailed())
         })
+    }
+}
+
+export const memeLoaded = (dropId) => {
+    return {
+        type: actionTypes.MEME_LOADED,
+        dropId
     }
 }
 

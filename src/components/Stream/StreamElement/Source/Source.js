@@ -8,7 +8,7 @@ class Source extends Component {
         return(
             <div className={classes.Source}>
                 <p className={classes.Header}>Source:</p>
-                <a target="_blank"  className={classes.Link} 
+                <a  className={classes.Link} 
                     href={this.props.sourceURL}
                     >
                     {this.props.sourceURL}

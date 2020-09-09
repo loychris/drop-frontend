@@ -243,7 +243,6 @@ class Auth extends Component {
   }
 
   render() {
-    console.log("VALID", this.formStateValid())
     return (
       <div className={this.props.authOpen ? null: classes.hidden}>
           {this.props.authOpen ? <Backdrop clicked={this.props.onCloseAuth} zIndex='100' /> : null}

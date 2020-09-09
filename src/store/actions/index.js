@@ -20,7 +20,8 @@ export {
     deleteComment,
     selectComment,
     unSelectComment,
-    setDrop
+    setDrop,
+    memeLoaded
 } from './streamActions';
 
 export {
