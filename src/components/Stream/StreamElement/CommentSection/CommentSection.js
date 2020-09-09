@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
 
-import * as streamActions from '../../../../store/actions/index';
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 import CommentForm from './CommentForm/CommentForm';
@@ -46,7 +45,7 @@ class CommentSection extends Component {
 
         return(
             <div className={classes.CommentSection} tabIndex='0'>
-                <CommentForm postId={this.props.postId}/>
+                <CommentForm dropId={this.props.postId}/>
                 <div className={classes.comments}>
                     {comments}
                 </div>

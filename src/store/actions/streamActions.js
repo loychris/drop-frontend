@@ -118,3 +118,16 @@ export const setDrop = (dropId, drop) => {
     }
 }
 
+export const postCommentFailed = () => {
+    return {
+        type: actionTypes.POST_COMMENT_FAILED
+    }
+}
+
+export const commentSaved = (comment, dropId) => {
+    return {
+        type: actionTypes.COMMENT_SAVED,
+        comment,
+        dropId
+    }
+}

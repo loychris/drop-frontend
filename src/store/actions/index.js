@@ -21,7 +21,9 @@ export {
     selectComment,
     unSelectComment,
     setDrop,
-    memeLoaded
+    memeLoaded,
+    commentSaved,
+    postCommentFailed
 } from './streamActions';
 
 export {

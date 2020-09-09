@@ -266,6 +266,19 @@ const reducer = (state = initialState, action ) => {
                 ...state,
                 StreamElements: StreamElementWithMeme
             }
+
+        case actionTypes.COMMENT_SAVED: 
+            const StreamElementsWithSavedComment = state.StreamElements.map(s => {
+                if(s.id === action.dropId){
+                    return {
+                        ...s,
+                        comments: [...s.comments, action.comment]
+                    }
+                }
+                else {
+                    return s
+                }
+            })
         default: return state;
     }
 }

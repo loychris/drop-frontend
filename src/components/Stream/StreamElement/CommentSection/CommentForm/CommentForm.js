@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import * as streamActions from '../../../../../store/actions/index';
 import classes from './CommentForm.module.css';
 import TextareaAutosize from 'react-textarea-autosize';
 import AuthorPic from '../AuthorPic/AuthorPic';
+
 import NeumorphismButton from '../../../../UI/NeumorphismButton/NeumorphismButton';
 
 
@@ -24,6 +26,16 @@ class CommentForm extends Component {
         event.preventDefault();
         this.setState({textareaValue: '', disabled: true})
         this.props.onAddComment(this.state.textareaValue, this.props.postId);
+        axios.post(
+            `/api/drop/${this.props.dropId}/comment`, 
+            { 
+                authorId: '5f5538d269ae656e859629be', 
+                comment: this.state.textareaValue })
+        .then(response => {
+            this.props.onCommentSaved(response.data)
+        }).catch(err => {
+            this.props.onPostCommentFailed()
+        })
     }
 
     render(){
@@ -42,7 +54,7 @@ class CommentForm extends Component {
 
         return(
             <div className={classes.CommentFormContainer}>
-                <form className={classes.CommentForm} id={`commentForm${this.props.postId}`}>
+                <form className={classes.CommentForm} id={`commentForm${this.props.dropId}`}>
                     <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
                     <TextareaAutosize 
                         className={classes.TextArea}
@@ -74,7 +86,9 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = dispatch => {
     return {
-        onAddComment: (comment, id) => dispatch(streamActions.addComment(comment, id))
+        onAddComment: (comment, id) => dispatch(streamActions.addComment(comment, id)),
+        onCommentSaved: (comment, dropId) => dispatch(streamActions.commentSaved(comment, dropId)),
+        onPostCommentFailed: () => dispatch(streamActions.postCommentFailed()),
     }
 }
 

@@ -32,6 +32,8 @@ export const SET_DROP = 'SET_DROP';
 // export const SET_COMMENTS = 'SET_COMMENTS';
 // export const FETCH_COMMENTS_FAILED = 'FETCH_COMMENTS_FAILED';
 export const MEME_LOADED = 'MEME_LOADED';
+export const COMMENT_SAVED ='COMMENT_SAVED';
+export const POST_COMMENT_FAILED = 'POST_COMMENT_FAILED';
 
 export const SEND = 'SEND';
 export const CHANGE_CHAT = 'CHANGE_CHAT';
