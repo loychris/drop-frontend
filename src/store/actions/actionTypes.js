@@ -29,8 +29,8 @@ export const FETCH_IDS = 'FETCH_IDS';
 export const SET_IDS = 'SET_IDS';
 export const FETCH_IDS_FAILED = 'FETCH_IDS_FAILED';
 export const SET_DROP = 'SET_DROP';
-export const SET_COMMENTS = 'SET_COMMENTS';
-export const FETCH_COMMENTS_FAILED = 'FETCH_COMMENTS_FAILED';
+// export const SET_COMMENTS = 'SET_COMMENTS';
+// export const FETCH_COMMENTS_FAILED = 'FETCH_COMMENTS_FAILED';
 export const MEME_LOADED = 'MEME_LOADED';
 
 export const SEND = 'SEND';

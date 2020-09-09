@@ -14,9 +14,9 @@ class CommentSection extends Component {
 
 
     componentDidUpdate = () => {
-        if(this.props.dropLoaded && this.props.commentStatus === 'not loaded'){
-            this.props.onFetchComments(this.props.postId);
-        }
+        // if(this.props.dropLoaded && this.props.commentStatus === 'not loaded'){
+        //     this.props.onFetchComments(this.props.postId);
+        // }
     }
 
 
@@ -57,7 +57,7 @@ class CommentSection extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchComments: (dropId) => dispatch(streamActions.fetchComments(dropId))
+//        onFetchComments: (dropId) => dispatch(streamActions.fetchComments(dropId))
     }
 }
 

@@ -77,31 +77,31 @@ export const fetchIds = () => {
     }
 }
 
-export const setComments = (dropId, comments) => {
-    return {
-        type: actionTypes.SET_COMMENTS,
-        dropId,
-        comments
-    }
-}
+// export const setComments = (dropId, comments) => {
+//     return {
+//         type: actionTypes.SET_COMMENTS,
+//         dropId,
+//         comments
+//     }
+// }
 
-export const fetchCommentsFailed = () => {
-    return {
-        type: actionTypes.FETCH_COMMENTS_FAILED
-    }
-}
+// export const fetchCommentsFailed = () => {
+//     return {
+//         type: actionTypes.FETCH_COMMENTS_FAILED
+//     }
+// }
 
-export const fetchComments = (dropId) => {
-    return dispatch => {
-        axios.get(`/api/drop/${dropId}/comment`)
-        .then(res => {
-            dispatch(setComments(dropId, res.data.comments));
-        })
-        .catch(err => {
-            dispatch(fetchCommentsFailed())
-        })
-    }
-}
+// export const fetchComments = (dropId) => {
+//     return dispatch => {
+//         axios.get(`/api/drop/${dropId}/comment`)
+//         .then(res => {
+//             dispatch(setComments(dropId, res.data.comments));
+//         })
+//         .catch(err => {
+//             dispatch(fetchCommentsFailed())
+//         })
+//     }
+// }
 
 export const memeLoaded = (dropId) => {
     return {

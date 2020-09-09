@@ -210,7 +210,8 @@ const reducer = (state = initialState, action ) => {
                         ...action.drop,
                         // title: action.drop.title ? action.drop.title : null,
                         // source: action.drop.source ? action.drop.source : null,
-                        status: 'drop loaded'
+                        status: 'drop loaded',
+                        commentsStatus: 'loaded'
                     }
                 }else {
                     return s
@@ -221,22 +222,26 @@ const reducer = (state = initialState, action ) => {
                 StreamElements: streamElementsWithDrop
             }
 
-        case actionTypes.SET_COMMENTS: 
-            const streamElementsWithComments = state.StreamElements.map(s => {
-                if(s.id === action.dropId){
-                    return {
-                        ...s,
-                        commentsStatus: 'loaded',
-                        comments: action.comments
-                    }
-                } else {
-                    return s;
-                }
-            }) 
-            return {
-                ...state,
-                StreamElements: streamElementsWithComments
-            }
+
+        // Comments currently get fetched directly with populate in drop
+        // Maybe change back when comments allow pics
+
+        // case actionTypes.SET_COMMENTS: 
+        //     const streamElementsWithComments = state.StreamElements.map(s => {
+        //         if(s.id === action.dropId){
+        //             return {
+        //                 ...s,
+        //                 commentsStatus: 'loaded',
+        //                 comments: action.comments
+        //             }
+        //         } else {
+        //             return s;
+        //         }
+        //     }) 
+        //     return {
+        //         ...state,
+        //         StreamElements: streamElementsWithComments
+        //     }
 
         case actionTypes.MEME_LOADED: 
             let currentPosition;

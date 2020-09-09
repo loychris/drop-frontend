@@ -12,7 +12,7 @@ export {
 
 export {
     fetchIds,
-    fetchComments,
+    //fetchComments,
     swipe,
     selectDropTarget,
     unSelectDropTarget,
