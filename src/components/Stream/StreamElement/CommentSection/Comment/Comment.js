@@ -115,17 +115,16 @@ class Comment extends Component {
       <div className={classes.CommentContainer}>
         {this.props.selected ? 
           <Backdrop
+            zIndex={100}
             clicked={this.props.onUnselectComment}
           />
           : null}
-        <div className={classes.Comment}>
+        <div className={`${classes.Comment} ${this.props.selected ? classes.selected : null}`}>
           <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
           <div className={backgroundStyleClasses.join(' ')}
-            onClick={
-              this.props.selected ? 
-                () => this.props.onUnselectComment() : 
-                () => this.props.onSelectComment(this.props.commentId, '/')
-            }
+            onClick={  () => {this.props.onSelectComment(this.props._id, '/')} }
+            //     () => {this.props.onUnselectComment()}
+            // }
             ref={divElement => (this.divElement = divElement)}
           >
             <Voting 
@@ -155,8 +154,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => { 
   return {
-    onSelectComment: (commentId, path) => { dispatch(streamActions.selectComment(commentId, path)) },
-    onUnselectComment: () => { dispatch(streamActions.unSelectComment()) }
+    onSelectComment: (commentId, path) => dispatch(streamActions.selectComment(commentId, path)),
+    onUnselectComment: () => dispatch(streamActions.unSelectComment())
   }
 }
 
