@@ -27,7 +27,6 @@ class StreamElement extends Component {
     if (this.props.status === 'id loaded') {
       axios.get(`/api/drop/${this.props.id}`)
       .then(response => {
-        console.log(response.data.drop.comments);
         this.props.onSetDrop(this.props.id, response.data.drop);
       })
       .catch(err => {

@@ -6,6 +6,8 @@ import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 import CommentForm from './CommentForm/CommentForm';
 
+import Branches from './Comment/Branches/Branches';
+
 
 
 
@@ -34,7 +36,7 @@ class CommentSection extends Component {
                     return(
                         <Comment 
                             {...x}
-                            key={x._id} 
+                            key={x.id} 
                             comment={x} 
                             postId={this.props.postId} 
                         />
@@ -45,7 +47,7 @@ class CommentSection extends Component {
 
         return(
             <div className={classes.CommentSection} tabIndex='0'>
-                <CommentForm dropId={this.props.postId}/>
+                <CommentForm dropId={this.props.postId} />
                 <div className={classes.comments}>
                     {comments}
                 </div>

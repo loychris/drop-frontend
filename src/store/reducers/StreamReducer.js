@@ -161,9 +161,9 @@ const reducer = (state = initialState, action ) => {
                     return {
                         ...s,
                         comments: s.comments.map(c => {
-                            if(c._id === action.commentId){
+                            if(c.id === action.commentId){
                                 console.log('ACTIONID', action.commentId, action.path);
-                                console.log('COMMENTID', c.commentId);
+                                console.log('COMMENTID', c.id);
                                 if(action.path === '/'){
                                     return { ...c, selected: true }
                                 }
@@ -281,6 +281,11 @@ const reducer = (state = initialState, action ) => {
                     return s
                 }
             })
+
+            return {
+                ...state,
+                StreamElements: StreamElementsWithSavedComment
+            }
         default: return state;
     }
 }

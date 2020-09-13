@@ -8,6 +8,9 @@ import TextareaAutosize from 'react-textarea-autosize';
 import AuthorPic from '../AuthorPic/AuthorPic';
 
 import NeumorphismButton from '../../../../UI/NeumorphismButton/NeumorphismButton';
+import Branches from '../Comment/Branches/Branches';
+
+const INDENT = 17;
 
 
 class CommentForm extends Component {
@@ -42,8 +45,8 @@ class CommentForm extends Component {
 
         const SpeechBubbleArrow = 
         <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= '#dddddd'/>
-        </svg>
+          <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= '#ffffff'/>
+        </svg> 
 
         const ArrowRight = 
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,29 +55,86 @@ class CommentForm extends Component {
             </g>
         </svg>
 
+        const depth = this.props.path ? this.props.path.split("/").length - 1 : 0;
+        console.log('DEPTH: ', depth, INDENT)
+        console.log(depth * INDENT +40)
+        // let inputStyle = this.props.path ? { paddingLeft: `${depth * INDENT}px` } : null;
+        const commentInputStyles = { paddingLeft: `${depth * INDENT}px` };
+        const contentStyle = {
+            left: `${depth * INDENT + 40}px`,
+            maxWidth: `${545 - INDENT * depth}px`
+          };
+
+        const branches = this.props.path ? 
+            <Branches
+                treeString={this.props.treeString ? [...this.props.treeString, 'L'] : ['L']}
+                height={61}
+                path={'0/'}
+            /> : null
+
+        console.log(depth, INDENT);
+
         return(
-            <div className={classes.CommentFormContainer}>
-                <form className={classes.CommentForm} id={`commentForm${this.props.dropId}`}>
-                    <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
-                    <TextareaAutosize 
-                        className={classes.TextArea}
-                        onChange={this.inputChangedHandler} 
-                        form={`commentForm${this.props.id}`} 
-                        value={this.state.textareaValue}
-                        placeholder='Write a comment...'/>
-                    <NeumorphismButton
-                        colorTheme='light'
-                        buttonType='SubmitComment'
-                        clicked={this.submitHandler} 
-                        disabled={this.state.disabled} 
-                        className={classes.SubmitButton} 
-                        type='submit'>
-                            {ArrowRight}
-                    </NeumorphismButton>
-                    {SpeechBubbleArrow}
-                </form>
+            <div className={classes.CommentInputContainer}
+                style={this.props.path ? {zIndex: '200'} : null}>
+                <div className={classes.CommentInput} style={commentInputStyles}>
+                    <AuthorPic depth={depth} indent={INDENT}/>
+                    <div className={classes.CommentInputBackground}>
+                        <div className={classes.actualCommentForm} style={contentStyle}>
+                            <TextareaAutosize 
+                                className={classes.TextArea}
+                                onChange={this.inputChangedHandler} 
+                                value={this.state.textareaValue}
+                                placeholder={this.props.path ? 'Write a response...' : 'Write a comment...'}/>
+                            <NeumorphismButton
+                                className={classes.SubmitButton} 
+                                colorTheme='light'
+                                buttonType='SubmitComment'
+                                clicked={this.submitHandler} 
+                                disabled={this.state.disabled} 
+                                type='submit'>
+                                    {ArrowRight}
+                            </NeumorphismButton>                            
+                            {SpeechBubbleArrow}
+                        </div>
+                    </div>
+                </div>
+                {branches}
             </div>
         )
+
+        // return(
+        //     <div className={classes.CommentFormContainer}>
+        //         <div style={contentStyle}>contentStyle
+        //             <div
+        //                 className={classes.CommentForm} 
+        //                 id={`commentForm${this.props.dropId}`}
+        //             >
+        //                 <AuthorPic depth={depth} indent={INDENT} neuMorphism={this.props.neuMorphism}/>                        <AuthorPic depth={depth} indent={INDENT} neuMorphism={this.props.neuMorphism}/>
+        //                 <div className={classes.InputContainer}>
+        //                     <TextareaAutosize 
+        //                         className={classes.TextArea}
+        //                         onChange={this.inputChangedHandler} 
+        //                         form={`commentForm${this.props.id}`} 
+        //                         value={this.state.textareaValue}
+        //                         placeholder='Write a comment...'/>
+        //                     <NeumorphismButton
+        //                         colorTheme='light'
+        //                         buttonType='SubmitComment'
+        //                         clicked={this.submitHandler} 
+        //                         disabled={this.state.disabled} 
+        //                         className={classes.SubmitButton} 
+        //                         type='submit'>
+        //                             {ArrowRight}
+        //                     </NeumorphismButton>
+        //                 </div>
+        //                 {SpeechBubbleArrow}
+        //                 {branches}
+        //             </div>
+        //         </div>
+
+        //     </div>
+        //)
     }
 }
 

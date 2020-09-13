@@ -5,7 +5,8 @@ import SubComment from './SubComment/SubComment';
 import Voting from "./Voting/Voting";
 import Options from "./Options/Options";
 import AuthorPic from "../AuthorPic/AuthorPic";
-import Backdrop from '../../../../UI/Backdrop/Backdrop'
+import Backdrop from '../../../../UI/Backdrop/Backdrop';
+import CommentForm from '../CommentForm/CommentForm';
 import * as streamActions from '../../../../../store/actions/index';
 
 import classes from "./Comment.module.css";
@@ -52,7 +53,7 @@ class Comment extends Component {
 
   createSubComments = () => {
       const subComments = this.props.comment.subComments.map((s, i) => {
-        const lastProp = i === this.props.comment.subComments.length - 1 ? true : false;
+        const lastProp = i === this.props.comment.subComments.length - 1 && !this.props.selected ? true : false;
         return(
           <SubComment
             parentSelected={this.props.selected}
@@ -91,7 +92,7 @@ class Comment extends Component {
 
   render() {
     /////////////////////////// DESIGN ELEMENTS ///////////////////////
-    const root = this.props.comment.subComments && this.props.comment.subComments.length > 0 ?
+    const root = this.props.comment.subComments && this.props.comment.subComments.length || this.props.selected > 0 ?
       <svg key={1000} className={classes.Atlas} width={"2px"} height={`${this.state.height}px`} viewBox={`0 0 2 ${this.state.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d={`M0 0H2V${this.state.height}H0V0Z`} fill="#ffffff" />
       </svg> : null
@@ -122,9 +123,11 @@ class Comment extends Component {
         <div className={`${classes.Comment} ${this.props.selected ? classes.selected : null}`}>
           <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
           <div className={backgroundStyleClasses.join(' ')}
-            onClick={  () => {this.props.onSelectComment(this.props._id, '/')} }
-            //     () => {this.props.onUnselectComment()}
-            // }
+            onClick={  
+              this.props.selected ? 
+              this.props.onUnselectComment : 
+              () => {this.props.onSelectComment(this.props.id, '/')}
+            }
             ref={divElement => (this.divElement = divElement)}
           >
             <Voting 
@@ -139,9 +142,17 @@ class Comment extends Component {
               {SpeechBubbleArrow}
             </div>
           </div>
+          {root}
         </div>
-        {root}
+
         {this.props.comment.subComments ? this.createSubComments() : null}
+        {this.props.selected ? 
+          <CommentForm 
+            subComment={true}
+            path={'0/'}
+            treeString={this.props.subComments.length > 0 ? [] : null}/> 
+          : null
+        }
       </div>
     );
   }

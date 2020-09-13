@@ -7,12 +7,17 @@
     padding-bottom: 20px;
 }
 
+.CommentBackground {
+    padding: 3px 5px 3px 15px;
+    border-radius: 14px;
+    min-height: 55px;
+    margin-left: 42px;
+    position: relative;
+}
 
-
-.Atlas {
-    position: absolute;
-    top: 25px;
-    left: 11px;
+.CommnetBackgroundFlat {
+    background-color: rgba(0, 2, 10, 0.6);
+    border-bottom: 2px solid #000000;
 }
 
 .actualComment {
@@ -26,24 +31,13 @@
     color: #FFFFFF;
 }
 
-.HighlightBackground {
-    position: absolute;
-    height: 70px;
-    width: 400px;
-}
 
 
-.CommentBackground {
-    padding: 3px 5px 3px 15px;
-    border-radius: 14px;
-    min-height: 55px;
-    margin-left: 42px;
+
+
+.selected {
     position: relative;
-}
-
-.CommnetBackgroundFlat {
-    background-color: rgba(0, 2, 10, 0.6);
-    border-bottom: 2px solid #000000;
+    z-index: 200;
 }
 
 .selected .CommentBackground{

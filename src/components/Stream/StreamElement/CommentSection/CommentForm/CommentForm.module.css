@@ -1,22 +1,33 @@
-.CommentFormContainer{
+.CommentInputContainer{
     position: relative;
 }
 
-.CommentForm {
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 50px;
+.CommentInput {
+    min-height: 50px;
+    margin-bottom: 20px;
 }
 
-.TextArea {
+.CommentInputBackground {
+    border-radius: 14px;
+    min-height: 55px;
     margin-left: 42px;
-    padding-top: 5px;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.SpeechBubbleArrow {
+    position: absolute;
+    left: -14px;
+    top: 4px;
+}
+
+ .TextArea {
     min-height: 55px; 
-    padding: 3px 5px 3px 15px;
+    padding: 3px 15px;
     position: relative; 
     display: block; 
     border-radius: 14px; 
-    width: 625.5px;
+    width: 100%;
     resize: none;
     overflow: auto;
     outline: none;
@@ -25,11 +36,22 @@
     border-left: none;
     border-right: none;  
     background: #EEEEEE;
+} 
+
+.InputContainer {
+    border-radius: 14px;
+    min-height: 55px;
+    margin-left: 42px;
+    position: relative;
 }
 
 .SpeechBubbleArrow{
     position: absolute;
+    top: 4px;
+}
+
+.toplevel{
+    position: absolute;
     left: 28px;
     top: 3px;
-    
 }
