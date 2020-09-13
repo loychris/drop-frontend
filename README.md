@@ -11,7 +11,7 @@
 
 ### React Client for a Content Aggregator I'm working on.
 
-## going life on May 1st.
+## going life on May.
 
 
 
