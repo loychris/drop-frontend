@@ -6,8 +6,6 @@ import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 import CommentForm from './CommentForm/CommentForm';
 
-import Branches from './Comment/Branches/Branches';
-
 
 
 

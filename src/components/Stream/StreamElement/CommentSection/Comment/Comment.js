@@ -19,15 +19,21 @@ export const COLOR_COMMENT_BACKGORUND_HIGHLIGHTED = 'rgba(100, 0, 0, 0.6)';
 class Comment extends Component {
   
   state = {
-    // selected: false,
     height: 0
   }
 
-
-  
   componentDidMount() {
     const height = this.divElement.clientHeight;
+    console.log('Setting height')
     this.setState({ height });
+  }
+  
+  componentDidUpdate() {
+    const height = this.divElement.clientHeight;
+    if(this.state.height !== height){
+      console.log('Updating height ', this.state.height, " ", height)
+      this.setState({ height });
+    }
   }
 
   generateRoot = () => {
@@ -36,7 +42,7 @@ class Comment extends Component {
       return(
       <svg
         key={1001}
-        className={classes.Atlas}
+        className={classes.Root}
         width={"2px"}
         height={`${this.state.height}px`}
         viewBox={`0 0 2 ${this.state.height}`}
@@ -87,8 +93,11 @@ class Comment extends Component {
 
   render() {
     /////////////////////////// DESIGN ELEMENTS ///////////////////////
+    console.log('//////////////////////////////////////')
+    console.log(this.props.comment.subComments && this.props.comment.subComments.length > 0)
+    console.log('//////////////////////////////////////')
     const root = (this.props.comment.subComments && this.props.comment.subComments.length > 0) || this.props.selected ?
-      <svg key={1000} className={classes.Atlas} width={"2px"} height={`${this.state.height}px`} viewBox={`0 0 2 ${this.state.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg key={1000} className={classes.Root} width={"2px"} height={`${this.state.height}px`} viewBox={`0 0 2 ${this.state.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d={`M0 0H2V${this.state.height}H0V0Z`} fill="#ffffff" />
       </svg> : null
 

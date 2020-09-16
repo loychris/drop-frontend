@@ -15,24 +15,23 @@ const COLOR_COMMENT_BACKGROUND = 'rgba(0, 2, 10, 0.6)';
 class SubComment extends Component {
   
   state = {
-    selected: false,
-    highlighted: false,
     height: 0
-  };
+  }
 
   componentDidMount() {
     const height = this.divElement.clientHeight;
-    const highlighted = this.props.highlighted;
-    this.setState({ 
-      height,
-      highlighted});
+    console.log('Setting height')
+    this.setState({ height });
   }
-
-  componentDidUpdate(prevProps){
-    if(!this.props.highlighted === prevProps.highlighted){
-      this.setState({highlighted: this.props.highlighted});
+  
+  componentDidUpdate() {
+    const height = this.divElement.clientHeight;
+    if(this.state.height !== height){
+      console.log('Updating height ', this.state.height, " ", height)
+      this.setState({ height });
     }
   }
+
 
   createSubComments = (nextTreeString, depth) => {
     const subComments = this.props.subComments.map((s, i) => {
@@ -59,7 +58,7 @@ class SubComment extends Component {
     return(
     <svg
       key={1001}
-      className={classes.Atlas}
+      className={classes.Root}
       width={"2px"}
       height={`${this.state.height}px`}
       viewBox={`0 0 2 ${this.state.height}`}
@@ -100,17 +99,6 @@ class SubComment extends Component {
   //   return subComments;
   // };
 
-  select = () => {
-    if(this.state.selected){
-      this.unselect()
-    } else {
-      this.setState({ selected: true, highlighted: true})
-    }
-  };
-
-  unselect = () => { 
-    this.setState({selected: false, highlighted: false}); 
-  }
 
   render() {
     const depth = this.props.path.split("/").length - 1;
@@ -121,7 +109,7 @@ class SubComment extends Component {
     const rootStyle = {left: `${depth * INDENT}px` }
 
     const root = (this.props.comment.subComments && this.props.comment.subComments.length > 0) || this.props.selected ?
-      <svg key={1000} className={classes.Atlas} width={"2px"} height={`${this.state.height}px`} style={rootStyle} viewBox={`0 0 2 ${this.state.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg key={1000} className={classes.Root} width={"2px"} height={`${this.state.height}px`} style={rootStyle} viewBox={`0 0 2 ${this.state.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d={`M0 0H2V${this.state.height}H0V0Z`} fill="#ffffff" />
       </svg> : null
     let commentStyle = { paddingLeft: `${depth * INDENT}px` };

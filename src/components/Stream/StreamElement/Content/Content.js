@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
 
@@ -20,7 +19,7 @@ class Content extends Component {
             return(
                 <div className={classes.Content}>
                     {
-                        this.props.position < 10 && this.props.status === 'id loaded' || this.props.status === 'drop loaded' ? 
+                        this.props.position < 10 && (this.props.status === 'id loaded' || this.props.status === 'drop loaded') ? 
                             <img 
                                 alt={`Meme ${this.props.id}`} 
                                 className={classes.Meme} 

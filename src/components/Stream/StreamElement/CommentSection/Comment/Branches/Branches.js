@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import classes from './Branches.module.css';
 import L from './L.svg';
-import Ishort from './Ishort.svg';
 import C from './Connector.svg';
 
 const INDENT = 17;
@@ -74,7 +73,7 @@ class Branches extends Component {
         let styles = {}
         styles.left = `${11 + this.props.treeString.length * INDENT}px`;
         return(
-        <svg className={classes.Atlas} style={styles} width={"2px"} height={`${this.props.height}px`} viewBox={`0 0 2 ${this.props.height}`} fill="#abcdef" xmlns="http://www.w3.org/2000/svg">
+        <svg className={classes.Root} style={styles} width={"2px"} height={`${this.props.height}px`} viewBox={`0 0 2 ${this.props.height}`} fill="#abcdef" xmlns="http://www.w3.org/2000/svg">
           <path d={`M0 0H2V${this.props.height}H0V0Z`} fill="#ffffff" />
         </svg>
         )
