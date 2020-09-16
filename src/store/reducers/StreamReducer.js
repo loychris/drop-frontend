@@ -162,8 +162,6 @@ const reducer = (state = initialState, action ) => {
                         ...s,
                         comments: s.comments.map(c => {
                             if(c.id === action.commentId){
-                                console.log('ACTIONID', action.commentId, action.path);
-                                console.log('COMMENTID', c.id);
                                 if(action.path === '/'){
                                     return { ...c, selected: true }
                                 }

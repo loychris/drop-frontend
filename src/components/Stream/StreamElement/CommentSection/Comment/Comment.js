@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import SubComment from './SubComment/SubComment';
 import Voting from "./Voting/Voting";
-import Options from "./Options/Options";
 import AuthorPic from "../AuthorPic/AuthorPic";
 import Backdrop from '../../../../UI/Backdrop/Backdrop';
 import CommentForm from '../CommentForm/CommentForm';
@@ -20,7 +19,7 @@ export const COLOR_COMMENT_BACKGORUND_HIGHLIGHTED = 'rgba(100, 0, 0, 0.6)';
 class Comment extends Component {
   
   state = {
-    selected: false,
+    // selected: false,
     height: 0
   }
 
@@ -56,16 +55,12 @@ class Comment extends Component {
         const lastProp = i === this.props.comment.subComments.length - 1 && !this.props.selected ? true : false;
         return(
           <SubComment
+            {...s}
             parentSelected={this.props.selected}
-            neuMorphism={this.props.neuMorphism}
-            tree={'I'}
+            tree={['I']}
             last={lastProp}
             depth={1}
             key={i}
-            highlighted={this.state.selected}
-            path={`${this.props.path}/${i}`}
-            author={s.author}
-            points={s.points}
             actualComment={s.comment}
             subComments={s.subComments}
           />
@@ -74,25 +69,25 @@ class Comment extends Component {
     return subComments;
   };
 
-  select = () => {
-    if(this.state.selected){
-      this.unselect()
-    } else {
-      this.setState({ selected: true, highlighted: true})
-    }
-  };
+  // select = () => {
+  //   if(this.state.selected){
+  //     this.unselect()
+  //   } else {
+  //     this.setState({ selected: true, highlighted: true})
+  //   }
+  // };
 
-  unselect = () => { 
-    this.setState({selected: false, highlighted: false});
-  }
+  // unselect = () => { 
+  //   this.setState({selected: false, highlighted: false});
+  // }
 
-  getBackgroundColor = () => {
-      return { backgroundColor: !this.state.selected ? COLOR_COMMENT_BACKGROUND : COLOR_COMMENT_BACKGORUND_HIGHLIGHTED }; 
-  }
+  // getBackgroundColor = () => {
+  //     return { backgroundColor: !this.state.selected ? COLOR_COMMENT_BACKGROUND : COLOR_COMMENT_BACKGORUND_HIGHLIGHTED }; 
+  // }
 
   render() {
     /////////////////////////// DESIGN ELEMENTS ///////////////////////
-    const root = this.props.comment.subComments && this.props.comment.subComments.length || this.props.selected > 0 ?
+    const root = (this.props.comment.subComments && this.props.comment.subComments.length > 0) || this.props.selected ?
       <svg key={1000} className={classes.Atlas} width={"2px"} height={`${this.state.height}px`} viewBox={`0 0 2 ${this.state.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d={`M0 0H2V${this.state.height}H0V0Z`} fill="#ffffff" />
       </svg> : null
@@ -107,10 +102,6 @@ class Comment extends Component {
       backgroundStyleClasses.push(classes.sending);
     }
     if(this.props.selected) backgroundStyleClasses.push(classes.selected);
-
-    const options = this.state.selected ? 
-      <Options path={this.props.path}/> : []
-
 
       return (
       <div className={classes.CommentContainer}>
@@ -137,7 +128,6 @@ class Comment extends Component {
             <div className={classes.SelectClickTarget}>
               <span className={classes.actualComment}>
                 {this.props.comment.comment}
-                {options}
               </span>
               {SpeechBubbleArrow}
             </div>

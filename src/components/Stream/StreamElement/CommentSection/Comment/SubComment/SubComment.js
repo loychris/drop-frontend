@@ -1,18 +1,14 @@
 import React, { Component } from "react";
 
 import Voting from "../Voting/Voting";
-import Options from "../Options/Options";
 import AuthorPic from "../../AuthorPic/AuthorPic";
 import Backdrop from '../../../../../UI/Backdrop/Backdrop';
 import Branches from '../Branches/Branches';
 
 import classes from "./SubComment.module.css";
-import C from "./Connector.svg";
-import L from "./L.svg";
 
 const INDENT = 17;
 //const INDENTFRACTION = 17; //precent of width of a depth=0 Comment
-const MAX_SUBCOMMENTS = 4;
 const COLOR_COMMENT_BACKGROUND = 'rgba(0, 2, 10, 0.6)';
 
 
@@ -38,36 +34,71 @@ class SubComment extends Component {
     }
   }
 
-
   createSubComments = (nextTreeString, depth) => {
-    let subComments = [];
-    if (this.props.subComments.length > 0) {
-      const subCommentsCount =
-        this.props.subComments.length < MAX_SUBCOMMENTS
-          ? this.props.subComments.length
-          : MAX_SUBCOMMENTS;
-      for (let i = 0; i < subCommentsCount; i++) {
-        const lastProp = i === this.props.subComments.length - 1 ? true : false;
-        subComments.push(
-          <SubComment
-            tree={nextTreeString}
-            last={lastProp}
-            depth={`${depth + 1}`}
-            highlighted={this.state.highlighted}
-            key={`${this.props.path}/${i}`}
-            path={`${this.props.path}/${i}`}
-            author={this.props.subComments[i].author}
-            points={this.props.subComments[i].points}
-            actualComment={this.props.subComments[i].comment}
-            subComments={this.props.subComments[i].subComments}
-            addSubComment={this.props.addSubComment}
-            deleteSubComment={this.props.deleteSubComment}
-          />
-        );
-      }
-    }
+    const subComments = this.props.subComments.map((s, i) => {
+      const lastProp = i === this.props.subComments.length - 1 && !this.props.selected ? true : false;
+      return(
+        <SubComment
+          {...s}
+          parentSelected={this.props.selected}
+          tree={nextTreeString}
+          last={lastProp}
+          depth={depth+1}
+          key={i}
+          actualComment={s.comment}
+          subComments={s.subComments}
+        />
+      )
+    })
     return subComments;
   };
+
+  generateRoot = () => {
+    console.log(this.props.comment)
+    if (this.props.comment.subComments && this.props.comment.subComments.length > 0)
+    return(
+    <svg
+      key={1001}
+      className={classes.Atlas}
+      width={"2px"}
+      height={`${this.state.height}px`}
+      viewBox={`0 0 2 ${this.state.height}`}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d={`M0 0H2V${this.state.height}H0V0Z`} fill="#ffffff" />
+    </svg>
+    )
+  };
+
+
+  // createSubComments = (nextTreeString, depth) => {
+  //   let subComments = [];
+  //   if (this.props.subComments.length > 0) {
+  //     const subCommentsCount =
+  //       this.props.subComments.length < MAX_SUBCOMMENTS
+  //         ? this.props.subComments.length
+  //         : MAX_SUBCOMMENTS;
+  //     for (let i = 0; i < subCommentsCount; i++) {
+  //       const lastProp = i === this.props.subComments.length - 1 ? true : false;
+  //       subComments.push(
+  //         <SubComment
+  //           tree={nextTreeString}
+  //           last={lastProp}
+  //           depth={`${depth + 1}`}
+  //           highlighted={this.state.highlighted}
+  //           key={`${this.props.path}/${i}`}
+  //           path={`${this.props.path}/${i}`}
+  //           author={this.props.subComments[i].author}
+  //           points={this.props.subComments[i].points}
+  //           actualComment={this.props.subComments[i].comment}
+  //           subComments={this.props.subComments[i].subComments}
+  //         />
+  //       );
+  //     }
+  //   }
+  //   return subComments;
+  // };
 
   select = () => {
     if(this.state.selected){
@@ -82,11 +113,17 @@ class SubComment extends Component {
   }
 
   render() {
+    const depth = this.props.path.split("/").length - 1;
     const SpeechBubbleArrow = 
     <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= {!this.props.parentSelected ? COLOR_COMMENT_BACKGROUND : "rgba(87, 122, 161, 0.6)"}/>
     </svg> 
-    const depth = this.props.path.split("/").length - 1;
+    const rootStyle = {left: `${depth * INDENT}px` }
+
+    const root = (this.props.comment.subComments && this.props.comment.subComments.length > 0) || this.props.selected ?
+      <svg key={1000} className={classes.Atlas} width={"2px"} height={`${this.state.height}px`} style={rootStyle} viewBox={`0 0 2 ${this.state.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d={`M0 0H2V${this.state.height}H0V0Z`} fill="#ffffff" />
+      </svg> : null
     let commentStyle = { paddingLeft: `${depth * INDENT}px` };
     const contentStyle = {
       left: `${depth * INDENT + 40}px`,
@@ -101,10 +138,7 @@ class SubComment extends Component {
     this.props.last === true && depth > 1 ? [...inheritance, "L"].slice(1) : [...inheritance, "T"].slice(1);
     let nextTreeString = this.props.last === true ? [...inheritance, " "] : [...inheritance, "I"];
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    const options = this.state.selected ? 
-      <Options 
-        deleteSubComment={this.props.deleteSubComment} 
-        path={this.props.path}/> : [];
+    
     return (
       <div className={`${classes.CommentContainer} ${this.props.parentSelected ? classes.selected : null}`}>
         {this.props.selected ? 
@@ -120,7 +154,6 @@ class SubComment extends Component {
             <div className={classes.SelectClickTarget} onClick={this.select}>
               <span className={classes.actualComment} style={contentStyle}>
                 {this.props.actualComment}
-                {options}
               </span>
               {SpeechBubbleArrow}
             </div>
@@ -129,8 +162,11 @@ class SubComment extends Component {
         <Branches 
           treeString={thisTreeString}
           height={this.state.height}
+          root={this.props.subComments && this.props.subComments.length > 0 }
           path={this.props.path}/>
+          {root}
           {this.createSubComments(nextTreeString, depth)}
+
       </div>
     );
   }
