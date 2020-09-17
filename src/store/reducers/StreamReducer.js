@@ -33,6 +33,25 @@ const initialState = {
 }
 
 
+const selectSubComment = (pathArray, path, subComment) => {
+    if(path === subComment.path){
+        return { ...subComment, selected: true }
+    }else {
+        return subComment.subComments.map(s => {
+            if(pathArray[0] === s.path){
+                const [, ...rest] = pathArray;
+                return {
+                    ...s,
+                    subComments: selectSubComment(rest, path, s.subComments)
+                }
+            } else {
+                return s
+            }
+        })
+    }
+
+}
+
 
 
 const reducer = (state = initialState, action ) => {
@@ -181,6 +200,7 @@ const reducer = (state = initialState, action ) => {
                 ...state,
                 StreamElements: StreamElementsCommentSelected
             }
+        
 
         case actionTypes.UNSELECT_COMMENT: 
             const streamElementsUnselectedComments = state.StreamElements.map(s => {
@@ -203,6 +223,42 @@ const reducer = (state = initialState, action ) => {
                 ...state,
                 StreamElements: streamElementsUnselectedComments
             }
+
+        case actionTypes.SELECT_SUBCOMMENT: 
+            console.log('SELECTING SUBCOMMENT')
+            console.log(action)
+            const StreamEelementsWithSelectedSubComment = state.StreamElements.map(s => {
+                if(s.id === action.commentId){
+                    console.log("FOUND THE COMMENT")
+                    return{
+                        ...s,
+                        subComments: selectSubComment(action.path.split('/'), action.path, s.subComments)
+                    }
+                }else {
+                    return s
+                }
+            })
+            return {
+                ...state,
+                StreamElements: StreamEelementsWithSelectedSubComment
+            }
+        
+        case actionTypes.UNSELECT_SUBCOMMENT: 
+            const StreamEelementsWithoutSelectedSubComment = state.StreamElements.map(s => {
+                if(s.id === action.commentId){
+                    return{
+                        ...s,
+                        subComments: selectSubComment(action.path.split('/'), action.path, s.subComments)
+                    }
+                }else {
+                    return s
+                }
+            })
+            return {
+                ...state,
+                StreamElements: StreamEelementsWithoutSelectedSubComment
+            }
+
         case actionTypes.SET_DROP: 
             const streamElementsWithDrop = state.StreamElements.map(s => {
                 if(s.id === action.dropId){

@@ -56,8 +56,6 @@ class CommentForm extends Component {
         </svg>
 
         const depth = this.props.path ? this.props.path.split("/").length - 1 : 0;
-        console.log('DEPTH: ', depth, INDENT)
-        console.log(depth * INDENT +40)
         // let inputStyle = this.props.path ? { paddingLeft: `${depth * INDENT}px` } : null;
         const commentInputStyles = { paddingLeft: `${depth * INDENT}px` };
         const contentStyle = {
@@ -71,8 +69,6 @@ class CommentForm extends Component {
                 height={61}
                 path={'0/'}
             /> : null
-
-        console.log(depth, INDENT);
 
         return(
             <div className={classes.CommentInputContainer}

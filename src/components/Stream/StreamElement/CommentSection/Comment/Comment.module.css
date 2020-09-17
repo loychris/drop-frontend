@@ -37,6 +37,7 @@
     position: relative;
     border-bottom: 2px solid #000000;
     background-color: rgba(0, 2, 10, 0.6);
+    cursor: pointer;
 }
 
 .selected {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import SubComment from './SubComment/SubComment';
+import SubCommentWrapper from './SubCommentWrapper/SubCommentWrapper';
 import Voting from "./Voting/Voting";
 import AuthorPic from "../AuthorPic/AuthorPic";
 import Backdrop from '../../../../UI/Backdrop/Backdrop';
@@ -60,13 +60,14 @@ class Comment extends Component {
       const subComments = this.props.comment.subComments.map((s, i) => {
         const lastProp = i === this.props.comment.subComments.length - 1 && !this.props.selected ? true : false;
         return(
-          <SubComment
+          <SubCommentWrapper
             {...s}
             parentSelected={this.props.selected}
             tree={['I']}
             last={lastProp}
             depth={1}
             key={i}
+            commentId={this.props.comment.id}
             actualComment={s.comment}
             subComments={s.subComments}
           />
@@ -92,10 +93,7 @@ class Comment extends Component {
   // }
 
   render() {
-    /////////////////////////// DESIGN ELEMENTS ///////////////////////
-    console.log('//////////////////////////////////////')
-    console.log(this.props.comment.subComments && this.props.comment.subComments.length > 0)
-    console.log('//////////////////////////////////////')
+    /////////////////////////// DESIGN ELEMENTS /////////////////////// 
     const root = (this.props.comment.subComments && this.props.comment.subComments.length > 0) || this.props.selected ?
       <svg key={1000} className={classes.Root} width={"2px"} height={`${this.state.height}px`} viewBox={`0 0 2 ${this.state.height}`} fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d={`M0 0H2V${this.state.height}H0V0Z`} fill="#ffffff" />

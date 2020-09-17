@@ -131,3 +131,17 @@ export const commentSaved = (comment, dropId) => {
         dropId
     }
 }
+
+export const selectSubComment = (commentId, path) => {
+    return {
+        type: actionTypes.SELECT_SUBCOMMENT,
+        commentId,
+        path
+    }
+}
+
+export const unSelectSubComment = () => {
+    return {
+        type: actionTypes.UNSELECT_SUBCOMMENT
+    }
+}

@@ -34,6 +34,8 @@ export const SET_DROP = 'SET_DROP';
 export const MEME_LOADED = 'MEME_LOADED';
 export const COMMENT_SAVED ='COMMENT_SAVED';
 export const POST_COMMENT_FAILED = 'POST_COMMENT_FAILED';
+export const SELECT_SUBCOMMENT = 'SELECT_SUBCOMMENT';
+export const UNSELECT_SUBCOMMENT = 'UNSELECT_SUBCOMMENT';
 
 export const SEND = 'SEND';
 export const CHANGE_CHAT = 'CHANGE_CHAT';
