@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import SubComment from '../SubComment/SubComment';
+import SubComment from './SubComment/SubComment';
 
 class SubCommentWrapper extends Component {
 
@@ -10,7 +10,7 @@ class SubCommentWrapper extends Component {
           return(
             <SubCommentWrapper
               {...s}
-              parentSelected={this.props.selected}
+              parentSelected={this.props.parentSelected || this.props.selected}
               tree={nextTreeString}
               last={lastProp}
               depth={depth+1}

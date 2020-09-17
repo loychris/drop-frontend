@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import Voting from "../Voting/Voting";
-import AuthorPic from "../../AuthorPic/AuthorPic";
-import Backdrop from '../../../../../UI/Backdrop/Backdrop';
-import Branches from '../Branches/Branches';
-import * as streamActions from '../../../../../../store/actions/index';
+import Voting from "../../Voting/Voting";
+import AuthorPic from "../../../AuthorPic/AuthorPic";
+import Backdrop from '../../../../../../UI/Backdrop/Backdrop';
+import Branches from '../../Branches/Branches';
+import * as streamActions from '../../../../../../../store/actions/index';
 
 import classes from "./SubComment.module.css";
 
@@ -85,7 +85,7 @@ class SubComment extends Component {
   render() {
     const SpeechBubbleArrow = 
     <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= {!this.props.parentSelected ? COLOR_COMMENT_BACKGROUND : "rgba(87, 122, 161, 0.6)"}/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= {!this.props.parentSelected || this.props.selected ? COLOR_COMMENT_BACKGROUND : "rgba(87, 122, 161, 0.6)"}/>
     </svg> 
     const rootStyle = {left: `${this.props.depth * INDENT}px` }
 
@@ -103,7 +103,7 @@ class SubComment extends Component {
     backgroundStyleClasses.push(classes.CommnetBackgroundFlat);
 
     return (
-      <div className={`${classes.CommentContainer} ${this.props.parentSelected ? classes.selected : null}`}>
+      <div className={`${classes.CommentContainer} ${this.props.parentSelected || this.props.selected ? classes.selected : null}`}>
         {this.props.selected ? 
           <Backdrop clicked={this.props.onUnselectComment}/>
           : null
