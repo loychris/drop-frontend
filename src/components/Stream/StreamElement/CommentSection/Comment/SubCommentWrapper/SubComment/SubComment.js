@@ -115,8 +115,8 @@ class SubComment extends Component {
             ref={divElement => (this.divElement = divElement)}
             onClick={  
             this.props.selected ? 
-            this.props.onUnselectSubComment : 
-            () => this.props.onSelectSubComment(this.props.path, this.props.commentId)}
+            () => this.props.onUnselectSubComment(this.props.commentId, this.props.path) : 
+            () => this.props.onSelectSubComment(this.props.commentId, this.props.path)}
           >
             {/* //////////// */}
             <Voting points={this.props.points} />
@@ -129,6 +129,7 @@ class SubComment extends Component {
           </div>
         </div>
         <Branches 
+          depth={this.props.depth}
           treeString={this.props.treeString}
           height={this.state.height}
           root={this.props.subComments && this.props.subComments.length > 0 }
@@ -148,7 +149,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => { 
   return {
     onSelectSubComment: (commentId, path) => dispatch(streamActions.selectSubComment(commentId, path)),
-    onUnselectSubComment: () => dispatch(streamActions.unSelectComment())
+    onUnselectSubComment: () => dispatch(streamActions.unSelectSubComment())
   }
 }
 

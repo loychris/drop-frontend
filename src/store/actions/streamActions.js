@@ -142,6 +142,6 @@ export const selectSubComment = (commentId, path) => {
 
 export const unSelectSubComment = () => {
     return {
-        type: actionTypes.UNSELECT_SUBCOMMENT
+        type: actionTypes.UNSELECT_SUBCOMMENT,
     }
 }
