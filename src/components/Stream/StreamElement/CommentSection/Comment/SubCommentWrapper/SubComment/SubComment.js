@@ -129,7 +129,7 @@ class SubComment extends Component {
           </div>
         </div>
         <Branches 
-          depth={this.props.depth}
+          selectedDepth={4}
           treeString={this.props.treeString}
           height={this.state.height}
           root={this.props.subComments && this.props.subComments.length > 0 }

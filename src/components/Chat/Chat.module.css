@@ -16,6 +16,10 @@
   transform: translateX(-100vw);
 }
 
+.OutRight {
+  transform: translateX(+100vw);
+}
+
 .Previews {
   padding-left: 20px;
   width: 30%;

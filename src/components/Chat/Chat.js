@@ -69,7 +69,8 @@ class Chat extends Component {
 
 
     const styleClasses = [classes.Chat];
-    if (this.props.currentTab !== 'chat') styleClasses.push(classes.OutLeft);
+    if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeft);
+    if (this.props.currentTab === 'creator') styleClasses.push(classes.OutRight);
 
     return (
       <div className={styleClasses.join(" ")}>

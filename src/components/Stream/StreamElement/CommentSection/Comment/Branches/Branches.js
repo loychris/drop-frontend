@@ -6,8 +6,22 @@ import C from './Connector.svg';
 
 const INDENT = 17;
 
+const HIDDENCOLOR = 'red';
+
 
 class Branches extends Component {
+
+
+    getRoot = (hidden) => {
+        let styles = {}
+        styles.left = `${11 + this.props.treeString.length * INDENT}px`;
+        return(
+        <svg className={classes.Root} style={styles} width={"2px"} height={`${this.props.height}px`} viewBox={`0 0 2 ${this.props.height}`} fill="#abcdef" xmlns="http://www.w3.org/2000/svg">
+          <path d={`M0 0H2V${this.props.height}H0V0Z`} fill={`${hidden ? HIDDENCOLOR : '#ffffff' }`} />
+        </svg>
+        )
+    }
+
 
     generateBones = boneComponents => {
         let bones = [];
@@ -44,10 +58,9 @@ class Branches extends Component {
             width={"2px"}
             height={`${height}px`}
             viewBox={`0 0 2 ${height}`}
-            fill="none"
             xmlns="http://www.w3.org/2000/svg"
             >
-            <path d={`M0 0H2V${height}H0V0Z`} fill="#ffffff" />
+            <path d={`M0 0H2V${height}H0V0Z`} fill={`${depth > this.props.selectedDepth ? '#ffffff' : 'red'}`} />
             </svg>
         );
     };
@@ -55,7 +68,8 @@ class Branches extends Component {
     generateBoneStyles = (depth, type) => {
         let styles = {
             top: "-42px",
-            position: "absolute"
+            position: "absolute",
+            fill: `${depth > this.props.selectedDepth ? '#ffffff' : 'red'}`
         };
         switch (type) {
             case "start": styles.top = "25px";
@@ -69,22 +83,14 @@ class Branches extends Component {
         return styles;
     };
 
-    getRoot = () => {
-        let styles = {}
-        styles.left = `${11 + this.props.treeString.length * INDENT}px`;
-        return(
-        <svg className={classes.Root} style={styles} width={"2px"} height={`${this.props.height}px`} viewBox={`0 0 2 ${this.props.height}`} fill="#abcdef" xmlns="http://www.w3.org/2000/svg">
-          <path d={`M0 0H2V${this.props.height}H0V0Z`} fill="#ffffff" />
-        </svg>
-        )
-    }
+
 
 
     render() {
         return (
-            <div>
+            <div className={classes.branches}>
                 {this.generateBones(this.props.treeString)}
-                {this.props.root ? this.getRoot() : null}
+                {this.props.root ? this.getRoot(this.props.depth) : null}
             </div>
         )
     }

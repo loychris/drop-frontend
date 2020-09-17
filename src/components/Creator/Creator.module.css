@@ -1,0 +1,21 @@
+.Creator {
+    z-index: 500;
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: red;
+    top: 10vh;
+    left: 0;
+    right: 0;
+    width: 65vw;
+    height: 80vh;
+    transition: 0.3s ease;
+  }
+  
+  .OutLeft {
+    transform: translateX(-100vw);
+  }
+  
+  .OutLeftLeft {
+    transform: translateX(-200vw);
+  }

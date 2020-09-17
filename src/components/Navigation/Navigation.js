@@ -13,6 +13,22 @@ class Navigation extends Component {
       <div className={classes.Navigation}>
         <nav>
           <ul>
+          <li>
+              <NavLink style={{ textDecoration: "none" }} to="/creator">
+                <span
+                  className={
+                    this.props.currentTab === "creator"
+                      ? classes.active
+                      : classes.inactive
+                  }
+                  onClick={() => {
+                    this.props.onSwitchTab("creator");
+                  }}
+                >
+                  Creator
+                </span>
+              </NavLink>
+            </li>
             <li>
               <NavLink style={{ textDecoration: "none" }} to="/chat">
                 <span
