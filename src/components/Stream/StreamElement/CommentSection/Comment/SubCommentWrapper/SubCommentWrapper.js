@@ -10,13 +10,11 @@ class SubCommentWrapper extends Component {
           return(
             <SubCommentWrapper
               {...s}
-              parentSelected={this.props.parentSelected || this.props.selected}
               tree={nextTreeString}
               last={lastProp}
               depth={depth+1}
               key={i}
               actualComment={s.comment}
-              subComments={s.subComments}
               commentId={this.props.commentId}
             />
           )
