@@ -104,6 +104,8 @@ class SubComment extends Component {
     backgroundStyleClasses.push(classes.CommnetBackgroundFlat);
 
     let hiddenBranches = selected ? this.props.depth : null 
+    if(parentSelected) hiddenBranches = this.props.selectedComment.split(' ')[1].split('/').length -1 
+  
 
     return (
       <div className={`${classes.CommentContainer} ${parentSelected || selected ? classes.selected : null}`}>

@@ -4,7 +4,7 @@ import classes from './Branches.module.css';
 
 const INDENT = 17;
 
-const HIDDENCOLOR = 'red';
+const HIDDENCOLOR = '#333333';
 
 
 class Branches extends Component {
