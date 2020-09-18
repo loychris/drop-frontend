@@ -69,7 +69,6 @@ class Branches extends Component {
         let styles = {
             top: "-42px",
             position: "absolute",
-            fill: `${depth > this.props.selectedDepth ? '#ffffff' : 'red'}`
         };
         switch (type) {
             case "start": styles.top = "25px";
