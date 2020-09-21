@@ -29,6 +29,7 @@ const initialState = {
         { position: 21, show: "show", id: "21", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
     ],
     timeStampLastSwipe: 0,
+    currentDropId: "1",
     selectedComment: null,
     sending: [],
 }
@@ -41,6 +42,8 @@ const addSubComment = (parentPath, subComments, comment) => {
         else { return s }
     })
 }
+
+const replaceId = () => {}
 
 
 
@@ -114,6 +117,7 @@ const reducer = (state = initialState, action ) => {
                     ...state,
                     StreamElements: StreamElementsNew,
                     timeStampLastSwipe: timestamp,
+                    currentDropId: StreamElementsNew[1].id,
                     ids
                 }
             }
@@ -187,6 +191,7 @@ const reducer = (state = initialState, action ) => {
             })
             return {
                 ...state,
+                currentDropId: StreamElementsNew[1].id,
                 StreamElements: StreamElementsNew
             }
 
@@ -236,30 +241,31 @@ const reducer = (state = initialState, action ) => {
             }
 
         case actionTypes.COMMENT_SAVED: 
+            console.log('COMMENT SAVED')
             StreamElementsNew = state.StreamElements.map(s => {
-                if(s.id === action.dropId){
-                    return {
-                        ...s,
-                        comments: [...s.comments, action.comment]
-                    }
-                }
-                else {
+                // if(s.position === 1){
+                //     return {
+                //         ...s,
+                //         comments:  [...s.comments, action.comment]
+                //     }
+                // }
+                // else {
                     return s
-                }
+                //}
             })
-
+            console.log('SENDING ', state.sending)
+            console.log('RAND ID ', action.randPath)
+            console.log('sending ', state.sending.filter(id => id !== action.randPath ))
             return {
                 ...state,
-                StreamElements: StreamElementsNew
+                StreamElements: StreamElementsNew,
+                sending: state.sending.filter(path => path !== action.randPath )
             }
 
 
         case actionTypes.ADD_SUBCOMMENT: 
-            console.log();
             const randId = action.randId;
             const newPath = `${state.selectedComment}/${randId}`;
-            console.log('SELECTED COMMENT', state.selectedComment)
-            console.log('PARENT PATH', `${state.selectedComment.split('/').length > 1 ? state.selectedComment.split('/')[1] : '0'}/${randId}`);
             const sending = [...state.sending, newPath];
             const newSubComment = {
                 id: action.randID,
@@ -274,11 +280,8 @@ const reducer = (state = initialState, action ) => {
                     const comments = s.comments.map(c => {
                         if(state.selectedComment.split('/')[0] === c.id){
                             if(state.selectedComment.split('/').length > 1){
-                                console.log("ADDING DEEP SUBCOMMENT")
-                                console.log(state.selectedComment);
                                 return {...c, subComments: addSubComment(state.selectedComment, c.subComments, newSubComment)}
                             }else{
-                                console.log("ADDING FIRST LEVEL SUBCOMMENT")
 
                                 return {...c, subComments: [...c.subComments, newSubComment]}
                             }

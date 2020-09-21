@@ -124,11 +124,11 @@ export const postCommentFailed = () => {
     }
 }
 
-export const commentSaved = (comment, dropId) => {
+export const commentSaved = (comment, randPath) => {
     return {
         type: actionTypes.COMMENT_SAVED,
-        comment,
-        dropId
+        randPath,
+        comment
     }
 }
 

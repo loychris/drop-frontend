@@ -29,21 +29,36 @@ class CommentForm extends Component {
         const randId = `${Math.random()}`;
         event.preventDefault();
         this.setState({textareaValue: '', disabled: true});
-        console.log("SUBCOMMENT", this.props.subComment);
         if(!this.props.subComment){
             this.props.onAddComment(this.state.textareaValue, randId);
-            // axios.post(
-            //     `/api/drop/${this.props.dropId}/comment`, 
-            //     { 
-            //         authorId: '5f5538d269ae656e859629be', 
-            //         comment: this.state.textareaValue })
-            // .then(response => {
-            //     this.props.onCommentSaved(response.data)
-            // }).catch(err => {
-            //     this.props.onPostCommentFailed()
-            // })
+            axios.post(
+                `/api/drop/${this.props.dropId}/comment`, 
+                { 
+                    authorId: '5f5538d269ae656e859629be', 
+                    comment: this.state.textareaValue 
+            }).then(response => {
+                this.props.onCommentSaved(response.data, randId);
+            }).catch(err => {
+                console.log('POST COMMENT FAILED')
+                console.log(err)
+                this.props.onPostCommentFailed();
+            })
         }else{
             this.props.onAddSubComment(this.state.textareaValue, randId);
+            axios.post(
+                `/api/comment/${this.props.selectedComment.split('/')[0]}/sub`, 
+                { 
+                    authorId: '5f5538d269ae656e859629be', 
+                    actualComment: this.state.textareaValue,
+                    parentPath: this.props.selectedComment
+            }).then(response => {
+                console.log('PPPPARENTPATH', this.props.path)
+                this.props.onCommentSaved(response.data.path, `${this.props.path}/${randId}`);
+            }).catch(err => {
+                console.log('POST COMMENT FAILED')
+                console.log(err)
+                this.props.onPostCommentFailed();
+            })
         }
     }
 
@@ -67,12 +82,8 @@ class CommentForm extends Component {
 
     render(){
         const depth = this.props.path ? this.props.path.split("/").length : 0;
-        // let inputStyle = this.props.path ? { paddingLeft: `${depth * INDENT}px` } : null;
         const commentInputStyles = { paddingLeft: `${depth * INDENT}px` };
-        const contentStyle = {
-            left: `${(depth+1) * INDENT + 40}px`,
-            maxWidth: `${545 - INDENT * depth}px`
-          };
+        const contentStyle = { left: `${(depth+1) * INDENT + 40}px`, maxWidth: `${545 - INDENT * depth}px` };
         const treeString = this.props.treeString ? [...this.props.treeString.slice(1), 'L'] : ['L']
         const branches = this.props.path ? 
             <Branches
@@ -110,45 +121,13 @@ class CommentForm extends Component {
                 {branches}
             </div>
         )
-
-        // return(
-        //     <div className={classes.CommentFormContainer}>
-        //         <div style={contentStyle}>contentStyle
-        //             <div
-        //                 className={classes.CommentForm} 
-        //                 id={`commentForm${this.props.dropId}`}
-        //             >
-        //                 <AuthorPic depth={depth} indent={INDENT} neuMorphism={this.props.neuMorphism}/>                        <AuthorPic depth={depth} indent={INDENT} neuMorphism={this.props.neuMorphism}/>
-        //                 <div className={classes.InputContainer}>
-        //                     <TextareaAutosize 
-        //                         className={classes.TextArea}
-        //                         onChange={this.inputChangedHandler} 
-        //                         form={`commentForm${this.props.id}`} 
-        //                         value={this.state.textareaValue}
-        //                         placeholder='Write a comment...'/>
-        //                     <NeumorphismButton
-        //                         colorTheme='light'
-        //                         buttonType='SubmitComment'
-        //                         clicked={this.submitHandler} 
-        //                         disabled={this.state.disabled} 
-        //                         className={classes.SubmitButton} 
-        //                         type='submit'>
-        //                             {ArrowRight}
-        //                     </NeumorphismButton>
-        //                 </div>
-        //                 {SpeechBubbleArrow}
-        //                 {branches}
-        //             </div>
-        //         </div>
-
-        //     </div>
-        //)
     }
 }
 
 const mapStateToProps = state => {
     return {
-        
+        selectedComment: state.stream.selectedComment,
+        currentDropId: state.stream.currentDropId
     }
 }
   
@@ -156,7 +135,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onAddComment: (comment, randId) => dispatch(streamActions.addComment(comment, randId)),
         onAddSubComment: (comment, randId) => dispatch(streamActions.addSubComment(comment, randId)),
-        onCommentSaved: () => dispatch(streamActions.commentSaved()),
+        onCommentSaved: (comment, randPath) => {
+            console.log('1', randPath); dispatch(streamActions.commentSaved(comment, randPath))},
         onPostCommentFailed: () => dispatch(streamActions.postCommentFailed()),
     }
 }

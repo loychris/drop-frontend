@@ -66,8 +66,7 @@ class SubComment extends Component {
     
     if(this.props.sending.includes(this.props.path)) backgroundStyleClasses.push(classes.sending);
 
-
-    let hiddenBranches = selected ? this.props.depth : null 
+    let hiddenBranches = selected ? this.props.depth : null;
 
     if(parentSelected) hiddenBranches = this.props.selectedComment.split('/').length -1
   
