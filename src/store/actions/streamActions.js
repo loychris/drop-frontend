@@ -23,11 +23,11 @@ export const unSelectDropTarget = (id) => {
     }
 }
 
-export const addComment = (comment, id) => {
+export const addComment = (comment, randId) => {
     return {
         type: actionTypes.ADD_COMMENT,
-        comment: comment,
-        id: id
+        comment,
+        randId
     }
 }
 
@@ -143,5 +143,13 @@ export const selectSubComment = (commentId, path) => {
 export const unSelectSubComment = () => {
     return {
         type: actionTypes.UNSELECT_SUBCOMMENT,
+    }
+}
+
+export const addSubComment = (comment, randId) => {
+    return {
+        type: actionTypes.ADD_SUBCOMMENT,
+        comment,
+        randId
     }
 }

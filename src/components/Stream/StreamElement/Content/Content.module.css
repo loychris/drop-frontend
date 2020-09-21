@@ -17,4 +17,7 @@
 .Meme {
     width: 100%; 
     border-radius: 6px;
+    user-select: none;
+    -webkit-user-drag: none;  /* Prevents dragging of images/divs etc */
+
 }

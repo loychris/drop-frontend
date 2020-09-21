@@ -26,48 +26,60 @@ class CommentForm extends Component {
     }
 
     submitHandler = (event) => {
+        const randId = `${Math.random()}`;
         event.preventDefault();
-        this.setState({textareaValue: '', disabled: true})
-        this.props.onAddComment(this.state.textareaValue, this.props.postId);
-        axios.post(
-            `/api/drop/${this.props.dropId}/comment`, 
-            { 
-                authorId: '5f5538d269ae656e859629be', 
-                comment: this.state.textareaValue })
-        .then(response => {
-            this.props.onCommentSaved(response.data)
-        }).catch(err => {
-            this.props.onPostCommentFailed()
-        })
+        this.setState({textareaValue: '', disabled: true});
+        console.log("SUBCOMMENT", this.props.subComment);
+        if(!this.props.subComment){
+            this.props.onAddComment(this.state.textareaValue, randId);
+            // axios.post(
+            //     `/api/drop/${this.props.dropId}/comment`, 
+            //     { 
+            //         authorId: '5f5538d269ae656e859629be', 
+            //         comment: this.state.textareaValue })
+            // .then(response => {
+            //     this.props.onCommentSaved(response.data)
+            // }).catch(err => {
+            //     this.props.onPostCommentFailed()
+            // })
+        }else{
+            this.props.onAddSubComment(this.state.textareaValue, randId);
+        }
+    }
+
+    getSpeechBubbleArrow() {
+        return(
+            <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= '#ffffff'/>
+            </svg>
+        )
+    }
+
+    getArrowRight(){
+        return(
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="arrow_forward_24px">
+                <path id="icon/navigation/arrow_forward_24px" d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill={this.state.disabled ? 'grey' : 'black'} fillOpacity="0.54"/>
+                </g>
+            </svg>
+        )
     }
 
     render(){
-
-        const SpeechBubbleArrow = 
-        <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= '#ffffff'/>
-        </svg> 
-
-        const ArrowRight = 
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g id="arrow_forward_24px">
-            <path id="icon/navigation/arrow_forward_24px" d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill={this.state.disabled ? 'grey' : 'black'} fillOpacity="0.54"/>
-            </g>
-        </svg>
-
-        const depth = this.props.path ? this.props.path.split("/").length - 1 : 0;
+        const depth = this.props.path ? this.props.path.split("/").length : 0;
         // let inputStyle = this.props.path ? { paddingLeft: `${depth * INDENT}px` } : null;
         const commentInputStyles = { paddingLeft: `${depth * INDENT}px` };
         const contentStyle = {
-            left: `${depth * INDENT + 40}px`,
+            left: `${(depth+1) * INDENT + 40}px`,
             maxWidth: `${545 - INDENT * depth}px`
           };
-
+        const treeString = this.props.treeString ? [...this.props.treeString.slice(1), 'L'] : ['L']
         const branches = this.props.path ? 
             <Branches
-                treeString={this.props.treeString ? [...this.props.treeString, 'L'] : ['L']}
+                hideBranches={depth-1}
+                treeString={treeString}
                 height={61}
-                path={'0/'}
+                path={this.props.path}
             /> : null
 
         return(
@@ -89,9 +101,9 @@ class CommentForm extends Component {
                                 clicked={this.submitHandler} 
                                 disabled={this.state.disabled} 
                                 type='submit'>
-                                    {ArrowRight}
+                                    {this.getArrowRight()}
                             </NeumorphismButton>                            
-                            {SpeechBubbleArrow}
+                            {this.getSpeechBubbleArrow()}
                         </div>
                     </div>
                 </div>
@@ -142,8 +154,9 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = dispatch => {
     return {
-        onAddComment: (comment, id) => dispatch(streamActions.addComment(comment, id)),
-        onCommentSaved: (comment, dropId) => dispatch(streamActions.commentSaved(comment, dropId)),
+        onAddComment: (comment, randId) => dispatch(streamActions.addComment(comment, randId)),
+        onAddSubComment: (comment, randId) => dispatch(streamActions.addSubComment(comment, randId)),
+        onCommentSaved: () => dispatch(streamActions.commentSaved()),
         onPostCommentFailed: () => dispatch(streamActions.postCommentFailed()),
     }
 }

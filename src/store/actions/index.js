@@ -25,7 +25,8 @@ export {
     commentSaved,
     postCommentFailed,
     selectSubComment,
-    unSelectSubComment
+    unSelectSubComment,
+    addSubComment,
 } from './streamActions';
 
 export {

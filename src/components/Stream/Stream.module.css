@@ -24,6 +24,9 @@
     display: block;
     margin: auto;
     width: 380px;
+    user-select: none; 
+    user-drag: none; 
+    -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
   }
 
 .RiverGlow {
@@ -34,6 +37,9 @@
   margin: auto;
   left: 50%;
   transform: translate(-50%, -50%);
+  user-select: none;
+  -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
+  user-drag: none; 
 }
 
 .Boat1 {
@@ -43,6 +49,9 @@
     display: block; 
     left: 43vw;
     z-index: 300;   
+    user-select: none;
+    -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
+    user-drag: none;  
   }
   
   .Boat2 {
@@ -53,4 +62,7 @@
     display: block; 
     left: 55vw;
     z-index: 300;  
+    user-select: none;
+    -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
+    user-drag: none; 
   }

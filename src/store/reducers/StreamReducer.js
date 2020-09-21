@@ -29,16 +29,15 @@ const initialState = {
         { position: 21, show: "show", id: "21", status: 'not loaded', commentsStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
     ],
     timeStampLastSwipe: 0,
-    nextId: '22',
-    selectedComment: null
+    selectedComment: null,
+    sending: [],
 }
 
 
-const selectSubComment = (path, subComments, select) => {
-    
+const addSubComment = (parentPath, subComments, comment) => {
     return subComments.map(s => {
-        if(s.path === path){ console.log(`Setting ${path} to ${select}`); return { ...s, selected: select } }
-        else if(path.startsWith(s.path)){ return {...s, subComments: selectSubComment(path, s.subComments, select) } }
+        if(s.path === parentPath){ console.log(`FOUND PARENT ${s.path}, INSERTING SUBCOMMENT`); return { ...s, subComments: [...s.subComments, comment] } }
+        else if(parentPath.startsWith(s.path)){ return {...s, subComments: addSubComment(parentPath, s.subComments, comment) } }
         else { return s }
     })
 }
@@ -46,8 +45,8 @@ const selectSubComment = (path, subComments, select) => {
 
 
 const reducer = (state = initialState, action ) => {
+    let StreamElementsNew = [];
     switch( action.type ) {
-
         case actionTypes.SELECT_DROPTARGET: 
             return {
                 ...state,
@@ -74,8 +73,8 @@ const reducer = (state = initialState, action ) => {
 
         case actionTypes.SWIPE: 
             const timestamp  = Date.now();
-            if(state.selectedComment.split(' ')[0]){
-                const streamElementsUnselectedComments = state.StreamElements.map(s => {
+            if(state.selectedComment.split('/')[0]){
+                StreamElementsNew = state.StreamElements.map(s => {
                     if(s.position === 1){
                         return {
                             ...s,
@@ -87,13 +86,13 @@ const reducer = (state = initialState, action ) => {
                 })
                 return {
                     ...state,
-                    StreamElements: streamElementsUnselectedComments,
+                    StreamElements: StreamElementsNew,
                     selectedComment: null
 
                 }
             }else{
                 let ids = state.ids;
-                let newElements = state.StreamElements.map(s => {
+                StreamElementsNew = state.StreamElements.map(s => {
                     return {
                         ...s, 
                         position: s.position - 1,
@@ -103,7 +102,7 @@ const reducer = (state = initialState, action ) => {
                 .filter(s => {
                     return s.position >= 0
                 })
-                newElements.push({
+                StreamElementsNew.push({
                     position: 20,
                     show: 'show',
                     id: ids.pop(),
@@ -113,42 +112,17 @@ const reducer = (state = initialState, action ) => {
                 })
                 return {
                     ...state,
-                    StreamElements: newElements,
+                    StreamElements: StreamElementsNew,
                     timeStampLastSwipe: timestamp,
                     ids
                 }
             }
-            
-
-        case actionTypes.ADD_COMMENT:
-            const newComment = {
-                commentId: Math.random(),
-                author: 'user',
-                points: 0,
-                comment: action.comment,
-                subComments: [],
-                status: 'sending'
-            }
-            const streamElementsNew = state.StreamElements.map(s => {
-                if(s.id === action.id){
-                    const commentsNew = [...s.comments, newComment]
-                    return {
-                        ...s,
-                        comments: commentsNew
-                    }
-                }else { return s }
-            })
-            return {
-                ...state,
-                StreamElements: streamElementsNew
-            }
 
         case actionTypes.SET_IDS: 
-            let ids = action.ids;
-
-            const streamElementsWithIds = state.StreamElements.map((s, i) => {
+            let { ids } = action;
+            StreamElementsNew = state.StreamElements.map((s, i) => {
                 const memeStatus = s.position === 1 ? 'loading' : 'not loaded'
-                if(s.position > action.ids.length-1){
+                if(s.position > ids.length-1){
                     return {...s, id: 'no more' + Math.random(), status: 'no more', memeStatus} 
                 }else {
                     return { ...s, id: ids.pop(), status:'id loaded', memeStatus}
@@ -157,7 +131,7 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state,
                 ids,
-                StreamElements: streamElementsWithIds
+                StreamElements: StreamElementsNew
             }
 
         case actionTypes.FETCH_IDS_FAILED: 
@@ -167,9 +141,10 @@ const reducer = (state = initialState, action ) => {
             }
 
         case actionTypes.SELECT_COMMENT: 
+            const { commentId } = action;
             return {
                 ...state,
-                selectedComment: action.commentId
+                selectedComment: commentId
             }
         
 
@@ -183,7 +158,7 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SELECT_SUBCOMMENT:   
             return {
                 ...state,
-                selectedComment: `${action.commentId} ${action.path}`
+                selectedComment: action.path
 
             }
         
@@ -195,7 +170,7 @@ const reducer = (state = initialState, action ) => {
         
 
         case actionTypes.SET_DROP: 
-            const streamElementsWithDrop = state.StreamElements.map(s => {
+            StreamElementsNew = state.StreamElements.map(s => {
                 if(s.id === action.dropId){
                     return {
                         ...s,
@@ -212,7 +187,7 @@ const reducer = (state = initialState, action ) => {
             })
             return {
                 ...state,
-                StreamElements: streamElementsWithDrop
+                StreamElements: StreamElementsNew
             }
 
 
@@ -238,7 +213,7 @@ const reducer = (state = initialState, action ) => {
 
         case actionTypes.MEME_LOADED: 
             let currentPosition;
-            const StreamElementWithMeme = state.StreamElements.map(s => {
+            StreamElementsNew = state.StreamElements.map(s => {
                 if(s.id === action.dropId){
                     currentPosition = s.position
                     return {
@@ -257,11 +232,11 @@ const reducer = (state = initialState, action ) => {
             })
             return {
                 ...state,
-                StreamElements: StreamElementWithMeme
+                StreamElements: StreamElementsNew
             }
 
         case actionTypes.COMMENT_SAVED: 
-            const StreamElementsWithSavedComment = state.StreamElements.map(s => {
+            StreamElementsNew = state.StreamElements.map(s => {
                 if(s.id === action.dropId){
                     return {
                         ...s,
@@ -275,7 +250,83 @@ const reducer = (state = initialState, action ) => {
 
             return {
                 ...state,
-                StreamElements: StreamElementsWithSavedComment
+                StreamElements: StreamElementsNew
+            }
+
+
+        case actionTypes.ADD_SUBCOMMENT: 
+            console.log();
+            const randId = action.randId;
+            const newPath = `${state.selectedComment}/${randId}`;
+            console.log('SELECTED COMMENT', state.selectedComment)
+            console.log('PARENT PATH', `${state.selectedComment.split('/').length > 1 ? state.selectedComment.split('/')[1] : '0'}/${randId}`);
+            const sending = [...state.sending, newPath];
+            const newSubComment = {
+                id: action.randID,
+                author: "5f5538d269ae656e859629be",
+                path: newPath,
+                points: 0,
+                comment: action.comment,
+                subComments: [],
+            }
+            StreamElementsNew = state.StreamElements.map(s => {
+                if(s.position === 1){
+                    const comments = s.comments.map(c => {
+                        if(state.selectedComment.split('/')[0] === c.id){
+                            if(state.selectedComment.split('/').length > 1){
+                                console.log("ADDING DEEP SUBCOMMENT")
+                                console.log(state.selectedComment);
+                                return {...c, subComments: addSubComment(state.selectedComment, c.subComments, newSubComment)}
+                            }else{
+                                console.log("ADDING FIRST LEVEL SUBCOMMENT")
+
+                                return {...c, subComments: [...c.subComments, newSubComment]}
+                            }
+                        }else {
+                            return c;
+                        }
+                    });
+                    return {
+                        ...s,
+                        comments: comments
+                    }
+                } else {
+                    return s
+                }
+            })
+            return {
+                ...state,
+                StreamElements: StreamElementsNew,
+                selectedComment: null,
+                sending
+                
+            }
+
+
+            case actionTypes.ADD_COMMENT:
+
+                console.log(`Adding Comment`)
+                const newComment = {
+                    id: action.randId,
+                    author: 'user',
+                    points: 0,
+                    comment: action.comment,
+                    subComments: [],
+                }
+                StreamElementsNew = state.StreamElements.map(s => {
+                    if(s.position === 1){
+                        const commentsNew = [newComment, ...s.comments]
+                        console.log(s.comments.length, commentsNew.length)
+                        return {
+                            ...s,
+                            comments: commentsNew
+                        }
+                    }else { return s }
+                })
+            return {
+                ...state,
+                StreamElements: StreamElementsNew,
+                sending: [...state.sending, action.randId]
             }
         default: return state;
     }
