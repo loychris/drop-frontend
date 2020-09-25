@@ -28,37 +28,40 @@ class CommentForm extends Component {
     submitHandler = (event) => {
         const randId = `${Math.random()}`;
         event.preventDefault();
-        this.setState({textareaValue: '', disabled: true});
-        if(!this.props.subComment){
-            this.props.onAddComment(this.state.textareaValue, randId);
-            axios.post(
-                `/api/drop/${this.props.dropId}/comment`, 
-                { 
-                    authorId: '5f5538d269ae656e859629be', 
-                    comment: this.state.textareaValue 
-            }).then(response => {
-                this.props.onCommentSaved(response.data, randId);
-            }).catch(err => {
-                console.log('POST COMMENT FAILED')
-                console.log(err)
-                this.props.onPostCommentFailed();
-            })
-        }else{
-            this.props.onAddSubComment(this.state.textareaValue, randId);
-            axios.post(
-                `/api/comment/${this.props.selectedComment.split('/')[0]}/sub`, 
-                { 
-                    authorId: '5f5538d269ae656e859629be', 
-                    actualComment: this.state.textareaValue,
-                    parentPath: this.props.selectedComment
-            }).then(response => {
-                console.log('PPPPARENTPATH', this.props.path)
-                this.props.onCommentSaved(response.data.path, `${this.props.path}/${randId}`);
-            }).catch(err => {
-                console.log('POST COMMENT FAILED')
-                console.log(err)
-                this.props.onPostCommentFailed();
-            })
+        if(!this.props.token){
+            this.props.onOpenAuth("Create an account to write Comments")
+        }else {
+            this.setState({textareaValue: '', disabled: true});
+            if(!this.props.subComment){
+                this.props.onAddComment(this.state.textareaValue, randId);
+                const url = `/api/drop/${this.props.dropId}/comment`;
+                const header = { headers: { Authorization: 'Bearer ' + this.props.token } };
+                const body = { authorId: '5f5538d269ae656e859629be', comment: this.state.textareaValue };
+                axios.post( url, body, header)
+                .then(response => {
+                    this.props.onCommentSaved(response.data, randId);
+                }).catch(err => {
+                    console.log('POST COMMENT FAILED')
+                    console.log(err)
+                    this.props.onPostCommentFailed();
+                })
+            }else{
+                this.props.onAddSubComment(this.state.textareaValue, randId);
+                axios.post(
+                    `/api/comment/${this.props.selectedComment.split('/')[0]}/sub`, 
+                    { 
+                        authorId: '5f5538d269ae656e859629be', 
+                        actualComment: this.state.textareaValue,
+                        parentPath: this.props.selectedComment
+                }).then(response => {
+                    console.log('PPPPARENTPATH', this.props.path)
+                    this.props.onCommentSaved(response.data.path, `${this.props.path}/${randId}`);
+                }).catch(err => {
+                    console.log('POST COMMENT FAILED')
+                    console.log(err)
+                    this.props.onPostCommentFailed();
+                })
+            }
         }
     }
 
@@ -127,12 +130,14 @@ class CommentForm extends Component {
 const mapStateToProps = state => {
     return {
         selectedComment: state.stream.selectedComment,
-        currentDropId: state.stream.currentDropId
+        currentDropId: state.stream.currentDropId,
+        token: state.auth.token
     }
 }
   
 const mapDispatchToProps = dispatch => {
     return {
+        onOpenAuth: (authReason) => dispatch(streamActions.openAuth(authReason)),
         onAddComment: (comment, randId) => dispatch(streamActions.addComment(comment, randId)),
         onAddSubComment: (comment, randId) => dispatch(streamActions.addSubComment(comment, randId)),
         onCommentSaved: (comment, randPath) => {

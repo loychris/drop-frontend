@@ -62,6 +62,14 @@ class StreamElement extends Component {
     return styles;
   }
 
+  dropButtonClicked = () => {
+    if(!this.props.token){
+      this.props.onOpenAuth('Create an Account and directly share Memes with friends here!');
+    } else {
+      this.props.onOpenModal();
+    }
+  }
+
   render() {
     let droppedToYouBy = [];
 
@@ -98,7 +106,7 @@ class StreamElement extends Component {
           <Source sourceURL={this.props.source} /> 
           : null
         }
-        <DropButton theme={NEUMORPHISM} clicked={this.props.onOpenModal}>
+        <DropButton theme={NEUMORPHISM} clicked={this.dropButtonClicked}>
           <h3 className={classes.DROP}>Drop</h3>
         </DropButton>
         <CommentSection 
@@ -121,6 +129,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    onOpenAuth: (authReason) => dispatch(UIActions.openAuth(authReason)),
     onOpenModal: () => dispatch(UIActions.openModal()),
     onSetDrop: (dropId, drop) => dispatch(UIActions.setDrop(dropId, drop))
   }
