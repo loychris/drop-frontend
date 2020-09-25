@@ -109,7 +109,7 @@ class Comment extends Component {
             ref={divElement => (this.divElement = divElement)}
           >
             <Voting 
-              commentId={this.props.commentId}
+              commentId={this.props.id}
               postId={this.props.postId}
               points={this.props.points} />
             <div className={classes.SelectClickTarget}>
@@ -126,7 +126,7 @@ class Comment extends Component {
         {selected ? 
           <CommentForm 
             subComment={true}
-            path={'0'}
+            path={this.props.id}
             treeString={this.props.subComments.length > 0 ? [] : null}/> 
           : null
         }

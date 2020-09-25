@@ -11,11 +11,13 @@ import axios from 'axios';
 
 import StreamReducer from './store/reducers/StreamReducer'
 import ChatReducer from './store/reducers/ChatReducer'
+import AuthReducer from './store/reducers/authReducer';
 import UIReducer from './store/reducers/UIReducer'
 
 axios.defaults.baseURL = 'http://localhost:5000';
 
 const rootReducer = combineReducers({
+    auth: AuthReducer,
     stream: StreamReducer,
     chat: ChatReducer,
     ui: UIReducer

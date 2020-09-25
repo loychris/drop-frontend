@@ -5,9 +5,12 @@ import classes from './Input.module.css';
 class Input extends Component {
 
   render(){
+
+    const valid = this.props.showError || this.props.value === "123456";
+
     return(
       <div 
-        className={ !this.props.showError 
+        className={ !valid 
         ? classes.InputContainer 
         : classes.InputContainerInvalid }
       >
@@ -16,6 +19,7 @@ class Input extends Component {
             {this.props.label}
         </label>
         <input 
+          placeholder={this.props.placeholder}
           className={classes.Input}
           type={this.props.type}
           onChange={this.props.onChange}
@@ -23,10 +27,12 @@ class Input extends Component {
           id={this.props.id}
         />
         { 
-          this.props.showError ? 
-          <p className={classes.ErrorText}>{this.props.errorText}</p> : null
+          this.props.value === '123456' ? 
+            <p className={classes.ErrorText}>Seriously? Please don't do that.</p> : 
+            this.props.showError ? 
+              <p className={classes.ErrorText}>{this.props.errorText}</p> : 
+              null
         }
-
       </div>
 
     )

@@ -22,7 +22,12 @@ class Voting extends Component {
         if(!this.state.didUpvote){
             event.stopPropagation();
             let newState;
-            axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'up', user:'Voting User'});
+            const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
+            const body = this.props.path ? {vote: 'up', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'up', voterId:'5f5538d269ae656e859629be' }
+            axios.post(
+                route, 
+                body
+            ).then(console.log).catch(console.log);
             if(this.state.didDownvote){ // Up:0 down:1
                 newState = { didUpvote:true, didDownvote:false, points:this.state.points+2 }
             } else {                    // Up:0 down:0
@@ -37,8 +42,13 @@ class Voting extends Component {
         if(!this.state.didDownvote){
             event.stopPropagation();
             let newState;
-            axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'down', user:'Voting User'});
-            if(this.state.didUpvote){ // Up:1 down:0
+            const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
+            const body = this.props.path ? {vote: 'down', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'up', voterId:'5f5538d269ae656e859629be' }
+            axios.post(
+                route, 
+                body
+            ).then(console.log).catch(console.log);
+              if(this.state.didUpvote){ // Up:1 down:0
                 newState = { didDownvote:true, didUpvote:false, points:this.state.points-2 }
             } else {                    // Up:0 down:0
                 newState = { didDownvote:true, didUpvote:false, points:this.state.points-1 }

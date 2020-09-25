@@ -43,18 +43,6 @@ export const closeMenu = () => {
     }
 }
 
-export const openAuth = () => {
-    return {
-        type: actionTypes.OPEN_AUTH
-    }
-}
-
-export const closeAuth = () => {
-    return {
-        type: actionTypes.CLOSE_AUTH
-    }
-}
-
 export const openBackdrop = (zIndex) => {
     return {
         type: actionTypes.OPEN_BACKDROP,

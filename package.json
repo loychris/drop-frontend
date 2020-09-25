@@ -18,7 +18,7 @@
     "react-scripts": "^3.4.1",
     "react-spinners": "^0.8.1",
     "react-textarea-autosize": "^7.1.2",
-    "react-transition-group": "^4.3.0",
+    "react-transition-group": "^4.4.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.3.0",
     "style-loader": "^1.1.2"

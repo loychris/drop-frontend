@@ -3,15 +3,25 @@
     margin-left: auto;
     width: 400px; 
     height: 600px; 
-    background-color: #f5f5f5;
+    background-color: #f5f5f5; /* #2d3035; */
     left: 50%;
     transform: translate(-50%, -50%); 
     top: 50%;
     border-radius: 20px; 
-    box-shadow: 0px 5px 50px #000000;
+    box-shadow: 0px 0px 150px 150px #000000;
     z-index: 100;
     padding: 20px; 
     text-align: center;
+}
+
+.Backdrop {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,0.5);
 }
 
 .hidden{
@@ -57,4 +67,16 @@ button[type=submit]{
     margin-top: 5px; 
     margin-left: auto;
     margin-right: auto;
+}
+
+.switchMode{
+    cursor: pointer;
+    font-weight: 900;
+    text-decoration: underline;
+}
+
+.switchMode:hover {
+    text-decoration: underline;
+    font-weight: 900;
+
 }

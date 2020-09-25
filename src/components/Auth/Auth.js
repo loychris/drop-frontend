@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import Loader from 'react-loader-spinner'
 
 import Input from './FormElements/Input';
 import Button from './FormElements/Button';
-import Backdrop from '../UI/Backdrop/Backdrop';
 
 import * as authActions from '../../store/actions/index';
 import classes from './Auth.module.css';
@@ -35,66 +34,12 @@ class Auth extends Component {
     }
   }
 
-
   switchModeHandler = () => {
-    if(!this.state.isLogin){
-      this.setState({
-          isLogin: true
-      })
-    }else {
-      this.setState({
-        isLogin: false
-      })
-    }
+    this.setState(prevState => {
+      return { isLogin: !prevState.isLogin }
+    })
   }
 
-  signupHandler = (event) => {
-    event.preventDefault();
-    axios.post(
-      '/api/users/signup', 
-      JSON.stringify({
-          email: this.state.email.value,
-          password: this.state.password.value,
-          handle: this.state.handle.value,
-          name: this.state.name.value
-      }), {
-      headers: { 'Content-Type': 'application/json' }
-    }).then(res => {
-      console.log(res.data);
-      this.props.onCloseAuth();
-    }).catch(err => {
-      console.log('ERRRRRRRRROR', err)
-    })
-    console.log(`
-      SIGNING UP 
-      ${this.state.name.value},
-      ${this.state.password.value},
-      ${this.state.email.value},
-      ${this.state.handle.value}
-    `)
-  }
-
-  loginHandler = (event) => {
-    event.preventDefault();
-    axios.post(
-      '/api/users/login', 
-      JSON.stringify({
-          identification: this.state.email.value,
-          password: this.state.password.value
-      }), {
-      headers: { 'Content-Type': 'application/json' }
-    }).then(res => {
-      console.log(res.data);
-      this.props.onCloseAuth();
-    }).catch(err => {
-      console.log('ERRRRRRRRROR', err)
-    })
-    console.log(`
-      LOGGING IN 
-      ${this.state.email.value},
-      ${this.state.password.value}
-    `)
-  }
 
   onInputPassword = (event) => {
     this.setState({ 
@@ -136,7 +81,7 @@ class Auth extends Component {
     })  }
 
   validatePassword = (password) => {
-    return password ? password.length >= 5 : false
+    return password && password !== '123456' ? password.length >= 5 : false
   }
 
   validateName = (name) => {
@@ -162,13 +107,27 @@ class Auth extends Component {
     }
   }
 
+  submitHandler = (event) => {
+    event.preventDefault();
+    if(this.state.isLogin){
+      this.props.onLogin(this.state.email.value, this.state.password.value);
+    }
+    else{
+      this.props.onSignup(this.state.name.value, this.state.email.value, this.state.handle.value, this.state.password.value);
+    }
+  }
+
   getSignupForm = () => {
+    if(this.props.loading){
+      return <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/>    
+    }
     return(
-      <form onSubmit={this.signupHandler} className={classes.form}>
+      <form onSubmit={this.submitHandler} className={classes.form}>
         <Input 
             className={classes.Input}
             id="name" 
-            label="full name"
+            label="Full Name"
+            placeholder="Elon Musk"
             type="text"
             value={this.state.name.value}
             onChange={this.onInputName}
@@ -180,6 +139,7 @@ class Auth extends Component {
             id="email"
             type="email"
             label="E-Mail"
+            placeholder="Elon@musk.com"
             value={this.state.email.value}
             onChange={this.onInputEmail}
             showError={this.state.email.touched && !this.state.email.valid} 
@@ -190,6 +150,7 @@ class Auth extends Component {
             id="password"
             type="password"
             label="Password"
+            placeholder="123456"
             value={this.state.password.value}
             onChange={this.onInputPassword}
             showError={this.state.password.touched && !this.state.password.valid} 
@@ -200,6 +161,7 @@ class Auth extends Component {
             id="handle"
             type="text"
             label="Handle"
+            placeholder="@elon"
             value={this.state.handle.value}
             onChange={this.onInputHandle}
             showError={this.state.handle.touched && !this.state.handle.valid} 
@@ -208,18 +170,23 @@ class Auth extends Component {
         <Button type="submit" disabled={!this.formStateValid()}>
             SIGNUP
         </Button>
+        Already have an account? <span className={classes.switchMode} onClick={this.switchModeHandler}> LOG IN!</span>
       </form>
     )
   }
 
   getLoginForm = () => {
+    if(this.props.loading){
+      return <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/>    
+    }
     return(
-      <form onSubmit={this.loginHandler} className={classes.form}>
+      <form onSubmit={this.submitHandler} className={classes.form}>
         <Input
             element="input"
             id="email"
             type="email"
             label="E-Mail"
+            placeholder="fuck@zuck.com"
             value={this.state.email.value}
             onChange={this.onInputEmail}
             showError={this.state.email.touched && !this.state.email.valid} 
@@ -230,6 +197,7 @@ class Auth extends Component {
             id="password"
             type="password"
             label="Password"
+            placeholder="123456"
             value={this.state.password.value}
             onChange={this.onInputPassword}
             showError={this.state.password.touched && !this.state.password.valid} 
@@ -238,19 +206,26 @@ class Auth extends Component {
         <Button type="submit" disabled={!this.formStateValid()}>
             LOGIN
         </Button>
+
+        Dont have an Account?   <span className={classes.switchMode} onClick={this.switchModeHandler}> SIGN UP!</span>
+
       </form>
     )
   }
 
   render() {
+
+    let errorMessage = null;
+    if(this.props.error) errorMessage = <p>{this.props.error}</p>
     return (
-      <div className={this.props.authOpen ? null: classes.hidden}>
-          {this.props.authOpen ? <Backdrop clicked={this.props.onCloseAuth} zIndex='100' /> : null}
+      <div>
+          <div className={classes.Backdrop} onClick={this.props.onCloseAuth}></div>
+          {/* <Backdrop clicked={this.props.onCloseAuth} zIndex='100' />  */}
           <div className={classes.login}>
               <h2>Login Required</h2>
-              <hr />
+              <hr/>
+              {errorMessage}
               {this.state.isLogin ? this.getLoginForm() : this.getSignupForm() }
-              <Button inverse onClick={this.switchModeHandler}>{this.state.isLogin ? 'CREATE AN ACCOUNT' : 'ALREADY HAVE AN ACCOUNT'}</Button>
           </div>
       </div>
     );
@@ -259,13 +234,17 @@ class Auth extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
+    onLogin: (email, password) => dispatch(authActions.login(email, password)),
+    onSignup: (name, email, handle, password) => dispatch(authActions.signup(name, email, handle, password)),
     onCloseAuth: () => dispatch(authActions.closeAuth())
   }
 }
 
 const mapStateToProps = state => {
   return {
-    authOpen: state.ui.authOpen
+    authOpen: state.auth.authOpen,
+    loading: state.auth.loading,
+    error: state.auth.error
   }
 }
 

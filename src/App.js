@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { connect } from 'react-redux';
+import { CSSTransition } from 'react-transition-group';
 import axios from "axios";
 
 import Stream from "./components/Stream/Stream";
@@ -11,36 +12,16 @@ import Navigation from "./components/Navigation/Navigation";
 import Menu from './components/Menu/Menu';
 import Auth from './components/Auth/Auth';
 
+import * as authActions from './store/actions/index';
+
 class App extends Component {
-
-  state = {
-    loadedChats: true,
-    loadedContacts: true
-  }
-
-  componentDidMount() {
-    if (!this.state.loadedContacts) {
-      axios.get(`/contacts`).then((response) => {
-        this.setState({ loadedContacts: true, contacts: response.data });
-      });
-    }
-    if (!this.state.loadedChats) {
-      axios.get("/chats").then((response) => {
-        this.setState({
-          loadedChats: true,
-          chats: response.data,
-        });
-      });
-    }
-  }
-
 
   render() {
     return (
       <BrowserRouter>
         <div className={`App`}>
           <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
-          <Auth/>
+          {this.props.authOpen ? <Auth/> : null }
           <Navigation/>
           <Stream/>
           <Chat/>
@@ -50,6 +31,7 @@ class App extends Component {
           {/* <Route path='/' exact component={Stream}/> 
           <Route path='/chat' exact component={Chat}/> */}
         </div>
+
       </BrowserRouter>
     );
   }
@@ -58,11 +40,13 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     darkmode: state.ui.darkmode,
+    authOpen: state.auth.authOpen
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return {}
+  return {
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

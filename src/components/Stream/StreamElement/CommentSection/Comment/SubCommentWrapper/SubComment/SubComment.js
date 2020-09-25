@@ -84,7 +84,10 @@ class SubComment extends Component {
             () => this.props.onUnselectSubComment(this.props.commentId, this.props.path) : 
             () => this.props.onSelectSubComment(this.props.commentId, this.props.path)}
           >
-            <Voting points={this.props.points} />
+            <Voting 
+              points={this.props.points} 
+              commentId={this.props.commentId}
+              path={this.props.path}/>
             <div className={classes.SelectClickTarget} onClick={this.select}>
               <span className={classes.actualComment} style={contentStyle}>
                 {this.props.actualComment}

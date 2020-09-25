@@ -6,8 +6,6 @@ export {
     closeModal,
     openMenu,
     closeMenu,
-    openAuth,
-    closeAuth,
 } from './UIActions';
 
 export {
@@ -36,8 +34,7 @@ export {
 
 export {
     login,
-    logout,
-    signup,
-    checkEmail,
-    checkHandle
+    signup,    
+    openAuth,
+    closeAuth,
 } from './authActions';
