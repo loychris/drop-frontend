@@ -14,6 +14,20 @@ export const closeAuth = () => {
     }
 }
 
+export const checkAuthTimeout = (expirationTime) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(logout())
+        }, expirationTime * 1000)
+    }
+}
+
+export const logout = () => {
+    return {
+        type: actionTypes.LOGOUT
+    }
+}
+
 export const loginStart = () => {
     return {
         type: actionTypes.LOGIN_START
@@ -31,7 +45,7 @@ export const loginSuccess = (userId, token) => {
 export const loginFail = (response) => {
     return {
         type: actionTypes.LOGIN_FAIL,
-        error: response.data.message ?? 'Something went wrong'
+        error: response ?? 'Something went wrong'
     }
 }
 
@@ -46,12 +60,15 @@ export const login = (identifier, password) => {
             }), 
             { headers: { 'Content-Type': 'application/json' } }
         ).then(res => {
-            console.log("*******", res.data);
             dispatch(loginSuccess(res.data.userId, res.data.token));
+            dispatch(checkAuthTimeout(res.data.expiresIn));
             dispatch(closeAuth());
         }).catch(err => {
-            console.log(err.response);
-            dispatch(loginFail(err.response));
+            if(err.response && err.response.message){
+                dispatch(loginFail(err.response.message));
+            }else {
+                dispatch(loginFail("Check your connection, Bro"))
+            }
         })
     }
 }
@@ -90,8 +107,8 @@ export const signup = (name, email, handle, password) => {
             }), 
             { headers: { 'Content-Type': 'application/json' } }
             ).then(res => {
-                console.log("*******", res.data);
                 dispatch(signupSuccess(res.data.userId, res.data.token));
+                dispatch(checkAuthTimeout(res.data.expiresIn));
                 dispatch(closeAuth());
             }).catch(err => {
                 console.log(err.response);
@@ -100,50 +117,3 @@ export const signup = (name, email, handle, password) => {
     }
 }
 
-// signupHandler = (event) => {
-//     event.preventDefault();
-//     axios.post(
-//       '/api/users/signup', 
-//       JSON.stringify({
-//           email: this.state.email.value,
-//           password: this.state.password.value,
-//           handle: this.state.handle.value,
-//           name: this.state.name.value
-//       }), {
-//       headers: { 'Content-Type': 'application/json' }
-//     }).then(res => {
-//       console.log(res.data);
-//       this.props.onCloseAuth();
-//     }).catch(err => {
-//       console.log('ERRRRRRRRROR', err)
-//     })
-//     console.log(`
-//       SIGNING UP 
-//       ${this.state.name.value},
-//       ${this.state.password.value},
-//       ${this.state.email.value},
-//       ${this.state.handle.value}
-//     `)
-//   }
-
-//   loginHandler = (event) => {
-//     event.preventDefault();
-//     axios.post(
-//       '/api/users/login', 
-//       JSON.stringify({
-//           identification: this.state.email.value,
-//           password: this.state.password.value
-//       }), {
-//       headers: { 'Content-Type': 'application/json' }
-//     }).then(res => {
-//       console.log(res.data);
-//       this.props.onCloseAuth();
-//     }).catch(err => {
-//       console.log('ERRRRRRRRROR', err)
-//     })
-//     console.log(`
-//       LOGGING IN 
-//       ${this.state.email.value},
-//       ${this.state.password.value}
-//     `)
-//   }

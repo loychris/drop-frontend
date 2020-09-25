@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { CSSTransition } from 'react-transition-group';
-import axios from "axios";
 
 import Stream from "./components/Stream/Stream";
 import Chat from "./components/Chat/Chat";
@@ -11,8 +9,6 @@ import Navigation from "./components/Navigation/Navigation";
 //import Assistant from "./components/Assistant/Assistant";
 import Menu from './components/Menu/Menu';
 import Auth from './components/Auth/Auth';
-
-import * as authActions from './store/actions/index';
 
 class App extends Component {
 

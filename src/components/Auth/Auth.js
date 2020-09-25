@@ -214,9 +214,7 @@ class Auth extends Component {
   }
 
   render() {
-
-    let errorMessage = null;
-    if(this.props.error) errorMessage = <p>{this.props.error}</p>
+    let errorMessage = this.props.error ? <p className={classes.errorMessage}>{this.props.error}</p> : null;
     return (
       <div>
           <div className={classes.Backdrop} onClick={this.props.onCloseAuth}></div>

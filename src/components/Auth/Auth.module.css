@@ -78,5 +78,8 @@ button[type=submit]{
 .switchMode:hover {
     text-decoration: underline;
     font-weight: 900;
+}
 
+.errorMessage{
+    color: red;
 }
