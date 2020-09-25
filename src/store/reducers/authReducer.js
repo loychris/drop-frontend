@@ -5,7 +5,8 @@ const initialState = {
     userId: null,
     error: null,
     loading: null,
-    authOpen: false,
+    authOpen: false, 
+    authReason: null
 }
 
 const loginStart = ( state) => {
@@ -32,8 +33,8 @@ const signupFail = (state, action) => {
     return { ...state, loading: false, error: action.error }
 }
 
-const openAuth = (state) => {
-    return { ...state, authOpen: true }
+const openAuth = (state, action) => {
+    return { ...state, authOpen: true, authReason: action.authReason }
 }
 
 const closeAuth = (state) => {
@@ -52,7 +53,7 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SIGNUP_START: return signupStart(state);
         case actionTypes.SIGNUP_SUCCESS: return signupSuccess(state, action);
         case actionTypes.SIGNUP_FAIL: return signupFail(state, action);
-        case actionTypes.OPEN_AUTH: return openAuth(state);
+        case actionTypes.OPEN_AUTH: return openAuth(state, action);
         case actionTypes.CLOSE_AUTH: return closeAuth(state);
         case actionTypes.LOGOUT: return logout(state);
         default: return state;

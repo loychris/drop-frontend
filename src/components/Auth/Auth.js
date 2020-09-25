@@ -220,7 +220,7 @@ class Auth extends Component {
           <div className={classes.Backdrop} onClick={this.props.onCloseAuth}></div>
           {/* <Backdrop clicked={this.props.onCloseAuth} zIndex='100' />  */}
           <div className={classes.login}>
-              <h2>Login Required</h2>
+          <h2>{this.props.authReason}</h2>
               <hr/>
               {errorMessage}
               {this.state.isLogin ? this.getLoginForm() : this.getSignupForm() }
@@ -242,7 +242,8 @@ const mapStateToProps = state => {
   return {
     authOpen: state.auth.authOpen,
     loading: state.auth.loading,
-    error: state.auth.error
+    error: state.auth.error,
+    authReason: state.auth.authReason
   }
 }
 

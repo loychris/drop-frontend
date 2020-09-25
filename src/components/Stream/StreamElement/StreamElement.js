@@ -25,7 +25,9 @@ class StreamElement extends Component {
 
   componentDidMount() {
     if (this.props.status === 'id loaded') {
-      axios.get(`/api/drop/${this.props.id}`)
+      const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
+      console.log(headers);
+      axios.get(`/api/drop/${this.props.id}`, headers)
       .then(response => {
         this.props.onSetDrop(this.props.id, response.data.drop);
       })
@@ -112,7 +114,8 @@ class StreamElement extends Component {
 
 const mapStateToProps = state => {
   return {
-    darkmode: state.ui.darkmode
+    darkmode: state.ui.darkmode,
+    token: state.auth.token
   }
 }
 

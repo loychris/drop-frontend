@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
+
 import classes from './Voting.module.css';
 import arrowUpWhite from './Upvote_Icon_white.svg';
 import arrowUpGrey from './Upvote_Icon_grey.svg';
 import arrowDownWhite from './Downvote_Icon_white.svg';
 import arrowDownGrey from './Downvote_Icon_grey.svg';
+
+import * as actions from '../../../../../../store/actions/index';
 
 
 class Voting extends Component {
@@ -19,41 +23,54 @@ class Voting extends Component {
     }
 
     upvote = (event) => {
-        if(!this.state.didUpvote){
-            event.stopPropagation();
-            let newState;
-            const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
-            const body = this.props.path ? {vote: 'up', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'up', voterId:'5f5538d269ae656e859629be' }
-            axios.post(
-                route, 
-                body
-            ).then(console.log).catch(console.log);
-            if(this.state.didDownvote){ // Up:0 down:1
-                newState = { didUpvote:true, didDownvote:false, points:this.state.points+2 }
-            } else {                    // Up:0 down:0
-                newState = { didUpvote:true, didDownvote:false, points:this.state.points+1 }
-            }
-            this.setState(newState);
+        if(this.props.token){
+            if(!this.state.didUpvote){
+                event.stopPropagation();
+                let newState;
+                const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
+                const body = this.props.path ? {vote: 'up', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'up', voterId:'5f5538d269ae656e859629be' }
+                const header = { headers: { Authorization: 'Bearer ' + this.props.token } };
+                axios.post(
+                    route, 
+                    body,
+                    header
+                ).then(console.log).catch(console.log);
+                if(this.state.didDownvote){ // Up:0 down:1
+                    newState = { didUpvote:true, didDownvote:false, points:this.state.points+2 }
+                } else {                    // Up:0 down:0
+                    newState = { didUpvote:true, didDownvote:false, points:this.state.points+1 }
+                }
+                this.setState(newState);
+            } 
+        } else {
+            this.props.onOpenAuth("Create an Account to upvote Comments");
         }
+
         // nothing should happen otherwise; either already upvoted or both are true (should not happen)
     }
 
     downvote = (event) => {
-        if(!this.state.didDownvote){
-            event.stopPropagation();
-            let newState;
-            const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
-            const body = this.props.path ? {vote: 'down', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'up', voterId:'5f5538d269ae656e859629be' }
-            axios.post(
-                route, 
-                body
-            ).then(console.log).catch(console.log);
-              if(this.state.didUpvote){ // Up:1 down:0
-                newState = { didDownvote:true, didUpvote:false, points:this.state.points-2 }
-            } else {                    // Up:0 down:0
-                newState = { didDownvote:true, didUpvote:false, points:this.state.points-1 }
+        if(this.props.token){
+            if(!this.state.didDownvote){
+                event.stopPropagation();
+                let newState;
+                const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
+                const body = this.props.path ? {vote: 'down', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'up', voterId:'5f5538d269ae656e859629be' }
+                const header = { headers: { Authorization: 'Bearer ' + this.props.token } }
+                axios.post(
+                    route, 
+                    body,
+                    header
+                ).then(console.log).catch(console.log);
+                  if(this.state.didUpvote){ // Up:1 down:0
+                    newState = { didDownvote:true, didUpvote:false, points:this.state.points-2 }
+                } else {                    // Up:0 down:0
+                    newState = { didDownvote:true, didUpvote:false, points:this.state.points-1 }
+                }
+                this.setState(newState);
             }
-            this.setState(newState);
+        } else {
+            this.props.onOpenAuth("Create an Account to downvote Comments");
         }
         // nothing should happen otherwise; either already downvoted or both are true (should not happen)
     }
@@ -102,7 +119,7 @@ class Voting extends Component {
                     className={classes.up} 
                     onClick={this.upvote}
                     style={upvoteIconstyle}
-                    src={this.state.didUpvote?arrowUpWhite:arrowUpGrey} 
+                    src={this.state.didUpvote ? arrowUpWhite : arrowUpGrey} 
                     alt='upvote'/>
                 <div 
                     className={classes.points}
@@ -115,11 +132,24 @@ class Voting extends Component {
                     className={classes.down}
                     onClick={this.downvote}
                     style={downvoteIconStyle}
-                    src={this.state.didDownvote?arrowDownWhite:arrowDownGrey} 
+                    src={this.state.didDownvote ? arrowDownWhite : arrowDownGrey} 
                     alt='downvote'/>
             </div>
         )
     }
 }
 
-export default Voting;
+const mapStateToProps = state => {
+    return {
+      darkmode: state.ui.darkmode,
+      token: state.auth.token
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      onOpenAuth: (authReason) => dispatch(actions.openAuth(authReason)),
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Voting);

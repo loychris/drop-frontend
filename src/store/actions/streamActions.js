@@ -65,9 +65,10 @@ export const fetchIdsFailed = () => {
     }
 }
 
-export const fetchIds = () => {
+export const fetchIds = (token) => {
     return dispatch => {
-        axios.get('/api/drop/ids')
+        const headers = token ? { authorisation: 'Bearer ' + token } : null
+        axios.get('/api/drop/ids', headers )
         .then(res => {
             dispatch(setIds(res.data))
         })

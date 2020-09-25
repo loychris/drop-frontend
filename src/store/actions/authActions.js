@@ -1,10 +1,12 @@
 import axios from 'axios';
 
 import * as actionTypes from '../actions/actionTypes';
+import { fetchIds } from './streamActions';
 
-export const openAuth = () => {
+export const openAuth = (authReason) => {
     return {
-        type: actionTypes.OPEN_AUTH
+        type: actionTypes.OPEN_AUTH,
+        authReason
     }
 }
 
@@ -62,6 +64,7 @@ export const login = (identifier, password) => {
         ).then(res => {
             dispatch(loginSuccess(res.data.userId, res.data.token));
             dispatch(checkAuthTimeout(res.data.expiresIn));
+            dispatch(fetchIds(res.data.token))
             dispatch(closeAuth());
         }).catch(err => {
             if(err.response && err.response.message){
