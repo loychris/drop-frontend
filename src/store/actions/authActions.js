@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import * as actionTypes from '../actions/actionTypes';
-import { fetchIds } from './streamActions';
+import { setDropsNotLoaded } from './streamActions';
 
 export const openAuth = (authReason) => {
     return {
@@ -64,7 +64,7 @@ export const login = (identifier, password) => {
         ).then(res => {
             dispatch(loginSuccess(res.data.userId, res.data.token));
             dispatch(checkAuthTimeout(res.data.expiresIn));
-            dispatch(fetchIds(res.data.token))
+            dispatch(setDropsNotLoaded())
             dispatch(closeAuth());
         }).catch(err => {
             if(err.response && err.response.message){

@@ -109,6 +109,8 @@ class Comment extends Component {
             ref={divElement => (this.divElement = divElement)}
           >
             <Voting 
+              upvoted={this.props.upVoted}
+              downvoted={this.props.downVoted}
               commentId={this.props.id}
               postId={this.props.postId}
               points={this.props.points} />

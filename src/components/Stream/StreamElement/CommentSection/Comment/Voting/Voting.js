@@ -16,25 +16,25 @@ class Voting extends Component {
     constructor(props) {
         super();
         this.state = {
-            didUpvote: false,
-            didDownvote: false,
+            didUpvote: props.upvoted,
+            didDownvote: props.downvoted,
             points: props.points
         }
     }
 
     upvote = (event) => {
+        event.stopPropagation();
         if(this.props.token){
             if(!this.state.didUpvote){
-                event.stopPropagation();
                 let newState;
                 const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
                 const body = this.props.path ? {vote: 'up', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'up', voterId:'5f5538d269ae656e859629be' }
-                const header = { headers: { Authorization: 'Bearer ' + this.props.token } };
+                const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
                 axios.post(
                     route, 
                     body,
-                    header
-                ).then(console.log).catch(console.log);
+                    headers
+                ).then().catch(console.log);
                 if(this.state.didDownvote){ // Up:0 down:1
                     newState = { didUpvote:true, didDownvote:false, points:this.state.points+2 }
                 } else {                    // Up:0 down:0
@@ -50,17 +50,17 @@ class Voting extends Component {
     }
 
     downvote = (event) => {
+        event.stopPropagation();
         if(this.props.token){
             if(!this.state.didDownvote){
-                event.stopPropagation();
                 let newState;
                 const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
                 const body = this.props.path ? {vote: 'down', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'up', voterId:'5f5538d269ae656e859629be' }
-                const header = { headers: { Authorization: 'Bearer ' + this.props.token } }
+                const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
                 axios.post(
                     route, 
                     body,
-                    header
+                    headers
                 ).then(console.log).catch(console.log);
                   if(this.state.didUpvote){ // Up:1 down:0
                     newState = { didDownvote:true, didUpvote:false, points:this.state.points-2 }
@@ -77,16 +77,34 @@ class Voting extends Component {
 
     unvote = (event) => {
         event.stopPropagation();
-        let newState;
-        if(this.state.didDownvote){
-            axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'neutral', user:'Voting User'});
-            newState = { didDownvote:false, didUpvote:false, points:this.state.points+1}
-            this.setState(newState);
-        } else if(this.state.didUpvote){
-            axios.post(`/post/${this.props.postId}/comment/${this.props.commentId}/vote`, {vote: 'neutral', user:'Voting User'});
-            newState = { didDownvote:false, didUpvote:false, points:this.state.points-1}
-            this.setState(newState);
-        }
+        if(this.props.token){
+            let newState;
+            if(this.state.didDownvote){
+                const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
+                const body = this.props.path ? {vote: 'down', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'neutral', voterId:'5f5538d269ae656e859629be' }
+                const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
+                axios.post(
+                    route, 
+                    body,
+                    headers
+                ).then(console.log).catch(console.log);
+                newState = { didDownvote:false, didUpvote:false, points:this.state.points+1}
+                this.setState(newState);
+            } else if(this.state.didUpvote){
+                const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
+                const body = this.props.path ? {vote: 'down', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'neutral', voterId:'5f5538d269ae656e859629be' }
+                const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
+                axios.post(
+                    route, 
+                    body,
+                    headers
+                ).then(console.log).catch(console.log);
+                newState = { didDownvote:false, didUpvote:false, points:this.state.points-1}
+                this.setState(newState);
+            }
+        } else {
+            this.props.onOpenAuth("Create an Account to vote Comments");
+        }   
     }
     
     //transforms the exact number of up/downvotes to a more presentable String 

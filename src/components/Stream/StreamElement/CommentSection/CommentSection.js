@@ -15,36 +15,38 @@ class CommentSection extends Component {
     componentDidUpdate = () => {
     }
 
+    getComments = () => {
+        return this.props.comments.map(x => {
+            return(
+                <Comment 
+                    {...x}
+                    key={x.id} 
+                    comment={x} 
+                    postId={this.props.postId} 
+                />
+            )
+        })
+    }
+
+    getLoader = () => {
+        return(
+            <Loader 
+                className={classes.Spinner} 
+                type="ThreeDots" 
+                color="#00BFFF" 
+                height={30} 
+                width={30}
+            />
+        )
+    }
 
     render(){
-        let comments = null;
-        if(this.props.position <= 2){
-            if(this.props.commentStatus === 'not loaded'){
-                comments = <Loader 
-                            className={classes.Spinner} 
-                            type="ThreeDots" 
-                            color="#00BFFF" 
-                            height={30} 
-                            width={30}/>
-            }else{
-                comments = this.props.comments.map(x => {
-                    return(
-                        <Comment 
-                            {...x}
-                            key={x.id} 
-                            comment={x} 
-                            postId={this.props.postId} 
-                        />
-                    )
-                }) 
-            }
-        }
-
+        if(this.props.position > 1) return null
         return(
             <div className={classes.CommentSection} tabIndex='0'>
                 <CommentForm dropId={this.props.postId} />
                 <div className={classes.comments}>
-                    {comments}
+                    { this.props.commentStatus === 'not loaded' ? this.getLoader() : this.getComments()}
                 </div>
             </div>
         )

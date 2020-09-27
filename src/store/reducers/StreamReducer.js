@@ -289,6 +289,16 @@ const addComment = (state, action) => {
     }
 }
 
+const setDropsNotLoaded = (state, action) => {
+    const StreamElementsNew = state.StreamElements.map(s => {
+        return {...s, status: 'id loaded', commentsStatus: 'not loaded'}
+    })
+    return {
+        ...state, 
+        StreamElements: StreamElementsNew
+    }
+}
+
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
         case actionTypes.SELECT_DROPTARGET: return selectDropTarget(state, action);
@@ -305,6 +315,7 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.COMMENT_SAVED: return commentSaved(state, action);
         case actionTypes.ADD_SUBCOMMENT: return addSubComment(state, action);
         case actionTypes.ADD_COMMENT: return addComment(state, action);
+        case actionTypes.SET_DROPS_NOT_LOADED: return setDropsNotLoaded(state, action)
         default: return state;
     }
 }

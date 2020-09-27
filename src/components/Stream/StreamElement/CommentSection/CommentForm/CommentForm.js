@@ -30,7 +30,7 @@ class CommentForm extends Component {
         event.preventDefault();
         if(!this.props.token){
             this.props.onOpenAuth("Create an account to write Comments")
-        }else {
+        } else {
             this.setState({textareaValue: '', disabled: true});
             if(!this.props.subComment){
                 this.props.onAddComment(this.state.textareaValue, randId);

@@ -1,6 +1,10 @@
+.CommentSection {
+}
 
 .comments{
     position: relative;
+    min-height: 50px;
+
 }
 
 .ShowMoreComments {
@@ -23,5 +27,5 @@
     left: 50%;
     top: 50%;
     margin-left: -25px;
-    margin-top: -25px;
+    margin-top: -15px;
 }

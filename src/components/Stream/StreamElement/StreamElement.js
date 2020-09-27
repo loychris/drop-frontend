@@ -26,7 +26,19 @@ class StreamElement extends Component {
   componentDidMount() {
     if (this.props.status === 'id loaded') {
       const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
-      console.log(headers);
+      axios.get(`/api/drop/${this.props.id}`, headers)
+      .then(response => {
+        this.props.onSetDrop(this.props.id, response.data.drop);
+      })
+      .catch(err => {
+        console.log('FETCHING DROP FAILED, ', err);
+      });
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.status === 'id loaded') {
+      const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
       axios.get(`/api/drop/${this.props.id}`, headers)
       .then(response => {
         this.props.onSetDrop(this.props.id, response.data.drop);

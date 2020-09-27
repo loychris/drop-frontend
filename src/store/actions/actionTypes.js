@@ -47,6 +47,7 @@
     export const POST_COMMENT_FAILED = 'POST_COMMENT_FAILED';
     export const SELECT_SUBCOMMENT = 'SELECT_SUBCOMMENT';
     export const UNSELECT_SUBCOMMENT = 'UNSELECT_SUBCOMMENT';
+    export const SET_DROPS_NOT_LOADED = 'SET_DROPS_NOT_LOADED';
 
 // CHAT 
     export const SEND = 'SEND';

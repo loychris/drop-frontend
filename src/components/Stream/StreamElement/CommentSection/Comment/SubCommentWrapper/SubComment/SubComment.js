@@ -85,6 +85,8 @@ class SubComment extends Component {
             () => this.props.onSelectSubComment(this.props.commentId, this.props.path)}
           >
             <Voting 
+              upvoted={this.props.upVoted}
+              downvoted={this.props.downVoted}
               points={this.props.points} 
               commentId={this.props.commentId}
               path={this.props.path}/>

@@ -154,3 +154,9 @@ export const addSubComment = (comment, randId) => {
         randId
     }
 }
+
+export const setDropsNotLoaded = () => {
+    return {
+        type: actionTypes.SET_DROPS_NOT_LOADED
+    }
+}

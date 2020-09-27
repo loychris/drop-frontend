@@ -25,6 +25,7 @@ export {
     selectSubComment,
     unSelectSubComment,
     addSubComment,
+    setDropsNotLoaded
 } from './streamActions';
 
 export {
