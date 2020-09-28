@@ -22,7 +22,7 @@ class CommentSection extends Component {
                     {...x}
                     key={x.id} 
                     comment={x} 
-                    postId={this.props.postId} 
+                    dropId={this.props.dropId} 
                 />
             )
         })
@@ -44,7 +44,7 @@ class CommentSection extends Component {
         if(this.props.position > 1) return null
         return(
             <div className={classes.CommentSection} tabIndex='0'>
-                <CommentForm dropId={this.props.postId} />
+                <CommentForm dropId={this.props.dropId} />
                 <div className={classes.comments}>
                     { this.props.commentStatus === 'not loaded' ? this.getLoader() : this.getComments()}
                 </div>

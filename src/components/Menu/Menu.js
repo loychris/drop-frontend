@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 
 import ToggleSwitch from '../UI/ToggleSwitch/ToggleSwitch';
 
-
 import classes from './Menu.module.css';
-import * as UIActions from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 
 class Menu extends Component {
 
@@ -54,6 +53,7 @@ class Menu extends Component {
                             Small = {true}
                             onChange={() => console.log("Turned Slow connection mode on/off")} />
                     </div>
+                    {this.props.token ? <button onClick={this.props.onLogout}>Logout</button> : null } 
                 </div>
             </div>
         )
@@ -61,17 +61,18 @@ class Menu extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
-      darkmode: state.ui.darkmode,
+  return {
+    darkmode: state.ui.darkmode,
+    token: state.auth.token
+  }
+}
 
-    }
+const mapDispatchToProps = dispatch => {
+  return {
+    onGoDark: () => dispatch(actions.goDark()),
+    onGoLight: () => dispatch(actions.goLight()),
+    onLogout: () => dispatch(actions.logout())
   }
-  
-  const mapDispatchToProps = dispatch => {
-    return {
-        onGoDark: () => dispatch(UIActions.goDark),
-        onGoLight: () => dispatch(UIActions.goLight)
-    }
-  }
-  
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu)

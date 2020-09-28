@@ -15,6 +15,7 @@ class SubCommentWrapper extends Component {
               last={lastProp}
               depth={depth+1}
               key={i}
+              dropId={this.props.dropId}
               selectedCommentPath={this.props.selectedCommentPath}
               actualComment={s.comment}
               subComments={s.subComments}
@@ -45,6 +46,7 @@ class SubCommentWrapper extends Component {
                   selected ? 
                   <CommentForm
                     subComment
+                    dropId={this.props.dropId}
                     path={this.props.path}
                     treeString={nextTreeString}/> 
                   : null 

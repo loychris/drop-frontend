@@ -123,7 +123,7 @@ class StreamElement extends Component {
         </DropButton>
         <CommentSection 
           position={this.props.position}
-          postId={this.props.id} 
+          dropId={this.props.id} 
           comments={this.props.comments} 
           dropLoaded={this.props.status === 'drop loaded'}
           commentStatus={this.props.commentsStatus}/>      

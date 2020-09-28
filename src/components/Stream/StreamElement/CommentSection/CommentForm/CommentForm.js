@@ -35,11 +35,14 @@ class CommentForm extends Component {
             if(!this.props.subComment){
                 this.props.onAddComment(this.state.textareaValue, randId);
                 const url = `/api/drop/${this.props.dropId}/comment`;
-                const header = { headers: { Authorization: 'Bearer ' + this.props.token } };
-                const body = { authorId: '5f5538d269ae656e859629be', comment: this.state.textareaValue };
-                axios.post( url, body, header)
+                const headers = { headers: { Authorisation: `Bearer ${this.props.token}` } } 
+                const body = { 
+                    authorId: this.props.userId, 
+                    comment: this.state.textareaValue 
+                };
+                axios.post(url, body, headers)
                 .then(response => {
-                    this.props.onCommentSaved(response.data, randId);
+                    this.props.onCommentSaved(this.props.dropId, response.data, null, randId);
                 }).catch(err => {
                     console.log('POST COMMENT FAILED')
                     console.log(err)
@@ -47,15 +50,17 @@ class CommentForm extends Component {
                 })
             }else{
                 this.props.onAddSubComment(this.state.textareaValue, randId);
-                axios.post(
-                    `/api/comment/${this.props.selectedComment.split('/')[0]}/sub`, 
-                    { 
-                        authorId: '5f5538d269ae656e859629be', 
-                        actualComment: this.state.textareaValue,
-                        parentPath: this.props.selectedComment
-                }).then(response => {
+                const route = `/api/comment/${this.props.selectedComment.split('/')[0]}/sub`; 
+                const headers = { headers: { Authorisation: `Bearer ${this.props.token}` } } 
+                const body = { 
+                    authorId: this.props.userId, 
+                    actualComment: this.state.textareaValue,
+                    parentPath: this.props.selectedComment
+                }
+                axios.post(route, body, headers)
+                .then(response => {
                     console.log('PPPPARENTPATH', this.props.path)
-                    this.props.onCommentSaved(response.data.path, `${this.props.path}/${randId}`);
+                    this.props.onCommentSaved(this.props.dropId, response.data, this.props.path, randId);
                 }).catch(err => {
                     console.log('POST COMMENT FAILED')
                     console.log(err)
@@ -131,7 +136,8 @@ const mapStateToProps = state => {
     return {
         selectedComment: state.stream.selectedComment,
         currentDropId: state.stream.currentDropId,
-        token: state.auth.token
+        token: state.auth.token,
+        userId: state.auth.userId
     }
 }
   
@@ -140,8 +146,7 @@ const mapDispatchToProps = dispatch => {
         onOpenAuth: (authReason) => dispatch(streamActions.openAuth(authReason)),
         onAddComment: (comment, randId) => dispatch(streamActions.addComment(comment, randId)),
         onAddSubComment: (comment, randId) => dispatch(streamActions.addSubComment(comment, randId)),
-        onCommentSaved: (comment, randPath) => {
-            console.log('1', randPath); dispatch(streamActions.commentSaved(comment, randPath))},
+        onCommentSaved: (dropId, comment, path, randId) => {dispatch(streamActions.commentSaved(dropId, comment, path, randId))},
         onPostCommentFailed: () => dispatch(streamActions.postCommentFailed()),
     }
 }

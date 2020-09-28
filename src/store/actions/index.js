@@ -38,4 +38,5 @@ export {
     signup,    
     openAuth,
     closeAuth,
+    logout
 } from './authActions';

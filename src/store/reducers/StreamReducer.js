@@ -44,6 +44,8 @@ const insertSubComment = (parentPath, subComments, comment) => {
     })
 }
 
+
+
 const scrollToTop = () => {
     const c = document.documentElement.scrollTop || document.body.scrollTop;
     if (c > 0) {
@@ -215,11 +217,36 @@ const memeLoaded = (state, action) => {
 }
 
 const commentSaved = (state, action) => {
+    console.log('ACTION: ', action);
+    const { dropId, comment, path, randId } = action
+    //replace all paths that contain randId with real path from Server
+    const sendingNew = state.sending.filter(p => {
+        return !(p === randId || p === `${path}/${randId}`)
+    })
+
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(s.id !== dropId){
+            return s
+        } else {
+            return {
+                ...s,
+                comments: s.comments.map(c => {
+                    if(c.id === randId){
+                        return {...c, id: comment.id}
+                    }else {
+                        return c
+                    }
+                })
+            }
+        }
+    })
     return {
         ...state,
-        sending: state.sending.filter(path => path !== action.randPath )
+        StreamElements: StreamElementsNew,
+        sending: sendingNew
     }
 }
+
 
 const addSubComment = (state, action) => {
     const randId = action.randId;

@@ -65,6 +65,7 @@ class Comment extends Component {
             last={lastProp}
             depth={1}
             key={i}
+            dropId={this.props.dropId}
             selectedCommentPath={this.props.selectedComment}
             commentId={this.props.comment.id}
             actualComment={s.comment}
@@ -101,7 +102,8 @@ class Comment extends Component {
         <div className={`${classes.Comment} ${selected ? classes.selected : null}`}>
           <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
           <div className={backgroundStyleClasses.join(' ')}
-            onClick={  
+            onClick={ 
+              this.props.sending.some(c => c === this.props.id) ? console.log('Cant select comment yet. Still sending') : 
               selected ? 
               this.props.onUnselectComment : 
               () => {this.props.onSelectComment(this.props.id, '/')}
@@ -112,7 +114,6 @@ class Comment extends Component {
               upvoted={this.props.upVoted}
               downvoted={this.props.downVoted}
               commentId={this.props.id}
-              postId={this.props.postId}
               points={this.props.points} />
             <div className={classes.SelectClickTarget}>
               <span className={classes.actualComment}>

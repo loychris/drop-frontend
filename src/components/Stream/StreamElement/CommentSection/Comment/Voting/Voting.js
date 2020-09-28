@@ -22,13 +22,26 @@ class Voting extends Component {
         }
     }
 
+    getArrow = (up, glow) => {
+        return(
+            <svg 
+                className={`${up ? classes.up : classes.down} ${glow ? classes.glow : null}`} 
+                onClick={up ? this.upvote : this.downvote} 
+                width="60" height="14" viewBox="0 0 60 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M28.036 1.70084C29.1634 0.724555 30.8366 0.724556 31.964 1.70084L58.5583 24.7322C60.658 26.5506 59.372 30 56.5943 30H3.40566C0.628007 30 -0.658012 26.5506 1.4417 24.7322L28.036 1.70084Z" 
+                    fill={`${glow ? '#ffffff' : '#bbbbbb'}`}/>
+            </svg>
+        )
+    }
+
+
     upvote = (event) => {
         event.stopPropagation();
         if(this.props.token){
             if(!this.state.didUpvote){
                 let newState;
                 const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
-                const body = this.props.path ? {vote: 'up', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'up', voterId:'5f5538d269ae656e859629be' }
+                const body = this.props.path ? {vote: 'up', voterId: this.props.userId, path: this.props.path } : { vote: 'up' }
                 const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
                 axios.post(
                     route, 
@@ -53,21 +66,19 @@ class Voting extends Component {
         event.stopPropagation();
         if(this.props.token){
             if(!this.state.didDownvote){
-                let newState;
                 const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
-                const body = this.props.path ? {vote: 'down', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'up', voterId:'5f5538d269ae656e859629be' }
+                const body = this.props.path ? {vote: 'down', voterId: this.props.userId, path: this.props.path } : { vote: 'down'}
                 const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
                 axios.post(
                     route, 
                     body,
                     headers
                 ).then(console.log).catch(console.log);
-                  if(this.state.didUpvote){ // Up:1 down:0
-                    newState = { didDownvote:true, didUpvote:false, points:this.state.points-2 }
+                if(this.state.didUpvote){ // Up:1 down:0
+                    this.setState({ didDownvote:true, didUpvote:false, points:this.state.points-2 });
                 } else {                    // Up:0 down:0
-                    newState = { didDownvote:true, didUpvote:false, points:this.state.points-1 }
+                    this.setState({ didDownvote:true, didUpvote:false, points:this.state.points-1 }); 
                 }
-                this.setState(newState);
             }
         } else {
             this.props.onOpenAuth("Create an Account to downvote Comments");
@@ -77,34 +88,24 @@ class Voting extends Component {
 
     unvote = (event) => {
         event.stopPropagation();
-        if(this.props.token){
-            let newState;
-            if(this.state.didDownvote){
-                const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
-                const body = this.props.path ? {vote: 'down', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'neutral', voterId:'5f5538d269ae656e859629be' }
-                const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
-                axios.post(
-                    route, 
-                    body,
-                    headers
-                ).then(console.log).catch(console.log);
-                newState = { didDownvote:false, didUpvote:false, points:this.state.points+1}
-                this.setState(newState);
-            } else if(this.state.didUpvote){
-                const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
-                const body = this.props.path ? {vote: 'down', voterId:'5f5538d269ae656e859629be', path: this.props.path } : { vote: 'neutral', voterId:'5f5538d269ae656e859629be' }
-                const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
-                axios.post(
-                    route, 
-                    body,
-                    headers
-                ).then(console.log).catch(console.log);
-                newState = { didDownvote:false, didUpvote:false, points:this.state.points-1}
-                this.setState(newState);
-            }
-        } else {
+        if(!this.props.token){
             this.props.onOpenAuth("Create an Account to vote Comments");
-        }   
+        } else if(this.state.didDownvote || this.state.didUpvote){
+            const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
+            const body = this.props.path ? {vote: 'neutral', voterId: this.props.userId, path: this.props.path } : { vote: 'neutral' }
+            const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
+            axios.post(
+                route, 
+                body,
+                headers
+            ).then(console.log).catch(console.log);
+
+            if(this.state.didDownvote){
+                this.setState({ didDownvote:false, didUpvote:false, points:this.state.points+1})
+            } else if(this.state.didUpvote){
+                this.setState({ didDownvote:false, didUpvote:false, points:this.state.points-1});
+            } 
+        }
     }
     
     //transforms the exact number of up/downvotes to a more presentable String 
@@ -127,18 +128,10 @@ class Voting extends Component {
 
     render(){
         
-        const glow = {filter: 'drop-shadow(0px 0px 6px #ffffff)'};
-        const upvoteIconstyle = this.state.didUpvote ? glow :{};
-        const downvoteIconStyle = this.state.didDownvote ? glow :{};
 
         return(
             <div className={classes.voting}>
-                <img 
-                    className={classes.up} 
-                    onClick={this.upvote}
-                    style={upvoteIconstyle}
-                    src={this.state.didUpvote ? arrowUpWhite : arrowUpGrey} 
-                    alt='upvote'/>
+                {this.getArrow(true, this.state.didUpvote)}
                 <div 
                     className={classes.points}
                     title={`${this.state.points} points`}
@@ -146,12 +139,7 @@ class Voting extends Component {
                 >
                     {this.getCountString(this.state.points)}
                 </div>
-                <img 
-                    className={classes.down}
-                    onClick={this.downvote}
-                    style={downvoteIconStyle}
-                    src={this.state.didDownvote ? arrowDownWhite : arrowDownGrey} 
-                    alt='downvote'/>
+                {this.getArrow(false, this.state.didDownvote)}
             </div>
         )
     }
@@ -160,7 +148,8 @@ class Voting extends Component {
 const mapStateToProps = state => {
     return {
       darkmode: state.ui.darkmode,
-      token: state.auth.token
+      token: state.auth.token,
+      userId: state.auth.userId
     }
   }
   

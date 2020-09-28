@@ -80,9 +80,11 @@ class SubComment extends Component {
             className={backgroundStyleClasses.join(' ')} 
             ref={divElement => (this.divElement = divElement)}
             onClick={  
-            selected ? 
-            () => this.props.onUnselectSubComment(this.props.commentId, this.props.path) : 
-            () => this.props.onSelectSubComment(this.props.commentId, this.props.path)}
+              this.props.sending.some(c => c === this.props.id) 
+              ? console.log('Cant select comment yet. Still sending') 
+              : selected 
+                ? () => this.props.onUnselectSubComment(this.props.commentId, this.props.path) 
+                : () => this.props.onSelectSubComment(this.props.commentId, this.props.path)}
           >
             <Voting 
               upvoted={this.props.upVoted}

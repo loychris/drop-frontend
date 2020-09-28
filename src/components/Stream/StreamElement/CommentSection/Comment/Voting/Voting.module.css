@@ -12,8 +12,12 @@
     width: 1.75em;
 }
 
+.down {
+    transform: rotate(180deg);
+}
+
 .up {
-    margin: 0px 0px -2px 0px; 
+    margin-bottom: -2px; 
 }
 
 .down {
@@ -28,4 +32,9 @@
 .points{
     text-align: center;
     cursor: pointer;
+    user-select: none;
+}
+
+.glow {
+    filter: drop-shadow(0px 0px 6px #ffffff)
 }

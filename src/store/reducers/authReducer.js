@@ -42,11 +42,13 @@ const closeAuth = (state) => {
 }
 
 const logout = (state) => {
-    return {...state, userId: null, token: null}
+    console.log('LOGGING PUT');
+    return { ...state, token: null, userId: null }
 }
 
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
+        case actionTypes.LOGOUT: return logout(state);
         case actionTypes.LOGIN_START: return loginStart(state);
         case actionTypes.LOGIN_SUCCESS: return loginSuccess(state, action);
         case actionTypes.LOGIN_FAIL: return loginFail(state, action);
@@ -55,7 +57,6 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SIGNUP_FAIL: return signupFail(state, action);
         case actionTypes.OPEN_AUTH: return openAuth(state, action);
         case actionTypes.CLOSE_AUTH: return closeAuth(state);
-        case actionTypes.LOGOUT: return logout(state);
         default: return state;
     }
 }
