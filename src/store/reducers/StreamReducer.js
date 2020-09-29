@@ -44,6 +44,14 @@ const insertSubComment = (parentPath, subComments, comment) => {
     })
 }
 
+const replaceSubCommentId = (subComments, randPath, comment) => {
+    console.log(`Replacing ${randPath} with ${comment.path} in ${subComments}`)
+    return subComments.map(s => {
+        if(s.path === randPath){ return { ...s, path: comment.path} }
+        else{ return {...s, subComments: replaceSubCommentId(s.subComments, randPath, comment)}}
+    })
+}
+
 
 
 const scrollToTop = () => {
@@ -219,23 +227,43 @@ const memeLoaded = (state, action) => {
 const commentSaved = (state, action) => {
     console.log('ACTION: ', action);
     const { dropId, comment, path, randId } = action
+    console.log(comment)
+    const randPath = path ? `${path}/${randId}` : randId
     //replace all paths that contain randId with real path from Server
     const sendingNew = state.sending.filter(p => {
-        return !(p === randId || p === `${path}/${randId}`)
+        return !(p.includes(randId))
     })
-
+    console.log(`
+        dropId:         ${dropId}
+        commentPath:    ${comment}
+        path:           ${path}
+        randId:         ${randId}
+        randPath:       ${randPath}
+        `)
     const StreamElementsNew = state.StreamElements.map(s => {
         if(s.id !== dropId){
             return s
         } else {
+            console.log('StreamElement Detected')
             return {
                 ...s,
                 comments: s.comments.map(c => {
-                    if(c.id === randId){
-                        return {...c, id: comment.id}
+                    console.log('commentId in Array ', c.id)
+                    if(randPath.startsWith(c.id)){
+                        console.log(`Toplevel comment detected ${c.id}`)
+                        if(path){
+                            console.log('Deeper!')
+                            return {
+                                ...c,
+                                subComments: replaceSubCommentId(c.subComments, randPath, comment)
+                            }
+                        } else {
+                            return {...c, id: comment.id}
+                        }
                     }else {
                         return c
                     }
+
                 })
             }
         }

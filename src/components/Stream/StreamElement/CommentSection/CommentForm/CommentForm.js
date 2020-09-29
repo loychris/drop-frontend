@@ -59,7 +59,7 @@ class CommentForm extends Component {
                 }
                 axios.post(route, body, headers)
                 .then(response => {
-                    console.log('PPPPARENTPATH', this.props.path)
+                    console.log('PPPPARENTPATH', this.props.path, this.props.dropId)
                     this.props.onCommentSaved(this.props.dropId, response.data, this.props.path, randId);
                 }).catch(err => {
                     console.log('POST COMMENT FAILED')

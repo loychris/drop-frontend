@@ -128,6 +128,7 @@ class Comment extends Component {
         {this.props.comment.subComments ? this.createSubComments(selected) : null}
         {selected ? 
           <CommentForm 
+            dropId={this.props.dropId}
             subComment={true}
             path={this.props.id}
             treeString={this.props.subComments.length > 0 ? [] : null}/> 
