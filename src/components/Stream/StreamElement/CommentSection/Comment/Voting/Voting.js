@@ -3,11 +3,6 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import classes from './Voting.module.css';
-import arrowUpWhite from './Upvote_Icon_white.svg';
-import arrowUpGrey from './Upvote_Icon_grey.svg';
-import arrowDownWhite from './Downvote_Icon_white.svg';
-import arrowDownGrey from './Downvote_Icon_grey.svg';
-
 import * as actions from '../../../../../../store/actions/index';
 
 

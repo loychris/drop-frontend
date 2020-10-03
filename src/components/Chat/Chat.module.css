@@ -37,6 +37,7 @@
 .Messages {
   height: 85%;
   border: 1px solid grey;
+  overflow: scroll;
 }
 
 .TextField {
@@ -47,3 +48,9 @@
 .Active {
   font-weight: bold;
 }
+
+.NotEncryptedMessage {
+  text-align: center;
+  color: grey;
+}
+

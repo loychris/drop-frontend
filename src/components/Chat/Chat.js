@@ -81,6 +81,10 @@ class Chat extends Component {
         </div>
         <div className={classes.ChatWindow}>
           <div className={classes.Messages}>
+            <p className={classes.NotEncryptedMessage}>This Chat is not yet end-to-end encrypted yet. <br/>
+              Or encrypted. But it is end to end, lol. <br/>
+              What I mean is maybe don't send nudes here just yet. <br/>
+            </p>
             {latestMessages}
         </div>
         <Textarea/>
