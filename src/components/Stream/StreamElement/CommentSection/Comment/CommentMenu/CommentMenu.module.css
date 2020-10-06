@@ -1,0 +1,54 @@
+.CommentMenu {
+    height: 20px;
+    width: 100%;
+    top: -25px;
+    z-index: 200;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.MenuItem {
+    margin-right: 8px;
+    margin-left: 8px;
+    cursor: pointer;
+    color: #ffffff;
+    opacity: 0.5;
+}
+
+.Seperator {
+    opacity: 0.5;
+}
+
+.MenuItem:hover {
+    opacity: 1;
+}
+
+.Trash {
+    cursor: pointer;
+}
+
+.DeleteDialog{
+    margin-top: -3px; 
+}
+
+.YesButton, .NoButton {
+    all: unset;
+    font-size: 13px;
+    padding: 0px 8px 2px 8px; 
+    margin-left: 5px;
+    border-radius: 15px;
+    -webkit-appearance: none;
+    text-transform: none;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    background-color: none;
+    color: #ffffff;
+}
+
+.YesButton:hover, .NoButton:hover {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #ffffff;
+}

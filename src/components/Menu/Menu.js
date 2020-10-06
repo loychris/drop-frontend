@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 import ToggleSwitch from '../UI/ToggleSwitch/ToggleSwitch';
 
@@ -36,23 +37,7 @@ class Menu extends Component {
                             onChange={this.props.darkmode ? this.props.onGoLight : this.props.onGoDark} />
                     </div>
                     <div className={classes.menuOption}>
-                        <label>NSFW   </label>
-                        <ToggleSwitch 
-                            id="5423"
-                            text={["ON", "OFF"]}
-                            defaultChecked={this.props.darkmode}
-                            Small = {true}
-                            onChange={() => console.log("Turned NSFW on/off")} />
-                    </div>
-                    <div className={classes.menuOption}>
-                        <label>Slow connection mode   </label>
-                        <ToggleSwitch 
-                            id="52342345"
-                            text={["ON", "OFF"]}
-                            defaultChecked={this.props.darkmode}
-                            Small = {true}
-                            onChange={() => console.log("Turned Slow connection mode on/off")} />
-                    </div>
+                      <NavLink to='/about'>About this Website</NavLink></div>
                     {this.props.token ? <button onClick={this.props.onLogout}>Logout</button> : null } 
                 </div>
             </div>

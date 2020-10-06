@@ -1,5 +1,6 @@
-.CommentInputContainer{
+.CommentForm{
     position: relative;
+    margin-bottom: 50px;
 }
 
 .CommentInput {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import Stream from "./components/Stream/Stream";
@@ -23,8 +23,9 @@ class App extends Component {
         <div className={`App`}>
           <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
           {this.props.authOpen ? <Auth/> : null }
+          <Route path={['/stream', '/chat', '/creator']} component={Stream}/>
           <Navigation/>
-          <Stream/>
+          {/* <Stream/> */}
           <Chat/>
           <Creator/>
           {/* <Assistant /> */}

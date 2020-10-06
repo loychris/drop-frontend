@@ -33,7 +33,7 @@ class CommentForm extends Component {
         } else {
             this.setState({textareaValue: '', disabled: true});
             if(!this.props.subComment){
-                this.props.onAddComment(this.state.textareaValue, randId);
+                this.props.onAddComment(this.state.textareaValue, randId, this.props.userId);
                 const url = `/api/drop/${this.props.dropId}/comment`;
                 const headers = { headers: { Authorisation: `Bearer ${this.props.token}` } } 
                 const body = { 
@@ -102,7 +102,7 @@ class CommentForm extends Component {
             /> : null
 
         return(
-            <div className={classes.CommentInputContainer}
+            <div className={classes.CommentForm}
                 style={this.props.path ? {zIndex: '200'} : null}>
                 <div className={classes.CommentInput} style={commentInputStyles}>
                     <AuthorPic depth={depth} indent={INDENT}/>
@@ -144,8 +144,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onOpenAuth: (authReason) => dispatch(streamActions.openAuth(authReason)),
-        onAddComment: (comment, randId) => dispatch(streamActions.addComment(comment, randId)),
-        onAddSubComment: (comment, randId) => dispatch(streamActions.addSubComment(comment, randId)),
+        onAddComment: (comment, randId, userId) => dispatch(streamActions.addComment(comment, randId, userId)),
+        onAddSubComment: (comment, randId, userId) => dispatch(streamActions.addSubComment(comment, randId, userId)),
         onCommentSaved: (dropId, comment, path, randId) => {dispatch(streamActions.commentSaved(dropId, comment, path, randId))},
         onPostCommentFailed: () => dispatch(streamActions.postCommentFailed()),
     }

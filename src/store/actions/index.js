@@ -30,7 +30,8 @@ export {
 
 export {
     send,
-    changeChat
+    changeChat,
+    setChatInput
 } from './chatActions';
 
 export {

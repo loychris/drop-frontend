@@ -309,7 +309,7 @@ const addComment = (state, action) => {
     console.log(`Adding Comment`)
     const newComment = {
         id: action.randId,
-        author: 'user',
+        author: action.userId,
         points: 0,
         comment: action.comment,
         subComments: [],

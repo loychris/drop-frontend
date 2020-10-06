@@ -3,10 +3,12 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     loadedChats: true,    
     currentChatId: 0,
+    height: 42,
     chats: [
         {
             chatId: 0,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -27,6 +29,7 @@ const initialState = {
         {
             chatId: 1,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -47,6 +50,7 @@ const initialState = {
         {
             chatId: 2,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -67,6 +71,7 @@ const initialState = {
         {
             chatId: 3,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -87,6 +92,7 @@ const initialState = {
         {
             chatId: 4,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -107,6 +113,7 @@ const initialState = {
         {
             chatId: 5,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -127,6 +134,7 @@ const initialState = {
         {
             chatId: 6,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -147,6 +155,7 @@ const initialState = {
         {
             chatId: 7,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -167,6 +176,7 @@ const initialState = {
         {
             chatId: 8,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -187,6 +197,7 @@ const initialState = {
         {
             chatId: 9,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -207,6 +218,7 @@ const initialState = {
         {
             chatId: 10,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -227,6 +239,7 @@ const initialState = {
         {
             chatId: 11,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -247,6 +260,7 @@ const initialState = {
         {
             chatId: 12,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -267,6 +281,7 @@ const initialState = {
         {
             chatId: 13,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -287,6 +302,7 @@ const initialState = {
         {
             chatId: 14,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
             {
                 message: 'First message chat 1',
@@ -307,6 +323,7 @@ const initialState = {
         {
             chatId: 15,
             name: 'Pokern',
+            inputValue: '',
             latestMessages: [
                 {
                     message: 'THis is a chat message',
@@ -392,6 +409,7 @@ const initialState = {
 
 
 
+
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
         case actionTypes.SEND: 
@@ -400,10 +418,36 @@ const reducer = (state = initialState, action ) => {
             }
         case actionTypes.CHANGE_CHAT: 
             console.log('Changing chat');
+            console.log(action.inputValue);
+            const chatsNew2 = state.chats.map(c => {
+                if(c.chatId === state.currentChatId){
+                    return {
+                        ...c,
+                        inputValue: action.inputValue
+                    }
+                }else {
+                    return c
+                }
+            })
             return {
                 ...state,
+                chats: chatsNew2,
                 currentChatId: action.chatId,
             }
+        case actionTypes.SET_CHAT_FORM_HEIGHT: 
+            console.log('Action: ', action.height, 'State: ', state.height)
+            return {
+                ...state,
+                height: action.height,
+            }
+        case actionTypes.SET_CHAT_INPUT: 
+            const chatsNew = state.chats.map(c => {
+                if(c.chatId === state.currentChatId){
+                    return {
+
+                    }
+                }
+            })
         default: return state;
     }
 }

@@ -6,6 +6,7 @@ import Voting from "./Voting/Voting";
 import AuthorPic from "../AuthorPic/AuthorPic";
 import Backdrop from '../../../../UI/Backdrop/Backdrop';
 import CommentForm from '../CommentForm/CommentForm';
+import CommentMenu from './CommentMenu/CommentMenu';
 import * as streamActions from '../../../../../store/actions/index';
 
 import classes from "./Comment.module.css";
@@ -90,15 +91,10 @@ class Comment extends Component {
       backgroundStyleClasses.push(classes.sending);
     }
     if(selected) backgroundStyleClasses.push(classes.selected);
-
       return (
       <div className={classes.CommentContainer}>
-        {selected ? 
-          <Backdrop
-            zIndex={100}
-            clicked={this.props.onUnselectComment}
-          />
-          : null}
+        {selected ? <Backdrop zIndex={100} clicked={this.props.onUnselectComment}/> : null}
+        {selected ? <CommentMenu token={this.props.token} userComment={this.props.authorId === this.props.userId}/> : null}
         <div className={`${classes.Comment} ${selected ? classes.selected : null}`}>
           <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
           <div className={backgroundStyleClasses.join(' ')}
@@ -142,7 +138,9 @@ class Comment extends Component {
 const mapStateToProps = state => {
   return {
     selectedComment: state.stream.selectedComment,
-    sending: state.stream.sending
+    sending: state.stream.sending,
+    userId: state.auth.userId,
+    token: state.auth.token
   }
 }
 

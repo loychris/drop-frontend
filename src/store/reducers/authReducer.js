@@ -38,7 +38,6 @@ const closeAuth = (state) => {
 }
 
 const logout = (state) => {
-    console.log('LOGGING PUT');
     return { ...state, token: null, userId: null }
 }
 

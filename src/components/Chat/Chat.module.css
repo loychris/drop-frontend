@@ -29,14 +29,19 @@
 }
 
 .ChatWindow {
-  width: 70%;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 30%;
+  /* width: 70%;
+  height: 100%; */
   background: #abcdef;
+  border-radius: 10px;
 }
 
 .Messages {
-  height: 85%;
-  border: 1px solid grey;
+  max-height: 100%;
   overflow: scroll;
 }
 
@@ -54,3 +59,7 @@
   color: grey;
 }
 
+.ChatForm2 {
+  border: 1px solid yellow;
+  min-height: 50px;
+}

@@ -1,0 +1,89 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import classes from './ChatForm.module.css';
+
+import NeumorphismButton from '../../UI/NeumorphismButton/NeumorphismButton';
+
+import * as actions from '../../../store/actions/index';
+
+
+class ChatForm extends Component {
+
+    state = {
+        disabled: false,
+        dragging: false,
+    }
+
+    onChangeHandler = (event) => {
+        this.props.onChangeInputValue(event.target.value);
+        if(this.multilineTextarea.scrollHeight !== this.props.height){
+            this.props.updateFormHeight(0);
+            this.props.updateFormHeight(this.multilineTextarea.scrollHeight+10);
+        }
+    }
+
+    componentDidMount () {
+        this.multilineTextarea.style.height = 'auto';
+        console.log('ScrollhHeigth on Mount: ', this.multilineTextarea.scrollHeight)
+        this.multilineTextarea.style.height = "auto";
+        this.multilineTextarea.style.height = `${this.multilineTextarea.scrollHeight}px`;
+        this.props.updateFormHeight(this.multilineTextarea.scrollHeight+10);    
+        // this.multilineTextarea.style.height = this.multilineTextarea.scrollHeight + 'px';
+    }
+
+    getArrowRight = () => {
+        return(
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="arrow_forward_24px">
+                <path id="icon/navigation/arrow_forward_24px" d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill={this.state.disabled ? 'grey' : 'black'} fillOpacity="0.54"/>
+                </g>
+            </svg>
+        )
+    }
+
+
+    render() {
+        let styleClasses = [classes.TextareaContainer];
+        if(this.state.dragging) styleClasses.push(classes.Dragging);
+        console.log(this.props.height);
+        return(
+            <div className={classes.ChatInput}>
+                <div className={styleClasses.join(' ')}
+                    onDragEnter={() => this.setState({dragging: true})}
+                    onDragLeave={() => this.setState({dragging: false})}>
+                    <textarea 
+                        style={{
+                            height: `${this.props.formHeight > 50 ? this.props.formHeight-10 : 20}px`}}
+                        value={this.props.inputValue}
+                        className={classes.TextArea} 
+                        onChange={this.onChangeHandler}
+                        ref={ref => this.multilineTextarea = ref}
+                    />
+                    <NeumorphismButton
+                        colorTheme='light'
+                        buttonType='SubmitComment'
+                        clicked={this.submitHandler} 
+                        disabled={this.state.disabled} 
+                        className={classes.SubmitButton} 
+                        type='submit'>
+                            {this.getArrowRight()}
+                    </NeumorphismButton>
+                </div> 
+            </div>
+
+        )
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        height: state.chat.height,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatForm);

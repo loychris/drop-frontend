@@ -1,7 +1,7 @@
 .menuContainer {
     position: fixed;
     right: 0px;
-    bottom: 0px;
+    top: 0px;
 }
 
 .menu {
@@ -33,7 +33,7 @@
 .gear {
     position: absolute;
     left: 10px; 
-    bottom: 20px; 
+    top: 20px; 
     height: 40px; 
     width: 40px; 
     opacity: 0.8;
@@ -44,6 +44,7 @@
 }
 
 .menuOption {
+    margin-top: 10px; 
     margin-bottom: 10px; 
     margin-right: 20px;
     opacity: 0.7;

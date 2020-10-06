@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
+import CommentMenu from '../../CommentMenu/CommentMenu';
 import Voting from "../../Voting/Voting";
 import AuthorPic from "../../../AuthorPic/AuthorPic";
 import Backdrop from '../../../../../../UI/Backdrop/Backdrop';
@@ -74,6 +75,7 @@ class SubComment extends Component {
     return (
       <div className={`${classes.CommentContainer} ${parentSelected || selected ? classes.selected : null}`}>
         {selected ? <Backdrop clicked={ this.props.onUnselectSubComment }/> : null }
+        {selected ? <CommentMenu token={this.props.token} userComment={this.props.authorId === this.props.userId}/> : null}
         <div className={classes.Comment} style={commentStyle}>
           <AuthorPic depth={this.props.depth} indent={INDENT}/>
           <div 
@@ -117,7 +119,9 @@ class SubComment extends Component {
 const mapStateToProps = state => {
   return {
     selectedComment: state.stream.selectedComment,
-    sending: state.stream.sending
+    sending: state.stream.sending,
+    token: state.auth.token, 
+    userId: state.auth.userId
   }
 }
 

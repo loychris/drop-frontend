@@ -78,7 +78,8 @@ class Auth extends Component {
         touched: true,
         valid: this.validateEmail(event.target.value)
       }
-    })  }
+    })  
+  }
 
   validatePassword = (password) => {
     return password && password !== '123456' ? password.length >= 5 : false

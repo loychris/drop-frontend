@@ -23,18 +23,12 @@ export const unSelectDropTarget = (id) => {
     }
 }
 
-export const addComment = (comment, randId) => {
+export const addComment = (comment, randId, userId) => {
     return {
         type: actionTypes.ADD_COMMENT,
         comment,
-        randId
-    }
-}
-
-export const deleteComment = (id) => {
-    return {
-        type: actionTypes.DELETE_COMMENT,
-        id: id
+        randId,
+        userId
     }
 }
 
@@ -158,5 +152,45 @@ export const addSubComment = (comment, randId) => {
 export const setDropsNotLoaded = () => {
     return {
         type: actionTypes.SET_DROPS_NOT_LOADED
+    }
+}
+
+export const deleteCommentStart = (dropId, commentId, path) => {
+    return {
+        type: actionTypes.DELETE_COMMENT_START,
+        dropId,
+        commentId,
+        path
+    }
+}
+
+export const deleteCommentSuccess = (dropId, commentId, path) => {
+    return {
+        type: actionTypes.DELETE_COMMENT_SUCCESS,
+        dropId,
+        commentId,
+        path
+    }
+}
+
+export const deleteCommentFailed = () => {
+    return {
+        type: actionTypes.DELETE_COMMENT_FAILED
+    }
+}
+
+export const deleteComment = (dropId, commentId, path, token ) => {
+    return dispatch => {
+        dispatch(deleteCommentStart(dropId, commentId, path))
+        const url = path ? `/comment/${commentId}` : null
+        const headers = token ? { authorisation: 'Bearer ' + token } : null;
+        const body = path ? { path } : null;
+        axios.delete(url, headers, body)
+        .then(() => {
+            dispatch(deleteCommentSuccess())
+        })
+        .catch(err => {
+            dispatch(deleteCommentFailed())
+        });
     }
 }

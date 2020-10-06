@@ -68,7 +68,7 @@ class Voting extends Component {
                     route, 
                     body,
                     headers
-                ).then(console.log).catch(console.log);
+                ).then().catch(console.log);
                 if(this.state.didUpvote){ // Up:1 down:0
                     this.setState({ didDownvote:true, didUpvote:false, points:this.state.points-2 });
                 } else {                    // Up:0 down:0
@@ -93,7 +93,7 @@ class Voting extends Component {
                 route, 
                 body,
                 headers
-            ).then(console.log).catch(console.log);
+            ).then().catch(console.log);
 
             if(this.state.didDownvote){
                 this.setState({ didDownvote:false, didUpvote:false, points:this.state.points+1})

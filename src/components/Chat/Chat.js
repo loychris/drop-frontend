@@ -1,18 +1,28 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import * as chatActions from '../../store/actions/index'; 
+import * as actions from '../../store/actions/index'; 
 
 import ChatPrev from "./ChatPrev/ChatPrev";
 import classes from "./Chat.module.css";
-import Message from "./Message/Message";
-import Textarea from './Textarea/Textarea';
+import Message from "./Message/Message.js";
+import ChatForm from './ChatForm/ChatForm';
 
 class Chat extends Component {
 
-  upadeChatValue = (event) => {
-    this.setState({ textValue: event.target.value });
-  };
+  state = {
+      formHeight: 50,
+      inputValue: ''
+    }
+  
+
+  updateFormHeight = (height) => {
+    this.setState({formHeight: height - 6})
+  }
+
+  onChangeInputValue = (value) => {
+    this.setState({inputValue: value});
+  } 
 
   send = (msg, chatId) => {
     var today = new Date();
@@ -32,11 +42,18 @@ class Chat extends Component {
     this.setState({ chats: chatsNew });
   };
 
+  onChangeChat = (newId) => {
+    console.log('NewId', newId);
+    this.props.onChangeChat(newId, this.state.inputValue);
+    this.setState({inputValue: this.props.chats.find(c => c.chatId === newId).inputValue})
+  }
+
   render() {
     const recentChats = this.props.chats
       ? this.props.chats.map((x) => {
           return (
             <ChatPrev
+              onChangeChat={this.onChangeChat}
               active={this.props.currentChatId === x.chatId}
               key={x.chatId}
               {...x}
@@ -49,6 +66,7 @@ class Chat extends Component {
       ? this.props.contacts.map((x) => {
           return (
             <ChatPrev
+              onChangeChat={this.onChangeChat}
               active={this.props.currentChatId === x.id}
               key={x.id}
               {...x}
@@ -80,14 +98,16 @@ class Chat extends Component {
           {contacts}
         </div>
         <div className={classes.ChatWindow}>
-          <div className={classes.Messages}>
+          <div 
+            className={classes.Messages} 
+            style={{height: `calc(80vh-${this.state.formHeight}px)`}}>
             <p className={classes.NotEncryptedMessage}>This Chat is not yet end-to-end encrypted yet. <br/>
               Or encrypted. But it is end to end, lol. <br/>
               What I mean is maybe don't send nudes here just yet. <br/>
             </p>
             {latestMessages}
-        </div>
-        <Textarea/>
+            <ChatForm inputValue={this.state.inputValue} onChangeInputValue={this.onChangeInputValue} maxHeight={this.state.height} formHeight={this.state.formHeight} updateFormHeight={this.updateFormHeight} />
+          </div>
         </div>
       </div>
     );
@@ -96,6 +116,7 @@ class Chat extends Component {
 
 const mapStateToProps = state => {
   return {
+    height: state.chat.height,
     currentTab: state.ui.currentTab,
     darkmode: state.ui.currentTab,
     loadedChats: state.chat.loadedChats,
@@ -107,8 +128,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSend: (msg) => dispatch(chatActions.send(msg)),
-    changeChat: (chatId) => dispatch(chatActions.changeChat(chatId))
+    onChangeChat: (id, value) => dispatch(actions.changeChat(id, value)),
   }
 }
 
