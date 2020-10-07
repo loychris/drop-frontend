@@ -98,11 +98,13 @@ class Comment extends Component {
         <div className={`${classes.Comment} ${selected ? classes.selected : null}`}>
           <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
           <div className={backgroundStyleClasses.join(' ')}
+            style={{border: '2px solid red'}}
             onClick={ 
-              this.props.sending.some(c => c === this.props.id) ? console.log('Cant select comment yet. Still sending') : 
-              selected ? 
-              this.props.onUnselectComment : 
-              () => {this.props.onSelectComment(this.props.id, '/')}
+              () => console.log(this.props)
+              // this.props.sending.some(c => c === this.props.id) ? console.log('Cant select comment yet. Still sending') : 
+              // selected ? 
+              // this.props.onUnselectComment : 
+              // () => {this.props.onSelectComment(this.props.id, '/')
             }
             ref={divElement => (this.divElement = divElement)}
           >

@@ -29,7 +29,7 @@ export {
 } from './streamActions';
 
 export {
-    send,
+    sendMessage,
     changeChat,
     setChatInput
 } from './chatActions';

@@ -407,15 +407,40 @@ const initialState = {
     ]
 }
 
+const send = (state, action) => {
+    const chatsNew = state.chats.map(chat => {
+        if(chat.chatId === state.currentChatId){
+            const message = action.message;
+            console.log(chat);
+            return {
+                ...chat,
+                inputValue: '',
+                latestMessages: [...chat.latestMessages, {
+                    message,
+                    time: new Date().getTime(),
+                    sender: "Chris", 
+                    id: Math.random(),
+                    sent: true
+                }]
+            }
+        }else{
+            return chat
+        }
+    })
+    return {
+        ...state,
+        chats: chatsNew
+    }
+}
+
 
 
 
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
-        case actionTypes.SEND: 
-            return {
-                ...state,
-            }
+        case actionTypes.SEND_MESSAGE: 
+            return send(state, action);
+    
         case actionTypes.CHANGE_CHAT: 
             console.log('Changing chat');
             console.log(action.inputValue);

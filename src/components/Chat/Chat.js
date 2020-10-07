@@ -11,7 +11,7 @@ import ChatForm from './ChatForm/ChatForm';
 class Chat extends Component {
 
   state = {
-      formHeight: 50,
+      formHeight: 30,
       inputValue: ''
     }
   
@@ -106,7 +106,12 @@ class Chat extends Component {
               What I mean is maybe don't send nudes here just yet. <br/>
             </p>
             {latestMessages}
-            <ChatForm inputValue={this.state.inputValue} onChangeInputValue={this.onChangeInputValue} maxHeight={this.state.height} formHeight={this.state.formHeight} updateFormHeight={this.updateFormHeight} />
+            <ChatForm 
+              inputValue={this.state.inputValue} 
+              onChangeInputValue={this.onChangeInputValue} 
+              maxHeight={this.state.height} 
+              formHeight={this.state.formHeight} 
+              updateFormHeight={this.updateFormHeight} />
           </div>
         </div>
       </div>

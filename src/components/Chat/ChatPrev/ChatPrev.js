@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import classes from "./ChatPrev.module.css";
 import DefaultProfilePic from "../../../media/DefaultProfilePic.png";
 import DefaultGroupPic from "../../../media/DefaultGroupPic.png";
+import Connector from './Connector.svg';
 
 class ChatPrev extends Component {
+
   render() {
     let styleClasses = [classes.ChatPrev];
     if (this.props.active) styleClasses.push(classes.Active);
@@ -14,6 +16,8 @@ class ChatPrev extends Component {
         onClick={() => this.props.onChangeChat(this.props.chatId)}
         className={styleClasses.join(" ")}
       >
+        {this.props.active ? <img src={Connector} alt='' className={classes.ConnectorDown}/> : null } 
+        {this.props.active ? <img src={Connector} alt='' className={classes.ConnectorUp}/> : null } 
         <img
           src={
             this.props.type === "group" ? DefaultGroupPic : DefaultProfilePic

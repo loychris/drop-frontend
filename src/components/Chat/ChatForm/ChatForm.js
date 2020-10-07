@@ -22,13 +22,16 @@ class ChatForm extends Component {
         }
     }
 
-    componentDidMount () {
+    componentDidMount = () => {
         this.multilineTextarea.style.height = 'auto';
-        console.log('ScrollhHeigth on Mount: ', this.multilineTextarea.scrollHeight)
-        this.multilineTextarea.style.height = "auto";
         this.multilineTextarea.style.height = `${this.multilineTextarea.scrollHeight}px`;
         this.props.updateFormHeight(this.multilineTextarea.scrollHeight+10);    
+        //this.multilineTextarea.focus()
         // this.multilineTextarea.style.height = this.multilineTextarea.scrollHeight + 'px';
+    }
+
+    componentDidUpdate = () => {
+        this.multilineTextarea.focus()
     }
 
     getArrowRight = () => {
@@ -41,6 +44,11 @@ class ChatForm extends Component {
         )
     }
 
+    submitHandler = (event) => {
+        event.preventDefault();
+        console.log('Strwejfn wekfj')
+        this.props.onSendMessage(this.props.inputValue)
+    }
 
     render() {
         let styleClasses = [classes.TextareaContainer];
@@ -55,6 +63,7 @@ class ChatForm extends Component {
                         style={{
                             height: `${this.props.formHeight > 50 ? this.props.formHeight-10 : 20}px`}}
                         value={this.props.inputValue}
+                        rows={1}
                         className={classes.TextArea} 
                         onChange={this.onChangeHandler}
                         ref={ref => this.multilineTextarea = ref}
@@ -83,6 +92,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onSendMessage: (message) => dispatch(actions.sendMessage(message)) 
     }
 }
 

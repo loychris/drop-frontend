@@ -53,7 +53,7 @@
     export const DELETE_COMMENT_FAILED = 'DELTE_COMMENT_FAILED';
 
 // CHAT 
-    export const SEND = 'SEND';
+    export const SEND_MESSAGE = 'SEND_MESSAGE';
     export const CHANGE_CHAT = 'CHANGE_CHAT';
     export const SET_CHAT_FORM_HEIGHT = 'SET_CHAT_FORM_HEIGHT';
     export const SET_CHAT_INPUT = 'SET_CHAT_INPUT';

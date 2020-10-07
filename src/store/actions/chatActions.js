@@ -1,9 +1,9 @@
 import * as actionTypes from '../actions/actionTypes';
 
-export const send = (msg) => {
+export const sendMessage = (message) => {
     return {
-        type: actionTypes.UNSELECT_COMMENT,
-        msg: msg
+        type: actionTypes.SEND_MESSAGE,
+        message
     }
 }
 
