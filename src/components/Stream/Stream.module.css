@@ -25,7 +25,6 @@
     margin: auto;
     width: 380px;
     user-select: none; 
-    user-drag: none; 
     -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
   }
 

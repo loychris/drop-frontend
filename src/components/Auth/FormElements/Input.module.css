@@ -42,7 +42,6 @@
 }
 
 .InputContainerInvalid .Input {
-  border: 1px solid red;
   background: #ffd1d1;
 }
 

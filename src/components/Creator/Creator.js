@@ -5,7 +5,6 @@ import Loader from 'react-loader-spinner'
 
 import TakTakTak from './Ri98hoa.jpg';
 import Checkmark from './Checkmark.svg';
-import Sickest from './sickest.gif';
 import classes from "./Creator.module.css";
 
 class Creator extends Component {
@@ -47,7 +46,6 @@ class Creator extends Component {
     const styleClasses = [classes.Creator];
     if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeftLeft);
     if (this.props.currentTab === 'chat') styleClasses.push(classes.OutLeft);
-    console.log(this.state);
     return (
       <div className={styleClasses.join(" ")}>
         <h2 className={classes.Blinking}>COMING SOON: </h2>
@@ -66,7 +64,7 @@ class Creator extends Component {
                 value={this.state.value} 
                 onChange={this.onInputEmail} 
                 placeholder='elon@musk.com' type="email"/>
-            <div className={`${classes.SendButton} ${this.state.valid ? null : classes.Disabled}`} onClick={this.onSendEmail}>Join Waiting List > </div>
+            <div className={`${classes.SendButton} ${this.state.valid ? null : classes.Disabled}`} onClick={this.onSendEmail}>Join Waiting List </div>
           </div> : null}
         </div>
         <br/>

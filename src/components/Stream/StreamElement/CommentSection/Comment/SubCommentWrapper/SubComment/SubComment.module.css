@@ -37,7 +37,6 @@
 
 .unselectRect{
     position: absolute;
-    border: 1px solid red;
     height: 100%;
     left: 0;
     top: 0;

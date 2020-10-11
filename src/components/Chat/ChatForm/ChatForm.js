@@ -12,26 +12,27 @@ class ChatForm extends Component {
     state = {
         disabled: false,
         dragging: false,
-    }
-
-    onChangeHandler = (event) => {
-        this.props.onChangeInputValue(event.target.value);
-        if(this.multilineTextarea.scrollHeight !== this.props.height){
-            this.props.updateFormHeight(0);
-            this.props.updateFormHeight(this.multilineTextarea.scrollHeight+10);
-        }
+        formHeight: 30,
     }
 
     componentDidMount = () => {
         this.multilineTextarea.style.height = 'auto';
         this.multilineTextarea.style.height = `${this.multilineTextarea.scrollHeight}px`;
-        this.props.updateFormHeight(this.multilineTextarea.scrollHeight+10);    
+        // this.props.onChangeFormHeight(this.multilineTextarea.scrollHeight+10);    
         //this.multilineTextarea.focus()
         // this.multilineTextarea.style.height = this.multilineTextarea.scrollHeight + 'px';
     }
 
     componentDidUpdate = () => {
         this.multilineTextarea.focus()
+    }
+
+    onChangeHandler = (event) => {
+        this.props.onChatInputChangeHandler(event.target.value);
+        if(this.multilineTextarea.scrollHeight !== this.props.formHeight){
+            this.props.onChangeFormHeight(0)
+            this.props.onChangeFormHeight(this.multilineTextarea.scrollHeight);
+        }
     }
 
     getArrowRight = () => {
@@ -46,14 +47,13 @@ class ChatForm extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        console.log('Strwejfn wekfj')
         this.props.onSendMessage(this.props.inputValue)
     }
 
     render() {
+        const currentChat = this.props.chats.concat(this.props.dummyChats).find(c => c.chatId === this.props.currentChatId);
         let styleClasses = [classes.TextareaContainer];
         if(this.state.dragging) styleClasses.push(classes.Dragging);
-        console.log(this.props.height);
         return(
             <div className={classes.ChatInput}>
                 <div className={styleClasses.join(' ')}
@@ -61,8 +61,8 @@ class ChatForm extends Component {
                     onDragLeave={() => this.setState({dragging: false})}>
                     <textarea 
                         style={{
-                            height: `${this.props.formHeight > 50 ? this.props.formHeight-10 : 20}px`}}
-                        value={this.props.inputValue}
+                            height: `${this.props.formHeight+5}px`}}
+                        value={currentChat.inputValue}
                         rows={1}
                         className={classes.TextArea} 
                         onChange={this.onChangeHandler}
@@ -86,13 +86,18 @@ class ChatForm extends Component {
 
 const mapStateToProps = state => {
     return {
-        height: state.chat.height,
+        formHeight: state.chat.formHeight,
+        chats: state.chat.chats,
+        dummyChats: state.chat.dummyChats,
+        currentChatId: state.chat.currentChatId,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSendMessage: (message) => dispatch(actions.sendMessage(message)) 
+        onChangeFormHeight: (height) => dispatch(actions.changeFormHeight(height)),
+        onSendMessage: (message) => dispatch(actions.sendMessage(message)), 
+        onChatInputChangeHandler: (value) => dispatch(actions.chatInputChangeHandler(value))
     }
 }
 

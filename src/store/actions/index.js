@@ -31,7 +31,10 @@ export {
 export {
     sendMessage,
     changeChat,
-    setChatInput
+    changeFormHeight,
+    fetchAllUsers,
+    createDummyChat,
+    chatInputChangeHandler,
 } from './chatActions';
 
 export {

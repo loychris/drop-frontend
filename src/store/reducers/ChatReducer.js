@@ -1,9 +1,13 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    loadedChats: true,    
+    currentChatFormInput: '',
+    loadedChats: true,     
     currentChatId: 0,
-    height: 42,
+    formHeight: 53,
+    allUsers: null,
+    allUsersStatus: 'not loaded',
+    dummyChats: [],
     chats: [
         {
             chatId: 0,
@@ -28,7 +32,7 @@ const initialState = {
         },
         {
             chatId: 1,
-            name: 'Pokern',
+            name: 'Rasselbande',
             inputValue: '',
             latestMessages: [
             {
@@ -49,7 +53,7 @@ const initialState = {
         },
         {
             chatId: 2,
-            name: 'Pokern',
+            name: 'Hüdde',
             inputValue: '',
             latestMessages: [
             {
@@ -70,7 +74,7 @@ const initialState = {
         },
         {
             chatId: 3,
-            name: 'Pokern',
+            name: 'felix',
             inputValue: '',
             latestMessages: [
             {
@@ -91,7 +95,7 @@ const initialState = {
         },
         {
             chatId: 4,
-            name: 'Pokern',
+            name: 'Kirill',
             inputValue: '',
             latestMessages: [
             {
@@ -112,7 +116,7 @@ const initialState = {
         },
         {
             chatId: 5,
-            name: 'Pokern',
+            name: 'Nico',
             inputValue: '',
             latestMessages: [
             {
@@ -407,6 +411,24 @@ const initialState = {
     ]
 }
 
+const reducer = (state = initialState, action ) => {
+    switch( action.type ) {
+        case actionTypes.SEND_MESSAGE: return send(state, action);
+        case actionTypes.CHANGE_CHAT: return changeChat(state, action);
+        case actionTypes.CHANGE_FORM_HEIGHT: return changeChatFormHeight(state, action);
+        case actionTypes.FETCH_ALL_USERS_START: return fetchAllUsersStart(state, action);
+        case actionTypes.FETCH_ALL_USERS_SUCCESS: return fetchAllUsersSuccess(state, action);
+        case actionTypes.FETCH_ALL_USERS_FAILED: return fetchAllUsersFailed(state, action);
+        case actionTypes.CREATE_DUMMY_CHAT: return createDummyChat(state, action);
+        case actionTypes.REPLACE_DUMMY_CHAT: return replaceDummyChat(state, action);
+        case actionTypes.CHANGE_CHAT_INPUT: return chatInputChangeHandler(state, action);
+        default: return state;
+    }
+}
+
+//-------------------------------------------------------
+
+
 const send = (state, action) => {
     const chatsNew = state.chats.map(chat => {
         if(chat.chatId === state.currentChatId){
@@ -433,47 +455,112 @@ const send = (state, action) => {
     }
 }
 
+//-------------------------------------------------------
 
 
+const changeChat = (state, action) => {
+    return {
+        ...state,
+        currentChatId: action.chatId,
+    }
+}
 
-const reducer = (state = initialState, action ) => {
-    switch( action.type ) {
-        case actionTypes.SEND_MESSAGE: 
-            return send(state, action);
-    
-        case actionTypes.CHANGE_CHAT: 
-            console.log('Changing chat');
-            console.log(action.inputValue);
-            const chatsNew2 = state.chats.map(c => {
-                if(c.chatId === state.currentChatId){
-                    return {
-                        ...c,
-                        inputValue: action.inputValue
-                    }
-                }else {
-                    return c
-                }
-            })
+const chatInputChangeHandler = (state, action) => {
+    const chatsNew = state.chats.map(chat => {
+        if(chat.chatId === state.currentChatId){
             return {
-                ...state,
-                chats: chatsNew2,
-                currentChatId: action.chatId,
+                ...chat,
+                inputValue: action.value
             }
-        case actionTypes.SET_CHAT_FORM_HEIGHT: 
-            console.log('Action: ', action.height, 'State: ', state.height)
+        } else {
+            return chat
+        }
+    })
+    const dummyChatsNew = state.dummyChats.map(chat => {
+        if(chat.chatId === state.currentChatId){
             return {
-                ...state,
-                height: action.height,
+                ...chat,
+                inputValue: action.value
             }
-        case actionTypes.SET_CHAT_INPUT: 
-            const chatsNew = state.chats.map(c => {
-                if(c.chatId === state.currentChatId){
-                    return {
+        } else {
+            return chat
+        }
+    })
+    return {
+        ...state,
+        chats: chatsNew,
+        dummyChats: dummyChatsNew
+    }
+}
 
-                    }
-                }
-            })
-        default: return state;
+const changeChatFormHeight = (state, action) => {
+    return {
+        ...state,
+        formHeight: action.height,
+    }
+}
+
+//-------------------------------------------------------
+
+const fetchAllUsersStart = (state, aciton) => {
+    return {
+        ...state,
+        allUsersStatus: 'loading'
+    }
+}
+
+const fetchAllUsersSuccess = (state, action) => {
+    const allUsers = action.users.map(user => {
+        return {
+            name: user.name,
+            userId: user._id,
+            handle: user.handle
+        }
+    })
+    return {
+        ...state,
+        allUsersStatus: 'loaded',
+        allUsers
+    }
+}
+
+const fetchAllUsersFailed = (state, action) => {
+    return {
+        ...state,
+        allUsersStatus: 'failed'
+    }
+}
+
+//-------------------------------------------------------
+
+const createDummyChat = (state, action) => {
+    let dummyChatsNew
+    if(state.dummyChats.some(chat => chat.chatId === action.userId)){
+        console.log('Using existing Dummy chat')
+        dummyChatsNew = state.dummyChats
+    } else {
+        console.log('Creating new Dummy Chat');
+        const newDummyChat = {
+            chatId: action.userId,
+            inputValue: '',
+            latestMessages: []
+        }
+        dummyChatsNew = [...state.dummyChats, newDummyChat]
+    }
+    return {
+        ...state, 
+        dummyChats: dummyChatsNew,
+        currentChatId: action.userId
+    }
+}
+
+const replaceDummyChat = (state, action) => {
+    const dummyChatsNew = state.dummyChats.filter(chat => {
+        return chat.chatId !== action.userId
+    })
+    return {
+        ...state,
+        dummyChats: dummyChatsNew
     }
 }
 

@@ -57,6 +57,14 @@
     export const CHANGE_CHAT = 'CHANGE_CHAT';
     export const SET_CHAT_FORM_HEIGHT = 'SET_CHAT_FORM_HEIGHT';
     export const SET_CHAT_INPUT = 'SET_CHAT_INPUT';
-
+    export const SAVE_CHAT_INPUT = 'SAVE_CHAT_INPUT'; 
+    export const FETCH_ALL_USERS_START = 'FETCH_ALL_USERS_START';
+    export const FETCH_ALL_USERS_FAILED = 'FETCH_ALL_USERS_FALIED';
+    export const FETCH_ALL_USERS_SUCCESS = 'FETCH_ALL_USERS_SUCCESS';
+    export const CHANGE_FORM_HEIGHT = 'CHANGE_FORM_HEIGHT';
+    export const CREATE_DUMMY_CHAT = 'CREATE_DUMMY_CHAT';
+    export const REPLACE_DUMMY_CHAT = 'REPLACE_DUMMY_CHAT';
+    export const CHANGE_CHAT_INPUT = 'CHANGE_CHAT_INPUT';
+    
 
 
