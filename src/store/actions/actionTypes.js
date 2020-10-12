@@ -65,6 +65,11 @@
     export const CREATE_DUMMY_CHAT = 'CREATE_DUMMY_CHAT';
     export const REPLACE_DUMMY_CHAT = 'REPLACE_DUMMY_CHAT';
     export const CHANGE_CHAT_INPUT = 'CHANGE_CHAT_INPUT';
+
+    export const FETCH_FRIENDS = 'FETCH_FRIENDS';
+    export const ADD_FRIEND_START = 'ADD_FRIEND_START';
+    export const ADD_FRIEND_SUCCESS = 'ADD_FRIEND_SUCCESS';
+    export const ADD_FRIEND_FAILED = 'ADD_FRIEND_FAILED';
     
 
 

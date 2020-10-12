@@ -33,8 +33,10 @@ export {
     changeChat,
     changeFormHeight,
     fetchAllUsers,
+    fetchFriends,
     createDummyChat,
     chatInputChangeHandler,
+    addFriend,
 } from './chatActions';
 
 export {
