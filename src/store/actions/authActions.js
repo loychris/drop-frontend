@@ -40,10 +40,10 @@ export const loginStart = () => {
 };
 
 
-export const loginFail = (response) => {
+export const loginFail = (message) => {
     return {
         type: actionTypes.LOGIN_FAIL,
-        error: response ?? 'Something went wrong'
+        error: message ? message : 'Something went wrong'
     }
 }
 
@@ -67,10 +67,10 @@ export const login = (identifier, password) => {
             dispatch(setDropsNotLoaded())
             dispatch(closeAuth());
         }).catch(err => {
-            if(err.response && err.response.message){
-                dispatch(loginFail(err.response.message));
+            if(err.response && err.response.data && err.response.data.message){
+                dispatch(loginFail(err.response.data.message));
             }else {
-                dispatch(loginFail("Check your connection, Bro"))
+                dispatch(loginFail("Check your connection, bro"))
             }
         })
     }
