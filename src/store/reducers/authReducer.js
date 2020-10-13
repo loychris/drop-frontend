@@ -5,7 +5,7 @@ const initialState = {
     userId: null,
     error: null,
     loading: null,
-    authOpen: false, 
+    authOpen: true, 
     authReason: null
 }
 
@@ -26,6 +26,9 @@ const signupFail = (state, action) => {
 }
 
 const authSuccess = (state, action) => {
+    console.log('##############################')
+    console.log(action)
+    console.log('##############################')
     return { ...state, loading: false, error: null, userId: action.userId, token: action.token }
 }
 

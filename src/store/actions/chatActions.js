@@ -129,7 +129,7 @@ export const chatInputChangeHandler = (value) => {
     }
 }
 
-//--------------------------------------------------------------
+//--------- ADD FRIEND -----------------------------------------------------
 
 
 export const addFriend = (friendId, token) => {
