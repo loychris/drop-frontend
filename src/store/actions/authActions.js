@@ -27,7 +27,7 @@ export const checkAuthTimeout = (expirationTime) => {
 export const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
-    localStorage.removeItem('userId');
+    localStorage.removeItem('user');
     return {
         type: actionTypes.LOGOUT
     }
@@ -61,8 +61,13 @@ export const login = (identifier, password) => {
             const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('expirationDate', expirationDate);
-            localStorage.setItem('userId', res.data.userId);
-            dispatch(authSuccess(res.data.userId, res.data.token));
+            localStorage.setItem('user', JSON.stringify({
+                userId: res.data.userId,
+                friends: res.data.friends, 
+                friendRequests: res.data.friendRequests,
+                email: res.data.email
+            }));
+            dispatch(authSuccess(res.data));
             dispatch(checkAuthTimeout(res.data.expiresIn));
             dispatch(setDropsNotLoaded());
             dispatch(closeAuth());
@@ -82,11 +87,10 @@ export const signupStart = () => {
     }
 }
 
-export const authSuccess = (userId, token) => {
+export const authSuccess = (responseData) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
-        userId,
-        token
+        ...responseData
     }
 }
 
@@ -113,8 +117,13 @@ export const signup = (name, email, handle, password) => {
                 const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('expirationDate', expirationDate);
-                localStorage.setItem('userId', res.data.userId);
-                dispatch(authSuccess(res.data.userId, res.data.token));
+                localStorage.setItem('user', JSON.stringify({
+                    userId: res.data.userId,
+                    friends: res.data.friends, 
+                    friendRequests: res.data.friendRequests,
+                    email: res.data.email
+                }));                
+                dispatch(authSuccess(res.data));
                 dispatch(checkAuthTimeout(res.data.expiresIn));
                 dispatch(closeAuth());
             }).catch(err => {

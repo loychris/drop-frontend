@@ -68,7 +68,7 @@ class ChatPreviews extends Component {
               {...user} 
               stranger={true}
               active={this.props.currentChatId === user.userId} 
-              key={user.id}
+              key={user.userId}
             />
           )
         }) 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import Stream from "./components/Stream/Stream";
@@ -26,10 +26,11 @@ class App extends Component {
           <Route path={['/stream', '/chat', '/creator']} component={Stream}/>
           <Navigation/>
           {/* <Stream/> */}
-          <Chat/>
-          <Creator/>
+          <Route path={['/stream', '/chat', '/creator']} component={Chat}/>
+          <Route path={['/stream', '/chat', '/creator']} component={Creator}/>
           {/* <Assistant /> */}
           <Menu/>
+          <Redirect to='/stream'/>
           {/* <Route path='/' exact component={Stream}/> 
           <Route path='/chat' exact component={Chat}/> */}
         </div>

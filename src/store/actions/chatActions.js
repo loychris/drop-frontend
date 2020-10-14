@@ -136,7 +136,7 @@ export const addFriend = (friendId, token) => {
     return dispatch => {
         console.log('TOKEN', token);
         dispatch(addFriendStart(friendId))
-        const headers = { headers: { Authorisation: `Bearer ${token}` } }
+        const headers = { headers: { authorization : `Bearer ${token}` } }
         axios.post('/api/users/addFriend', { friendId }, headers)
         .then(response => {
             console.log(response);
@@ -168,3 +168,44 @@ export const addFriendFailed = (friendId) => {
         friendId
     }
 }
+
+//--------- ACCEPT FIREND REQUEST -----------------------------------------------
+
+
+export const acceptFriendRequest = (friendId, token) => {
+    return dispatch => {
+        console.log('TOKEN', token);
+        dispatch(acceptFriendRequestStart(friendId))
+        const headers = { headers: { authorization : `Bearer ${token}` } }
+        axios.post('/api/users/addFriend', { friendId }, headers)
+        .then(response => {
+            console.log(response);
+            dispatch(addFriendSuccess(friendId))
+        }).catch(err => {
+            console.log(err)
+            dispatch(addFriendFailed(friendId))
+        })
+    }
+}
+
+export const acceptFriendRequestStart = (friendId) => {
+    return {
+        type: actionTypes.ACCEPT_FRIEND_REQUEST_START,
+        friendId
+    }
+}
+
+export const acceptFriendRequestSuccess = (friendId) => {
+    return {
+        type: actionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS,
+        friendId
+    }
+}
+
+export const acceptFriendRequestFailed = (friendId) => {
+    return {
+        type: actionTypes.ACCEPT_FRIEND_REQUEST_FAILED,
+        friendId
+    }
+}
+

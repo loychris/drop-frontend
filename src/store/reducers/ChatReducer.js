@@ -259,6 +259,9 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.ADD_FRIEND_START: return addFriendStart(state, action);
         case actionTypes.ADD_FRIEND_SUCCESS: return addFriendSuccess(state, action);
         case actionTypes.ADD_FRIEND_FAILED: return addFriendFailed(state, action);
+        case actionTypes.ACCEPT_FRIEND_REQUEST_START: return acceptFriendRequestStart(state, action);
+        case actionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS: return acceptFriendRequestSuccess(state, action);
+        case actionTypes.ACCEPT_FRIEND_REQUEST_FAILED: return acceptFriendRequestFailed(state, action);
         default: return state;
     }
 }
@@ -431,8 +434,24 @@ const addFriendFailed = (state, action) => {
         sentFriendRequests,
         failedFriendRequests
     }
-    
 }
 
+const acceptFriendRequestStart = (state, action) => {
+    return {
+        ...state
+    }
+}
+
+const acceptFriendRequestSuccess = (state, action) => {
+    return {
+        ...state
+    }
+}
+
+const acceptFriendRequestFailed = (state, action) => {
+    return {
+        ...state
+    }
+}
 
 export default reducer; 
