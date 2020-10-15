@@ -38,7 +38,106 @@ export const setChatInput = (value) => {
     }
 }
 
-//--------- ALL USERS ---------------------------------------------------
+
+
+
+
+//--------------------------------------------------------------
+
+export const changeFormHeight = (height) => {
+    return {
+        type: actionTypes.CHANGE_FORM_HEIGHT,
+        height
+    }
+}
+
+export const createDummyChat = (userId) => {
+    return {
+        type: actionTypes.CREATE_DUMMY_CHAT,
+        userId
+    }
+}
+
+export const chatInputChangeHandler = (value) => {
+    return {
+        type: actionTypes.CHANGE_CHAT_INPUT,
+        value
+    }
+}
+
+//--------- FETCH FRIEND REQUESTS -----------------------------------------------
+
+export const fetchFriendRequests = (ids) => {
+    return dispatch => {
+        dispatch(fetchFriendRequestsStart());
+        console.log(ids);
+        axios.post(
+            '/api/users/userdata',
+            {userIds: ids}
+        )
+        .then(response => {
+            console.log(response.data);
+            dispatch(fetchFriendRequestsSuccess(response.data))
+        }).catch(err => {
+            dispatch(fetchFriendRequestsFailed())
+        })
+    }
+}
+
+export const fetchFriendRequestsStart = () => {
+    return {
+        type: actionTypes.FETCH_FIREND_REQUESTS_START,
+    }
+}
+
+export const fetchFriendRequestsSuccess = (users) => {
+    return {
+        type: actionTypes.FETCH_FIREND_REQUESTS_SUCCESS,
+        users
+    }
+}
+
+export const fetchFriendRequestsFailed = () => {
+    return {
+        type: actionTypes.FETCH_FIREND_REQUESTS_FAILED
+    }
+}
+
+//--------- FETCH FRIENDS ----------------------------------------------------------
+
+export const fetchFriends = (ids) => {
+    return dispatch => {
+        dispatch(fetchFriendsStart());
+        axios.post('/api/users/userdata')
+        .then(response => {
+            console.log(response.data);
+            dispatch(fetchFriendsSuccess(response.data))
+        }).catch(err => {
+            dispatch(fetchFriendsFailed())
+        })
+    }
+}
+
+export const fetchFriendsStart = () => {
+    return {
+        type: actionTypes.FETCH_FRIENDS_START,
+    }
+}
+
+export const fetchFriendsSuccess = (friends) => {
+    return {
+        type: actionTypes.FETCH_FRIENDS_SUCCESS,
+        friends
+    }
+}
+
+export const fetchFriendsFailed = () => {
+    return {
+        type: actionTypes.FETCH_IDS_FAILED
+    }
+}
+
+//--------- FETCH ALL USERS ---------------------------------------------------
 
 export const fetchAllUsers = () => {
     return dispatch => {
@@ -72,105 +171,46 @@ export const fetchAllUsersFailed = () => {
     }
 }
 
-//--------- FRIENDS -----------------------------------------------------
+//--------- SEND FRIEND REQUEST -------------------------------------------
 
-export const fetchFriends = () => {
-    return dispatch => {
-        dispatch(fetchFriendsStart());
-        axios.get('/api/users/friends')
-        .then(response => {
-            console.log(response.data);
-            dispatch(fetchFriendsSuccess(response.data))
-        }).catch(err => {
-            dispatch(fetchFriendsFailed())
-        })
-    }
-}
-
-export const fetchFriendsStart = () => {
-    return {
-        type: actionTypes.FETCH_ALL_USERS_START,
-    }
-}
-
-export const fetchFriendsSuccess = (users) => {
-    return {
-        type: actionTypes.FETCH_ALL_USERS_SUCCESS,
-        users
-    }
-}
-
-export const fetchFriendsFailed = () => {
-    return {
-        type: actionTypes.FETCH_ALL_USERS_FAILED
-    }
-}
-
-//--------------------------------------------------------------
-
-export const changeFormHeight = (height) => {
-    return {
-        type: actionTypes.CHANGE_FORM_HEIGHT,
-        height
-    }
-}
-
-export const createDummyChat = (userId) => {
-    return {
-        type: actionTypes.CREATE_DUMMY_CHAT,
-        userId
-    }
-}
-
-export const chatInputChangeHandler = (value) => {
-    return {
-        type: actionTypes.CHANGE_CHAT_INPUT,
-        value
-    }
-}
-
-//--------- ADD FRIEND -----------------------------------------------------
-
-
-export const addFriend = (friendId, token) => {
+export const sendFriendRequest = (friendId, token) => {
     return dispatch => {
         console.log('TOKEN', token);
-        dispatch(addFriendStart(friendId))
+        dispatch(sendFriendRequestStart(friendId))
         const headers = { headers: { authorization : `Bearer ${token}` } }
         axios.post('/api/users/addFriend', { friendId }, headers)
         .then(response => {
             console.log(response);
-            dispatch(addFriendSuccess(friendId))
+            dispatch(sendFriendRequestSuccess(friendId))
         }).catch(err => {
             console.log(err)
-            dispatch(addFriendFailed(friendId))
+            dispatch(sendFriendRequestFailed(friendId))
         })
     }
 }
 
-export const addFriendStart = (friendId) => {
+export const sendFriendRequestStart = (friendId) => {
     return {
-        type: actionTypes.ADD_FRIEND_START,
+        type: actionTypes.SEND_FRIEND_REQUEST_START,
         friendId
     }
 }
 
-export const addFriendSuccess = (friendId) => {
+export const sendFriendRequestSuccess = (friendId) => {
     return {
-        type: actionTypes.ADD_FRIEND_SUCCESS,
+        type: actionTypes.SEND_FRIEND_REQUEST_SUCCESS,
         friendId
     }
 }
 
-export const addFriendFailed = (friendId) => {
+export const sendFriendRequestFailed = (friendId) => {
     return {
-        type: actionTypes.ADD_FRIEND_FAILED,
+        type: actionTypes.SEND_FRIEND_REQUEST_FAILED,
         friendId
     }
 }
 
-//--------- ACCEPT FIREND REQUEST -----------------------------------------------
-
+//--------- ACCEPT FIREND REQUEST -----------------------------------------
 
 export const acceptFriendRequest = (friendId, token) => {
     return dispatch => {
@@ -180,10 +220,10 @@ export const acceptFriendRequest = (friendId, token) => {
         axios.post('/api/users/addFriend', { friendId }, headers)
         .then(response => {
             console.log(response);
-            dispatch(addFriendSuccess(friendId))
+            dispatch(acceptFriendRequestSuccess(friendId))
         }).catch(err => {
             console.log(err)
-            dispatch(addFriendFailed(friendId))
+            dispatch(acceptFriendRequestFailed(friendId))
         })
     }
 }

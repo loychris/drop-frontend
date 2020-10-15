@@ -25,7 +25,6 @@ class StreamElement extends Component {
 
   componentDidMount() {
     if (this.props.status === 'id loaded') {
-      if(this.props.token) console.log(this.props.token)
       const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
       axios.get(`/api/drop/${this.props.id}`, headers)
       .then(response => {

@@ -10,6 +10,10 @@ const initialState = {
     dummyChats: [],
     sentFriendRequests: [],
     failedFriendRequests: [],
+    receivedFriendRequests: [],
+    receivedFriendRequestsStatus: 'not loaded',
+    friends: [],
+    friendsStatus: 'not loaded',
     chats: [
         {
             chatId: 0,
@@ -256,12 +260,14 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.CREATE_DUMMY_CHAT: return createDummyChat(state, action);
         case actionTypes.REPLACE_DUMMY_CHAT: return replaceDummyChat(state, action);
         case actionTypes.CHANGE_CHAT_INPUT: return chatInputChangeHandler(state, action);
-        case actionTypes.ADD_FRIEND_START: return addFriendStart(state, action);
-        case actionTypes.ADD_FRIEND_SUCCESS: return addFriendSuccess(state, action);
-        case actionTypes.ADD_FRIEND_FAILED: return addFriendFailed(state, action);
+        case actionTypes.SEND_FRIEND_REQUEST_START: return sendFriendRequestStart(state, action);
+        case actionTypes.SEND_FRIEND_REQUEST_SUCCESS: return sendFriendRequestSuccess(state, action);
+        case actionTypes.SEND_FRIEND_REQUEST_FAILED: return sendFriendRequestFailed(state, action);
         case actionTypes.ACCEPT_FRIEND_REQUEST_START: return acceptFriendRequestStart(state, action);
         case actionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS: return acceptFriendRequestSuccess(state, action);
         case actionTypes.ACCEPT_FRIEND_REQUEST_FAILED: return acceptFriendRequestFailed(state, action);
+        case actionTypes.FETCH_FIREND_REQUESTS_SUCCESS: return fetchFriendRequestsSuccess(state, action);
+        case actionTypes.FETCH_FRIENDS_SUCCESS: return fetchFriendsSuccess(state, action);
         default: return state;
     }
 }
@@ -406,7 +412,7 @@ const replaceDummyChat = (state, action) => {
 
 //-------------------------------------------------------
 
-const addFriendStart = (state, action) => {
+const sendFriendRequestStart = (state, action) => {
     const sentFriendRequests = [...state.sentFriendRequests, action.friendId]
     return {
         ...state,
@@ -414,7 +420,7 @@ const addFriendStart = (state, action) => {
     }
 }
 
-const addFriendSuccess = (state, action) => {
+const sendFriendRequestSuccess = (state, action) => {
     const sentFriendRequests = state.sentFriendRequests.filter(id => {
         return id !== action.friendId
     });
@@ -424,7 +430,7 @@ const addFriendSuccess = (state, action) => {
     }
 }
 
-const addFriendFailed = (state, action) => {
+const sendFriendRequestFailed = (state, action) => {
     const sentFriendRequests = state.sentFriendRequests.filter(id => {
         return id !== action.friendId
     });
@@ -450,7 +456,25 @@ const acceptFriendRequestSuccess = (state, action) => {
 
 const acceptFriendRequestFailed = (state, action) => {
     return {
-        ...state
+        ...state,
+    }
+}
+
+const fetchFriendRequestsSuccess = (state, action) => {
+    console.log('RECEIVED REQUESTS', action)
+    return {
+        ...state,
+        receivedFriendRequests: action.users,
+        receivedFriendRequestsStatus: 'loaded'
+    }
+}
+
+const fetchFriendsSuccess = (state, action) => {
+    console.log('FRIENDS', action);
+    return {
+        ...state,
+        friends: action.friends,
+        friendsStatus: 'loaded'
     }
 }
 

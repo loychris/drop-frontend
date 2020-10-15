@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import * as actionTypes from '../actions/actionTypes';
 import { setDropsNotLoaded } from './streamActions';
+import { fetchFriends, fetchFriendRequests } from './chatActions';
 
 export const openAuth = (authReason) => {
     return {
@@ -71,6 +72,12 @@ export const login = (identifier, password) => {
             dispatch(checkAuthTimeout(res.data.expiresIn));
             dispatch(setDropsNotLoaded());
             dispatch(closeAuth());
+            if(res.data.friends ?? res.data.friends.length > 0){
+                dispatch(fetchFriends(res.data.friends));
+            }
+            if(res.data.friendRequests ?? res.data.friendRequests.length > 0){
+                dispatch(fetchFriendRequests(res.data.friendRequests));
+            }
         }).catch(err => {
             if(err.response && err.response.data && err.response.data.message){
                 dispatch(loginFail(err.response.data.message));
@@ -137,6 +144,7 @@ export const authCheckState = () => {
         const token = localStorage.getItem('token');
         if (!token) {
             dispatch(logout());
+            dispatch(setDropsNotLoaded());
         } else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             if (expirationDate <= new Date()) {

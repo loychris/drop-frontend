@@ -36,7 +36,8 @@ export {
     fetchFriends,
     createDummyChat,
     chatInputChangeHandler,
-    addFriend,
+    sendFriendRequest,
+    acceptFriendRequest
 } from './chatActions';
 
 export {

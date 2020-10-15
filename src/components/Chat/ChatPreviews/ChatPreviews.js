@@ -55,6 +55,22 @@ class ChatPreviews extends Component {
         return contacts
     }
 
+    getFriendRequests = () => {
+      console.log(this.props.receivedFriendRequests ? this.props.receivedFriendRequests : "No requests")
+      return this.props.receivedFriendRequests 
+        ? this.props.receivedFriendRequests.map(user => {
+          return (
+            <ChatPrev
+              name={user.name}
+              preview={user.handle}
+              request
+              active={false}
+              key={user._id}/>
+            )
+          }) 
+        : null
+    }
+
     getAllUsers = () => {
       let allUsers = [];
       if(this.props.allUsersStatus === 'loaded'){ 
@@ -66,7 +82,7 @@ class ChatPreviews extends Component {
           return (
             <ChatPrev 
               {...user} 
-              stranger={true}
+              stranger
               active={this.props.currentChatId === user.userId} 
               key={user.userId}
             />
@@ -131,6 +147,7 @@ class ChatPreviews extends Component {
                   {this.getSearchIcon()}
                 </div>
                 <div className={classes.ScrollContainer}>
+                  {this.getFriendRequests()}
                   {this.getChats()}
                   {this.getFriends()}
                   {this.props.allUsersStatus !== 'not loaded' 
@@ -148,16 +165,17 @@ class ChatPreviews extends Component {
 
 const mapStateToProps = state => {
     return {
-      height: state.chat.formHeight,
+      receivedFriendRequests: state.chat.receivedFriendRequests,
+      chats: state.chat.chats,
+      dummyChats: state.chat.dummyChats,
+      friends: state.chat.friends,
+      allUsers: state.chat.allUsers,
+      allUsersStatus: state.chat.allUsersStatus,
       currentTab: state.ui.currentTab,
       darkmode: state.ui.currentTab,
       loadedChats: state.chat.loadedChats,
-      friends: state.chat.friends,
       currentChatId: state.chat.currentChatId,
-      chats: state.chat.chats,
-      allUsers: state.chat.allUsers,
-      allUsersStatus: state.chat.allUsersStatus,
-      dummyChats: state.chat.dummyChats
+      height: state.chat.formHeight,
     }
   }
   

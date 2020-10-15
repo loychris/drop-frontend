@@ -7,6 +7,7 @@ import DefaultProfilePic from "../../../../media/DefaultProfilePic.png";
 import DefaultGroupPic from "../../../../media/DefaultGroupPic.png";
 import Connector from './Connector.svg';
 import * as actions from '../../../../store/actions/index';
+import { acceptFriendRequestFailed } from "../../../../store/actions/chatActions";
 
 
 class ChatPrev extends Component {
@@ -45,6 +46,9 @@ class ChatPrev extends Component {
           {this.props.stranger
             ? <AddFriendButton clicked={() => this.props.onAddFriend(this.props.userId, this.props.token)}/> 
             : null}
+          {this.props.request
+            ? <AddFriendButton clicked={() => this.props.onAcceptRequest(this.props.userId, this.props.token)}/>
+            : null}
           <h3 className={classes.Name}>{this.props.name}</h3>
           <p className={classes.Preview}>{this.props.preview}</p>
         </div>
@@ -66,7 +70,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onChangeChat: (chatId) => dispatch(actions.changeChat(chatId)),
     onCreateDummyChat: (userId) => dispatch(actions.createDummyChat(userId)),
-    onAddFriend: (friendId, token) => dispatch(actions.addFriend(friendId, token)),
+    onAddFriend: (friendId, token) => dispatch(actions.sendFriendRequest(friendId, token)),
+    onAcceptRequest: (userId, token) => dispatch(actions.acceptFriendRequest(userId, token))
   }
 }
 
