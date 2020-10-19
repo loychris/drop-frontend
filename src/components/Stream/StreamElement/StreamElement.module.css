@@ -59,12 +59,3 @@
     transform: translateX(0);
 }
 
-.FadedLeft {
-    transform: translate3d(-100vw, 0, 0);
-    opacity: 0;
-}
-
-.FadedRight {
-    transform: translate3d(+100vw, 0, 0);
-    opacity: 0;
-}

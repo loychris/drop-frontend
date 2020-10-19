@@ -38,7 +38,6 @@
   transform: translate(-50%, -50%);
   user-select: none;
   -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
-  user-drag: none; 
 }
 
 .Boat1 {
@@ -50,7 +49,6 @@
     z-index: 300;   
     user-select: none;
     -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
-    user-drag: none;  
   }
   
   .Boat2 {
@@ -63,5 +61,14 @@
     z-index: 300;  
     user-select: none;
     -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
-    user-drag: none; 
   }
+
+.ThumbUp {
+  position: absolute;
+  top: 40vh;
+  left: 75vw;
+  height: 200px;
+  width: 200px; 
+  transform: translate3d(0, -50%, 0);
+  cursor: pointer;
+}

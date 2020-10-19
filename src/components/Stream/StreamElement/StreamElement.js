@@ -67,6 +67,10 @@ class StreamElement extends Component {
       styles.transform = `translate3d(-100vw,0,0)`;
     } else if (this.props.show === "right") {
       styles.transform = `translate3d(+100vw,0,0)`;
+    }else if (this.props.position === 1 && this.props.halfLeft){
+      styles.transform = `translate3d(+5vw,0,0)`;
+    }else if(this.props.position === 1 && this.props.halfRight){
+      styles.transform = `translate3d(-30px,0,0)`;
     } else {
       styles.transform = `translate3d( 0, ${transY}px, ${transZ}px)`;
       styles.WebkitTransform = `translate3d( 0, ${transY}px, ${transZ}px)`;
@@ -90,6 +94,10 @@ class StreamElement extends Component {
     if (this.props.show === "show") cssClasses.push(classes.ShowDrop);
     if (this.props.show === "right") cssClasses.push(classes.FadedRight);
     if (this.props.show === "left")  cssClasses.push(classes.FadedLeft);
+    if (this.props.position === 1) {
+      if(this.props.halfLeft) cssClasses.push(classes.HalfLeft);
+      if(this.props.halfRight) cssClasses.push(classes.HalfRight);
+    }
     cssClasses.push(this.props.darkmode ? classes.Dark : classes.Light)
 
     if (this.props.status === 'loaded') {
@@ -100,6 +108,8 @@ class StreamElement extends Component {
         cssClasses.push("classes.DroppedByFriend");
       }
     }
+
+    console.log( this.props.halfLeft)
 
     return (
       <div
