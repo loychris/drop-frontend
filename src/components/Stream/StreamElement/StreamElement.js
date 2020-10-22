@@ -49,16 +49,6 @@ class StreamElement extends Component {
     }
   }
 
-
-  //////////////////////////////////////////////////////////////////////////
-  // calcStyles(pos) {
-  //   const x = X + pos * 20;
-  //   const yy = 5 + R * Math.tan(Math.atan(Y / (x + R))); //projected posY
-  //   const bb = 2 * R * Math.tan(Math.atan(B / 2 / (x + R))); //projected width
-  //   return { marginTop: yy - 62, width: bb };
-  // }
-  //////////////////////////////////////////////////////////////////////////
-
   calcStyles2(pos) {
     const transY = (pos - 1) * -2;
     const transZ = (pos - 1) * -4;
@@ -68,9 +58,9 @@ class StreamElement extends Component {
     } else if (this.props.show === "right") {
       styles.transform = `translate3d(+100vw,0,0)`;
     }else if (this.props.position === 1 && this.props.halfLeft){
-      styles.transform = `translate3d(+5vw,0,0)`;
+      styles.transform = `translate3d(-5vw,0,0)`;
     }else if(this.props.position === 1 && this.props.halfRight){
-      styles.transform = `translate3d(-30px,0,0)`;
+      styles.transform = `translate3d(5vw,0,0)`;
     } else {
       styles.transform = `translate3d( 0, ${transY}px, ${transZ}px)`;
       styles.WebkitTransform = `translate3d( 0, ${transY}px, ${transZ}px)`;
@@ -108,8 +98,6 @@ class StreamElement extends Component {
         cssClasses.push("classes.DroppedByFriend");
       }
     }
-
-    console.log( this.props.halfLeft)
 
     return (
       <div

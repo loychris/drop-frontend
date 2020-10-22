@@ -41,34 +41,41 @@
 }
 
 .Boat1 {
-    position: absolute; 
-    top: 33px;
-    width: 50px; 
-    display: block; 
-    left: 43vw;
-    z-index: 300;   
-    user-select: none;
-    -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
-  }
-  
-  .Boat2 {
-    transform: scaleX(-1);
-    position: absolute; 
-    top: 33px;
-    width: 35px; 
-    display: block; 
-    left: 55vw;
-    z-index: 300;  
-    user-select: none;
-    -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
-  }
+  position: absolute; 
+  top: 33px;
+  width: 50px; 
+  display: block; 
+  left: 43vw;
+  z-index: 300;   
+  user-select: none;
+  -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
+}
 
-.ThumbUp {
+.Boat2 {
+  transform: scaleX(-1);
+  position: absolute; 
+  top: 33px;
+  width: 35px; 
+  display: block; 
+  left: 55vw;
+  z-index: 300;  
+  user-select: none;
+  -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
+}
+
+.LeftThumb, .RightThumb {
   position: absolute;
   top: 40vh;
-  left: 75vw;
   height: 200px;
   width: 200px; 
   transform: translate3d(0, -50%, 0);
   cursor: pointer;
+}
+
+.LeftThumb {
+  right: 75vw;
+}
+
+.RightThumb {
+  left: 75vw;
 }
