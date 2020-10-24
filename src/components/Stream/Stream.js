@@ -52,6 +52,7 @@ class Stream extends Component {
     return this.props.currentTab === 'stream' && currentTimestamp - TIME_BLOCK_NEXT_SWIPE > this.props.timeStampLastSwipe
   }
 
+  // onKeyDown
   keypressHandler = (event) => {
     if (event.keyCode === 37) {
       this.onLightUp(true, false);
@@ -60,18 +61,20 @@ class Stream extends Component {
     }
   }
 
+  // onKeyUp
   keyboardSwipeHandler = (event) => {
     if(this.checkTimeLock()){
-        if (event.keyCode === 37) {
+        if (event.keyCode === 37 && this.state.glowLeft) {
           this.props.onSwipe('left');
           this.resetGlow();
-      } else if (event.keyCode === 39) {
+      } else if (event.keyCode === 39 && this.state.glowRight) {
           this.props.onSwipe('right');
           this.resetGlow();
       }
     }
   };
 
+  // onClick
   buttonSwipeHandler = (left) => {
     if(this.checkTimeLock()){
       this.props.onSwipe(left ? 'left' : 'right');
