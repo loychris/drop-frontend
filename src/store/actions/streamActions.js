@@ -2,49 +2,12 @@ import axios from 'axios';
 
 import * as actionTypes from './actionTypes';
 
+//-------- SWIPE  -----------------------------------------------------------------
+
 export const swipe = (dir) => {
     return {
         type: actionTypes.SWIPE,
         dir: dir
-    }
-}
-
-export const selectDropTarget = (id) => {
-    return {
-        type: actionTypes.SELECT_DROPTARGET,
-        id: id
-    }
-}
-
-export const unSelectDropTarget = (id) => {
-    return {
-        type: actionTypes.UNSELECT_DROPTARGET,
-        id: id
-    }
-}
-
-//-------- ADD COMMENT -------------------------------------------------------------------
-
-export const addComment = (comment, randId, userId) => {
-    return {
-        type: actionTypes.ADD_COMMENT,
-        comment,
-        randId,
-        userId
-    }
-}
-
-export const selectComment = (commentId, path) => {
-    return {
-        type: actionTypes.SELECT_COMMENT,
-        commentId,
-        path
-    }
-}
-
-export const unSelectComment = () => {
-    return {
-        type: actionTypes.UNSELECT_COMMENT
     }
 }
 
@@ -84,14 +47,33 @@ export const fetchIdsFailed = () => {
     }
 }
 
+//-------- ADD COMMENT -------------------------------------------------------------------
 
-
-export const memeLoaded = (dropId) => {
+export const addComment = (comment, randId, userId) => {
     return {
-        type: actionTypes.MEME_LOADED,
-        dropId
+        type: actionTypes.ADD_COMMENT,
+        comment,
+        randId,
+        userId
     }
 }
+
+export const selectComment = (commentId, path) => {
+    return {
+        type: actionTypes.SELECT_COMMENT,
+        commentId,
+        path
+    }
+}
+
+export const unSelectComment = () => {
+    return {
+        type: actionTypes.UNSELECT_COMMENT
+    }
+}
+
+//--------  -----------------------------------------------------------------
+
 
 export const postCommentFailed = () => {
     return {
@@ -215,11 +197,12 @@ export const fetchDropsFailed  = (drops) => {
 
 // -------- FETCH DROP ----------------------------------------------------------
 
-export const fetchDrop = (dropId) => {
+export const fetchDrop = (dropId, token) => {
     return dispatch => {
         dispatch(fetchDropStart(dropId))
-        const url = `/api/drop/${dropId}`;
-        axios.get(url)
+        const url = dropId.startsWith('no more') ? 'apidrop/nomore' : `/api/drop/${dropId}`;
+        const headers = token ? { headers: { Authorisation: `Bearer ${token}` } } : null 
+        axios.get(url, headers)
         .then(res => {
             dispatch(fetchDropSuccess(dropId, res.data))
         }).catch(err => {
@@ -265,5 +248,22 @@ export const fetchMemeSuccess = (dropId) => {
     return {
         type: actionTypes.FETCH_MEME_SUCCESS,
         dropId, 
+    }
+}
+
+//-------- FETCH MEME -----------------------------------------------------------------
+
+
+export const selectDropTarget = (id) => {
+    return {
+        type: actionTypes.SELECT_DROPTARGET,
+        id: id
+    }
+}
+
+export const unSelectDropTarget = (id) => {
+    return {
+        type: actionTypes.UNSELECT_DROPTARGET,
+        id: id
     }
 }

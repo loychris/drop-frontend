@@ -21,6 +21,13 @@ const NEUMORPHISM = false;
 
 class StreamElement extends Component {
 
+  componentDidUpdate = () => {
+    if(this.props.streamStatus === 'drops loaded' && this.props.dropStatus === 'not loaded'){
+      console.log(this.props.id);
+      this.props.onFetchDrop(this.props.id);
+    }
+  }
+
   calcStyles2(pos) {
     const transY = (pos - 1) * -2;
     const transZ = (pos - 1) * -4;
@@ -97,7 +104,7 @@ class StreamElement extends Component {
           dropId={this.props.id} 
           comments={this.props.comments} 
           dropLoaded={this.props.status === 'drop loaded'}
-          commentStatus={this.props.commentsStatus}/>      
+          commentStatus={this.props.dropStatus}/>      
       </div>
     );
   }
@@ -106,7 +113,8 @@ class StreamElement extends Component {
 const mapStateToProps = state => {
   return {
     darkmode: state.ui.darkmode,
-    token: state.auth.token
+    token: state.auth.token,
+    streamStatus: state.stream.streamStatus
   }
 }
 

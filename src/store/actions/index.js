@@ -18,7 +18,6 @@ export {
     deleteComment,
     selectComment,
     unSelectComment,
-    memeLoaded,
     commentSaved,
     postCommentFailed,
     selectSubComment,

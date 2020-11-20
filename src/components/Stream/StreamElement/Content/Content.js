@@ -20,7 +20,7 @@ class Content extends Component {
         return(
             <div className={classes.Content}>
                 {
-                    this.props.memeStatus === 'loaded' || this.props.currentlyLoadingMemeId === this.props.dropId
+                    (this.props.memeStatus === 'loaded' || this.props.currentlyLoadingMemeId === this.props.dropId) && this.props.position < 10
                     ? <img 
                         alt={`Meme ${this.props.id}`} 
                         className={classes.Meme} 

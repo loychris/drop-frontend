@@ -135,7 +135,6 @@ class CommentForm extends Component {
 const mapStateToProps = state => {
     return {
         selectedComment: state.stream.selectedComment,
-        currentDropId: state.stream.currentDropId,
         token: state.auth.token,
         userId: state.auth.userId
     }
