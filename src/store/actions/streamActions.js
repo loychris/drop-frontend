@@ -23,6 +23,8 @@ export const unSelectDropTarget = (id) => {
     }
 }
 
+//-------- ADD COMMENT -------------------------------------------------------------------
+
 export const addComment = (comment, randId, userId) => {
     return {
         type: actionTypes.ADD_COMMENT,
@@ -46,6 +48,29 @@ export const unSelectComment = () => {
     }
 }
 
+//-------- FETCH IDS  -----------------------------------------------------------------
+
+export const fetchIds = (token) => {
+    return dispatch => {
+        dispatch(fetchIdsStart())
+        const headers = token ? { authorisation: 'Bearer ' + token } : null
+        axios.get('/api/drop/ids', headers )
+        .then(res => {
+            dispatch(setIds(res.data))
+            dispatch(fetchDrops(res.data))
+        })
+        .catch(err => {
+            dispatch(fetchIdsFailed())
+        })
+    }
+}
+
+export const fetchIdsStart = () => {
+    return {
+        type: actionTypes.FETCH_IDS_START
+    }
+}
+
 export const setIds = (ids) => {
     return {
         type: actionTypes.SET_IDS,
@@ -59,57 +84,12 @@ export const fetchIdsFailed = () => {
     }
 }
 
-export const fetchIds = (token) => {
-    return dispatch => {
-        const headers = token ? { authorisation: 'Bearer ' + token } : null
-        axios.get('/api/drop/ids', headers )
-        .then(res => {
-            dispatch(setIds(res.data))
-        })
-        .catch(err => {
-            dispatch(fetchIdsFailed())
-        })
-    }
-}
 
-// export const setComments = (dropId, comments) => {
-//     return {
-//         type: actionTypes.SET_COMMENTS,
-//         dropId,
-//         comments
-//     }
-// }
-
-// export const fetchCommentsFailed = () => {
-//     return {
-//         type: actionTypes.FETCH_COMMENTS_FAILED
-//     }
-// }
-
-// export const fetchComments = (dropId) => {
-//     return dispatch => {
-//         axios.get(`/api/drop/${dropId}/comment`)
-//         .then(res => {
-//             dispatch(setComments(dropId, res.data.comments));
-//         })
-//         .catch(err => {
-//             dispatch(fetchCommentsFailed())
-//         })
-//     }
-// }
 
 export const memeLoaded = (dropId) => {
     return {
         type: actionTypes.MEME_LOADED,
         dropId
-    }
-}
-
-export const setDrop = (dropId, drop) => {
-    return {
-        type: actionTypes.SET_DROP,
-        dropId,
-        drop
     }
 }
 
@@ -120,7 +100,6 @@ export const postCommentFailed = () => {
 }
 
 export const commentSaved = (dropId, comment, path, randId) => {
-    console.log('DROP ID', dropId)
     return {
         type: actionTypes.COMMENT_SAVED,
         dropId, comment, path, randId
@@ -155,6 +134,24 @@ export const setDropsNotLoaded = () => {
     }
 }
 
+//-------- DELETE COMMENT -------------------------------------------------------------------
+
+export const deleteComment = (dropId, commentId, path, token ) => {
+    return dispatch => {
+        dispatch(deleteCommentStart(dropId, commentId, path))
+        const url = path ? `/comment/${commentId}` : null
+        const headers = token ? { authorisation: 'Bearer ' + token } : null;
+        const body = path ? { path } : null;
+        axios.delete(url, headers, body)
+        .then(() => {
+            dispatch(deleteCommentSuccess())
+        })
+        .catch(err => {
+            dispatch(deleteCommentFailed())
+        });
+    }
+}
+
 export const deleteCommentStart = (dropId, commentId, path) => {
     return {
         type: actionTypes.DELETE_COMMENT_START,
@@ -179,18 +176,94 @@ export const deleteCommentFailed = () => {
     }
 }
 
-export const deleteComment = (dropId, commentId, path, token ) => {
+//-------- FETCH DROPS -----------------------------------------------------------------
+
+export const fetchDrops = (ids) => {
     return dispatch => {
-        dispatch(deleteCommentStart(dropId, commentId, path))
-        const url = path ? `/comment/${commentId}` : null
-        const headers = token ? { authorisation: 'Bearer ' + token } : null;
-        const body = path ? { path } : null;
-        axios.delete(url, headers, body)
-        .then(() => {
-            dispatch(deleteCommentSuccess())
+        dispatch(fetchDropsStart())
+        const headers = {};
+        const body = { ids: ids }
+        axios.post('/api/drop/drops', body, headers)
+        .then(res => {
+            dispatch(setDrops(res.data))
         })
         .catch(err => {
-            dispatch(deleteCommentFailed())
-        });
+            console.log(err);
+            dispatch(fetchDropsFailed())
+        })
+    }
+}
+
+export const fetchDropsStart  = () => {
+    return {
+        type: actionTypes.FETCH_DROPS_START
+    }
+}
+
+export const setDrops  = (drops) => {
+    return {
+        type: actionTypes.SET_DROPS,
+        drops
+    }
+}
+
+export const fetchDropsFailed  = (drops) => {
+    return {
+        type: actionTypes.FETCH_DROP_FAILED
+    }
+}
+
+// -------- FETCH DROP ----------------------------------------------------------
+
+export const fetchDrop = (dropId) => {
+    return dispatch => {
+        dispatch(fetchDropStart(dropId))
+        const url = `/api/drop/${dropId}`;
+        axios.get(url)
+        .then(res => {
+            dispatch(fetchDropSuccess(dropId, res.data))
+        }).catch(err => {
+            console.log(err);
+            dispatch(fetchDropFailed(dropId))
+        })
+    }
+}
+
+export const fetchDropStart = (dropId) => {
+    return {
+        type: actionTypes.FETCH_DROP_START,
+        dropId
+    }
+}
+
+export const fetchDropSuccess = (dropId, drop) => {
+    return {
+        type: actionTypes.FETCH_DROP_SUCCESS,
+        dropId, 
+        drop
+    }
+}
+
+export const fetchDropFailed = (dropId) => {
+    return {
+        type: actionTypes.FETCH_DROP_FAILED, 
+        dropId
+    }
+}
+
+//-------- FETCH MEME -----------------------------------------------------------------
+
+
+export const fetchMemeStart = (dropId) => {
+    return {
+        type: actionTypes.FETCH_MEME_START,
+        dropId
+    }
+}
+
+export const fetchMemeSuccess = (dropId) => {
+    return {
+        type: actionTypes.FETCH_MEME_SUCCESS,
+        dropId, 
     }
 }

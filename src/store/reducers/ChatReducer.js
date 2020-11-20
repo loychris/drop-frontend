@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     currentChatFormInput: '',
     loadedChats: true,     
-    currentChatId: 0,
+    currentChatId: 5,
     formHeight: 53,
     allUsers: null,
     allUsersStatus: 'not loaded',
@@ -16,154 +16,7 @@ const initialState = {
     friendsStatus: 'not loaded',
     chats: [
         {
-            chatId: 0,
-            name: 'Pokern',
-            inputValue: '',
-            latestMessages: [
-            {
-                message: 'First message chat 1',
-                time: '14:32', 
-                sender: "chris",
-                id: 1,
-                sent: true 
-            },
-            {
-                message: 'THis is a chat message',
-                time: '14:32', 
-                sender: "chris",
-                id: 2,
-                sent: false 
-            }
-            ]
-        },
-        {
-            chatId: 1,
-            name: 'Rasselbande',
-            inputValue: '',
-            latestMessages: [
-            {
-                message: 'First message chat 1',
-                time: '14:32', 
-                sender: "chris",
-                id: 1,
-                sent: true 
-            },
-            {
-                message: 'THis is a chat message',
-                time: '14:32', 
-                sender: "chris",
-                id: 2,
-                sent: false 
-            }
-            ]
-        },
-        {
-            chatId: 2,
-            name: 'Hüdde',
-            inputValue: '',
-            latestMessages: [
-            {
-                message: 'First message chat 1',
-                time: '14:32', 
-                sender: "chris",
-                id: 1,
-                sent: true 
-            },
-            {
-                message: 'THis is a chat message',
-                time: '14:32', 
-                sender: "chris",
-                id: 2,
-                sent: false 
-            }
-            ]
-        },
-        {
-            chatId: 3,
-            name: 'felix',
-            inputValue: '',
-            latestMessages: [
-            {
-                message: 'First message chat 1',
-                time: '14:32', 
-                sender: "chris",
-                id: 1,
-                sent: true 
-            },
-            {
-                message: 'THis is a chat message',
-                time: '14:32', 
-                sender: "chris",
-                id: 2,
-                sent: false 
-            }
-            ]
-        },
-        {
-            chatId: 4,
-            name: 'Kirill',
-            inputValue: '',
-            latestMessages: [
-            {
-                message: 'First message chat 1',
-                time: '14:32', 
-                sender: "chris",
-                id: 1,
-                sent: true 
-            },
-            {
-                message: 'THis is a chat message',
-                time: '14:32', 
-                sender: "chris",
-                id: 2,
-                sent: false 
-            }
-            ]
-        },
-        {
             chatId: 5,
-            name: 'Nico',
-            inputValue: '',
-            latestMessages: [
-            {
-                message: 'First message chat 1',
-                time: '14:32', 
-                sender: "chris",
-                id: 1,
-                sent: true 
-            },
-            {
-                message: 'THis is a chat message',
-                time: '14:32', 
-                sender: "chris",
-                id: 2,
-                sent: false 
-            }
-            ]
-        },
-        {
-            chatId: 6,
-            name: 'Pokern',
-            inputValue: '',
-            latestMessages: [
-            {
-                message: 'First message chat 1',
-                time: '14:32', 
-                sender: "chris",
-                id: 1,
-                sent: true 
-            },
-            {
-                message: 'THis is a chat message',
-                time: '14:32', 
-                sender: "chris",
-                id: 2,
-                sent: false 
-            }
-            ]
-        },
-        {
-            chatId: 15,
             name: 'Pokern',
             inputValue: '',
             latestMessages: [
@@ -251,7 +104,9 @@ const initialState = {
 
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
-        case actionTypes.SEND_MESSAGE: return send(state, action);
+        case actionTypes.SEND_MESSAGE_START: return sendMessageStart(state, action);
+        case actionTypes.SEND_MESSAGE_SUCCESS: return sendMessageSuccess(state, action);
+        case actionTypes.SEND_MESSAGE_FAILED: return sendMessageFailed(state, action);
         case actionTypes.CHANGE_CHAT: return changeChat(state, action);
         case actionTypes.CHANGE_FORM_HEIGHT: return changeChatFormHeight(state, action);
         case actionTypes.FETCH_ALL_USERS_START: return fetchAllUsersStart(state, action);
@@ -275,7 +130,7 @@ const reducer = (state = initialState, action ) => {
 //-------------------------------------------------------
 
 
-const send = (state, action) => {
+const sendMessageStart = (state, action) => {
     const chatsNew = state.chats.map(chat => {
         if(chat.chatId === state.currentChatId){
             const message = action.message;
@@ -300,6 +155,20 @@ const send = (state, action) => {
         chats: chatsNew
     }
 }
+
+const sendMessageSuccess = (state, action) => {
+    return {
+        ...state
+    }
+}
+
+const sendMessageFailed = (state, action) => {
+    return {
+        ...state
+    }
+}
+
+
 
 //-------------------------------------------------------
 
@@ -449,6 +318,7 @@ const acceptFriendRequestStart = (state, action) => {
 }
 
 const acceptFriendRequestSuccess = (state, action) => {
+  //  const receivedFriendRequests = state.receivedFriendRequests.filter(req => req.)
     return {
         ...state
     }

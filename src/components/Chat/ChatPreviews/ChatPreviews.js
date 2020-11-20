@@ -33,9 +33,14 @@ class ChatPreviews extends Component {
         if(this.state.searchInput === ''){
           chats = <p className={classes.EmptyMessage}>No Chats Yet</p> 
         } else {
-          chats = <p className={classes.EmptyMessage}>No Chats found with '{this.state.searchInput}'</p>
+          chats = <p className={classes.EmptyMessage}>No Contacts found with '{this.state.searchInput}'</p>
         }
-      return chats;
+      return (
+        <div>
+          {this.state.searching ? <h3>Contacts:</h3> : null}
+          {chats}
+        </div>
+      )
     }
 
     getFriends = () => {
@@ -56,23 +61,34 @@ class ChatPreviews extends Component {
     }
 
     getFriendRequests = () => {
-      console.log(this.props.receivedFriendRequests ? this.props.receivedFriendRequests : "No requests")
-      return this.props.receivedFriendRequests 
-        ? this.props.receivedFriendRequests.map(user => {
+      if(this.state.searching || this.props.receivedFriendRequests.length === 0){
+        return null
+      } else {
+        const requests = this.props.receivedFriendRequests.map(user => {
           return (
             <ChatPrev
               name={user.name}
               preview={user.handle}
               request
               active={false}
+              userId={user._id}
               key={user._id}/>
-            )
-          }) 
-        : null
+          )
+        }) 
+        return(
+          <div>
+            <h3>Friend Requests: </h3>
+            {requests}
+          </div>
+        )
+      }
     }
 
     getAllUsers = () => {
       let allUsers = [];
+      if(this.props.allUsersStatus === 'loading'){
+        allUsers = <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/> 
+      }
       if(this.props.allUsersStatus === 'loaded'){ 
         allUsers = this.props.allUsers
         .filter(user => {
@@ -88,16 +104,16 @@ class ChatPreviews extends Component {
             />
           )
         }) 
-        console.log(allUsers.length);
         if(allUsers.length === 0){
-          if(this.state.searchInput === ''){
-            allUsers = <p className={classes.EmptyMessage}>No Users found</p> 
-          } else {
-            allUsers = <p className={classes.EmptyMessage}>No Users found with '{this.state.searchInput}'</p>
-          }
+          allUsers = <p className={classes.EmptyMessage}>No Users found with '{this.state.searchInput}'</p>
         }
       }
-      return allUsers
+      return(
+        <div>
+          {this.state.searching ? <h3>All Users</h3> : null }
+          {allUsers}
+        </div>
+      )
     }
 
     componentDidUpdate = () => {
@@ -150,12 +166,6 @@ class ChatPreviews extends Component {
                   {this.getFriendRequests()}
                   {this.getChats()}
                   {this.getFriends()}
-                  {this.props.allUsersStatus !== 'not loaded' 
-                    ? <h3>All Users</h3>
-                    : null}
-                  {this.props.allUsersStatus === 'loading' 
-                    ? <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/> 
-                    : null}
                   {this.getAllUsers()}
                 </div>
             </div>

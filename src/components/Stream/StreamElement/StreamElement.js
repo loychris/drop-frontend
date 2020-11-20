@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from 'react-redux';
 
-import * as UIActions from '../../../store/actions/index';
+import * as actions from '../../../store/actions/index';
 import classes from "./StreamElement.module.css";
 
 import Content from "./Content/Content";
@@ -21,33 +20,6 @@ const NEUMORPHISM = false;
 // const X = 100; //Distance projection to element
 
 class StreamElement extends Component {
-
-
-  componentDidMount() {
-    if (this.props.status === 'id loaded') {
-      const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
-      axios.get(`/api/drop/${this.props.id}`, headers)
-      .then(response => {
-        this.props.onSetDrop(this.props.id, response.data.drop);
-      })
-      .catch(err => {
-        console.log('FETCHING DROP FAILED, ', err);
-      });
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.props.status === 'id loaded') {
-      const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
-      axios.get(`/api/drop/${this.props.id}`, headers)
-      .then(response => {
-        this.props.onSetDrop(this.props.id, response.data.drop);
-      })
-      .catch(err => {
-        console.log('FETCHING DROP FAILED, ', err);
-      });
-    }
-  }
 
   calcStyles2(pos) {
     const transY = (pos - 1) * -2;
@@ -107,8 +79,9 @@ class StreamElement extends Component {
         {droppedToYouBy}
         {this.props.title ? <h3 className={classes.title}>{this.props.title}</h3>: null }
         <Content 
+          data={this.props.data}
           position={this.props.position} 
-          id={this.props.id} 
+          dropId={this.props.id} 
           status={this.props.status} 
           memeStatus={this.props.memeStatus}/>
         {
@@ -139,9 +112,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOpenAuth: (authReason) => dispatch(UIActions.openAuth(authReason)),
-    onOpenModal: () => dispatch(UIActions.openModal()),
-    onSetDrop: (dropId, drop) => dispatch(UIActions.setDrop(dropId, drop))
+    onOpenAuth: (authReason) => dispatch(actions.openAuth(authReason)),
+    onOpenModal: () => dispatch(actions.openModal()),
+    onFetchDrop: (dropId) => dispatch(actions.fetchDrop(dropId)),
   }
 }
 

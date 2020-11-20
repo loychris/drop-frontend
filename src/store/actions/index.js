@@ -18,14 +18,15 @@ export {
     deleteComment,
     selectComment,
     unSelectComment,
-    setDrop,
     memeLoaded,
     commentSaved,
     postCommentFailed,
     selectSubComment,
     unSelectSubComment,
     addSubComment,
-    setDropsNotLoaded
+    setDropsNotLoaded,
+    fetchDrop,
+    fetchMemeSuccess,
 } from './streamActions';
 
 export {

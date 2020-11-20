@@ -32,6 +32,12 @@ class Stream extends Component {
     this.props.onFetchIds();
   }
 
+  componentDidUpdate() {
+    if(this.props.streamStatus === 'nothing loaded'){
+      this.props.onFetchIds();
+    }
+  }
+
   drop = (msg) => {
     this.props.send(msg);
     this.setState({
@@ -243,9 +249,11 @@ const mapStateToProps = state => {
     timeStampLastSwipe: state.stream.timeStampLastSwipe,
     streamElements: state.stream.StreamElements,
     initialStreamLoad: state.stream.initialStreamLoad,
+    streamStatus: state.stream.streamStatus,
     currentTab: state.ui.currentTab,
     modalOpen: state.ui.modalOpen,
     darkmode: state.ui.darkmode
+
   }
 }
 

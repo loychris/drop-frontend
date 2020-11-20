@@ -2,40 +2,33 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
 
-import * as StreamActions from '../../../../store/actions';
+import * as actions from '../../../../store/actions';
 import classes from './Content.module.css';
 
 
 class Content extends Component {
 
-    state = {
-        loaded: false,
-        file: null
+    getLoader = () => {
+        if(this.props.memeStatus === 'loaded' || this.props.position > 2){
+            return null;
+        }else {
+            return <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/>
+        }
     }
-
  
     render() {
-        if(this.props.memeStatus === 'loading' || 'loaded'){
-            return(
-                <div className={classes.Content}>
-                    {
-                        this.props.position < 10 && (this.props.status === 'id loaded' || this.props.status === 'drop loaded') ? 
-                            <img 
-                                alt={`Meme ${this.props.id}`} 
-                                className={classes.Meme} 
-                                src={`http://localhost:5000/api/meme/${this.props.id}`} 
-                                onLoad={() => this.props.onMemeLoaded(this.props.id)}/> 
-                        : null
-                    }
-            </div>)
-        }
         return(
             <div className={classes.Content}>
                 {
-                    this.props.position < 10 ? 
-                    <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/>    
+                    this.props.memeStatus === 'loaded' || this.props.currentlyLoadingMemeId === this.props.dropId
+                    ? <img 
+                        alt={`Meme ${this.props.id}`} 
+                        className={classes.Meme} 
+                        src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`}
+                        onLoad={() => this.props.onFetchMemeSuccess(this.props.dropId)}/>
                     : null
                 }
+                {this.getLoader()} 
             </div>
         )
     }
@@ -43,13 +36,13 @@ class Content extends Component {
 
 const mapStateToProps = state => {
     return {
-      
+        currentlyLoadingMemeId: state.stream.currentlyLoadingMemeId
     }
   }
   
   const mapDispatchToProps = dispatch => {
     return {
-      onMemeLoaded: (dropId) => dispatch(StreamActions.memeLoaded(dropId))
+        onFetchMemeSuccess: (dropId) => dispatch(actions.fetchMemeSuccess(dropId)),
     }
   }
   

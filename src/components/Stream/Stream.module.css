@@ -64,18 +64,36 @@
 }
 
 .LeftThumb, .RightThumb {
-  position: absolute;
-  top: 40vh;
-  height: 200px;
-  width: 200px; 
-  transform: translate3d(0, -50%, 0);
+  position: fixed;
+  top: 40vh; 
   cursor: pointer;
-}
+  height: 200px;
+  width: 200px;
+} 
 
 .LeftThumb {
-  right: 75vw;
+  left: calc((100vw - 700px) / 4);
+  margin-left: -100px;
 }
 
 .RightThumb {
-  left: 75vw;
+  right: calc((100vw - 700px) / 4);
+  margin-right: -100px;  
 }
+
+@media (max-width: 1080px) {
+  .LeftThumb, .RightThumb {
+    height: 100px;
+    width: 100px;
+  }
+
+  .LeftThumb {
+    left: calc((100vw - 700px) / 4);
+    margin-left: -50px;
+  }
+  
+  .RightThumb {
+    right: calc((100vw - 700px) / 4);
+    margin-right: -50px;  
+  }
+} 

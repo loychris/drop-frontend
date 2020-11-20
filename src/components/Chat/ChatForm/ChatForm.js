@@ -47,7 +47,11 @@ class ChatForm extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onSendMessage(this.props.inputValue)
+        this.props.onSendMessage(
+            this.props.inputValue, 
+            this.props.currentChatId, 
+            this.props.dummyChats.includes(this.props.currentChatId) // new Chat?
+        ); 
     }
 
     render() {

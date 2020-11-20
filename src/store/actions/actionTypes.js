@@ -36,10 +36,20 @@
     export const DELETE_COMMENT = 'DELETE_COMMENT';
     export const SELECT_COMMENT = 'SELECT_COMMENT';
     export const UNSELECT_COMMENT = 'UNSELECT_COMMENT';
-    export const FETCH_IDS = 'FETCH_IDS';
+
+    export const FETCH_IDS_START = 'FETCH_IDS_START';
     export const SET_IDS = 'SET_IDS';
     export const FETCH_IDS_FAILED = 'FETCH_IDS_FAILED';
+
+    export const FETCH_DROP_START = 'FETCH_DROP_START';
+    export const FETCH_DROP_SUCCESS = 'FETCH_DROP_SUCCESS';
+    export const FETCH_DROP_FAILED = 'FETCH_DROP_FAILED';
+    
+    export const FETCH_DROPS_START = 'FETCH_DROPS_START';
+    export const FETCH_DROPS_FAILED = 'FETCH_DROPS_FAILED';
+    export const SET_DROPS = 'SET DROPS';
     export const SET_DROP = 'SET_DROP';
+
     // export const SET_COMMENTS = 'SET_COMMENTS';
     // export const FETCH_COMMENTS_FAILED = 'FETCH_COMMENTS_FAILED';
     export const MEME_LOADED = 'MEME_LOADED';
@@ -48,12 +58,22 @@
     export const SELECT_SUBCOMMENT = 'SELECT_SUBCOMMENT';
     export const UNSELECT_SUBCOMMENT = 'UNSELECT_SUBCOMMENT';
     export const SET_DROPS_NOT_LOADED = 'SET_DROPS_NOT_LOADED';
+
     export const DELETE_COMMENT_START = 'DELETE_COMMENT_START';
     export const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS';
     export const DELETE_COMMENT_FAILED = 'DELTE_COMMENT_FAILED';
 
+    export const FETCH_MEME_START = 'FETCH_MEME_START';
+    export const FETCH_MEME_SUCCESS = 'FETCH_MEME_SUCCESS';
+    export const FETCH_MEME_FAILED = 'FETCH_MEME_FAILED';
+
+
+
+  
+
+
+
 // CHAT 
-    export const SEND_MESSAGE = 'SEND_MESSAGE';
     export const CHANGE_CHAT = 'CHANGE_CHAT';
     export const SET_CHAT_FORM_HEIGHT = 'SET_CHAT_FORM_HEIGHT';
     export const SET_CHAT_INPUT = 'SET_CHAT_INPUT';
@@ -66,6 +86,12 @@
     export const REPLACE_DUMMY_CHAT = 'REPLACE_DUMMY_CHAT';
     export const CHANGE_CHAT_INPUT = 'CHANGE_CHAT_INPUT';
 
+    export const SEND_NEW_CHAT_START = 'SEND_NEW_CHAT_START';
+    export const SEND_NEW_CHAT_SUCCESS = 'SEND_NEW_CHAT_SUCCESS';
+    export const SEND_NEW_CHAT_FAILED = 'SEND_NEW_CHAT_FAILED';
+    export const SEND_MESSAGE_START = 'SEND_MESSAGE_START';
+    export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
+    export const SEND_MESSAGE_FAILED = 'SEND_MESSAGE_FAILED';
     export const FETCH_FRIENDS_START = 'FETCH_FRIENDS_START';
     export const FETCH_FRIENDS_SUCCESS = 'FETCH_FRIENDS';
     export const FETCH_FRIENDS_FAILED = 'FETCH_FRIENDS'; 

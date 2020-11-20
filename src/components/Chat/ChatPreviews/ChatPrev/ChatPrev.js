@@ -7,7 +7,6 @@ import DefaultProfilePic from "../../../../media/DefaultProfilePic.png";
 import DefaultGroupPic from "../../../../media/DefaultGroupPic.png";
 import Connector from './Connector.svg';
 import * as actions from '../../../../store/actions/index';
-import { acceptFriendRequestFailed } from "../../../../store/actions/chatActions";
 
 
 class ChatPrev extends Component {
@@ -30,6 +29,13 @@ class ChatPrev extends Component {
     }
   }
 
+  getConnector = (up) => {
+    return <img 
+      src={Connector} 
+      alt='' 
+      className={`${up ? classes.ConnectorUp : classes.ConnectorDown}`}/>
+  }
+
 
   render() {
     // const active = this.props.active || this.props.dummyChats.some(chat => chat.chatId === this.props.userId)
@@ -37,10 +43,8 @@ class ChatPrev extends Component {
     if(this.props.active) styleClasses.push(classes.Active);
     return (
       <div onClick={this.clicked} className={styleClasses.join(" ")}>
-        {this.props.active 
-          ? <img src={Connector} alt='' className={`${classes.ConnectorDown} ${this.state.connectorsOut ? classes.Out : classes.In}`}/> 
-          : null } 
-        {this.props.active ? <img src={Connector} alt='' className={classes.ConnectorUp}/> : null } 
+        {this.props.active ? this.getConnector(true) : null } 
+        {this.props.active ? this.getConnector(false) : null } 
         <img src={ this.props.type === "group" ? DefaultGroupPic : DefaultProfilePic }alt=" " className={classes.ProfilePic}/>
         <div className={classes.Info}>
           {this.props.stranger

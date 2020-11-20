@@ -2,13 +2,6 @@ import axios from 'axios';
 
 import * as actionTypes from '../actions/actionTypes';
 
-export const sendMessage = (message) => {
-    return {
-        type: actionTypes.SEND_MESSAGE,
-        message
-    }
-}
-
 export const changeChat = (chatId) => {
     return {
         type: actionTypes.CHANGE_CHAT,
@@ -65,6 +58,88 @@ export const chatInputChangeHandler = (value) => {
     }
 }
 
+
+//--------- NEW CHAT -----------------------------------------------------------
+
+export const sendNewChat = (friendId, message) => {
+    return dispatch => {
+        dispatch(sendNewChatStart());
+        const body = {
+            group: false,
+            members: [friendId],
+            message: message
+        };
+        const token = localStorage.getItem('token');
+        const headers = { headers: { Authorisation: `Bearer ${token}` } }  
+        axios.post('api/chat', body, headers)
+        .then(res => {
+            console.log(res.data);
+            dispatch(sendNewChatSuccess());
+        }).catch(err => {
+            dispatch(sendNewChatFailed());
+            console.log(err)
+            console.log(err.data)
+        })
+    }
+}
+
+export const sendNewChatStart = () => {
+    return {
+        type: actionTypes.SEND_NEW_CHAT_START,
+    }
+}
+
+export const sendNewChatSuccess = () => {
+    return {
+        type: actionTypes.SEND_MESSAGE_SUCCESS,
+    }
+}
+
+export const sendNewChatFailed = () => {
+    return {
+        type: actionTypes.SEND_NEW_CHAT_FAILED,
+    }
+}
+
+
+//--------- SEND MESSAGE -------------------------------------------------------
+
+export const sendMessage = (message, chatId, newChat) => {
+    return dispatch => {
+        dispatch(sendMessageStart());
+        if(newChat){
+            dispatch(sendNewChat())
+        }else{
+            axios.post('')
+            .then(response => {
+                dispatch(sendMessageSuccess());
+            })
+            .catch(err => {
+                dispatch(sendMessageFailed())
+            })
+        }
+    }
+}
+
+export const sendMessageStart = () => {
+    return {
+        type: actionTypes.SEND_MESSAGE_START
+    }
+}
+
+export const sendMessageSuccess = () => {
+    return {
+        type: actionTypes.SEND_MESSAGE_SUCCESS
+    }
+}
+
+export const sendMessageFailed = () => {
+    return {
+        type: actionTypes.SEND_MESSAGE_FAILED
+    }
+}
+
+
 //--------- FETCH FRIEND REQUESTS -----------------------------------------------
 
 export const fetchFriendRequests = (ids) => {
@@ -108,7 +183,8 @@ export const fetchFriendRequestsFailed = () => {
 export const fetchFriends = (ids) => {
     return dispatch => {
         dispatch(fetchFriendsStart());
-        axios.post('/api/users/userdata')
+        const body = { userIds: ids }
+        axios.post('/api/users/userdata', body)
         .then(response => {
             console.log(response.data);
             dispatch(fetchFriendsSuccess(response.data))
@@ -214,10 +290,10 @@ export const sendFriendRequestFailed = (friendId) => {
 
 export const acceptFriendRequest = (friendId, token) => {
     return dispatch => {
-        console.log('TOKEN', token);
         dispatch(acceptFriendRequestStart(friendId))
         const headers = { headers: { authorization : `Bearer ${token}` } }
-        axios.post('/api/users/addFriend', { friendId }, headers)
+        const body = { friendId };
+        axios.post('/api/users/acceptFriendRequest', body, headers)
         .then(response => {
             console.log(response);
             dispatch(acceptFriendRequestSuccess(friendId))
