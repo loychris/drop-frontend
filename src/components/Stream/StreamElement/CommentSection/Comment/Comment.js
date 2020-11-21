@@ -77,19 +77,28 @@ class Comment extends Component {
     return subComments;
   };
 
-
-  render() {
-    const selected = this.props.selectedComment === this.props.id
-    /////////////////////////// DESIGN ELEMENTS /////////////////////// 
-    const SpeechBubbleArrow = !this.props.neuMorphism ? 
+  getSpeechBubbleArrow = (selected) => {
+    return(
       <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= {!selected ? COLOR_COMMENT_BACKGROUND : "rgba(87, 122, 161, 0.6)"}/>
-      </svg> : []
-    ///////////////////////////////////////////////////////////////////
-    let backgroundStyleClasses = [classes.CommentBackground]
-    if(this.props.sending.some(c => c === this.props.id)){
-      backgroundStyleClasses.push(classes.sending);
+      </svg>
+    )
+  }
+
+  clicked = (sending, selected) => {
+    if(selected){
+      return this.props.onUnselectComment
+    }else if(!sending){
+      return () => this.props.onSelectComment(this.props.id, '/')
     }
+  }
+
+
+  render() {
+    let backgroundStyleClasses = [classes.CommentBackground]
+    const selected = this.props.selectedComment === this.props.id
+    const sending = this.props.sending.some(c => c.randId === this.props.id); 
+    if(sending) backgroundStyleClasses.push(classes.sending);
     if(selected) backgroundStyleClasses.push(classes.selected);
       return (
       <div className={classes.CommentContainer}>
@@ -97,16 +106,10 @@ class Comment extends Component {
         {selected ? <CommentMenu token={this.props.token} userComment={this.props.authorId === this.props.userId}/> : null}
         <div className={`${classes.Comment} ${selected ? classes.selected : null}`}>
           <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
-          <div className={backgroundStyleClasses.join(' ')}
-            onClick={ 
-              this.props.sending.some(c => c === this.props.id) 
-                ? () => console.log('Cant select comment yet. Still sending') 
-                : selected 
-                  ? this.props.onUnselectComment 
-                  : () => this.props.onSelectComment(this.props.id, '/')
-            }
-            ref={divElement => (this.divElement = divElement)}
-          >
+          <div 
+            className={backgroundStyleClasses.join(' ')}
+            onClick={this.clicked(sending, selected)}
+            ref={divElement => (this.divElement = divElement)}>
             <Voting 
               upvoted={this.props.upVoted}
               downvoted={this.props.downVoted}
@@ -116,7 +119,7 @@ class Comment extends Component {
               <span className={classes.actualComment}>
                 {this.props.comment.comment}
               </span>
-              {SpeechBubbleArrow}
+              {this.getSpeechBubbleArrow(selected)}
             </div>
           </div>
           {this.getRoot(selected)}

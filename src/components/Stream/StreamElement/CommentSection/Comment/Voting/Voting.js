@@ -37,7 +37,7 @@ class Voting extends Component {
                 let newState;
                 const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
                 const body = this.props.path ? {vote: 'up', voterId: this.props.userId, path: this.props.path } : { vote: 'up' }
-                const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
+                const headers = this.props.token ? { headers: { authorization: `Bearer ${this.props.token}` } } : null 
                 axios.post(
                     route, 
                     body,
@@ -63,7 +63,7 @@ class Voting extends Component {
             if(!this.state.didDownvote){
                 const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
                 const body = this.props.path ? {vote: 'down', voterId: this.props.userId, path: this.props.path } : { vote: 'down'}
-                const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
+                const headers = this.props.token ? { headers: { authorization: `Bearer ${this.props.token}` } } : null 
                 axios.post(
                     route, 
                     body,
@@ -88,7 +88,7 @@ class Voting extends Component {
         } else if(this.state.didDownvote || this.state.didUpvote){
             const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
             const body = this.props.path ? {vote: 'neutral', voterId: this.props.userId, path: this.props.path } : { vote: 'neutral' }
-            const headers = this.props.token ? { headers: { Authorisation: `Bearer ${this.props.token}` } } : null 
+            const headers = this.props.token ? { headers: { authorization: `Bearer ${this.props.token}` } } : null 
             axios.post(
                 route, 
                 body,

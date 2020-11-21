@@ -16,7 +16,7 @@ export const swipe = (dir) => {
 export const fetchIds = (token) => {
     return dispatch => {
         dispatch(fetchIdsStart())
-        const headers = token ? { authorisation: 'Bearer ' + token } : null
+        const headers = token ? { authorization: 'Bearer ' + token } : null
         axios.get('/api/drop/ids', headers )
         .then(res => {
             dispatch(setIds(res.data))
@@ -49,15 +49,6 @@ export const fetchIdsFailed = () => {
 
 //-------- ADD COMMENT -------------------------------------------------------------------
 
-export const addComment = (comment, randId, userId) => {
-    return {
-        type: actionTypes.ADD_COMMENT,
-        comment,
-        randId,
-        userId
-    }
-}
-
 export const selectComment = (commentId, path) => {
     return {
         type: actionTypes.SELECT_COMMENT,
@@ -72,21 +63,53 @@ export const unSelectComment = () => {
     }
 }
 
-//--------  -----------------------------------------------------------------
+//-------- SEND COMMENT -----------------------------------------------------------------
 
 
-export const postCommentFailed = () => {
-    return {
-        type: actionTypes.POST_COMMENT_FAILED
+export const sendComment = ( dropId, comment, token ) => {
+    return dispatch => {
+        dispatch(sendCommentStart(dropId, comment))
+        const url = `/api/drop/${dropId}/comment`;
+        const headers = { headers: { authorization: `Bearer ${token}` } };
+        const body = { authorId: '5fac2d3ec4b7a37c21c784e3', comment: comment.comment };
+        axios.post(url, body, headers)
+        .then(res => {
+            dispatch(sendCommentSuccess(dropId, comment.id, res.data))
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch(sendCommentFailed(dropId, err))
+        })
     }
 }
 
-export const commentSaved = (dropId, comment, path, randId) => {
+export const sendCommentStart = (dropId, comment) => {
     return {
-        type: actionTypes.COMMENT_SAVED,
-        dropId, comment, path, randId
+        type: actionTypes.SEND_COMMENT_START,
+        dropId,
+        comment
     }
 }
+
+export const sendCommentSuccess = (dropId, randId, comment) => {
+    return {
+        type: actionTypes.SEND_COMMENT_SUCCESS,
+        dropId, 
+        randId,
+        comment
+    }
+}
+
+export const sendCommentFailed = (dropId, err) => {
+    return {
+        type: actionTypes.SEND_COMMENT_FAILED,
+        dropId, 
+        err
+    }
+}   
+
+//---------------------------------------------------------------------------------------
+
 
 export const selectSubComment = (commentId, path) => {
     return {
@@ -109,6 +132,7 @@ export const addSubComment = (comment, randId) => {
         randId
     }
 }
+//---------------------------------------------------------------------------------------
 
 export const setDropsNotLoaded = () => {
     return {
@@ -122,7 +146,7 @@ export const deleteComment = (dropId, commentId, path, token ) => {
     return dispatch => {
         dispatch(deleteCommentStart(dropId, commentId, path))
         const url = path ? `/comment/${commentId}` : null
-        const headers = token ? { authorisation: 'Bearer ' + token } : null;
+        const headers = token ? { authorization: 'Bearer ' + token } : null;
         const body = path ? { path } : null;
         axios.delete(url, headers, body)
         .then(() => {
@@ -201,12 +225,11 @@ export const fetchDrop = (dropId, token) => {
     return dispatch => {
         dispatch(fetchDropStart(dropId))
         const url = dropId.startsWith('no more') ? 'apidrop/nomore' : `/api/drop/${dropId}`;
-        const headers = token ? { headers: { Authorisation: `Bearer ${token}` } } : null 
+        const headers = token ? { headers: { authorization: `Bearer ${token}` } } : null 
         axios.get(url, headers)
         .then(res => {
             dispatch(fetchDropSuccess(dropId, res.data))
         }).catch(err => {
-            console.log(err);
             dispatch(fetchDropFailed(dropId))
         })
     }
@@ -251,7 +274,7 @@ export const fetchMemeSuccess = (dropId) => {
     }
 }
 
-//-------- FETCH MEME -----------------------------------------------------------------
+//---------------------------------------------------------------------------------
 
 
 export const selectDropTarget = (id) => {

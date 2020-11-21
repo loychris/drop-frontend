@@ -31,7 +31,11 @@
     export const SWIPE = 'SWIPE';
     export const SELECT_DROPTARGET = 'SELECT_DROPTARGET';
     export const UNSELECT_DROPTARGET = 'UNSELECT_DROPTARGET';
-    export const ADD_COMMENT = 'ADD_COMMENT';
+
+    export const SEND_COMMENT_START = 'SEND_COMMENT_START';
+    export const SEND_COMMENT_SUCCESS = 'SEND_COMMENT_SUCCESS';
+    export const SEND_COMMENT_FAILED = 'SEND_COMMENT_FAILED';
+
     export const ADD_SUBCOMMENT = 'ADD_SUBCOMMENT';
     export const DELETE_COMMENT = 'DELETE_COMMENT';
     export const SELECT_COMMENT = 'SELECT_COMMENT';

@@ -10,16 +10,13 @@ export {
 
 export {
     fetchIds,
-    //fetchComments,
     swipe,
     selectDropTarget,
     unSelectDropTarget,
-    addComment,
+    sendComment,
     deleteComment,
     selectComment,
     unSelectComment,
-    commentSaved,
-    postCommentFailed,
     selectSubComment,
     unSelectSubComment,
     addSubComment,

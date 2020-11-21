@@ -70,7 +70,7 @@ export const sendNewChat = (friendId, message) => {
             message: message
         };
         const token = localStorage.getItem('token');
-        const headers = { headers: { Authorisation: `Bearer ${token}` } }  
+        const headers = { headers: { authorization: `Bearer ${token}` } }  
         axios.post('api/chat', body, headers)
         .then(res => {
             console.log(res.data);

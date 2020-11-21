@@ -32,26 +32,36 @@ class CommentForm extends Component {
             this.props.onOpenAuth("Create an account to write Comments")
         } else {
             this.setState({textareaValue: '', disabled: true});
+
             if(!this.props.subComment){
-                this.props.onAddComment(this.state.textareaValue, randId, this.props.userId);
-                const url = `/api/drop/${this.props.dropId}/comment`;
-                const headers = { headers: { Authorisation: `Bearer ${this.props.token}` } } 
-                const body = { 
+                const newComment = {
+                    id: Date.now(),
+                    comment: this.state.textareaValue, 
                     authorId: this.props.userId, 
-                    comment: this.state.textareaValue 
-                };
-                axios.post(url, body, headers)
-                .then(response => {
-                    this.props.onCommentSaved(this.props.dropId, response.data, null, randId);
-                }).catch(err => {
-                    console.log('POST COMMENT FAILED')
-                    console.log(err)
-                    this.props.onPostCommentFailed();
-                })
+                    posted: new Date(), 
+                    points: 0,
+                    subComments: [],
+                    path: '0'
+                }
+                this.props.onSendComment(this.props.dropId, newComment, this.props.token);
+                // const url = `/api/drop/${this.props.dropId}/comment`;
+                // const headers = { headers: { authorization: `Bearer ${this.props.token}` } } 
+                // const body = { 
+                //     authorId: this.props.userId, 
+                //     comment: this.state.textareaValue 
+                // };
+                // axios.post(url, body, headers)
+                // .then(response => {
+                //     this.props.onCommentSaved(this.props.dropId, response.data, null, randId);
+                // }).catch(err => {
+                //     console.log('POST COMMENT FAILED')
+                //     console.log(err)
+                //     this.props.onPostCommentFailed();
+                //})
             }else{
                 this.props.onAddSubComment(this.state.textareaValue, randId);
                 const route = `/api/comment/${this.props.selectedComment.split('/')[0]}/sub`; 
-                const headers = { headers: { Authorisation: `Bearer ${this.props.token}` } } 
+                const headers = { headers: { authorization: `Bearer ${this.props.token}` } } 
                 const body = { 
                     authorId: this.props.userId, 
                     actualComment: this.state.textareaValue,
@@ -136,17 +146,15 @@ const mapStateToProps = state => {
     return {
         selectedComment: state.stream.selectedComment,
         token: state.auth.token,
-        userId: state.auth.userId
+        userId: state.auth.userId, 
     }
 }
   
 const mapDispatchToProps = dispatch => {
     return {
         onOpenAuth: (authReason) => dispatch(streamActions.openAuth(authReason)),
-        onAddComment: (comment, randId, userId) => dispatch(streamActions.addComment(comment, randId, userId)),
+        onSendComment: (comment, randId, userId) => dispatch(streamActions.sendComment(comment, randId, userId)),
         onAddSubComment: (comment, randId, userId) => dispatch(streamActions.addSubComment(comment, randId, userId)),
-        onCommentSaved: (dropId, comment, path, randId) => {dispatch(streamActions.commentSaved(dropId, comment, path, randId))},
-        onPostCommentFailed: () => dispatch(streamActions.postCommentFailed()),
     }
 }
 

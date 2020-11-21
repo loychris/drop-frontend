@@ -23,7 +23,6 @@ class StreamElement extends Component {
 
   componentDidUpdate = () => {
     if(this.props.streamStatus === 'drops loaded' && this.props.dropStatus === 'not loaded'){
-      console.log(this.props.id);
       this.props.onFetchDrop(this.props.id);
     }
   }
@@ -77,7 +76,7 @@ class StreamElement extends Component {
         cssClasses.push("classes.DroppedByFriend");
       }
     }
-
+    
     return (
       <div
         tabIndex="0"

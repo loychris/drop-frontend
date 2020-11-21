@@ -368,7 +368,7 @@ const fetchDropSuccess = (state, action) => {
             return {
                 ...s,
                 ...action.drop,
-                comments: action.drop.comments.map(c => {return {...c, path:'0'}}),
+                comments: action.drop.comments ? action.drop.comments.map(c => {return {...c, path:'0'}}) : [],
                 title: action.drop.title ? action.drop.title : null,
                 source: action.drop.source ? action.drop.source : null,
                 dropStatus: 'loaded'
@@ -437,9 +437,62 @@ const fetchDropsFailed = (state, action) => {
     return state;
 }
 
-// -------------------------------------------------------------------------------
+// ---------- SEND COMMENT ---------------------------------------------------------------------
 
+const sendCommentStart = (state, action) => {
+    const sendingObject = { dropId: action.dropId, randId: action.comment.id }
+    const sendingNew = [...state.sending, sendingObject];
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(s.id === action.dropId){
+            const commentsNew = [action.comment, ...s.comments];
+            return {
+                ...s,
+                comments: commentsNew
+            }
+        }else {
+            return s 
+        }
+    })
+    return {
+        ...state,
+        sending: sendingNew, 
+        StreamElements: StreamElementsNew,
+    }
+}
 
+const sendCommentSuccess = (state, action) => {
+    console.log(action);
+    const sendingNew = state.sending.filter(c => c.randId !== action.randId);
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(s.id === action.dropId){
+            const commentsNew = s.comments.map(c => {
+                if(c.id === action.comment.randId){
+                    return action.comment
+                }else {
+                    return c 
+                }
+            })
+            return {
+                ...s, 
+                comments: commentsNew
+            }
+        }else {
+            return s
+        }
+    })
+    return {
+        ...state,
+        StreamElements: StreamElementsNew,
+        sending: sendingNew,
+    }
+}
+
+const sendCommentFailed = (state, action) => {
+    console.log(action.err);
+    return {
+        ...state
+    }
+}
 
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
@@ -458,8 +511,6 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.UNSELECT_SUBCOMMENT: return unselectSubComment(state);
 
         case actionTypes.COMMENT_SAVED: return commentSaved(state, action);
-        case actionTypes.ADD_SUBCOMMENT: return addSubComment(state, action);
-        case actionTypes.ADD_COMMENT: return addComment(state, action);
         case actionTypes.SET_DROPS_NOT_LOADED: return setDropsNotLoaded(state, action);
 
         case actionTypes.FETCH_DROPS_START: return fetchDropsStart(state, action);
@@ -473,6 +524,9 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.FETCH_MEME_SUCCESS: return fetchMemeSuccess(state, action);
         case actionTypes.FETCH_MEME_FAILED: return fetchMemeFailed(state, action);
  
+        case actionTypes.SEND_COMMENT_START: return sendCommentStart(state, action);
+        case actionTypes.SEND_COMMENT_SUCCESS: return sendCommentSuccess(state, action);
+        case actionTypes.SEND_COMMENT_FAILED: return sendCommentFailed(state, action);
     
         default: return state;
     }
