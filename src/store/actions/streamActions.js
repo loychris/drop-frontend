@@ -108,6 +108,56 @@ export const sendCommentFailed = (dropId, err) => {
     }
 }   
 
+//-------- SEND SUBCOMMENT -----------------------------------------------------------------
+
+
+export const sendSubComment = ( dropId, subComment, token ) => {
+    return dispatch => {
+        const commentId = subComment.parentPath.split('/')[0];
+        const randPath = subComment.parentPath + '/' + subComment.id;
+        dispatch(sendSubCommentStart(dropId, subComment));
+        const url = `/api/comment/${commentId}/sub`;
+        const headers = { headers: { authorization: `Bearer ${token}` } };
+        const body = { 
+            actualComment: subComment.comment,
+            parentPath: subComment.parentPath
+        };
+        axios.post(url, body, headers)
+        .then(res => {
+            dispatch(sendSubCommentSuccess(dropId, randPath, res.data))
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch(sendSubCommentFailed(dropId, err))
+        })
+    }
+}
+
+export const sendSubCommentStart = (dropId, subComment) => {
+    return {
+        type: actionTypes.SEND_SUBCOMMENT_START,
+        dropId,
+        subComment
+    }
+}
+
+export const sendSubCommentSuccess = (dropId, randPath, subComment) => {
+    return {
+        type: actionTypes.SEND_SUBCOMMENT_SUCCESS,
+        dropId,
+        randPath, 
+        subComment
+    }
+}
+
+export const sendSubCommentFailed = (dropId, err) => {
+    return {
+        type: actionTypes.SEND_SUBCOMMENT_FAILED,
+        dropId, 
+        err
+    }
+}   
+
 //---------------------------------------------------------------------------------------
 
 

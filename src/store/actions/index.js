@@ -14,6 +14,7 @@ export {
     selectDropTarget,
     unSelectDropTarget,
     sendComment,
+    sendSubComment,
     deleteComment,
     selectComment,
     unSelectComment,

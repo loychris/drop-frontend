@@ -46,10 +46,19 @@ const insertSubComment = (parentPath, subComments, comment) => {
     })
 }
 
-const replaceSubCommentId = (subComments, randPath, comment) => {
+const replaceSubCommentId = (subComments, randPath, subComment) => {
+    console.log(subComments);
+    console.log(randPath);
+    console.log(subComment);
     return subComments.map(s => {
-        if(s.path === randPath){ return { ...s, path: comment.path} }
-        else{ return {...s, subComments: replaceSubCommentId(s.subComments, randPath, comment)}}
+        if(s.path === randPath){ 
+            console.log("Reached SubComment")
+            return { ...s, path: subComment.path} 
+        }
+        else{
+            console.log('Going Deepa') 
+            return {...s, subComments: replaceSubCommentId(s.subComments, randPath, subComment)}
+        }
     })
 }
 
@@ -185,21 +194,19 @@ const commentSaved = (state, action) => {
     }
 }
 
-
-const addSubComment = (state, action) => {
-    const randId = action.randId;
-    const newPath = `${state.selectedComment}/${randId}`;
-    const sending = [...state.sending, newPath];
+const sendSubCommentStart = (state, action) => {
+    const { dropId, subComment } = action; 
+    const newPath = `${state.selectedComment}/${subComment.id}`;
+    const sendingNew = [...state.sending, {dropId: dropId, path: newPath}]
     const newSubComment = {
-        id: action.randID,
-        author: "5f5538d269ae656e859629be",
+        id: subComment.id,
+        comment: subComment.comment,
         path: newPath,
         points: 0,
-        comment: action.comment,
-        subComments: [],
+        subComments: []
     }
     const StreamElementsNew = state.StreamElements.map(s => {
-        if(s.position === 1){
+        if(s.id === dropId){
             const comments = s.comments.map(c => {
                 if(state.selectedComment.split('/')[0] === c.id){
                     if(state.selectedComment.split('/').length > 1){
@@ -221,36 +228,48 @@ const addSubComment = (state, action) => {
         }
     })
     return {
-        ...state,
-        StreamElements: StreamElementsNew,
+        ...state, 
+        StreamElements: StreamElementsNew, 
+        sending: sendingNew,
         selectedComment: null,
-        sending 
     }
 }
 
-const addComment = (state, action) => {
-    console.log(`Adding Comment`)
-    const newComment = {
-        id: action.randId,
-        author: action.userId,
-        points: 0,
-        comment: action.comment,
-        subComments: [],
-    }
+const sendSubCommentSuccess = (state, action) => {
+    const { dropId, randPath, subComment } = action;
+    const sendingNew = state.sending.filter(s => {
+        return !(s.dropId === dropId && s.path === randPath)
+    })
     const StreamElementsNew = state.StreamElements.map(s => {
-        if(s.position === 1){
-            const commentsNew = [newComment, ...s.comments]
-            console.log(s.comments.length, commentsNew.length)
+        if(s.id === dropId){
+            const commentsNew = s.comments.map(c => {
+                if(randPath.startsWith(c.id)){
+                    return {
+                        ...c, 
+                        subComments: replaceSubCommentId(c.subComments, randPath, subComment)
+                    }
+                }else {
+                    return c
+                }
+            })
             return {
                 ...s,
                 comments: commentsNew
             }
-        }else { return s }
+        }else {
+            return s
+        }
     })
     return {
         ...state,
-        StreamElements: StreamElementsNew,
-        sending: [...state.sending, action.randId]
+        sending: sendingNew,
+        StreamElements: StreamElementsNew
+    }
+}
+
+const sendSubCommentFailed = (state, action) => {
+    return {
+        ...state
     }
 }
 
@@ -527,6 +546,10 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SEND_COMMENT_START: return sendCommentStart(state, action);
         case actionTypes.SEND_COMMENT_SUCCESS: return sendCommentSuccess(state, action);
         case actionTypes.SEND_COMMENT_FAILED: return sendCommentFailed(state, action);
+
+        case actionTypes.SEND_SUBCOMMENT_START: return sendSubCommentStart(state, action);
+        case actionTypes.SEND_SUBCOMMENT_SUCCESS: return sendSubCommentSuccess(state, action);
+        case actionTypes.SEND_SUBCOMMENT_FAILED: return sendSubCommentFailed(state, action);
     
         default: return state;
     }

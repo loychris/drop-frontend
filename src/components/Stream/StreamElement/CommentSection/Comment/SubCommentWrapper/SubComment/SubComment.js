@@ -50,27 +50,40 @@ class SubComment extends Component {
     )
   };
 
-  render() {
-    const selected = this.props.selectedComment === this.props.path;
-    let parentSelected = this.props.path.startsWith(this.props.selectedComment);
-
-    const SpeechBubbleArrow = 
+  getSpeechBubbleArrow = (selected, parentSelected, sending) => {
+    const color = selected || parentSelected ? COLOR_COMMENT_SELECTED : sending ? 'rgba(255,255,255,0.5)' : COLOR_COMMENT_BACKGROUND
+    return (
       <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" 
-              fill= {parentSelected || selected ? COLOR_COMMENT_SELECTED : COLOR_COMMENT_BACKGROUND }/>
-      </svg> 
+              fill= {color}/>
+      </svg>
+    )
+  }
+
+  clicked = (sending, selected) => {
+    if(sending){
+      return () => {console.log('Comment still sending; cant select yet')}
+    } else if(selected){
+      return () => this.props.onUnselectSubComment(this.props.commentId, this.props.path)
+    } else {
+      return () => this.props.onSelectSubComment(this.props.commentId, this.props.path)
+    }
+  }
+
+
+  render() {
+
+    const selected = this.props.selectedComment === this.props.path;
+    const sending = this.props.sending.some(s => s.dropId === this.props.dropId && s.path === this.props.path)
+    const parentSelected = this.props.path.startsWith(this.props.selectedComment);
+    let backgroundStyleClasses = [classes.CommentBackground]
+    if(sending) backgroundStyleClasses.push(classes.sending);
+    if(selected || parentSelected) backgroundStyleClasses.push() 
 
     const commentStyle = { paddingLeft: `${this.props.depth * INDENT}px` };
     const contentStyle = { left: `${this.props.depth * INDENT + 40}px`, maxWidth: `${545 - INDENT * this.props.depth}px`};
 
-    let backgroundStyleClasses = [classes.CommentBackground]
-    
-    if(this.props.sending.includes(this.props.path)) backgroundStyleClasses.push(classes.sending);
-
-    let hiddenBranches = selected ? this.props.depth : null;
-
-    if(parentSelected) hiddenBranches = this.props.selectedComment.split('/').length -1
-  
+    const hiddenBranches = parentSelected ? this.props.selectedComment.split('/').length -1 : selected ? this.props.depth : null;
 
     return (
       <div className={`${classes.CommentContainer} ${parentSelected || selected ? classes.selected : null}`}>
@@ -81,13 +94,7 @@ class SubComment extends Component {
           <div 
             className={backgroundStyleClasses.join(' ')} 
             ref={divElement => (this.divElement = divElement)}
-            onClick={  
-              this.props.sending.some(c => c === this.props.id) 
-              ? console.log('Cant select comment yet. Still sending') 
-              : selected 
-                ? () => this.props.onUnselectSubComment(this.props.commentId, this.props.path) 
-                : () => this.props.onSelectSubComment(this.props.commentId, this.props.path)}
-          >
+            onClick={this.clicked(sending, selected)}>
             <Voting 
               upvoted={this.props.upVoted}
               downvoted={this.props.downVoted}
@@ -98,7 +105,7 @@ class SubComment extends Component {
               <span className={classes.actualComment} style={contentStyle}>
                 {this.props.actualComment}
               </span>
-              {SpeechBubbleArrow}
+              {this.getSpeechBubbleArrow(selected, parentSelected, sending)}
             </div>
           </div>
         </div>

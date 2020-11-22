@@ -59,23 +59,34 @@ class CommentForm extends Component {
                 //     this.props.onPostCommentFailed();
                 //})
             }else{
-                this.props.onAddSubComment(this.state.textareaValue, randId);
-                const route = `/api/comment/${this.props.selectedComment.split('/')[0]}/sub`; 
-                const headers = { headers: { authorization: `Bearer ${this.props.token}` } } 
-                const body = { 
-                    authorId: this.props.userId, 
-                    actualComment: this.state.textareaValue,
+                const commentId = this.props.selectedComment.split(' ')[0];
+                const newSubComment = {
+                    id: Date.now(),
+                    author: this.props.userId, 
+                    points: 0, 
+                    subComments: [],
+                    comment: this.state.textareaValue, 
                     parentPath: this.props.selectedComment
                 }
-                axios.post(route, body, headers)
-                .then(response => {
-                    console.log('PPPPARENTPATH', this.props.path, this.props.dropId)
-                    this.props.onCommentSaved(this.props.dropId, response.data, this.props.path, randId);
-                }).catch(err => {
-                    console.log('POST COMMENT FAILED')
-                    console.log(err)
-                    this.props.onPostCommentFailed();
-                })
+
+                this.props.onSendSubComment(this.props.dropId, newSubComment, this.props.token )
+                // this.props.onAddSubComment(this.state.textareaValue, randId);
+                // const route = `/api/comment/${this.props.selectedComment.split('/')[0]}/sub`; 
+                // const headers = { headers: { authorization: `Bearer ${this.props.token}` } } 
+                // const body = { 
+                //     authorId: this.props.userId, 
+                //     actualComment: this.state.textareaValue,
+                //     parentPath: this.props.selectedComment
+                // }
+                // axios.post(route, body, headers)
+                // .then(response => {
+                //     console.log('PPPPARENTPATH', this.props.path, this.props.dropId)
+                //     this.props.onCommentSaved(this.props.dropId, response.data, this.props.path, randId);
+                // }).catch(err => {
+                //     console.log('POST COMMENT FAILED')
+                //     console.log(err)
+                //     this.props.onPostCommentFailed();
+                // })
             }
         }
     }
@@ -153,8 +164,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onOpenAuth: (authReason) => dispatch(streamActions.openAuth(authReason)),
-        onSendComment: (comment, randId, userId) => dispatch(streamActions.sendComment(comment, randId, userId)),
-        onAddSubComment: (comment, randId, userId) => dispatch(streamActions.addSubComment(comment, randId, userId)),
+        onSendComment: (dropId, comment, token) => dispatch(streamActions.sendComment(dropId, comment, token)),
+        onSendSubComment: (dropId, subComment, token) => dispatch(streamActions.sendSubComment(dropId, subComment, token)),    
     }
 }
 
