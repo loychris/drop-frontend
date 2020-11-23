@@ -37,6 +37,240 @@ const initialState = {
     sending: [],
 }
 
+// -------- FETCH IDS -----------------------------------------------------------
+
+const fetchIdsStart = (state, action) => {
+    return {
+        ...state,
+        streamStatus: 'loading ids'
+    }
+}
+
+const setIds = (state, action) => {
+    let activeIds = action.ids.slice(0, 21);
+    const ids = action.ids.slice(21, action.ids.length)
+    const StreamElementsNew = state.StreamElements.map((s, i) => {
+        if(s.position === 0){
+            return s
+        }else if(s.position > ids.length-1){
+            return {...s, id: 'no more' + Math.random(), status: 'no more', memeStatus: 'not loaded'} 
+        } else {
+            return { ...s, id: activeIds.pop(), status:'id loaded', memeStatus: 'not loaded'}
+        }
+    })
+    return {
+        ...state,
+        ids,
+        currentIds: action.ids.slice(0,21),
+        currentlyLoadingMemeId: StreamElementsNew[1].id,
+        StreamElements: StreamElementsNew,
+        streamStatus: 'ids loaded'
+    }
+}
+
+const fetchIdsFailed = (state, action) => {
+    return { ...state, streamStatus: 'ids failed' }
+}
+
+
+// -------- FETCH DROPS ----------------------------------------------------------
+
+const fetchDropsStart = (state, action) => {
+    return state;
+}
+
+const setDrops = (state, action) => {
+    console.log(action.drops);
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(s.position === 0){
+            return { position: 0, show: "left", id: "0", dropStatus: 'loaded', comments: [], memeStatus: 'loading'}
+        }
+        const drop = action.drops.find(d => d.dropId === s.id); 
+        
+        if(drop){
+            console.log("Found drop!")
+            return {
+                ...s,
+                comments: drop.comments.map(c => {return {...c, path:'0'}}),
+                title: drop.title ? drop.title : null,
+                source: drop.source ? drop.source : null,
+                dropStatus: 'loaded',
+            }
+        }else {
+            return s
+        }
+    })
+    
+    return {
+        ...state,
+        StreamElements: StreamElementsNew,
+        streamStatus: 'drops loaded'
+    }
+}
+
+const fetchDropsFailed = (state, action) => {
+    return state;
+}
+
+// -------- FETCH MEME ----------------------------------------------------------
+
+
+const fetchMemeSuccess = (state, action) => {
+    let nextPos; 
+    let nextId = 'no more';
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(action.dropId === s.id){
+            nextPos = s.position + 1 
+            return {
+                ...s, 
+                memeStatus: 'loaded'
+            }
+        } else if(s.position === nextPos) {
+            nextId = s.id
+            return s
+        } else {
+            return s
+        }
+    })
+    return {
+        ...state,
+        StreamElements: StreamElementsNew,
+        currentlyLoadingMemeId: nextId
+    }
+}
+
+const fetchMemeFailed = (state, action) => {
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(s.id === action.dropId){
+            return {
+                ...s,
+                memeStatus: 'failed'
+            }
+        } else { return s }
+    })
+    return {
+        ...state, 
+        StreamElements: StreamElementsNew
+    }
+}
+
+// -------- FETCH DROP ----------------------------------------------------------
+
+const fetchDropStart = (state, action) => {
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(s.id === action.dropId){
+            return {
+                ...s,
+                dropStatus: 'loading',
+            }
+        }else {
+            return s
+        }
+    })
+    return {
+        ...state,
+        StreamElements: StreamElementsNew
+    }
+}
+
+const fetchDropSuccess = (state, action) => {
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(s.id === action.dropId){
+            return {
+                ...s,
+                ...action.drop,
+                comments: action.drop.comments ? action.drop.comments.map(c => {return {...c, path:'0'}}) : [],
+                title: action.drop.title ? action.drop.title : null,
+                source: action.drop.source ? action.drop.source : null,
+                dropStatus: 'loaded'
+            }
+        }else {
+            return s
+        }
+    })
+    return {
+        ...state,
+        StreamElements: StreamElementsNew
+    }
+}
+
+const fetchDropFailed = (state, action) => {
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(s.id === action.dropId){
+            return {
+                ...s,
+                dropStatus: 'failed',
+            }
+        }else {
+            return s
+        }
+    })
+    return {
+        ...state,
+        StreamElements: StreamElementsNew
+    }
+}
+
+
+// ---------- SEND COMMENT ---------------------------------------------------------------------
+
+const sendCommentStart = (state, action) => {
+    const sendingObject = { dropId: action.dropId, randId: action.comment.id }
+    const sendingNew = [...state.sending, sendingObject];
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(s.id === action.dropId){
+            const commentsNew = [action.comment, ...s.comments];
+            return {
+                ...s,
+                comments: commentsNew
+            }
+        }else {
+            return s 
+        }
+    })
+    return {
+        ...state,
+        sending: sendingNew, 
+        StreamElements: StreamElementsNew,
+    }
+}
+
+const sendCommentSuccess = (state, action) => {
+    console.log(action);
+    const sendingNew = state.sending.filter(c => c.randId !== action.randId);
+    const StreamElementsNew = state.StreamElements.map(s => {
+        if(s.id === action.dropId){
+            const commentsNew = s.comments.map(c => {
+                if(c.id === action.comment.randId){
+                    return action.comment
+                }else {
+                    return c 
+                }
+            })
+            return {
+                ...s, 
+                comments: commentsNew
+            }
+        }else {
+            return s
+        }
+    })
+    return {
+        ...state,
+        StreamElements: StreamElementsNew,
+        sending: sendingNew,
+    }
+}
+
+const sendCommentFailed = (state, action) => {
+    console.log(action.err);
+    return {
+        ...state
+    }
+}
+
+// -----------------------------------------------------------------------------
+
 
 const insertSubComment = (parentPath, subComments, comment) => {
     return subComments.map(s => {
@@ -284,234 +518,6 @@ const setDropsNotLoaded = (state, action) => {
     }
 }
 
-// -------- FETCH IDS -----------------------------------------------------------
-
-const fetchIdsStart = (state, action) => {
-    return {
-        ...state,
-        streamStatus: 'loading ids'
-    }
-}
-
-const setIds = (state, action) => {
-    let activeIds = action.ids.slice(0, 21);
-    const ids = action.ids.slice(21, action.ids.length)
-    const StreamElementsNew = state.StreamElements.map((s, i) => {
-        if(s.position === 0){
-            return s
-        }else if(s.position > ids.length-1){
-            return {...s, id: 'no more' + Math.random(), status: 'no more', memeStatus: 'not loaded'} 
-        } else {
-            return { ...s, id: activeIds.pop(), status:'id loaded', memeStatus: 'not loaded'}
-        }
-    })
-    return {
-        ...state,
-        ids,
-        currentIds: action.ids.slice(0,21),
-        currentlyLoadingMemeId: StreamElementsNew[1].id,
-        StreamElements: StreamElementsNew,
-        streamStatus: 'ids loaded'
-    }
-}
-
-const fetchIdsFailed = (state, action) => {
-    return { ...state, streamStatus: 'ids failed' }
-}
-
-
-// -------- FETCH MEME ----------------------------------------------------------
-
-
-const fetchMemeSuccess = (state, action) => {
-    let nextPos; 
-    let nextId = 'no more';
-    const StreamElementsNew = state.StreamElements.map(s => {
-        if(action.dropId === s.id){
-            nextPos = s.position + 1 
-            return {
-                ...s, 
-                memeStatus: 'loaded'
-            }
-        } else if(s.position === nextPos) {
-            nextId = s.id
-            return s
-        } else {
-            return s
-        }
-    })
-    return {
-        ...state,
-        StreamElements: StreamElementsNew,
-        currentlyLoadingMemeId: nextId
-    }
-}
-
-const fetchMemeFailed = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map(s => {
-        if(s.id === action.dropId){
-            return {
-                ...s,
-                memeStatus: 'failed'
-            }
-        } else { return s }
-    })
-    return {
-        ...state, 
-        StreamElements: StreamElementsNew
-    }
-}
-
-// -------- FETCH DROP ----------------------------------------------------------
-
-const fetchDropStart = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map(s => {
-        if(s.id === action.dropId){
-            return {
-                ...s,
-                dropStatus: 'loading',
-            }
-        }else {
-            return s
-        }
-    })
-    return {
-        ...state,
-        StreamElements: StreamElementsNew
-    }
-}
-
-const fetchDropSuccess = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map(s => {
-        if(s.id === action.dropId){
-            return {
-                ...s,
-                ...action.drop,
-                comments: action.drop.comments ? action.drop.comments.map(c => {return {...c, path:'0'}}) : [],
-                title: action.drop.title ? action.drop.title : null,
-                source: action.drop.source ? action.drop.source : null,
-                dropStatus: 'loaded'
-            }
-        }else {
-            return s
-        }
-    })
-    return {
-        ...state,
-        StreamElements: StreamElementsNew
-    }
-}
-
-const fetchDropFailed = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map(s => {
-        if(s.id === action.dropId){
-            return {
-                ...s,
-                dropStatus: 'failed',
-            }
-        }else {
-            return s
-        }
-    })
-    return {
-        ...state,
-        StreamElements: StreamElementsNew
-    }
-}
-
-// -------- FETCH DROPS ----------------------------------------------------------
-
-
-const fetchDropsStart = (state, action) => {
-    return state;
-}
-
-const setDrops = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map(s => {
-        if(s.position === 0){
-            return { position: 0, show: "left", id: "0", dropStatus: 'loaded', comments: [], memeStatus: 'loading'}
-        }
-        const drop = action.drops.find(d => d._id === s.id); 
-        if(drop){
-            return {
-                ...s,
-                comments: drop.comments.map(c => {return {...c, path:'0'}}),
-                title: drop.title ? drop.title : null,
-                source: drop.source ? drop.source : null,
-                dropStatus: 'loaded',
-            }
-        }else {
-            return s
-        }
-    })
-    
-    return {
-        ...state,
-        StreamElements: StreamElementsNew,
-        streamStatus: 'drops loaded'
-    }
-}
-
-const fetchDropsFailed = (state, action) => {
-    return state;
-}
-
-// ---------- SEND COMMENT ---------------------------------------------------------------------
-
-const sendCommentStart = (state, action) => {
-    const sendingObject = { dropId: action.dropId, randId: action.comment.id }
-    const sendingNew = [...state.sending, sendingObject];
-    const StreamElementsNew = state.StreamElements.map(s => {
-        if(s.id === action.dropId){
-            const commentsNew = [action.comment, ...s.comments];
-            return {
-                ...s,
-                comments: commentsNew
-            }
-        }else {
-            return s 
-        }
-    })
-    return {
-        ...state,
-        sending: sendingNew, 
-        StreamElements: StreamElementsNew,
-    }
-}
-
-const sendCommentSuccess = (state, action) => {
-    console.log(action);
-    const sendingNew = state.sending.filter(c => c.randId !== action.randId);
-    const StreamElementsNew = state.StreamElements.map(s => {
-        if(s.id === action.dropId){
-            const commentsNew = s.comments.map(c => {
-                if(c.id === action.comment.randId){
-                    return action.comment
-                }else {
-                    return c 
-                }
-            })
-            return {
-                ...s, 
-                comments: commentsNew
-            }
-        }else {
-            return s
-        }
-    })
-    return {
-        ...state,
-        StreamElements: StreamElementsNew,
-        sending: sendingNew,
-    }
-}
-
-const sendCommentFailed = (state, action) => {
-    console.log(action.err);
-    return {
-        ...state
-    }
-}
 
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {

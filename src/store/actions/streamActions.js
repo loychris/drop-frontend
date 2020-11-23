@@ -11,7 +11,7 @@ export const swipe = (dir) => {
     }
 }
 
-//-------- FETCH IDS  -----------------------------------------------------------------
+//-------- FETCH IDS -----------------------------------------------------------------
 
 export const fetchIds = (token) => {
     return dispatch => {
@@ -47,7 +47,44 @@ export const fetchIdsFailed = () => {
     }
 }
 
-//-------- ADD COMMENT -------------------------------------------------------------------
+//-------- FETCH DROPS -----------------------------------------------------------------
+
+export const fetchDrops = (ids) => {
+    return dispatch => {
+        dispatch(fetchDropsStart())
+        const headers = {};
+        const body = { ids: ids }
+        axios.post('/api/drop/drops', body, headers)
+        .then(res => {
+            dispatch(setDrops(res.data))
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch(fetchDropsFailed())
+        })
+    }
+}
+
+export const fetchDropsStart  = () => {
+    return {
+        type: actionTypes.FETCH_DROPS_START
+    }
+}
+
+export const setDrops  = (drops) => {
+    return {
+        type: actionTypes.SET_DROPS,
+        drops
+    }
+}
+
+export const fetchDropsFailed  = (drops) => {
+    return {
+        type: actionTypes.FETCH_DROP_FAILED
+    }
+}
+
+//-------- SELECT COMMENT -------------------------------------------------------------------
 
 export const selectComment = (commentId, path) => {
     return {
@@ -63,8 +100,21 @@ export const unSelectComment = () => {
     }
 }
 
-//-------- SEND COMMENT -----------------------------------------------------------------
+export const selectSubComment = (commentId, path) => {
+    return {
+        type: actionTypes.SELECT_SUBCOMMENT,
+        commentId,
+        path
+    }
+}
 
+export const unSelectSubComment = () => {
+    return {
+        type: actionTypes.UNSELECT_SUBCOMMENT,
+    }
+}
+
+//-------- SEND COMMENT -----------------------------------------------------------------
 
 export const sendComment = ( dropId, comment, token ) => {
     return dispatch => {
@@ -160,30 +210,6 @@ export const sendSubCommentFailed = (dropId, err) => {
 
 //---------------------------------------------------------------------------------------
 
-
-export const selectSubComment = (commentId, path) => {
-    return {
-        type: actionTypes.SELECT_SUBCOMMENT,
-        commentId,
-        path
-    }
-}
-
-export const unSelectSubComment = () => {
-    return {
-        type: actionTypes.UNSELECT_SUBCOMMENT,
-    }
-}
-
-export const addSubComment = (comment, randId) => {
-    return {
-        type: actionTypes.ADD_SUBCOMMENT,
-        comment,
-        randId
-    }
-}
-//---------------------------------------------------------------------------------------
-
 export const setDropsNotLoaded = () => {
     return {
         type: actionTypes.SET_DROPS_NOT_LOADED
@@ -232,42 +258,6 @@ export const deleteCommentFailed = () => {
     }
 }
 
-//-------- FETCH DROPS -----------------------------------------------------------------
-
-export const fetchDrops = (ids) => {
-    return dispatch => {
-        dispatch(fetchDropsStart())
-        const headers = {};
-        const body = { ids: ids }
-        axios.post('/api/drop/drops', body, headers)
-        .then(res => {
-            dispatch(setDrops(res.data))
-        })
-        .catch(err => {
-            console.log(err);
-            dispatch(fetchDropsFailed())
-        })
-    }
-}
-
-export const fetchDropsStart  = () => {
-    return {
-        type: actionTypes.FETCH_DROPS_START
-    }
-}
-
-export const setDrops  = (drops) => {
-    return {
-        type: actionTypes.SET_DROPS,
-        drops
-    }
-}
-
-export const fetchDropsFailed  = (drops) => {
-    return {
-        type: actionTypes.FETCH_DROP_FAILED
-    }
-}
 
 // -------- FETCH DROP ----------------------------------------------------------
 

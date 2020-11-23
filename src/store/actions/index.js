@@ -20,7 +20,6 @@ export {
     unSelectComment,
     selectSubComment,
     unSelectSubComment,
-    addSubComment,
     setDropsNotLoaded,
     fetchDrop,
     fetchMemeSuccess,

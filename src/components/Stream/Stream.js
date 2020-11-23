@@ -29,10 +29,10 @@ class Stream extends Component {
   componentDidMount() {
     document.addEventListener("keyup", this.keyboardSwipeHandler, false);
     document.addEventListener("keydown", this.keypressHandler, false);
-    this.props.onFetchIds();
   }
 
   componentDidUpdate() {
+    console.log('UPDATING', this.props.streamStatus);
     if(this.props.streamStatus === 'nothing loaded'){
       this.props.onFetchIds();
     }
