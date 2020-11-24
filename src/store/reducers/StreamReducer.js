@@ -37,7 +37,52 @@ const initialState = {
     sending: [],
 }
 
-// -------- FETCH IDS -----------------------------------------------------------
+// ----- UTIL --------------------------------------------------------------------
+
+const insertSubComment = (parentPath, subComments, comment) => {
+    return subComments.map(s => {
+        if(s.path === parentPath) return { ...s, subComments: [...s.subComments, comment] } 
+        if(parentPath.startsWith(s.path)) return {...s, subComments: insertSubComment(parentPath, s.subComments, comment) }
+        else return s 
+    })
+}
+
+const replaceSubCommentId = (subComments, randPath, subComment) => {
+    console.log(subComments);
+    console.log(randPath);
+    console.log(subComment);
+    return subComments.map(s => {
+        if(s.path === randPath){ 
+            console.log("Reached SubComment")
+            return { ...s, path: subComment.path} 
+        }
+        else{
+            console.log('Going Deepa') 
+            return {...s, subComments: replaceSubCommentId(s.subComments, randPath, subComment)}
+        }
+    })
+}
+
+const scrollToTop = () => {
+    const c = document.documentElement.scrollTop || document.body.scrollTop;
+    if (c > 0) {
+      window.requestAnimationFrame(scrollToTop);
+      window.scrollTo(0, c - c / 10);
+    }
+};
+
+const setDropsNotLoaded = (state, action) => {
+    const StreamElementsNew = state.StreamElements.map((s,i) => {
+        return {...s, show: i === 0 ? 'left' : 'show', id: `${i}`, status: 'not loaded', dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'}
+    })
+    return {
+        ...state, 
+        StreamElements: StreamElementsNew,
+        streamStatus: 'nothing loaded'
+    }
+}
+
+// ----- FETCH IDS -----------------------------------------------------------
 
 const fetchIdsStart = (state, action) => {
     return {
@@ -73,22 +118,19 @@ const fetchIdsFailed = (state, action) => {
 }
 
 
-// -------- FETCH DROPS ----------------------------------------------------------
+// ----- FETCH DROPS ----------------------------------------------------------
 
 const fetchDropsStart = (state, action) => {
     return state;
 }
 
 const setDrops = (state, action) => {
-    console.log(action.drops);
     const StreamElementsNew = state.StreamElements.map(s => {
         if(s.position === 0){
             return { position: 0, show: "left", id: "0", dropStatus: 'loaded', comments: [], memeStatus: 'loading'}
         }
         const drop = action.drops.find(d => d.dropId === s.id); 
-        
         if(drop){
-            console.log("Found drop!")
             return {
                 ...s,
                 comments: drop.comments.map(c => {return {...c, path:'0'}}),
@@ -112,7 +154,7 @@ const fetchDropsFailed = (state, action) => {
     return state;
 }
 
-// -------- FETCH MEME ----------------------------------------------------------
+// ----- FETCH MEME ----------------------------------------------------------
 
 
 const fetchMemeSuccess = (state, action) => {
@@ -154,7 +196,7 @@ const fetchMemeFailed = (state, action) => {
     }
 }
 
-// -------- FETCH DROP ----------------------------------------------------------
+// ----- FETCH DROP ----------------------------------------------------------
 
 const fetchDropStart = (state, action) => {
     const StreamElementsNew = state.StreamElements.map(s => {
@@ -212,7 +254,7 @@ const fetchDropFailed = (state, action) => {
 }
 
 
-// ---------- SEND COMMENT ---------------------------------------------------------------------
+// ----- SEND COMMENT ---------------------------------------------------------------------
 
 const sendCommentStart = (state, action) => {
     const sendingObject = { dropId: action.dropId, randId: action.comment.id }
@@ -269,40 +311,7 @@ const sendCommentFailed = (state, action) => {
     }
 }
 
-// -----------------------------------------------------------------------------
-
-
-const insertSubComment = (parentPath, subComments, comment) => {
-    return subComments.map(s => {
-        if(s.path === parentPath) return { ...s, subComments: [...s.subComments, comment] } 
-        if(parentPath.startsWith(s.path)) return {...s, subComments: insertSubComment(parentPath, s.subComments, comment) }
-        else return s 
-    })
-}
-
-const replaceSubCommentId = (subComments, randPath, subComment) => {
-    console.log(subComments);
-    console.log(randPath);
-    console.log(subComment);
-    return subComments.map(s => {
-        if(s.path === randPath){ 
-            console.log("Reached SubComment")
-            return { ...s, path: subComment.path} 
-        }
-        else{
-            console.log('Going Deepa') 
-            return {...s, subComments: replaceSubCommentId(s.subComments, randPath, subComment)}
-        }
-    })
-}
-
-const scrollToTop = () => {
-    const c = document.documentElement.scrollTop || document.body.scrollTop;
-    if (c > 0) {
-      window.requestAnimationFrame(scrollToTop);
-      window.scrollTo(0, c - c / 10);
-    }
-};
+// ----- DROP TO FRIEND 
 
 const selectDropTarget = (state, action) => {
     return {
@@ -329,6 +338,8 @@ const unselectDropTarget = (state, action) => {
         })
     }
 }
+
+// ----- SWIPE -----------------------------------------------------------------------
 
 const swipe = (state, action) => {
     const timestamp  = Date.now();
@@ -373,6 +384,9 @@ const swipe = (state, action) => {
     }
 }
 
+// ----- SELECT COMMENT ---------------------------------------------------------------------
+
+
 const selectComment = (state, action) => {
     return { ...state, selectedComment: action.commentId }
 }
@@ -389,44 +403,7 @@ const unselectSubComment = (state) => {
     return { ...state, selectedComment: null }
 }
 
-const commentSaved = (state, action) => {
-    const { dropId, comment, path, randId } = action
-    console.log(comment)
-    const randPath = path ? `${path}/${randId}` : randId
-    //replace all paths that contain randId with real path from Server
-    const sendingNew = state.sending.filter(p => {
-        return !(p.includes(randId))
-    })
-    const StreamElementsNew = state.StreamElements.map(s => {
-        if(s.id !== dropId){
-            return s
-        } else {
-            return {
-                ...s,
-                comments: s.comments.map(c => {
-                    if(randPath.startsWith(c.id)){
-                        if(path){
-                            return {
-                                ...c,
-                                subComments: replaceSubCommentId(c.subComments, randPath, comment)
-                            }
-                        } else {
-                            return {...c, id: comment.id}
-                        }
-                    }else {
-                        return c
-                    }
-
-                })
-            }
-        }
-    })
-    return {
-        ...state,
-        StreamElements: StreamElementsNew,
-        sending: sendingNew
-    }
-}
+// ----- SEND SUBCOMMENT -------------------------------------------------------------------------
 
 const sendSubCommentStart = (state, action) => {
     const { dropId, subComment } = action; 
@@ -507,18 +484,6 @@ const sendSubCommentFailed = (state, action) => {
     }
 }
 
-const setDropsNotLoaded = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map((s,i) => {
-        return {...s, show: i === 0 ? 'left' : 'show', id: `${i}`, status: 'not loaded', dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'}
-    })
-    return {
-        ...state, 
-        StreamElements: StreamElementsNew,
-        streamStatus: 'nothing loaded'
-    }
-}
-
-
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
         case actionTypes.SELECT_DROPTARGET: return selectDropTarget(state, action);
@@ -535,7 +500,6 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SELECT_SUBCOMMENT: return selectSubComment(state, action);
         case actionTypes.UNSELECT_SUBCOMMENT: return unselectSubComment(state);
 
-        case actionTypes.COMMENT_SAVED: return commentSaved(state, action);
         case actionTypes.SET_DROPS_NOT_LOADED: return setDropsNotLoaded(state, action);
 
         case actionTypes.FETCH_DROPS_START: return fetchDropsStart(state, action);

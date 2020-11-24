@@ -15,6 +15,7 @@ import classes from "./Comment.module.css";
 
 export const COLOR_COMMENT_BACKGROUND = 'rgba(0, 2, 10, 0.6)';
 export const COLOR_COMMENT_BACKGORUND_HIGHLIGHTED = 'rgba(100, 0, 0, 0.6)';
+const COLOR_COMMENT_SELECTED = 'rgba(87, 122, 161, 0.6)'
 
 
 class Comment extends Component {
@@ -77,10 +78,12 @@ class Comment extends Component {
     return subComments;
   };
 
-  getSpeechBubbleArrow = (selected) => {
-    return(
+  getSpeechBubbleArrow = (selected, sending) => {
+    const color = selected ? COLOR_COMMENT_SELECTED : sending ? 'rgba(255,255,255,0.5)' : COLOR_COMMENT_BACKGROUND
+    return (
       <svg className={classes.SpeechBubbleArrow} width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" fill= {!selected ? COLOR_COMMENT_BACKGROUND : "rgba(87, 122, 161, 0.6)"}/>
+        <path fillRule="evenodd" clipRule="evenodd" d="M17.1946 1.09753C15.127 2.89687 11.5635 5.9083 8 8.49986C5.64212 10.2146 7.62939e-06 9.99998 7.62939e-06 9.99998C7.62939e-06 9.99998 6.54393 10.8743 9.5 13.4999C13.3722 16.9392 13.9978 25.9679 14 25.9998L14 10C14 6.61858 15.1988 3.51715 17.1946 1.09753Z" 
+              fill= {color}/>
       </svg>
     )
   }
@@ -119,7 +122,7 @@ class Comment extends Component {
               <span className={classes.actualComment}>
                 {this.props.comment.comment}
               </span>
-              {this.getSpeechBubbleArrow(selected)}
+              {this.getSpeechBubbleArrow(selected, sending)}
             </div>
           </div>
           {this.getRoot(selected)}

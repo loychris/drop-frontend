@@ -32,7 +32,6 @@ class Stream extends Component {
   }
 
   componentDidUpdate() {
-    console.log('UPDATING', this.props.streamStatus);
     if(this.props.streamStatus === 'nothing loaded'){
       this.props.onFetchIds();
     }

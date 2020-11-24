@@ -33,7 +33,7 @@ class CommentForm extends Component {
         } else {
             this.setState({textareaValue: '', disabled: true});
 
-            if(!this.props.subComment){
+            if(!this.props.subComment) {
                 const newComment = {
                     id: Date.now(),
                     comment: this.state.textareaValue, 
@@ -44,21 +44,7 @@ class CommentForm extends Component {
                     path: '0'
                 }
                 this.props.onSendComment(this.props.dropId, newComment, this.props.token);
-                // const url = `/api/drop/${this.props.dropId}/comment`;
-                // const headers = { headers: { authorization: `Bearer ${this.props.token}` } } 
-                // const body = { 
-                //     authorId: this.props.userId, 
-                //     comment: this.state.textareaValue 
-                // };
-                // axios.post(url, body, headers)
-                // .then(response => {
-                //     this.props.onCommentSaved(this.props.dropId, response.data, null, randId);
-                // }).catch(err => {
-                //     console.log('POST COMMENT FAILED')
-                //     console.log(err)
-                //     this.props.onPostCommentFailed();
-                //})
-            }else{
+            } else {
                 const commentId = this.props.selectedComment.split(' ')[0];
                 const newSubComment = {
                     id: Date.now(),
@@ -68,25 +54,7 @@ class CommentForm extends Component {
                     comment: this.state.textareaValue, 
                     parentPath: this.props.selectedComment
                 }
-
                 this.props.onSendSubComment(this.props.dropId, newSubComment, this.props.token )
-                // this.props.onAddSubComment(this.state.textareaValue, randId);
-                // const route = `/api/comment/${this.props.selectedComment.split('/')[0]}/sub`; 
-                // const headers = { headers: { authorization: `Bearer ${this.props.token}` } } 
-                // const body = { 
-                //     authorId: this.props.userId, 
-                //     actualComment: this.state.textareaValue,
-                //     parentPath: this.props.selectedComment
-                // }
-                // axios.post(route, body, headers)
-                // .then(response => {
-                //     console.log('PPPPARENTPATH', this.props.path, this.props.dropId)
-                //     this.props.onCommentSaved(this.props.dropId, response.data, this.props.path, randId);
-                // }).catch(err => {
-                //     console.log('POST COMMENT FAILED')
-                //     console.log(err)
-                //     this.props.onPostCommentFailed();
-                // })
             }
         }
     }
@@ -109,18 +77,16 @@ class CommentForm extends Component {
         )
     }
 
+    getBranches = (depth, treeString) => {
+        if(!this.props.path) return null
+        return <Branches hideBranches={depth-1} treeString={treeString} height={61} path={this.props.path}/>
+    }
+
     render(){
         const depth = this.props.path ? this.props.path.split("/").length : 0;
         const commentInputStyles = { paddingLeft: `${depth * INDENT}px` };
         const contentStyle = { left: `${(depth+1) * INDENT + 40}px`, maxWidth: `${545 - INDENT * depth}px` };
         const treeString = this.props.treeString ? [...this.props.treeString.slice(1), 'L'] : ['L']
-        const branches = this.props.path ? 
-            <Branches
-                hideBranches={depth-1}
-                treeString={treeString}
-                height={61}
-                path={this.props.path}
-            /> : null
 
         return(
             <div className={classes.CommentForm}
@@ -147,7 +113,7 @@ class CommentForm extends Component {
                         </div>
                     </div>
                 </div>
-                {branches}
+                {this.getBranches(depth, treeString)}
             </div>
         )
     }
