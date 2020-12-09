@@ -8,7 +8,6 @@ import Content from "./Content/Content";
 import CommentSection from "./CommentSection/CommentSection";
 import DroppedToYouBy from "./DroppedToYouBy/DroppedToYouBy";
 import DropButton from "../../UI/DropButton/DropButton";
-import Source from "./Source/Source";
 
 // import LogoForButton from '../../../media/LogoForButton.png';
 
@@ -89,12 +88,8 @@ class StreamElement extends Component {
           position={this.props.position} 
           dropId={this.props.id} 
           status={this.props.status} 
+          source={this.props.source}
           memeStatus={this.props.memeStatus}/>
-        {
-          this.props.source ? 
-          <Source sourceURL={this.props.source} /> 
-          : null
-        }
         <DropButton theme={NEUMORPHISM} clicked={this.dropButtonClicked}>
           <h3 className={classes.DROP}>Drop</h3>
         </DropButton>

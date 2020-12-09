@@ -21,7 +21,7 @@
     margin: 0;
     padding: 0;
     padding-top: 20px;
-    font-size: 50pt;
+    font-size: 40pt;
     color: red;
     animation: blinker 1s linear infinite;
  }
@@ -45,7 +45,7 @@
   .Creator input[type=email] {
     width: 300px; 
     height: 40px;
-    font-size: 15pt; 
+    font-size: 12pt; 
     padding: 3px 15px;
     border: none;
     border-radius: 10px;
@@ -66,7 +66,7 @@
 }
 
 .SendButton{
-  font-size: 15pt; 
+  font-size: 12pt; 
   text-align: center;
   max-height: 40px;
   width: 170px;
@@ -92,6 +92,7 @@
   width: 50px;
   left: 50%;
   margin-left: -25px;
+  margin-bottom: 50px; 
 }
 
 .Sending {
@@ -110,4 +111,5 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 15px;
+  margin-top: 30px; 
 }

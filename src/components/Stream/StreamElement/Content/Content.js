@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
 
 import * as actions from '../../../../store/actions';
+import Source from './Source/Source';
 import classes from './Content.module.css';
 
 
@@ -19,16 +20,23 @@ class Content extends Component {
     render() {
         return(
             <div className={classes.Content}>
-                {
-                    (this.props.memeStatus === 'loaded' || this.props.currentlyLoadingMemeId === this.props.dropId) && this.props.position < 10
-                    ? <img 
-                        alt={`Meme ${this.props.id}`} 
-                        className={classes.Meme} 
-                        src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`}
-                        onLoad={() => this.props.onFetchMemeSuccess(this.props.dropId)}/>
-                    : null
-                }
-                {this.getLoader()} 
+                <div className={classes.ContentContainer}>
+                    {
+                        (this.props.memeStatus === 'loaded' || this.props.currentlyLoadingMemeId === this.props.dropId) && this.props.position < 10
+                        ? <img 
+                            alt={`Meme ${this.props.id}`} 
+                            className={classes.Meme} 
+                            src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`}
+                            onLoad={() => this.props.onFetchMemeSuccess(this.props.dropId)}/>
+                        : null
+                    }
+                    {this.getLoader()} 
+                    {
+                        this.props.source ? 
+                        <Source sourceURL={this.props.source} /> 
+                        : null
+                    }
+                </div>
             </div>
         )
     }

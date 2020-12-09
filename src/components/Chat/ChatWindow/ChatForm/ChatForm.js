@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classes from './ChatForm.module.css';
 
-import NeumorphismButton from '../../UI/NeumorphismButton/NeumorphismButton';
+import NeumorphismButton from '../../../UI/NeumorphismButton/NeumorphismButton';
 
-import * as actions from '../../../store/actions/index';
+import * as actions from '../../../../store/actions/index';
 
 
 class ChatForm extends Component {
@@ -18,9 +18,6 @@ class ChatForm extends Component {
     componentDidMount = () => {
         this.multilineTextarea.style.height = 'auto';
         this.multilineTextarea.style.height = `${this.multilineTextarea.scrollHeight}px`;
-        // this.props.onChangeFormHeight(this.multilineTextarea.scrollHeight+10);    
-        //this.multilineTextarea.focus()
-        // this.multilineTextarea.style.height = this.multilineTextarea.scrollHeight + 'px';
     }
 
     componentDidUpdate = () => {
@@ -28,10 +25,12 @@ class ChatForm extends Component {
     }
 
     onChangeHandler = (event) => {
-        this.props.onChatInputChangeHandler(event.target.value);
-        if(this.multilineTextarea.scrollHeight !== this.props.formHeight){
-            this.props.onChangeFormHeight(0)
-            this.props.onChangeFormHeight(this.multilineTextarea.scrollHeight);
+        if(this.props.currentChatLoaded){
+            this.props.onChatInputChangeHandler(event.target.value);
+            if(this.multilineTextarea.scrollHeight !== this.props.formHeight){
+                this.props.onChangeFormHeight(0)
+                this.props.onChangeFormHeight(this.multilineTextarea.scrollHeight);
+            }
         }
     }
 
@@ -50,12 +49,12 @@ class ChatForm extends Component {
         this.props.onSendMessage(
             this.props.inputValue, 
             this.props.currentChatId, 
-            this.props.dummyChats.includes(this.props.currentChatId) // new Chat?
         ); 
     }
 
     render() {
-        const currentChat = this.props.chats.concat(this.props.dummyChats).find(c => c.chatId === this.props.currentChatId);
+        const currentChat = this.props.chats.find(c => c.chatId === this.props.currentChatId);
+        const inputValue = currentChat ? currentChat.inputValue : ''
         let styleClasses = [classes.TextareaContainer];
         if(this.state.dragging) styleClasses.push(classes.Dragging);
         return(
@@ -66,7 +65,7 @@ class ChatForm extends Component {
                     <textarea 
                         style={{
                             height: `${this.props.formHeight+5}px`}}
-                        value={currentChat.inputValue}
+                        value={inputValue}
                         rows={1}
                         className={classes.TextArea} 
                         onChange={this.onChangeHandler}
@@ -90,9 +89,9 @@ class ChatForm extends Component {
 
 const mapStateToProps = state => {
     return {
+        currentChatLoaded: state.chat.currentChatLoaded,
         formHeight: state.chat.formHeight,
         chats: state.chat.chats,
-        dummyChats: state.chat.dummyChats,
         currentChatId: state.chat.currentChatId,
     }
 }

@@ -85,7 +85,7 @@ class CommentForm extends Component {
     render(){
         const depth = this.props.path ? this.props.path.split("/").length : 0;
         const commentInputStyles = { paddingLeft: `${depth * INDENT}px` };
-        const contentStyle = { left: `${(depth+1) * INDENT + 40}px`, maxWidth: `${545 - INDENT * depth}px` };
+        const contentStyle = { left: `${(depth+1) * INDENT + 40}px`};
         const treeString = this.props.treeString ? [...this.props.treeString.slice(1), 'L'] : ['L']
 
         return(

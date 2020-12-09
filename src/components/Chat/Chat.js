@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index'; 
 
 import classes from "./Chat.module.css";
-import Message from "./Message/Message.js";
-import ChatForm from './ChatForm/ChatForm';
 import ChatPrevs from './ChatPreviews/ChatPreviews';
+import ChatWindow from './ChatWindow/ChatWindow';
 
 class Chat extends Component {
 
@@ -29,37 +28,15 @@ class Chat extends Component {
     this.setState({ chats: chatsNew });
   };
 
+
   render() {
-    let latestMessages = this.props.loadedChats
-      ? [...this.props.chats, ...this.props.dummyChats]
-          .find((x) => {
-            return x.chatId === this.props.currentChatId;
-          })
-          .latestMessages.map((x) => {
-            return <Message {...x} key={x.id} />;
-          })
-      : null;
-
-
     const styleClasses = [classes.Chat];
     if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeft);
     if (this.props.currentTab === 'creator') styleClasses.push(classes.OutRight);
-
     return (
-      <div className={styleClasses.join(" ")}>
+      <div className={styleClasses.join(" ")} onClick={this.props.token ? null : () => this.props.onOpenAuth('Create an Account to chat & share memes with your friends')}>
         <ChatPrevs contacts/>
-        <div className={classes.ChatWindow}>
-          <div 
-            className={classes.Messages} 
-            style={{height: `calc(80vh-${this.props.formHeight}px)`}}>
-            <p className={classes.NotEncryptedMessage}>This Chat is not yet end-to-end encrypted yet. <br/>
-              Or encrypted. But it is end to end, lol. <br/>
-              What I mean is maybe don't send nudes here just yet. <br/>
-            </p>
-            {latestMessages}
-            <ChatForm/>
-          </div>
-        </div>
+        <ChatWindow/>
       </div>
     );
   }
@@ -74,13 +51,13 @@ const mapStateToProps = state => {
     contacts: state.chat.contacts,
     currentChatId: state.chat.currentChatId,
     chats: state.chat.chats,
-    dummyChats: state.chat.dummyChats,
+    token: state.auth.token,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onChangeChat: (id, value) => dispatch(actions.changeChat(id, value)),
+    onOpenAuth: (authReason) => dispatch(actions.openAuth(authReason)),
   }
 }
 

@@ -11,6 +11,7 @@
 .CommentInputBackground {
     border-radius: 14px;
     min-height: 55px;
+    padding: 3px 5px 3px 15px;
     margin-left: 42px;
     position: relative;
     background-color: #eeeeee;
@@ -24,7 +25,6 @@
 
  .TextArea {
     min-height: 55px; 
-    padding: 3px 15px;
     position: relative; 
     display: block; 
     border-radius: 14px; 

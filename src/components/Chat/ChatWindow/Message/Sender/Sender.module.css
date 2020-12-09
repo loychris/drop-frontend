@@ -1,0 +1,19 @@
+.Sender {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.SenderName {
+    font-weight: bold;
+    font-size: 8pt;
+    text-align: center;
+}
+
+.ProfilePic {
+    height: 40px;
+    width: 40px;
+}
+
+.Sent.SenderName {
+    text-align: right;
+}

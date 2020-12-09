@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import * as actionTypes from '../actions/actionTypes';
 import { setDropsNotLoaded } from './streamActions';
-import { fetchFriends, fetchFriendRequests } from './chatActions';
+import { fetchFriends, fetchFriendRequests, fetchChats, setChatStateOnLogin, resetChatOnLogout } from './chatActions';
 
 export const openAuth = (authReason) => {
     return {
@@ -20,15 +20,12 @@ export const closeAuth = () => {
 export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
         setTimeout(() => {
-            dispatch(logout())
+            dispatch(logout());
         }, expirationTime * 1000)
     }
 }
 
 export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
-    localStorage.removeItem('user');
     return {
         type: actionTypes.LOGOUT
     }
@@ -66,17 +63,22 @@ export const login = (identifier, password) => {
                 userId: res.data.userId,
                 friends: res.data.friends, 
                 friendRequests: res.data.friendRequests,
+                sentFriendRequests: res.data.sentFriendRequests,
                 email: res.data.email
             }));
             dispatch(authSuccess(res.data));
             dispatch(checkAuthTimeout(res.data.expiresIn));
             dispatch(setDropsNotLoaded());
+            dispatch(setChatStateOnLogin(res.data))
             dispatch(closeAuth());
             if(res.data.friends ?? res.data.friends.length > 0){
                 dispatch(fetchFriends(res.data.friends));
             }
             if(res.data.friendRequests ?? res.data.friendRequests.length > 0){
-                dispatch(fetchFriendRequests(res.data.friendRequests));
+                dispatch(fetchFriendRequests(res.data.token));
+            }
+            if(res.data.chats ?? res.data.chats.length > 0){
+                dispatch(fetchChats(res.data.token, res.data.userId));
             }
         }).catch(err => {
             if(err.response && err.response.data && err.response.data.message){

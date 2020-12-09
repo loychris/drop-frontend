@@ -33,7 +33,7 @@ class SubComment extends Component {
     }
   }
 
-  generateRoot = () => {
+  getRoot = () => {
     if (this.props.comment.subComments && this.props.comment.subComments.length > 0)
     return(
     <svg
@@ -64,7 +64,7 @@ class SubComment extends Component {
     if(sending){
       return () => {console.log('Comment still sending; cant select yet')}
     } else if(selected){
-      return () => this.props.onUnselectSubComment(this.props.commentId, this.props.path)
+      return this.props.onUnselectComment
     } else {
       return () => this.props.onSelectSubComment(this.props.commentId, this.props.path)
     }
@@ -87,7 +87,7 @@ class SubComment extends Component {
 
     return (
       <div className={`${classes.CommentContainer} ${parentSelected || selected ? classes.selected : null}`}>
-        {selected ? <Backdrop clicked={ this.props.onUnselectSubComment }/> : null }
+        {selected ? <Backdrop clicked={ this.props.onUnselectComment }/> : null }
         {selected ? <CommentMenu token={this.props.token} userComment={this.props.authorId === this.props.userId}/> : null}
         <div className={classes.Comment} style={commentStyle}>
           <AuthorPic depth={this.props.depth} indent={INDENT}/>
@@ -135,7 +135,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => { 
   return {
     onSelectSubComment: (commentId, path) => dispatch(streamActions.selectSubComment(commentId, path)),
-    onUnselectSubComment: () => dispatch(streamActions.unSelectSubComment())
+    onUnselectComment: () => dispatch(streamActions.unSelectComment())
   }
 }
 

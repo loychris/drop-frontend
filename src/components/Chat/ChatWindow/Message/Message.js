@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import DefaultProfilePic from '../../../media/DefaultProfilePic.png';
+import Sender from './Sender/Sender';
 import classes from "./Message.module.css";
 
 class Message extends Component {
@@ -10,13 +10,10 @@ class Message extends Component {
 
     return (
       <div className={`${classes.Message} ${this.props.sent ? classes.Sent : classes.Received} `}>
-        <div className={classes.Sender}>
-          <img src={DefaultProfilePic} alt=" "  className={classes.ProfilePic}/>
-          <div className={classes.SenderName}>{this.props.sender}</div>
-        </div>
+        {/* <Sender sender={this.props.sender}/> */}
         <div className={styleClasses.join(" ")}>
-          <p className={classes.MessageBody}>{this.props.message}</p>
-          <span className={classes.Time}>{this.props.time}</span>
+          <p className={classes.Text}>{this.props.text}</p>
+          {/* <span className={classes.Time}>{new Date(this.props.time).getHours()}</span> */}
         </div>
       </div>
 

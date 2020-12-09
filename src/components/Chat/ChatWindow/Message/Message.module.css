@@ -13,11 +13,6 @@
     flex-direction: row;
 }
 
-.Sender {
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
 .MessageContainer {
     position: relative;
     word-wrap: break-word;
@@ -37,21 +32,9 @@
     background-color: #11192c;
 }
 
-.MessageBody {
-    margin: 0px 15px;
+.Text {
+    margin: 3px 15px 5px 15px;
 }
-
-
-.SenderName {
-    font-weight: bold;
-    font-size: 9pt;
-    text-align: center;
-}
-
-.Sent.SenderName {
-    text-align: right;
-}
-
 
 .Time {
     float: right;
@@ -60,7 +43,3 @@
     font-weight: bold;
 }
 
-.ProfilePic {
-    height: 40px;
-    width: 40px;
-}

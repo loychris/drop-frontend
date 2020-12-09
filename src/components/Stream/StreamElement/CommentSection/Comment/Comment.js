@@ -89,7 +89,9 @@ class Comment extends Component {
   }
 
   clicked = (sending, selected) => {
-    if(selected){
+    if(sending){
+      return () => {console.log('Comment still sending; cant select yet')}
+    } else if(selected){
       return this.props.onUnselectComment
     }else if(!sending){
       return () => this.props.onSelectComment(this.props.id, '/')

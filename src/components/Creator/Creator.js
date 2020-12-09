@@ -53,7 +53,7 @@ class Creator extends Component {
         <h2>THE SICKEST MEME CREATOR ON THE INTERNET</h2>
         <br/>
         <br/>
-        <h2><b>Join Waiting List</b> and <b>get EARLY ACCESS</b></h2>
+        {!this.state.sent ? <h2><b>Join Waiting List</b> and <b>get EARLY ACCESS</b></h2> : null }
         <div className={classes.SendingWrapper}>
           <div>
             { this.state.sending ? <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/> : null }
@@ -72,8 +72,8 @@ class Creator extends Component {
         <br/>
         {this.state.sent 
           ? <div>
-              <p>Working all day and night to make it happen</p>
               <img alt="taktaktak"  className={classes.TakTakTak} src={TakTakTak}/>
+              <p>Working all day and night to make it happen</p>
             </div>
           : null }
       </div>

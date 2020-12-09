@@ -26,15 +26,17 @@ export {
 } from './streamActions';
 
 export {
+    setChatStateOnLogin,
     sendMessage,
-    changeChat,
+    fetchChats,
     changeFormHeight,
     fetchAllUsers,
     fetchFriends,
-    createDummyChat,
     chatInputChangeHandler,
     sendFriendRequest,
-    acceptFriendRequest
+    acceptFriendRequest,
+    createDummyChat, 
+    changeChat,
 } from './chatActions';
 
 export {
@@ -42,6 +44,5 @@ export {
     signup,    
     openAuth,
     closeAuth,
-    logout,
     authCheckState,
 } from './authActions';

@@ -22,7 +22,6 @@ class App extends Component {
     return (
         <div className={`App`}>
           <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
-          {this.props.authOpen ? <Auth/> : null }
           <Route path={['/stream', '/chat', '/creator']} component={Stream}/>
           <Navigation/>
           {/* <Stream/> */}
@@ -30,6 +29,7 @@ class App extends Component {
           <Route path={['/stream', '/chat', '/creator']} component={Creator}/>
           {/* <Assistant /> */}
           <Menu/>
+          {this.props.authOpen ? <Auth/> : null }
           <Redirect to='/stream'/>
           {/* <Route path='/' exact component={Stream}/> 
           <Route path='/chat' exact component={Chat}/> */}

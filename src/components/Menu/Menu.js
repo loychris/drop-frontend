@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import ToggleSwitch from '../UI/ToggleSwitch/ToggleSwitch';
+import MenuAuth from './MenuAuth/MenuAuth';
 
 import classes from './Menu.module.css';
 import * as actions from '../../store/actions/index';
@@ -27,6 +28,7 @@ class Menu extends Component {
                     {this.getGear()}
                 </div>
                 <div className={`${classes.menu} ${this.props.darkmode ? classes.dark : classes.light}`}>
+                    {this.props.topken ? null : <MenuAuth/> }
                     <div className={classes.menuOption}>
                         <label>Darkmode   </label>
                         <ToggleSwitch 
@@ -39,6 +41,8 @@ class Menu extends Component {
                     <div className={classes.menuOption}>
                       <NavLink to='/about'>About this Website</NavLink></div>
                     {this.props.token ? <button onClick={this.props.onLogout}>Logout</button> : null } 
+                    {!this.props.token ? <button onClick={() => this.props.onLogin('cloy202@gmail.com', '1234567890')}>Log in as Chris</button> : null } 
+                    
                 </div>
             </div>
         )
@@ -47,6 +51,7 @@ class Menu extends Component {
 
 const mapStateToProps = state => {
   return {
+    token: state.auth.token,
     darkmode: state.ui.darkmode,
     token: state.auth.token
   }
@@ -56,7 +61,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onGoDark: () => dispatch(actions.goDark()),
     onGoLight: () => dispatch(actions.goLight()),
-    onLogout: () => dispatch(actions.logout())
+    onLogin: (email, password) => dispatch(actions.login(email, password)), 
   }
 }
 

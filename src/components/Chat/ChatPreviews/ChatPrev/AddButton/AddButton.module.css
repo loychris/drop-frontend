@@ -1,0 +1,35 @@
+.AddButton {
+    position: absolute;
+    right: -20px; 
+    top: 16.5px;
+    height: 17.5px;
+    transform: translate(-50%, 0 );
+    border: 2px solid #abcdef; 
+    border-radius: 30px; 
+    padding: 0px 8px 2px 8px; 
+    text-align: center;
+    color: #abcdef;
+}
+
+.Add {
+    width: 40px;
+}
+
+.AddIcon {
+    margin-top: -1px;
+    margin-left: -2px;
+    height: 22px;
+    width: 22px;
+}
+
+.Clicked {
+    background-color: #abcdef;
+    color: #202040;
+}
+
+
+
+.Accept {
+    display: block; 
+    position: relative; 
+}

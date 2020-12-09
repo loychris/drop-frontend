@@ -7,9 +7,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore, combineReducers, compose, applyMiddleware  } from 'redux';
 import thunk from 'redux-thunk';
-
 import axios from 'axios';
 
+import * as actions from './store/actions/actionTypes';
 import StreamReducer from './store/reducers/StreamReducer'
 import ChatReducer from './store/reducers/ChatReducer'
 import AuthReducer from './store/reducers/authReducer';
@@ -17,12 +17,19 @@ import UIReducer from './store/reducers/UIReducer'
 
 axios.defaults.baseURL = 'http://localhost:5000';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     auth: AuthReducer,
-    stream: StreamReducer,
     chat: ChatReducer,
+    stream: StreamReducer,
     ui: UIReducer
 });
+
+const rootReducer = (state, action) => {
+    if(action.type === actions.USER_LOGOUT){
+        state = undefined;
+    }
+    return appReducer(state, action);
+}
 
 const composeEnhancers = (process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null) || compose;
 

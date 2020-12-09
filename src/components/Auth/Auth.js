@@ -178,7 +178,15 @@ class Auth extends Component {
 
   getLoginForm = () => {
     if(this.props.loading){
-      return <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/>    
+      return (
+        <Loader 
+          className={classes.Spinner} 
+          type="Puff" 
+          color="#00BFFF" 
+          height={50} 
+          width={50}
+        />
+      )    
     }
     return(
       <form onSubmit={this.submitHandler} className={classes.form}>
@@ -217,7 +225,7 @@ class Auth extends Component {
   render() {
     let errorMessage = this.props.error ? <p className={classes.errorMessage}>{this.props.error}</p> : null;
     return (
-      <div>
+      <div className={classes.Auth}>
           <div className={classes.Backdrop} onClick={this.props.onCloseAuth}></div>
           {/* <Backdrop clicked={this.props.onCloseAuth} zIndex='100' />  */}
           <div className={classes.login}>

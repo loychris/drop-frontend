@@ -1,3 +1,7 @@
+.Auth {
+    z-index: 1000;
+}
+
 .login{
     position: fixed;
     margin-left: auto;
@@ -46,7 +50,7 @@ button[type=submit]{
     border-radius: 10px;
     cursor: pointer; 
     padding: 10px 50px; 
-    font-size: 16pt; 
+    font-size: 13pt; 
     border: none;
 }
 
@@ -58,7 +62,7 @@ button[type=submit]{
 .form input[type=email], .form input[type=password], .form input[type=text] {
     width: 80%; 
     height: 40px;
-    font-size: 15pt; 
+    font-size: 12pt; 
     padding: 3px 15px;
     border: none;
     border-radius: 10px;
@@ -82,4 +86,14 @@ button[type=submit]{
 
 .errorMessage{
     color: red;
+}
+
+.Spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-25px, -25px);
+    height: 50px; 
+    width: 50px;
+
 }

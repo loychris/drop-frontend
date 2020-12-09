@@ -1,5 +1,4 @@
 .Chat {
-  z-index: 500;
   position: fixed;
   margin-left: auto;
   margin-right: auto;
@@ -20,39 +19,4 @@
   transform: translateX(+100vw);
 }
 
-.ChatWindow {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: calc(19.5vw + 20px);
-  box-shadow: -10px 0px 10px -5px #00000066;
-  /* width: 70%;
-  height: 100%; */
-  background: #abcdef;
-  border-radius: 10px;
-}
 
-.Messages {
-  max-height: 100%;
-  overflow: scroll;
-}
-
-.TextField {
-  height: 15%;
-  border: 1px solid grey;
-}
-
-.Active {
-  font-weight: bold;
-}
-
-.NotEncryptedMessage {
-  text-align: center;
-  color: grey;
-}
-
-.ChatForm2 {
-  border: 1px solid yellow;
-  min-height: 50px;
-}
