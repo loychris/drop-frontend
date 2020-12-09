@@ -44,7 +44,7 @@ class ChatPrev extends Component {
   }
 
   render() {
-    const active = this.props.chatId === this.props.currentChatId;
+    const active = this.props.chatId && this.props.chatId === this.props.currentChatId;
     let styleClasses = [classes.ChatPrev];
     if(active) styleClasses.push(classes.Active);
     return (
@@ -65,8 +65,8 @@ class ChatPrev extends Component {
 const mapStateToProps = state => {
   return {
     darkmode: state.ui.darkmode,
-    currentChatId: state.chat.currentChatId,
-    currentUserId: state.chat.userId
+    currentChatId: state.stream.currentChatId,
+    currentUserId: state.stream.userId
   }
 }
 

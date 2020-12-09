@@ -124,12 +124,14 @@ class ChatPreviews extends Component {
                  && !this.props.friends.some(f => f.userId === user.userId)
         })
         .map(user => {
+          co
           return (
             <ChatPrev 
               userId={user.userId} 
               key={user.userId}
               name={user.name}
               buttonType='add'
+              
               preview={user.handle}
             />
           )

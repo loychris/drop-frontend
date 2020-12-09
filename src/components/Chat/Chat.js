@@ -9,26 +9,6 @@ import ChatWindow from './ChatWindow/ChatWindow';
 
 class Chat extends Component {
 
-
-  send = (msg, chatId) => {
-    var today = new Date();
-    console.log(`Sending ${msg} to ${chatId}`);
-    let chatsNew = [...this.props.chats];
-    chatsNew
-      .find((x) => {
-        return x.chatId === chatId;
-      })
-      .latestMessages.push({
-        msgId: 1000000,
-        sent: true,
-        sender: "user",
-        time: today.getHours() + ":" + today.getMinutes(),
-        message: msg,
-      });
-    this.setState({ chats: chatsNew });
-  };
-
-
   render() {
     const styleClasses = [classes.Chat];
     if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeft);
@@ -44,14 +24,9 @@ class Chat extends Component {
 
 const mapStateToProps = state => {
   return {
-    height: state.chat.formHeight,
     currentTab: state.ui.currentTab,
-    darkmode: state.ui.currentTab,
-    loadedChats: state.chat.loadedChats,
-    contacts: state.chat.contacts,
-    currentChatId: state.chat.currentChatId,
-    chats: state.chat.chats,
     token: state.auth.token,
+    chats: state.stream.chats,
   }
 }
 

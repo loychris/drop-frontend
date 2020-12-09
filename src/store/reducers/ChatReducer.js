@@ -70,6 +70,49 @@ const initialState = {
     currentChatLoaded: false, 
 }
 
+const reducer = (state = initialState, action) => {
+    switch(action.type) {
+        case actionTypes.SET_CHAT_STATE_ON_LOGIN: return setChatStateOnLogin(state, action);
+        case actionTypes.ADD_NEW_USERS: return addNewUsers(state, action);
+
+        case actionTypes.SEND_MESSAGE_START: return sendMessageStart(state, action);
+        case actionTypes.SEND_MESSAGE_SUCCESS: return sendMessageSuccess(state, action);
+        case actionTypes.SEND_MESSAGE_FAILED: return sendMessageFailed(state, action);
+
+        case actionTypes.CHANGE_CHAT: return changeChat(state, action);
+        case actionTypes.CHANGE_FORM_HEIGHT: return changeChatFormHeight(state, action);
+        case actionTypes.CHANGE_CHAT_INPUT: return chatInputChangeHandler(state, action);
+        
+        case actionTypes.FETCH_ALL_USERS_START: return fetchAllUsersStart(state, action);
+        case actionTypes.FETCH_ALL_USERS_SUCCESS: return fetchAllUsersSuccess(state, action);
+        case actionTypes.FETCH_ALL_USERS_FAILED: return fetchAllUsersFailed(state, action);
+
+        case actionTypes.SEND_FRIEND_REQUEST_START: return sendFriendRequestStart(state, action);
+        case actionTypes.SEND_FRIEND_REQUEST_SUCCESS: return sendFriendRequestSuccess(state, action);
+        case actionTypes.SEND_FRIEND_REQUEST_FAILED: return sendFriendRequestFailed(state, action);
+
+        case actionTypes.ACCEPT_FRIEND_REQUEST_START: return acceptFriendRequestStart(state, action);
+        case actionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS: return acceptFriendRequestSuccess(state, action);
+        case actionTypes.ACCEPT_FRIEND_REQUEST_FAILED: return acceptFriendRequestFailed(state, action);
+
+        case actionTypes.FETCH_FIREND_REQUESTS_START: return fetchFriendRequestsStart(state, action);
+        case actionTypes.FETCH_FIREND_REQUESTS_SUCCESS: return fetchFriendRequestsSuccess(state, action);
+        case actionTypes.FETCH_FIREND_REQUESTS_FAILED: return fetchFriendRequestsFailed(state, action);
+
+        case actionTypes.FETCH_FRIENDS_START: return fetchFriendsStart(state, action);
+        case actionTypes.FETCH_FRIENDS_SUCCESS: return fetchFriendsSuccess(state, action);
+        case actionTypes.FETCH_FRIENDS_FAILED: return fetchFriendsFailed(state, action);
+
+        case actionTypes.FETCH_CHATS_START: return fetchChatsStart(state, action);
+        case actionTypes.FETCH_CHATS_SUCCESS: return fetchChatsSuccess(state, action);
+        case actionTypes.FETCH_CHATS_FAILED: return fetchChatsFailed(state, action);
+
+        case actionTypes.CREATE_DUMMY_CHAT: return createDummyChat(state, action);
+        default: return state;
+    }
+}
+
+
 //----- LOG IN / OUT -----------------------------------------------------
 
 const setChatStateOnLogin = (state, action) => {
@@ -91,7 +134,7 @@ const changeChat = (state, action) => {
 }
 
 const chatInputChangeHandler = (state, action) => {
-    const chatsNew = state.chats.map(chat => {
+    const chatsNew = state.streams.map(chat => {
         if(chat.chatId === state.currentChatId){
             return {
                 ...chat,
@@ -118,7 +161,7 @@ const changeChatFormHeight = (state, action) => {
 
 
 const sendMessageStart = (state, action) => {
-    const chatsNew = state.chats.map(chat => {
+    const chatsNew = state.streams.map(chat => {
         if(chat.chatId === state.currentChatId){
             const message = action.message;
             console.log(chat);
@@ -331,13 +374,13 @@ const fetchFriendsFailed = (state, action) => {
 
 const createDummyChat = (state, action) => {
     const dummyChatId = 'dummy'+action.userId;
-    const alreadyExists = state.chats.some(chat => chat.chatId === dummyChatId) 
+    const alreadyExists = state.streams.some(chat => chat.chatId === dummyChatId) 
     const dummyChatNew = {
         chatId: dummyChatId, 
         name: action.name,
         latestMessages: []
     }
-    const chatsNew = alreadyExists ? state.chats : [...state.chats, dummyChatNew];
+    const chatsNew = alreadyExists ? state.streams : [...state.streams, dummyChatNew];
     return {
         ...state,
         chats: chatsNew
@@ -356,49 +399,4 @@ const addNewUsers = (state, action) => {
 }
 
 
-
-const reducer = (state = initialState, action ) => {
-    switch( action.type ) {
-
-        case actionTypes.SET_CHAT_STATE_ON_LOGIN: return setChatStateOnLogin(state, action);
-        case actionTypes.ADD_NEW_USERS: return addNewUsers(state, action);
-
-        case actionTypes.SEND_MESSAGE_START: return sendMessageStart(state, action);
-        case actionTypes.SEND_MESSAGE_SUCCESS: return sendMessageSuccess(state, action);
-        case actionTypes.SEND_MESSAGE_FAILED: return sendMessageFailed(state, action);
-
-        case actionTypes.CHANGE_CHAT: return changeChat(state, action);
-        case actionTypes.CHANGE_FORM_HEIGHT: return changeChatFormHeight(state, action);
-        case actionTypes.CHANGE_CHAT_INPUT: return chatInputChangeHandler(state, action);
-        
-        case actionTypes.FETCH_ALL_USERS_START: return fetchAllUsersStart(state, action);
-        case actionTypes.FETCH_ALL_USERS_SUCCESS: return fetchAllUsersSuccess(state, action);
-        case actionTypes.FETCH_ALL_USERS_FAILED: return fetchAllUsersFailed(state, action);
-
-        case actionTypes.SEND_FRIEND_REQUEST_START: return sendFriendRequestStart(state, action);
-        case actionTypes.SEND_FRIEND_REQUEST_SUCCESS: return sendFriendRequestSuccess(state, action);
-        case actionTypes.SEND_FRIEND_REQUEST_FAILED: return sendFriendRequestFailed(state, action);
-
-        case actionTypes.ACCEPT_FRIEND_REQUEST_START: return acceptFriendRequestStart(state, action);
-        case actionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS: return acceptFriendRequestSuccess(state, action);
-        case actionTypes.ACCEPT_FRIEND_REQUEST_FAILED: return acceptFriendRequestFailed(state, action);
-
-        case actionTypes.FETCH_FIREND_REQUESTS_START: return fetchFriendRequestsStart(state, action);
-        case actionTypes.FETCH_FIREND_REQUESTS_SUCCESS: return fetchFriendRequestsSuccess(state, action);
-        case actionTypes.FETCH_FIREND_REQUESTS_FAILED: return fetchFriendRequestsFailed(state, action);
-
-        case actionTypes.FETCH_FRIENDS_START: return fetchFriendsStart(state, action);
-        case actionTypes.FETCH_FRIENDS_SUCCESS: return fetchFriendsSuccess(state, action);
-        case actionTypes.FETCH_FRIENDS_FAILED: return fetchFriendsFailed(state, action);
-
-        case actionTypes.FETCH_CHATS_START: return fetchChatsStart(state, action);
-        case actionTypes.FETCH_CHATS_SUCCESS: return fetchChatsSuccess(state, action);
-        case actionTypes.FETCH_CHATS_FAILED: return fetchChatsFailed(state, action);
-
-        case actionTypes.CREATE_DUMMY_CHAT: return createDummyChat(state, action);
-        default: return initialState;
-    }
-}
-
-
-export default reducer; 
+export default reducer;

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import * as actionTypes from '../actions/actionTypes';
 import { setDropsNotLoaded } from './streamActions';
-import { fetchFriends, fetchFriendRequests, fetchChats, setChatStateOnLogin, resetChatOnLogout } from './chatActions';
+import { fetchFriends, fetchFriendRequests, fetchChats, setChatStateOnLogin } from './chatActions';
 
 export const openAuth = (authReason) => {
     return {
