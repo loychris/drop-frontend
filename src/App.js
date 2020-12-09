@@ -14,13 +14,27 @@ import * as actions from './store/actions/index';
 
 class App extends Component {
 
+  state = {
+    width: 0
+  }
+
   componentDidMount = () => {
     this.props.onTryAutoSignup();
+    window.addEventListener('resize', () => this.setState({width: window.innerWidth}));
   } 
 
   render() {
+    if(this.state.width < 600){
+      return (
+        <div className='DesktopOnlyMessage'>
+          Desktop only for now, sry. <br/>
+          ¯\_(ツ)_/¯<br/>
+          App is coming soon though.
+        </div>
+      )
+    }
     return (
-        <div className={`App`}>
+        <div className='App'>
           <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
           <Route path={['/stream', '/chat', '/creator']} component={Stream}/>
           <Navigation/>

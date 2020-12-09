@@ -62,7 +62,13 @@ body, html {
 
 }
 
-
+.DesktopOnlyMessage {
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 
 .Dark {
   background: linear-gradient(90deg, #06070c 0%, #323952 50%, #06070c 100%);
