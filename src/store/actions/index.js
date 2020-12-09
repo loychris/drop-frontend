@@ -41,7 +41,8 @@ export {
 
 export {
     login,
-    signup,    
+    signup,
+    logout,    
     openAuth,
     closeAuth,
     authCheckState,

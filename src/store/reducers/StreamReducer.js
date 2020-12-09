@@ -4,7 +4,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     dropTargets: [],
     selectedTargets: [],
-    ids: [],
+    dropIds: [],
     currentIds: [],
     streamStatus: 'nothing loaded',
     StreamElements: [
@@ -48,9 +48,6 @@ const insertSubComment = (parentPath, subComments, comment) => {
 }
 
 const replaceSubCommentId = (subComments, randPath, subComment) => {
-    console.log(subComments);
-    console.log(randPath);
-    console.log(subComment);
     return subComments.map(s => {
         if(s.path === randPath){ 
             console.log("Reached SubComment")
@@ -105,7 +102,7 @@ const setIds = (state, action) => {
     })
     return {
         ...state,
-        ids,
+        dropIds: ids,
         currentIds: action.ids.slice(0,21),
         currentlyLoadingMemeId: StreamElementsNew[1].id,
         StreamElements: StreamElementsNew,
@@ -350,7 +347,7 @@ const swipe = (state, action) => {
             selectedComment: null
         }
     }else{
-        let [nextId, ...idsNew] = state.ids;
+        let [nextId, ...idsNew] = state.dropIds;
         if(!nextId){ nextId = 'no more' + Math.random() }
 
         let currentIdsNew = state.currentIds.filter(id => state.StreamElements[1].id === id);
@@ -378,7 +375,7 @@ const swipe = (state, action) => {
             ...state,
             StreamElements: StreamElementsNew,
             timeStampLastSwipe: timestamp,
-            ids: idsNew, 
+            dropIds: idsNew, 
             currentIds: currentIdsNew
         }
     }

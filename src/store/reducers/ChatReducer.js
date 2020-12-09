@@ -27,6 +27,7 @@ const initialState = {
                 {
                     text: 'Whats poppin\' Elon?',
                     time: '14:32', 
+                    type: 'text',
                     sender: 'chris',
                     id: 1,
                     sent: true 
@@ -34,6 +35,7 @@ const initialState = {
                 {
                     text: 'Rocket goes Brrrrrt',
                     time: '14:32', 
+                    type: 'text',
                     sender: 'Elon',
                     id: 2,
                     sent: false 

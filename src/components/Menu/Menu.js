@@ -62,6 +62,7 @@ const mapDispatchToProps = dispatch => {
     onGoDark: () => dispatch(actions.goDark()),
     onGoLight: () => dispatch(actions.goLight()),
     onLogin: (email, password) => dispatch(actions.login(email, password)), 
+    onLogout: () => dispatch(actions.logout()),
   }
 }
 
