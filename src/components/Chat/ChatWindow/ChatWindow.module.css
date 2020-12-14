@@ -1,21 +1,31 @@
 .ChatWindow {
     position: absolute;
     top: 0;
-    bottom: 0;
+    bottom: 0px;
     right: 0;
     left: max(calc(19.5vw + 20px), 270px);
     box-shadow: -10px 0px 10px -5px #00000066;
     background: #abcdef;
     border-radius: 10px;
+    padding-bottom: 70px;
   }
 
 .Messages {
     max-height: 100%;
     overflow: scroll;
+    position: relative;
 }
 
 .NotEncryptedMessage {
     text-align: center;
     color: grey;
     font-size: 10pt; 
+}
+
+.Loader {
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid red;
 }

@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     token: null,
-    userId: null,
+    userId: '4',
     error: null,
     loading: null,
     authOpen: false, 
@@ -10,19 +10,33 @@ const initialState = {
 }
 
 const loginStart = ( state) => {
-    return { ...state, loading: true }
+    return { 
+        ...state, 
+        loading: true 
+    }
 }
 
 const loginFail = (state, action) => {
-    return { ...state, loading: false, error: action.error }
+    return { 
+        ...state, 
+        loading: false, 
+        error: action.error 
+    }
 }
 
 const signupStart = ( state) => {
-    return { ...state, loading: true }
+    return { 
+        ...state, 
+        loading: true 
+    }
 }
 
 const signupFail = (state, action) => {
-    return { ...state, loading: false, error: action.error }
+    return { 
+        ...state, 
+        loading: false, 
+        error: action.error 
+    }
 }
 
 const authSuccess = (state, action) => {
@@ -39,15 +53,26 @@ const authSuccess = (state, action) => {
 }
 
 const openAuth = (state, action) => {
-    return { ...state, authOpen: true, authReason: action.authReason }
+    return { 
+        ...state, 
+        authOpen: true, 
+        authReason: action.authReason 
+    }
 }
 
 const closeAuth = (state) => {
-    return { ...state, authOpen: false }
+    return { 
+        ...state, 
+        authOpen: false 
+    }
 }
 
 const logout = (state) => {
-    return { ...state, token: null, userId: null }
+    return { 
+        ...state, 
+        token: null, 
+        userId: null 
+    }
 }
 
 const reducer = (state = initialState, action ) => {

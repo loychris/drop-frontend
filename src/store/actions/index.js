@@ -27,7 +27,7 @@ export {
 
 export {
     setChatStateOnLogin,
-    sendMessage,
+    sendTextMessage,
     fetchChats,
     changeFormHeight,
     fetchAllUsers,

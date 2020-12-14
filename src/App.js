@@ -9,6 +9,7 @@ import Navigation from "./components/Navigation/Navigation";
 import Menu from './components/Menu/Menu';
 import Auth from './components/Auth/Auth';
 //import Assistant from "./components/Assistant/Assistant";
+import taktaktak from './media/taktaktak.jpg'; 
 
 import * as actions from './store/actions/index';
 
@@ -20,6 +21,7 @@ class App extends Component {
 
   componentDidMount = () => {
     this.props.onTryAutoSignup();
+    this.setState({width: window.innerWidth});
     window.addEventListener('resize', () => this.setState({width: window.innerWidth}));
   } 
 
@@ -29,7 +31,9 @@ class App extends Component {
         <div className='DesktopOnlyMessage'>
           Desktop only for now, sry. <br/>
           ¯\_(ツ)_/¯<br/>
-          App is coming soon though.
+          App is coming soon though.<br/>
+          Working all day and night.<br/><br/>
+          <img src={taktaktak} alt='chris working' className='taktaktak'/>
         </div>
       )
     }

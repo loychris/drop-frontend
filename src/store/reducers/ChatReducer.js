@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     currentChatFormInput: '',
-    currentChatId: 5,
+    currentChatId: '5',
     formHeight: 53,
     allUsers: [],
     allUsersStatus: 'not loaded',
@@ -19,7 +19,7 @@ const initialState = {
     friendsStatus: 'not loaded',
     chats: [
         {
-            chatId: 5,
+            chatId: '5',
             name: 'Elon Musk',
             members: ['4', '42069'],
             inputValue: '',
@@ -28,18 +28,28 @@ const initialState = {
                     text: 'Whats poppin\' Elon?',
                     time: '14:32', 
                     type: 'text',
-                    sender: 'chris',
+                    sender: '4',
                     id: 1,
-                    sent: true 
                 },
                 {
                     text: 'Rocket goes Brrrrrt',
                     time: '14:32', 
                     type: 'text',
-                    sender: 'Elon',
+                    sender: '5',
                     id: 2,
-                    sent: false 
-                }
+                },
+                // {
+                //     src: 'whatever',
+                //     type: 'image',
+                //     sender: 'chris',
+                //     id: 3,
+                // },
+                // {
+                //     type: 'drop',
+                //     id: 4, 
+                //     sender: 'chris',
+                //     dropId: '5fac3586eb20d00a220cc693',
+                // }
             ]
         },
         {
@@ -127,6 +137,34 @@ const setChatStateOnLogin = (state, action) => {
 //-------------------------------------------------------
 
 const changeChat = (state, action) => {
+    if(state.currentChatId === action.chatId) return state;
+    if(action.chatId.startsWith('friend')){
+        const friendId = action.chatId.substring(6, action.chatId.length)
+        let existingChat = state.chats
+            .filter(chat => chat.members.length === 2)
+            .find(chat => {
+                chat.members.some(user => user.userId === friendId)
+            })
+        if(existingChat){
+            return {
+                ...state, 
+                currentChatId: existingChat.chatId,
+            }
+        }else {
+            const dummyChatId = 'dummy' + friendId;
+            const dummyChat = {
+                messages: [],
+                chatId: dummyChatId,
+                members: [action.self, action.user],
+                inputValue: ''                
+            }
+            return {
+                ...state,
+                chats: [...state.chats, dummyChat],
+                currentChatId: dummyChatId,
+            }
+        }
+    }
     return {
         ...state,
         currentChatId: action.chatId,
@@ -143,6 +181,7 @@ const chatInputChangeHandler = (state, action) => {
         } else {
             return chat
         }
+
     })
     return {
         ...state,
@@ -161,22 +200,30 @@ const changeChatFormHeight = (state, action) => {
 
 
 const sendMessageStart = (state, action) => {
-    const chatsNew = state.streams.map(chat => {
-        if(chat.chatId === state.currentChatId){
-            const message = action.message;
-            console.log(chat);
+    console.log(action);
+    const chatsNew = state.chats.map(chat => {
+        if(chat.chatId === action.chatId){
             return {
-                ...chat,
-                inputValue: '',
-                latestMessages: [...chat.latestMessages, {
-                    message,
-                    time: new Date().getTime(),
-                    sender: "Chris", 
-                    id: Math.random(),
-                    sent: true
-                }]
+                ...chat, 
+                messages: [
+                    ...chat.messages,
+                    {
+                        new: true,
+                        received: [],
+                        seen: [],
+                        liked: [],
+                        deleted: [],
+                        text: action.text, 
+                        sender: action.userId,
+                        time: new Date(),
+                        id: action.randId,
+                        type: 'text', 
+                        sending: true
+                    }
+                ]
             }
-        }else{
+        }
+        else {
             return chat
         }
     })
@@ -187,8 +234,31 @@ const sendMessageStart = (state, action) => {
 }
 
 const sendMessageSuccess = (state, action) => {
+    console.log(action.message)
+    const chatsNew = state.chats.map(chat => {
+        if(chat.chatId === action.chatId){
+            console.log('Found Chat');
+            return {
+                ...chat, 
+                messages: chat.messages.map(m => {
+                    if(m.id === action.randId){
+                        console.log('found message');
+                        return {
+                            ...action.message,
+                            new: true
+                        }
+                    }else {
+                        return m
+                    }
+                })
+            }
+        }else{
+            return chat;
+        }
+    })
     return {
-        ...state
+        ...state,
+        chats: chatsNew
     }
 }
 
@@ -323,7 +393,6 @@ const fetchChatsStart = (state, action) => {
 }
 
 const fetchChatsSuccess = (state, action) => {
-    console.log(action);
     const chatsNew = action.chats.map(chat => {
         return {
             ...chat,
@@ -388,9 +457,6 @@ const createDummyChat = (state, action) => {
 }
 
 const addNewUsers = (state, action) => {
-    console.log('##############################')
-    console.log(action.users);
-    console.log('##############################')
     const personsNew = [...state.users, ...action.users];
     return {
         ...state,

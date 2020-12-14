@@ -43,8 +43,17 @@ class ChatPrev extends Component {
     }
   }
 
+  checkActive = () => {
+    if(this.props.chatId && this.props.chatId === this.props.currentChatId) return true;
+    if(this.props.currentChatId.startsWith('dummy')){
+      const id = this.props.currentChatId.substring(5, this.props.currentChatId.length);
+      console.log(id);
+      return id === this.props.userId;
+    }
+  }
+
   render() {
-    const active = this.props.chatId && this.props.chatId === this.props.currentChatId;
+    const active = this.checkActive();
     let styleClasses = [classes.ChatPrev];
     if(active) styleClasses.push(classes.Active);
     return (
@@ -65,7 +74,7 @@ class ChatPrev extends Component {
 const mapStateToProps = state => {
   return {
     darkmode: state.ui.darkmode,
-    currentChatId: state.stream.currentChatId,
+    currentChatId: state.chat.currentChatId,
     currentUserId: state.stream.userId
   }
 }

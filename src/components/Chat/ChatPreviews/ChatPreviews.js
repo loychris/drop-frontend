@@ -25,7 +25,9 @@ class ChatPreviews extends Component {
             height={30} 
             width={30}/> 
       }else {
-        chats = this.props.chats.map(chat => {
+        chats = this.props.chats
+          .filter(chat => !chat.chatId.startsWith('dummy'))
+          .map(chat => {
           return (
             <ChatPrev 
               key={chat.chatId}
@@ -48,9 +50,10 @@ class ChatPreviews extends Component {
       )
     }
 
+
     getFriends = () => {
       let contacts;
-        if(this.props.friendsStatus === 'loading'){
+        if(this.props.friendsStatus === 'loading' || this.props.friendsStatus === 'not loaded'){
           contacts = 
           <Loader 
             className={classes.Spinner} 
@@ -59,13 +62,16 @@ class ChatPreviews extends Component {
             height={30} 
             width={30}/> 
       }else {
-        contacts = this.props.friends.map((friend) => {
+        contacts = this.props.friends
+        .filter(friend => this.props.friendsStatus !== 'loaded' ? true : friend.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
+        .map((friend) => {
           return (
             <ChatPrev 
               name={friend.name} 
               userId={friend.userId} 
-              key={friend.userId}
-              preview={friend.handle}/>
+              key={'f-' + friend.userId}
+              preview={friend.handle}
+              clicked={() => this.props.onChangeChat('friend'+friend.userId, friend, {userId: this.props.userId})}/>
           );
         })
       }
@@ -82,18 +88,14 @@ class ChatPreviews extends Component {
       if(this.state.searching || this.props.receivedFriendRequests.length === 0){
         return null
       } else {
-        const requests = this.props.receivedFriendRequests.map(userId => {
-          // const user = this.props.allUsers.find(user => user.userId === userId);
-          console.log(this.props.allUsers);
-          const user = null;
-          if(!user) return null;
-          if(!user.userId) console.log(this.props.receivedFriendRequests)
+        const requests = this.props.receivedFriendRequests.map(user => {
           return (
             <ChatPrev
               name={user.name}
               userId={user.userId}
               buttonType='accept'
-              key={'f'+ user.userId}/>
+              onButtonClick={() => this.props.onAcceptFriendRequest(user.userId, this.props.token)}
+              key={'request'+ user.userId}/>
           )
         }) 
         return(
@@ -107,7 +109,7 @@ class ChatPreviews extends Component {
 
     getAllUsers = () => {
       let allUsers = [];
-      if(this.props.allUsersStatus === 'accept'){
+      if(this.props.allUsersStatus === 'loading'){
         allUsers = 
           <Loader 
             className={classes.Spinner} 
@@ -130,7 +132,7 @@ class ChatPreviews extends Component {
               key={user.userId}
               name={user.name}
               buttonType='add'
-              
+              buttonClick= {() => this.props.onSendFriendRequest(user.userId, this.props.token)}
               preview={user.handle}
             />
           )
@@ -162,7 +164,9 @@ class ChatPreviews extends Component {
     }
 
     openSearch = () => {
-      this.props.onFetchAllUsers();
+      if(this.props.allUsersStatus !== 'loaded'){
+        this.props.onFetchAllUsers();
+      }
       this.setState({searching: true})
     }
 
@@ -205,6 +209,7 @@ class ChatPreviews extends Component {
 const mapStateToProps = state => {
     return {
       userId: state.auth.userId,
+      token: state.auth.token,
 
       chats: state.chat.chats,
       chatsStatus: state.chat.chatsStatus,
@@ -233,8 +238,9 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
       onFetchAllUsers: () => dispatch(actions.fetchAllUsers()),
-      onChangeChat: (chatId) => dispatch(actions.changeChat(chatId)), 
-
+      onChangeChat: (chatId, user, self) => dispatch(actions.changeChat(chatId, user, self)), 
+      onSendFriendRequest: (userId, token) => dispatch(actions.sendFriendRequest(userId, token)),
+      onAcceptFriendRequest: (userId, token) => dispatch(actions.acceptFriendRequest(userId, token))
     }
   }
   

@@ -192,32 +192,46 @@ export const fetchAllUsersFailed = () => {
 
 //--------- SEND MESSAGE -------------------------------------------------------
 
-export const sendMessage = (message, chatId, newChat) => {
+export const sendTextMessage = (chatId, text, token, userId) => {
+    console.log(
+        'chatId', chatId,
+        'text', text,
+        'token', token
+    )
     return dispatch => {
-        dispatch(sendMessageStart());
-        if(newChat){
-            dispatch(sendNewChat())
-        }else{
-            axios.post('')
-            .then(response => {
-                dispatch(sendMessageSuccess());
-            })
-            .catch(err => {
-                dispatch(sendMessageFailed())
-            })
-        }
+        const randId = `${Date.now()}`;
+        dispatch(sendMessageStart(chatId, text, randId, userId));
+        const headers = { headers: { authorization : `Bearer ${token}` } }
+        const url = `/api/chat/${chatId}/textMessage`;
+        const body = { message: text };
+        axios.post(url, body, headers)
+        .then(response => {
+            dispatch(sendMessageSuccess(chatId, response.data, randId));
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch(sendMessageFailed(chatId, randId))
+        })
     }
 }
 
-export const sendMessageStart = () => {
+export const sendMessageStart = (chatId, text, randId, userId) => {
+    console.log(text);
     return {
-        type: actionTypes.SEND_MESSAGE_START
+        type: actionTypes.SEND_MESSAGE_START,
+        chatId, 
+        text, 
+        randId,
+        userId
     }
 }
 
-export const sendMessageSuccess = () => {
+export const sendMessageSuccess = (chatId, message, randId) => {
     return {
-        type: actionTypes.SEND_MESSAGE_SUCCESS
+        type: actionTypes.SEND_MESSAGE_SUCCESS,
+        chatId,
+        message, 
+        randId
     }
 }
 
@@ -394,10 +408,12 @@ export const createDummyChat = (userId, name) => {
     }
 }
 
-export const changeChat = (chatId) => {
+export const changeChat = (chatId, user, self) => {
     return {
         type: actionTypes.CHANGE_CHAT,
-        chatId
+        chatId, 
+        user, 
+        self
     }
 }
 

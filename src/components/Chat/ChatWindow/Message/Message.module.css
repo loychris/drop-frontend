@@ -13,27 +13,43 @@
     flex-direction: row;
 }
 
-.TextMessage {
+.Message {
+    max-width: 80%;
+    padding: 3px 5px;
+    margin: 3px;
+}
+
+.Text {
     position: relative;
     word-wrap: break-word;
-    padding: 3px 3px;
-    margin: 3px;
+
     color: #ffffff;
 }
 
-.Sent .TextMessage {
+.Sent .Message {
     border-radius: 10px 0px 10px 10px;
     background-color: #11192c;
 }
 
-.Received .TextMessage {
+.Received .Message {
     border-radius: 0px 10px 10px 10px;
     float: left;
     background-color: #11192c;
 }
 
+.Sending .Message {
+    background-color: grey;
+}
+
 .Text {
     margin: 3px 15px 5px 15px;
+}
+
+.Image, .Drop {
+    width: 100%;
+    max-width: 300px; 
+    margin-top: 2px;
+    border-radius: 6px;
 }
 
 .Time {

@@ -21,7 +21,7 @@ const NEUMORPHISM = false;
 class StreamElement extends Component {
 
   componentDidUpdate = () => {
-    if(this.props.streamStatus === 'drops loaded', this.props.streamStatus === 'drops loaded' && this.props.dropStatus === 'not loaded'){
+    if(this.props.streamStatus === 'drops loaded' && this.props.dropStatus === 'not loaded' && this.props.id.length > 2){
       this.props.onFetchDrop(this.props.id);
     }
   }

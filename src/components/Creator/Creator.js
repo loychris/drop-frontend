@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import Loader from 'react-loader-spinner'
 
-import TakTakTak from './Ri98hoa.jpg';
+import TakTakTak from '../../media/taktaktak.jpg';
 import Checkmark from './Checkmark.svg';
 import classes from "./Creator.module.css";
 

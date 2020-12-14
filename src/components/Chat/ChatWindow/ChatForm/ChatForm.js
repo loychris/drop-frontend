@@ -13,6 +13,7 @@ class ChatForm extends Component {
         disabled: false,
         dragging: false,
         formHeight: 30,
+        textInput: '',
     }
 
     componentDidMount = () => {
@@ -25,13 +26,7 @@ class ChatForm extends Component {
     }
 
     onChangeHandler = (event) => {
-        if(this.props.currentChatLoaded){
-            this.props.onChatInputChangeHandler(event.target.value);
-            if(this.multilineTextarea.scrollHeight !== this.props.formHeight){
-                this.props.onChangeFormHeight(0)
-                this.props.onChangeFormHeight(this.multilineTextarea.scrollHeight);
-            }
-        }
+        this.setState({textInput: event.target.value});
     }
 
     getArrowRight = () => {
@@ -46,15 +41,22 @@ class ChatForm extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onSendMessage(
-            this.props.inputValue, 
+        console.log(            
+            'Inputvalue', this.state.textInput, 
+            'currentChatId', this.props.currentChatId, 
+            'token', this.props.token,
+            'UserId', this.props.userId
+        )
+        this.props.onSendTextMessage(
             this.props.currentChatId, 
+            this.state.textInput, 
+            this.props.token,
+            this.props.userId
         ); 
+        this.setState({textInput: ''});
     }
 
     render() {
-        const currentChat = this.props.chats.find(c => c.chatId === this.props.currentChatId);
-        const inputValue = currentChat ? currentChat.inputValue : ''
         let styleClasses = [classes.TextareaContainer];
         if(this.state.dragging) styleClasses.push(classes.Dragging);
         return(
@@ -63,9 +65,10 @@ class ChatForm extends Component {
                     onDragEnter={() => this.setState({dragging: true})}
                     onDragLeave={() => this.setState({dragging: false})}>
                     <textarea 
+                        ref="chatForm"
                         style={{
                             height: `${this.props.formHeight+5}px`}}
-                        value={inputValue}
+                        value={this.state.textInput}
                         rows={1}
                         className={classes.TextArea} 
                         onChange={this.onChangeHandler}
@@ -93,14 +96,16 @@ const mapStateToProps = state => {
         formHeight: state.chat.formHeight,
         chats: state.chat.chats,
         currentChatId: state.chat.currentChatId,
+
+        token: state.auth.token,
+        userId: state.auth.userId,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onChangeFormHeight: (height) => dispatch(actions.changeFormHeight(height)),
-        onSendMessage: (message) => dispatch(actions.sendMessage(message)), 
-        onChatInputChangeHandler: (value) => dispatch(actions.chatInputChangeHandler(value))
+        onSendTextMessage: (chatId, text, token, userId) => dispatch(actions.sendTextMessage(chatId, text, token, userId)), 
     }
 }
 
