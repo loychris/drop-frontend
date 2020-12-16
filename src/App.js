@@ -12,6 +12,7 @@ import Auth from './components/Auth/Auth';
 import taktaktak from './media/taktaktak.jpg'; 
 
 import * as actions from './store/actions/index';
+import Footer from "./components/Footer/Footer";
 
 class App extends Component {
 
@@ -51,6 +52,7 @@ class App extends Component {
           <Redirect to='/stream'/>
           {/* <Route path='/' exact component={Stream}/> 
           <Route path='/chat' exact component={Chat}/> */}
+          <Footer/> 
         </div>
     );
   }

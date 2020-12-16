@@ -1,0 +1,27 @@
+.Footer {
+    /* border: 1px solid red; */
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    height: 45px;
+    width: 185px;
+    z-index: 0;
+}
+
+.SocialButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.Link {
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.Icon {
+    height: 100%;
+    box-shadow: 0 1px 1px rgba(16,27,30,0.15), 0 2px 2px rgba(16,27,30,0.15), 0 4px 4px rgba(16,27,30,0.15), 0 8px 8px rgba(16,27,30,0.15), 0 16px 16px rgba(16,27,30,0.15);
+}
