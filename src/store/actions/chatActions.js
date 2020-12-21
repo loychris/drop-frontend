@@ -408,12 +408,13 @@ export const createDummyChat = (userId, name) => {
     }
 }
 
-export const changeChat = (chatId, user, self) => {
+export const changeChat = (chatId, user, self, inputRef) => {
     return {
         type: actionTypes.CHANGE_CHAT,
         chatId, 
         user, 
-        self
+        self,
+        inputRef
     }
 }
 

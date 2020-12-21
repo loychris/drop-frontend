@@ -46,4 +46,4 @@ export {
     openAuth,
     closeAuth,
     authCheckState,
-} from './authActions';
+} from './userActions';

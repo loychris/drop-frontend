@@ -107,7 +107,7 @@ class StreamElement extends Component {
 const mapStateToProps = state => {
   return {
     darkmode: state.ui.darkmode,
-    token: state.auth.token,
+    token: state.user.token,
     streamStatus: state.stream.streamStatus
   }
 }

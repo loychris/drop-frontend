@@ -10,18 +10,18 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 
 import * as actions from './store/actions/actionTypes';
-import StreamReducer from './store/reducers/StreamReducer'
-import ChatReducer from './store/reducers/ChatReducer'
-import AuthReducer from './store/reducers/authReducer';
+import StreamReducer from './store/reducers/StreamReducer';
+import ChatReducer from './store/reducers/ChatReducer';
+import UserReducer from './store/reducers/UserReducer';
 import UIReducer from './store/reducers/UIReducer'
 
 axios.defaults.baseURL = 'http://localhost:5000';
 
 const appReducer = combineReducers({
-    auth: AuthReducer,
+    user: UserReducer,
     chat: ChatReducer,
     stream: StreamReducer,
-    ui: UIReducer
+    ui: UIReducer,
 });
 
 const rootReducer = (state, action) => {

@@ -148,8 +148,8 @@ const mapStateToProps = state => {
   return {
     selectedComment: state.stream.selectedComment,
     sending: state.stream.sending,
-    userId: state.auth.userId,
-    token: state.auth.token
+    userId: state.user.userId,
+    token: state.user.token
   }
 }
 

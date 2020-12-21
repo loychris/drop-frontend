@@ -2,11 +2,14 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     token: null,
+    name: null,
+    handle: null,
     userId: '4',
     error: null,
     loading: null,
     authOpen: false, 
-    authReason: null
+    authReason: null,
+    hasProfilePic: false
 }
 
 const loginStart = ( state) => {
@@ -44,9 +47,13 @@ const authSuccess = (state, action) => {
         ...state, 
         loading: false, 
         error: null, 
+        hasProfilePic: action.profilePic,
+        name: action.name,
+        handle: action.handle,
         userId: action.userId, 
         token: action.token,
         email: action.email,
+
         friends: action.friends,
         friendRequests: action.friendRequests
     }

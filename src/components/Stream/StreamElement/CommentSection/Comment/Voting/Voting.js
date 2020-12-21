@@ -143,8 +143,8 @@ class Voting extends Component {
 const mapStateToProps = state => {
     return {
       darkmode: state.ui.darkmode,
-      token: state.auth.token,
-      userId: state.auth.userId
+      token: state.user.token,
+      userId: state.user.userId
     }
   }
   

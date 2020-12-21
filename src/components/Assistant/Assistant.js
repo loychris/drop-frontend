@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as UIActions from '../../store/actions/index';
 import classes from "./Assistant.module.css";
-import Menu from "./Menu/Menu";
+import Menu from "../SideMenu/Menu/Menu";
 
 class Assistant extends Component {
   constructor(props) {
@@ -122,8 +122,8 @@ class Assistant extends Component {
         <path d="M154.399 142.434C154.399 145.877 155.269 184.893 114.93 184.893C74.0107 184.893 75.7519 142.434 75.7519 142.434C75.7519 119.77 113.189 72.7213 114.93 71C116.672 72.7213 154.399 113.746 154.399 142.434Z" fill="white"/>
         </g>
         <defs>
-        <filter id="filter0_dd" x="0.741211" y="0" width="228.659" height="263.893" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+        <filter id="filter0_dd" x="0.741211" y="0" width="228.659" height="263.893" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+        <feFlood floodOspacity="0" result="BackgroundImageFix"/>
         <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
         <feOffset dy="4"/>
         <feGaussianBlur stdDeviation="37.5"/>

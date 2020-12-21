@@ -51,9 +51,9 @@ class Menu extends Component {
 
 const mapStateToProps = state => {
   return {
-    token: state.auth.token,
+    token: state.user.token,
     darkmode: state.ui.darkmode,
-    token: state.auth.token
+    token: state.user.token
   }
 }
 

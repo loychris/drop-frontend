@@ -170,10 +170,6 @@ class Stream extends Component {
     );
   }
 
-
-
-
-
   getRiver = () => {
     return(
       this.props.darkmode 
@@ -227,6 +223,9 @@ class Stream extends Component {
     if (this.props.currentTab !== 'stream') {
       styleClasses.push(classes.OutRight);
     }
+    const urlNew = `/stream/${this.props.streamElements[0].id}`;
+    console.log(this.props.history.location.pathname);
+    //this.props.history.push(urlNew)
     return (
       <div className={styleClasses.join(" ")}>
         {this.getModal()}

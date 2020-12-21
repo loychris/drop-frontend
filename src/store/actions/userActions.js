@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from './actionTypes';
 import { setDropsNotLoaded } from './streamActions';
+import { closeMenu } from './UIActions';
 import { fetchFriends, fetchFriendRequests, fetchChats, setChatStateOnLogin } from './chatActions';
 
 export const openAuth = (authReason) => {
@@ -70,7 +71,7 @@ export const login = (identifier, password) => {
             dispatch(checkAuthTimeout(res.data.expiresIn));
             dispatch(setDropsNotLoaded());
             dispatch(setChatStateOnLogin(res.data))
-            dispatch(closeAuth());
+            dispatch(closeMenu());
             if(res.data.friends ?? res.data.friends.length > 0){
                 dispatch(fetchFriends(res.data.friends));
             }
@@ -86,6 +87,44 @@ export const login = (identifier, password) => {
             }else {
                 dispatch(loginFail("Check your connection, bro"))
             }
+        })
+    }
+}
+
+export const signup = (name, email, handle, password, profilePic) => {
+    return dispatch => {
+        dispatch(signupStart())
+        const url = '/api/users/signup';
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('handle', handle);
+        formData.append('password', password);
+        formData.append('profilePic', profilePic)
+        axios({
+            method: 'post',
+            url: url, 
+            data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        .then(res => {
+            console.log(res.data);
+            const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('expirationDate', expirationDate);
+            localStorage.setItem('user', JSON.stringify({
+                userId: res.data.userId,
+                friends: res.data.friends, 
+                friendRequests: res.data.friendRequests,
+                email: res.data.email
+            }));                
+            dispatch(authSuccess(res.data));
+            dispatch(setDropsNotLoaded());
+            dispatch(setChatStateOnLogin(res.data))
+            dispatch(closeMenu());
+        }).catch(err => {
+            console.log(err)
+            dispatch(signupFail(err.response));
         })
     }
 }
@@ -106,38 +145,7 @@ export const authSuccess = (responseData) => {
 export const signupFail = (response) => {
     return {
         type: actionTypes.SIGNUP_FAIL,
-        error: response.data.message ?? 'Something went wrong'
-    }
-}
-
-export const signup = (name, email, handle, password) => {
-    return dispatch => {
-        dispatch(signupStart())
-        axios.post(
-            '/api/users/signup', 
-            JSON.stringify({
-                email: email,
-                password: password,
-                handle: handle,
-                name: name
-            }), 
-            { headers: { 'Content-Type': 'application/json' } }
-            ).then(res => {
-                const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
-                localStorage.setItem('token', res.data.token);
-                localStorage.setItem('expirationDate', expirationDate);
-                localStorage.setItem('user', JSON.stringify({
-                    userId: res.data.userId,
-                    friends: res.data.friends, 
-                    friendRequests: res.data.friendRequests,
-                    email: res.data.email
-                }));                
-                dispatch(authSuccess(res.data));
-                dispatch(checkAuthTimeout(res.data.expiresIn));
-                dispatch(closeAuth());
-            }).catch(err => {
-                dispatch(signupFail(err.response));
-            })
+        error: response && response.data && response.data.message ? response.data.message : 'Something went wrong'
     }
 }
 

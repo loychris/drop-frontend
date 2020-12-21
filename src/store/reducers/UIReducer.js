@@ -4,7 +4,7 @@ const initialState = {
     darkmode: true,
     modalOpen: false,
     currentTab: 'chat',
-    menuOpen: false,
+    menuOpen: true,
 }
 
 const reducer = (state = initialState, action ) => {
