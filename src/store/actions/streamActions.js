@@ -265,14 +265,19 @@ export const fetchDrop = (dropId, token) => {
     return dispatch => {
         dispatch(fetchDropStart(dropId))
         console.log('dropId', dropId);
-        const url = dropId.startsWith('no more') ? 'apidrop/nomore' : `/api/drop/${dropId}`;
-        const headers = token ? { headers: { authorization: `Bearer ${token}` } } : null 
-        axios.get(url, headers)
-        .then(res => {
-            dispatch(fetchDropSuccess(dropId, res.data))
-        }).catch(err => {
-            dispatch(fetchDropFailed(dropId))
-        })
+        if(dropId.startsWith('no')){
+            dispatch(fetchDropSuccess(dropId, { dropId, title: "", creatorId: "5fe08af76cece946855c16c9", comments: []}))
+        }else{
+            const url = dropId.startsWith('no more') ? 'apidrop/nomore' : `/api/drop/${dropId}`;
+            const headers = token ? { headers: { authorization: `Bearer ${token}` } } : null 
+            axios.get(url, headers)
+            .then(res => {
+                dispatch(fetchDropSuccess(dropId, res.data))
+            }).catch(err => {
+                dispatch(fetchDropFailed(dropId))
+            })
+        }
+
     }
 }
 
