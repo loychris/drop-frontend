@@ -1,15 +1,15 @@
 .Content{
     margin-bottom: 6px;
-    min-height: 400px; 
+    min-height: 200px; 
     position: relative;
 
 }
 
 .ContentContainer{
-    position: absolute;
-    top: 50%;
+    /* position: absolute; */
+    /* top: 50%; */
     width: 100%;
-    transform: translate(0, -50%);
+    /* transform: translate(0, -50%); */
 }
 
 .Spinner{
@@ -26,6 +26,6 @@
     width: 100%; 
     border-radius: 6px;
     user-select: none;
-    -webkit-user-drag: none;  /* Prevents dragging of images/divs etc */
+    -webkit-user-drag: none; 
 
 }

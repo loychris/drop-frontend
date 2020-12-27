@@ -18,15 +18,18 @@ class Content extends Component {
     }
  
     render() {
+        const src = this.props.dropId.startsWith('no') 
+                    ? 'https://storage.googleapis.com/drop-meme-bucket/meme-5fe89cd23a8f403b8f0e0c33'
+                    : `https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`
         return(
             <div className={classes.Content}>
                 <div className={classes.ContentContainer}>
                     {
-                        (this.props.memeStatus === 'loaded' || this.props.currentlyLoadingMemeId === this.props.dropId) && this.props.position < 10
+                        (this.props.memeStatus === 'loaded' || this.props.currentlyLoadingMemeId === this.props.dropId) && this.props.position < 10 
                         ? <img 
                             alt={`Meme ${this.props.id}`} 
                             className={classes.Meme} 
-                            src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`}
+                            src={src}
                             onLoad={() => this.props.onFetchMemeSuccess(this.props.dropId)}/>
                         : null
                     }

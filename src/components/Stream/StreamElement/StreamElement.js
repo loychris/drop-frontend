@@ -116,7 +116,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onOpenAuth: (authReason) => dispatch(actions.openAuth(authReason)),
     onOpenModal: () => dispatch(actions.openModal()),
-    onFetchDrop: (dropId) => dispatch(actions.fetchDrop(dropId)),
+    onFetchDrop: (dropId, token) => dispatch(actions.fetchDrop(dropId, token)),
   }
 }
 

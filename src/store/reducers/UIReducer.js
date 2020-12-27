@@ -3,8 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     darkmode: true,
     modalOpen: false,
-    currentTab: 'chat',
-    menuOpen: true,
+    currentTab: 'stream',
+    menuOpen: false,
 }
 
 const reducer = (state = initialState, action ) => {

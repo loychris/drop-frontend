@@ -94,7 +94,7 @@ const setIds = (state, action) => {
     const StreamElementsNew = state.StreamElements.map((s, i) => {
         if(s.position === 0){
             return s
-        }else if(s.position > ids.length-1){
+        }else if(activeIds.length === 0){
             return {...s, id: 'no more' + Math.random(), status: 'no more', memeStatus: 'not loaded'} 
         } else {
             return { ...s, id: activeIds.pop(), status:'id loaded', memeStatus: 'not loaded'}
