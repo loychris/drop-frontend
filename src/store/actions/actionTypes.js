@@ -14,13 +14,16 @@
 
 
 // AUTH
+
+
     export const LOGIN_START = 'LOGIN_START';
-    export const LOGIN_SUCCESS = 'AUTH_SUCCESS';
+    export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
     export const LOGIN_FAIL = 'AUTH_FAIL';
-    export const LOGIN = 'LOGIN';
+
     export const SIGNUP_START = 'SIGNUP_START';
-    export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+    export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
     export const SIGNUP_FAIL ='SIGNUP_FAIL';
+
     export const SIGNUP = 'SIGNUP';
     export const LOGOUT = 'LOGOUT';
     export const CHECK_EMAIL = 'CHECK_EMAIL';
@@ -121,5 +124,3 @@
     export const FETCH_CHATS_START = 'FETCH_CHATS_START';
     export const FETCH_CHATS_SUCCESS = 'FETCH_CHATS_SUCCESS';
     export const FETCH_CHATS_FAILED = 'FETCH_CHATS_FAILED';
-
-    export const USER_LOGOUT = 'USER_LOGOUT';

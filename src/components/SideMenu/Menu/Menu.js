@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import * as UIActions from '../../../store/actions/index';
+import * as actions from '../../../store/actions/index';
 
+import LogoutIcon from './logout.svg';
 
 import classes from "./Menu.module.css";
 import AuthForm from "./AuthForm/AuthForm";
+import MenuItem from "./MenuItem/MenuItem";
 
-class Menu extends Component {
+class Menu extends Component { 
 
   render() {
     let menuClasses = [classes.Menu];
@@ -31,6 +33,14 @@ class Menu extends Component {
         <hr/>
         <div className={classes.MenuItems}>
           {this.props.token ? null : <AuthForm/> }
+          {this.props.token 
+            ? <MenuItem>
+                <div className={classes.LogoutContainer} onClick={this.props.onLogout}>
+                  <img className={classes.LogoutIcon} src={LogoutIcon} alt='logoutIcon'/>
+                  <p className={classes.LogoutText}>logout</p>
+                </div>
+              </MenuItem>
+            : null}
         </div>
       </div>
     );
@@ -50,8 +60,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGoDark: () => dispatch(UIActions.goDark),
-    onGoLight: () => dispatch(UIActions.goLight)
+    onGoDark: () => dispatch(actions.goDark()),
+    onGoLight: () => dispatch(actions.goLight()),
+    onLogout: () => dispatch(actions.logout()),
   }
 }
 

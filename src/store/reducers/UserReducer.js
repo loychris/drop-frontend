@@ -9,13 +9,31 @@ const initialState = {
     loading: null,
     authOpen: false, 
     authReason: null,
-    hasProfilePic: false
+    hasProfilePic: false,
+    profilePicSrc: null,
 }
 
-const loginStart = ( state) => {
+const loginStart = (state) => {
     return { 
         ...state, 
         loading: true 
+    }
+}
+
+const loginSuccess = (state, action) => {
+    console.log(action)
+    return { 
+        ...state, 
+        loading: false, 
+        error: null, 
+        hasProfilePic: action.profilePic,
+        name: action.name,
+        handle: action.handle,
+        userId: action.userId, 
+        token: action.token,
+        email: action.email,
+        friends: action.friends,
+        friendRequests: action.friendRequests
     }
 }
 
@@ -42,7 +60,7 @@ const signupFail = (state, action) => {
     }
 }
 
-const authSuccess = (state, action) => {
+const signupSuccess = (state, action) => {
     return { 
         ...state, 
         loading: false, 
@@ -53,45 +71,22 @@ const authSuccess = (state, action) => {
         userId: action.userId, 
         token: action.token,
         email: action.email,
-
+        profilePicSrc: action.profilePicSrc,
         friends: action.friends,
         friendRequests: action.friendRequests
     }
 }
 
-const openAuth = (state, action) => {
-    return { 
-        ...state, 
-        authOpen: true, 
-        authReason: action.authReason 
-    }
-}
-
-const closeAuth = (state) => {
-    return { 
-        ...state, 
-        authOpen: false 
-    }
-}
-
-const logout = (state) => {
-    return { 
-        ...state, 
-        token: null, 
-        userId: null 
-    }
-}
-
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
-        case actionTypes.LOGOUT: return logout(state);
         case actionTypes.LOGIN_START: return loginStart(state);
+        case actionTypes.LOGIN_SUCCESS: return loginSuccess(state, action);
         case actionTypes.LOGIN_FAIL: return loginFail(state, action);
+
         case actionTypes.SIGNUP_START: return signupStart(state);
-        case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
+        case actionTypes.SIGNUP_SUCCESS: return signupSuccess(state, action);
         case actionTypes.SIGNUP_FAIL: return signupFail(state, action);
-        case actionTypes.OPEN_AUTH: return openAuth(state, action);
-        case actionTypes.CLOSE_AUTH: return closeAuth(state);
+
         default: return state;
     }
 }

@@ -264,6 +264,7 @@ export const deleteCommentFailed = () => {
 export const fetchDrop = (dropId, token) => {
     return dispatch => {
         dispatch(fetchDropStart(dropId))
+        console.log('dropId', dropId);
         const url = dropId.startsWith('no more') ? 'apidrop/nomore' : `/api/drop/${dropId}`;
         const headers = token ? { headers: { authorization: `Bearer ${token}` } } : null 
         axios.get(url, headers)

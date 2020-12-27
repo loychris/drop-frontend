@@ -18,33 +18,25 @@ export const closeAuth = () => {
     }
 }
 
+export const logout = () => {
+    localStorage.clear()
+    return {
+        type: actionTypes.LOGOUT
+    }
+}
+
 export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
-        setTimeout(() => {
-            dispatch(logout());
-        }, expirationTime * 1000)
+        console.log('FIRST');
+        setTimeout(() => console.log('SECOND'), 4000);
+        console.log(expirationTime*1000)
+        setTimeout(() => console.log('THIRD'), Number(expirationTime) * 1000)
     }
 }
 
-export const logout = () => {
-    return {
-        type: actionTypes.USER_LOGOUT
-    }
-}
 
-export const loginStart = () => {
-    return {
-        type: actionTypes.LOGIN_START
-    };
-};
+//------ LOGIN -----------------------------------------------------------------------
 
-
-export const loginFail = (message) => {
-    return {
-        type: actionTypes.LOGIN_FAIL,
-        error: message ? message : 'Something went wrong'
-    }
-}
 
 export const login = (identifier, password) => {
     return dispatch => {
@@ -60,15 +52,9 @@ export const login = (identifier, password) => {
             const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('expirationDate', expirationDate);
-            localStorage.setItem('user', JSON.stringify({
-                userId: res.data.userId,
-                friends: res.data.friends, 
-                friendRequests: res.data.friendRequests,
-                sentFriendRequests: res.data.sentFriendRequests,
-                email: res.data.email
-            }));
-            dispatch(authSuccess(res.data));
-            dispatch(checkAuthTimeout(res.data.expiresIn));
+            localStorage.setItem('user', JSON.stringify(res.data));
+            dispatch(loginSuccess(res.data));
+            console.log(res.data)
             dispatch(setDropsNotLoaded());
             dispatch(setChatStateOnLogin(res.data))
             dispatch(closeMenu());
@@ -91,7 +77,31 @@ export const login = (identifier, password) => {
     }
 }
 
-export const signup = (name, email, handle, password, profilePic) => {
+export const loginStart = () => {
+    return {
+        type: actionTypes.LOGIN_START
+    };
+};
+
+export const loginSuccess = (responseData) => {
+    console.log(responseData);
+    return {
+        type: actionTypes.LOGIN_SUCCESS,
+        ...responseData
+    }
+}
+
+export const loginFail = (message) => {
+    return {
+        type: actionTypes.LOGIN_FAIL,
+        error: message ? message : 'Something went wrong'
+    }
+}
+
+//------ SIGNUP ----------------------------------------------------------------------
+
+export const signup = (name, email, handle, password, profilePic, src) => {
+    console.log('SRCSRCSRC', src);
     return dispatch => {
         dispatch(signupStart())
         const url = '/api/users/signup';
@@ -112,13 +122,8 @@ export const signup = (name, email, handle, password, profilePic) => {
             const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('expirationDate', expirationDate);
-            localStorage.setItem('user', JSON.stringify({
-                userId: res.data.userId,
-                friends: res.data.friends, 
-                friendRequests: res.data.friendRequests,
-                email: res.data.email
-            }));                
-            dispatch(authSuccess(res.data));
+            localStorage.setItem('user', JSON.stringify(res.data));                
+            dispatch(signupSuccess(res.data, src));
             dispatch(setDropsNotLoaded());
             dispatch(setChatStateOnLogin(res.data))
             dispatch(closeMenu());
@@ -135,9 +140,10 @@ export const signupStart = () => {
     }
 }
 
-export const authSuccess = (responseData) => {
+export const signupSuccess = (responseData, profilePicSrc) => {
     return {
-        type: actionTypes.AUTH_SUCCESS,
+        type: actionTypes.SIGNUP_SUCCESS,
+        profilePicSrc,
         ...responseData
     }
 }
@@ -149,19 +155,23 @@ export const signupFail = (response) => {
     }
 }
 
+
 export const authCheckState = () => {
     return dispatch => {
         const token = localStorage.getItem('token');
         if (!token) {
             dispatch(logout());
-            dispatch(setDropsNotLoaded());
         } else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             if (expirationDate <= new Date()) {
                 dispatch(logout());
             } else {
-                const userId = localStorage.getItem('userId');
-                dispatch(authSuccess(userId, token));
+
+                const user = JSON.parse(localStorage.getItem('user'));
+                console.log(user);
+                dispatch(loginSuccess(user));
+                dispatch(setDropsNotLoaded());
+                dispatch(setChatStateOnLogin(user));
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
             }   
         }

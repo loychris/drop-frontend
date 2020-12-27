@@ -42,6 +42,7 @@ class AuthForm extends Component {
         },
         profilePic: {
             tooUgly: true,
+            src: null,
             file: null, 
 
         },
@@ -307,14 +308,13 @@ class AuthForm extends Component {
                     this.state.email.value, 
                     this.state.handle.value, 
                     this.state.password.value, 
-                    this.state.profilePic.file
+                    this.state.profilePic.file,
+                    this.state.profilePic.src
                 );
             }
         }
 
     }
-
-
 
     render() {
         if(this.state.isLogin){
@@ -515,7 +515,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onLogin: (email, password) => dispatch(actions.login(email, password)),
-        onSignup: (name, email, handle, password, file) => dispatch(actions.signup(name, email, handle, password, file)),
+        onSignup: (name, email, handle, password, file, src) => dispatch(actions.signup(name, email, handle, password, file, src)),
     }
 }
 

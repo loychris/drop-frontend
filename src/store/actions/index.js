@@ -40,10 +40,11 @@ export {
 } from './chatActions';
 
 export {
+    logout,
     login,
     signup,
-    logout,    
     openAuth,
     closeAuth,
     authCheckState,
+
 } from './userActions';

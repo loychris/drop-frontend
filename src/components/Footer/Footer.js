@@ -70,7 +70,7 @@ class Footer extends Component {
 
     getFacebookIcon = () => {
         return (
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className={classes.Icon} width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0)">
                 <path d="M22.75 26H3.25C1.456 26 0 24.544 0 22.75V3.25C0 1.456 1.456 0 3.25 0H22.75C24.544 0 26 1.456 26 3.25V22.75C26 24.544 24.544 26 22.75 26Z" fill="#121218"/>
                 <g filter="url(#filter0_dd)">
@@ -135,15 +135,15 @@ class Footer extends Component {
 
     getPinterestIcon = () => {
         return ( 
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className={classes.Icon} width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0)">
                 <rect width="26" height="26" rx="3" fill="#121218"/>
                 <g filter="url(#filter0_dd)">
-                <path d="M12.6638 5.05685C9.88712 5.37221 7.12023 7.65774 7.00603 10.9226C6.93425 12.916 7.49056 14.4114 9.35528 14.8314C10.1645 13.379 9.09425 13.0587 8.92785 12.0081C8.24428 7.70256 13.8091 4.76639 16.7211 7.77227C18.736 9.85365 17.4096 16.2571 14.1598 15.5915C11.0471 14.9558 15.6836 9.85863 13.1989 8.85777C11.1792 8.04448 10.1057 11.3458 11.0634 12.9857C10.5022 15.8057 9.29328 18.463 9.78271 22C11.3701 20.8282 11.9052 18.5841 12.344 16.2438C13.1418 16.7368 13.5676 17.2497 14.5856 17.3293C18.3395 17.6248 20.4359 13.5168 19.9236 9.7275C19.4685 6.36809 16.173 4.6585 12.6638 5.05685Z" fill="white"/>
+                <path d="M11.5352 4.06354C8.33129 4.416 5.13873 6.97042 5.00696 10.6193C4.92413 12.8473 5.56603 14.5187 7.71763 14.988C8.6513 13.3648 7.41644 13.0068 7.22444 11.8325C6.43571 7.02051 12.8566 3.7389 16.2167 7.09842C18.5415 9.42467 17.0111 16.5815 13.2613 15.8376C9.66969 15.1271 15.0195 9.43023 12.1526 8.31163C9.82216 7.40265 8.58354 11.0924 9.68851 12.9252C9.04096 16.0769 7.6461 19.0469 8.21082 23C10.0424 21.6903 10.6598 19.1823 11.1662 16.5667C12.0867 17.1176 12.578 17.6908 13.7526 17.7799C18.0841 18.1101 20.503 13.5188 19.9119 9.28368C19.3867 5.52904 15.5842 3.61833 11.5352 4.06354Z" fill="white"/>
                 </g>
                 </g>
                 <defs>
-                <filter id="filter0_dd" x="-3" y="-5" width="33" height="37" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                <filter id="filter0_dd" x="-5" y="-6" width="35" height="39" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                 <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
                 <feOffset/>
@@ -170,19 +170,19 @@ class Footer extends Component {
     getSocialButtons = () => {
         return(
             <div className={classes.SocialButtons}>
-                <a href='https://twitter.com/drops_meme' className={classes.Link} target="_blank">
+                <a href='https://twitter.com/drops_meme' className={classes.Link} target="_blank" rel="noopener noreferrer">
                     {this.getTwitterIcon()}  
                 </a>
-                <a href='https://www.instagram.com/meme_drops/' className={classes.Link}  target="_blank">
+                <a href='https://www.instagram.com/meme_drops/' className={classes.Link}  target="_blank" rel="noopener noreferrer">
                     {this.getInstagramIcon()}
                 </a>
-                <a href='https://www.facebook.com/mememedrop' className={classes.Link} target="_blank">
+                <a href='https://www.facebook.com/mememedrop' className={classes.Link} target="_blank" rel="noopener noreferrer">
                     {this.getFacebookIcon()} 
                 </a>
-                <a href='https://www.tumblr.com/blog/memedrops' className={classes.Link} target="_blank">
+                <a href='https://www.tumblr.com/blog/memedrops' className={classes.Link} target="_blank" rel="noopener noreferrer">
                     {this.getTumblrIcon()}  
                 </a>
-                <a href='https://www.pinterest.de/memedrops/' className={classes.Link} target="_blank">
+                <a href='https://www.pinterest.de/memedrops/' className={classes.Link} target="_blank" rel="noopener noreferrer">
                     {this.getPinterestIcon()} 
                 </a>
             </div>

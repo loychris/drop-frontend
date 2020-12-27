@@ -11,11 +11,14 @@ class SideMenu extends Component {
 
     render() {
         const menu = this.props.menuOpen ? <Menu/> : null;
-        const profileImageSrc = this.props.token 
-            ? this.props.hasProfilePic 
-                ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + this.props.userId 
-                : DefaultProfilePic 
-            : DefaultProfilePic
+        let profilePicSrc = DefaultProfilePic;
+        if(this.props.profilePicSrc){
+            profilePicSrc = this.props.profilePicSrc;
+        }else {
+            if(this.props.token && this.props.hasProfilePic){
+                profilePicSrc = 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + this.props.userId; 
+            }
+        }
         return (
             <div className={classes.Container}>
                 { this.props.menuOpen ? <div className={classes.Overlay} onClick={this.props.onCloseMenu}></div> : null }
@@ -24,7 +27,7 @@ class SideMenu extends Component {
                     className={classes.Assistant}>
                 <img 
                     className={`${classes.ProfilePic} ${this.props.menuOpen ? classes.MenuOpen : ''}`} 
-                    src={profileImageSrc}/>
+                    src={profilePicSrc}/>
                 </div>
                 { menu }
             </div>
@@ -38,6 +41,7 @@ const mapStateToProps = state => {
         token: state.user.token,
         hasProfilePic: state.user.hasProfilePic,
         userId: state.user.userId,
+        profilePicSrc: state.user.profilePicSrc,
     }
 }
 
