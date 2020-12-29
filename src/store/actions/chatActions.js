@@ -288,7 +288,7 @@ export const acceptFriendRequest = (friendId, token) => {
         const body = { friendId: friendId };
         axios.post('/api/users/acceptFriendRequest', body, headers)
         .then(res => {
-            dispatch(acceptFriendRequestSuccess(res.data.name, res.data.handle, res.data.userId))
+            dispatch(acceptFriendRequestSuccess(res.data.friend, res.data.chat))
         }).catch(err => {
             console.log(err)
             dispatch(acceptFriendRequestFailed(friendId))
@@ -303,12 +303,11 @@ export const acceptFriendRequestStart = (userId) => {
     }
 }
 
-export const acceptFriendRequestSuccess = (name, handle, userId) => {
+export const acceptFriendRequestSuccess = (friend, chat) => {
     return {
         type: actionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS,
-        name, 
-        handle, 
-        userId
+        friend, 
+        chat
     }
 }
 

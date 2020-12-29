@@ -4,7 +4,7 @@ const initialState = {
     token: null,
     name: null,
     handle: null,
-    userId: '4',
+    userId: '1',
     error: null,
     loading: null,
     authOpen: false, 

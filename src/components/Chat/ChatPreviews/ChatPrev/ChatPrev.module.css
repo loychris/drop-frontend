@@ -18,7 +18,7 @@
 .ProfilePic {
   height: 40px;
   display: flex;
-  padding: 0px 10px 0px 10px;
+  margin: 0px 10px 0px 10px;
   margin-top: 2px; 
   user-select: none; 
   -webkit-user-drag: none;
@@ -45,14 +45,20 @@
   color: #000000;
 }
 
+.Active .Info {
+  margin-top: 10px;
+}
+
 .Name {
-  text-overflow: ellipsis;
   display: block;
   padding: 0px;
   margin: 0px;
   width: 100%;
   text-decoration: none;
   outline: none;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  white-space: nowrap;
 }
 
 .Preview {
@@ -62,6 +68,9 @@
   width: 100%;
   font-size: 10px;
   color: #7bbfff;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  white-space: nowrap;
 }
 
 .ConnectorUp, .ConnectorDown{
@@ -86,5 +95,10 @@
 
 .Info {
   margin-top: 5px;
+  width: 70%;
   position: relative;
+}
+
+.ProfilePic {
+  border-radius: 100%;
 }

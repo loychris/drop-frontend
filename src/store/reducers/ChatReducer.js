@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     currentChatFormInput: '',
-    currentChatId: '5',
+    currentChatId: '1',
     formHeight: 53,
     allUsers: [],
     allUsersStatus: 'not loaded',
@@ -19,20 +19,23 @@ const initialState = {
     friendsStatus: 'not loaded',
     chats: [
         {
-            chatId: '5',
-            name: 'Elon Musk',
-            members: ['4', '42069'],
+            group: false,
+            chatId: '1',
+            members: [
+                { userId: '1', name: 'Username' }, 
+                { userId: '42069', name: 'Elon Musk', handle: 'Elon', profilePic: false }
+            ],
             inputValue: '',
             messages: [
                 {
                     text: 'Whats poppin\' Elon?',
                     time: '14:32', 
                     type: 'text',
-                    sender: '4',
+                    sender: '1',
                     id: 1,
                 },
                 {
-                    text: 'Rocket goes Brrrrrt',
+                    text: 'Rocket goes brrrrrt',
                     time: '14:32', 
                     type: 'text',
                     sender: '5',
@@ -53,26 +56,151 @@ const initialState = {
             ]
         },
         {
-            chatId: '3', 
-            name: 'Felix Lauenroth',
-            members: ['123', '456'],
+            chatId: '2',
+            group: false,
+            members: [
+                { userId: '1'}, 
+                { userId: '42069', name: 'Tonald Drump', profilePic: false}
+            ],            
             inputValue: '', 
             messages: [
-                                {
-                    text: 'Fuck you Felix. Your code sucks',
+                {
+                    text: 'I won. By a lot.',
                     time: '14:32', 
                     sender: 'chris',
                     id: 1,
                     sent: true 
-                },
-                {
-                    text: 'I know',
-                    time: '14:32', 
-                    sender: 'Elon',
-                    id: 2,
-                    sent: false 
                 }
-            ]
+            ],        
+        },
+        {
+            chatId: '3',
+            name: 'Shrek',
+            members: ['4', '42069'],
+            inputValue: '', 
+            messages: [
+                {
+                    text: 'Get out of my swamp!',
+                    time: '14:32', 
+                    sender: 'chris',
+                    id: 1,
+                    sent: true 
+                }
+            ],        
+        },
+        {
+            chatId: '4',
+            name: 'Keanu Reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+            members: ['4', '42069'],
+            inputValue: '', 
+            messages: [
+                {
+                    text: 'I can do total sellout and the still love me, lol',
+                    time: '14:32', 
+                    sender: 'chris',
+                    id: 1,
+                    sent: true 
+                }
+            ],
+        },
+        {
+            chatId: '5',
+            name: 'Rick Astley',
+            members: ['4', '42069'],
+            inputValue: '', 
+            messages: [
+                {
+                    text: 'Never gonna give you up.',
+                    time: '14:32', 
+                    sender: 'chris',
+                    id: 1,
+                    sent: true 
+                }
+            ],        },
+        {
+            chatId: '6',
+            name: '',
+            members: ['4', '42069'],
+            inputValue: '', 
+            messages: [
+                {
+                    text: '',
+                    time: '14:32', 
+                    sender: 'chris',
+                    id: 1,
+                    sent: true 
+                }
+            ],        },
+        {
+            chatId: '7',
+            name: 'Tonald Drump',
+            members: ['4', '42069'],
+            inputValue: '', 
+            messages: [
+                {
+                    text: '',
+                    time: '14:32', 
+                    sender: 'chris',
+                    id: 1,
+                    sent: true 
+                }
+            ],        },
+        {
+            chatId: '8',
+            name: '',
+            members: ['4', '42069'],
+            inputValue: '', 
+            messages: [
+                {
+                    text: '',
+                    time: '14:32', 
+                    sender: 'chris',
+                    id: 1,
+                    sent: true 
+                }
+            ],        },
+        {
+            chatId: '9',
+            name: '',
+            members: ['4', '42069'],
+            inputValue: '', 
+            messages: [
+                {
+                    text: '',
+                    time: '14:32', 
+                    sender: 'chris',
+                    id: 1,
+                    sent: true 
+                }
+            ],        },
+        {
+            chatId: '10',
+            name: 'Tonald Drump',
+            members: ['4', '42069'],
+            inputValue: '', 
+            messages: [
+                {
+                    text: '',
+                    time: '14:32', 
+                    sender: 'chris',
+                    id: 1,
+                    sent: true 
+                }
+            ],        },
+        {
+            chatId: '11',
+            name: '',
+            members: ['4', '42069'],
+            inputValue: '', 
+            messages: [
+                {
+                    text: '',
+                    time: '14:32', 
+                    sender: 'chris',
+                    id: 1,
+                    sent: true 
+                }
+            ],
         }
     ], 
     users: [{name: 'Elon Musk', userId: '42069', handle: '@elon'}],
@@ -131,42 +259,90 @@ const setChatStateOnLogin = (state, action) => {
         receivedFriendRequests: action.userdata.friendRequests, 
         sentFriendRequests: action.userdata.sentFriendRequests,
         friends: action.userdata.friends,
+        chats: action.userdata.chats,
+        currentChatId: action.userdata.chats.length > 0 ? action.userdata.chats[0].chatId : null,
     }
 }
 
 //-------------------------------------------------------
 
 const changeChat = (state, action) => {
-    if(state.currentChatId === action.chatId) return state;
-    if(action.chatId.startsWith('friend')){
-        const friendId = action.chatId.substring(6, action.chatId.length)
-        let existingChat = state.chats
-            .filter(chat => chat.members.length === 2)
-            .find(chat => {
-                chat.members.some(user => user.userId === friendId)
-            })
-        if(existingChat){
-            return {
-                ...state, 
-                currentChatId: existingChat.chatId,
+
+    const inputValue = action.inputRef ? action.inputRef.current.value : '';
+    console.log('inputValue: ', inputValue);
+
+    // Chat already selected
+    if(state.currentChatId === action.chatId){
+        const chatsNew = state.chats.map(chat => {
+            if(chat.chatId === state.currentChatId){
+                return {
+                    ...chat,
+                    inputValue
+                }
+            } else {
+                return chat
             }
-        }else {
-            const dummyChatId = 'dummy' + friendId;
-            const dummyChat = {
-                messages: [],
-                chatId: dummyChatId,
-                members: [action.self, action.user],
-                inputValue: ''                
-            }
-            return {
-                ...state,
-                chats: [...state.chats, dummyChat],
-                currentChatId: dummyChatId,
+        })
+        action.inputRef.current.focus();
+        return {
+            ...state,
+            chats: chatsNew
+        }
+    } 
+
+    // Select a different Chat
+
+    let nextChat = state.chats.find(chat => {
+        return chat.chatId === action.chatId
+    })
+
+    let dummyChat;
+    
+    if(!nextChat){
+    
+        // Chat doesn't yet exist
+    
+        if(action.chatId.startsWith('friend')){
+            const friendId = action.chatId.substring(6, action.chatId.length)
+            nextChat = state.chats
+                .filter(chat => chat.members.length === 2)
+                .find(chat => {
+                    chat.members.some(user => user.userId === friendId)
+                })
+            if(!nextChat) {
+                dummyChat = {
+                    messages: [],
+                    chatId: 'dummy' + friendId,
+                    members: [action.self, action.user],
+                    inputValue: ''                
+                }
+                nextChat = dummyChat;
             }
         }
+    
+        if(action.chatId.startsWith('stranger')){
+            // TODO: same shit for strangers
+        }
     }
+
+    // TODO create dummyChat
+
+    const chatsNew = state.chats.map(chat => {
+        if(chat.chatId === state.currentChatId){
+            return {
+                ...chat,
+                inputValue
+            }
+        }else if(chat.chatId === action.chatId){
+            //////////////////////////////////////////
+            action.inputRef.current.value = chat.inputValue
+            //////////////////////////////////////////
+        }
+    })
+    action.inputRef.current.focus();
     return {
         ...state,
+        chats: dummyChat ? [...chatsNew, dummyChat] : chatsNew,
         currentChatId: action.chatId,
     }
 }
@@ -361,19 +537,18 @@ const acceptFriendRequestStart = (state, action) => {
 }
 
 const acceptFriendRequestSuccess = (state, action) => {
-    const acceptingFriendRequestsNew = state.acceptingFriendRequests.filter(id => id !== action.userId);
-    const receivedFriendRequestsNew = state.receivedFriendRequests.filter(action.userId);
-    const newFriend = {
-        userId: action.userId, 
-        name: action.name, 
-        handle: action.handle
-    }
-    const friendsNew = [...state.friends, newFriend]
+    const acceptingFriendRequestsNew = state.acceptingFriendRequests.filter(id => id !== action.friend.userId);
+    const receivedFriendRequestsNew = state.receivedFriendRequests.filter(action.friend.userId);
+
+    const friendsNew = [...state.friends, action.friend]
+    const chatsNew = [action.chat, ...state.chats]
     return {
         ...state,
         receivedFriendRequests: receivedFriendRequestsNew,
         friends: friendsNew,
-        acceptingFriendRequests: acceptingFriendRequestsNew
+        chats: chatsNew,
+        acceptingFriendRequests: acceptingFriendRequestsNew,
+        currentChatId: action.chat.chatId,
     }
 }
 

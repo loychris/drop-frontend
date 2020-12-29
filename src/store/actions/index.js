@@ -6,6 +6,8 @@ export {
     closeModal,
     openMenu,
     closeMenu,
+    openNewChatModal,
+    closeNewChatModal,
 } from './UIActions';
 
 export {
@@ -43,8 +45,6 @@ export {
     logout,
     login,
     signup,
-    openAuth,
-    closeAuth,
     authCheckState,
 
 } from './userActions';

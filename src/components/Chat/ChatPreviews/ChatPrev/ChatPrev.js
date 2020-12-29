@@ -39,31 +39,46 @@ class ChatPrev extends Component {
     if(!this.props.buttonType){
       return null;
     }else {
-      return <AddButton type={this.props.buttonType} clicked={this.props.onButtonClick} />
-    }
-  }
-
-  checkActive = () => {
-    if(this.props.chatId && this.props.chatId === this.props.currentChatId) return true;
-    if(this.props.currentChatId.startsWith('dummy')){
-      const id = this.props.currentChatId.substring(5, this.props.currentChatId.length);
-      console.log(id);
-      return id === this.props.userId;
+      return <AddButton type={this.props.buttonType} clicked={this.props.buttonClick} />
     }
   }
 
   render() {
-    const active = this.checkActive();
+    let name, preview, profilePicSrc;
+    if(this.props.chat){
+      if(this.props.group){
+        name = this.props.name;
+        preview = this.props.messages.length > 0 ? this.props.messages[0].text : ''
+        profilePicSrc = DefaultProfilePic;
+      }else {
+        console.log(this.props.currentUserId)
+        const chatPartner = this.props.members.filter(m => m.userId !== this.props.currentUserId)[0];
+        console.log('Chatpartner', chatPartner)
+        name = chatPartner.name;
+        preview = this.props.messages.length > 0 ? this.props.messages[this.props.messages.length-1].text : '@' + chatPartner.handle;
+        profilePicSrc = chatPartner.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + chatPartner.userId : DefaultProfilePic;
+      }
+    } else if(this.props.user) {
+      name = this.props.name;
+      preview = '@' + this.props.handle;
+      profilePicSrc = this.props.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + this.props.userId : DefaultProfilePic;
+    }
+    console.log(`
+      name:    ${name}
+      preview: ${preview}
+      picsrc:  ${profilePicSrc}
+    `)
+    const active = this.props.chat && this.props.chatId === this.props.currentChatId;
     let styleClasses = [classes.ChatPrev];
     if(active) styleClasses.push(classes.Active);
     return (
       <div onClick={this.props.clicked} className={styleClasses.join(" ")}>
         {active ? this.getConnector(true) : null } 
         {active ? this.getConnector(false) : null } 
-        <img src={DefaultProfilePic} alt=" " className={classes.ProfilePic}/>
+        <img src={profilePicSrc} alt=" " className={classes.ProfilePic}/>
         <div className={classes.Info}>
-          <h3 className={classes.Name}>{this.props.name}</h3>
-          <p className={classes.Preview}>{this.props.preview}</p>
+          <h3 className={classes.Name}>{name}</h3>
+          <p className={classes.Preview}>{preview}</p>
         </div>
         {this.getButton()}
       </div>
@@ -75,7 +90,7 @@ const mapStateToProps = state => {
   return {
     darkmode: state.ui.darkmode,
     currentChatId: state.chat.currentChatId,
-    currentUserId: state.stream.userId
+    currentUserId: state.user.userId
   }
 }
 

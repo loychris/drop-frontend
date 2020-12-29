@@ -315,7 +315,7 @@ class AuthForm extends Component {
         }
 
     }
-
+   
     render() {
         if(this.state.isLogin){
             return(
