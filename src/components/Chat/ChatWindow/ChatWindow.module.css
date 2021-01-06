@@ -12,9 +12,13 @@
 
 .Messages {
     max-height: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
     position: relative;
 }
+
+.Messages::-webkit-scrollbar {
+    display: none;
+  }
 
 .NotEncryptedMessage {
     text-align: center;

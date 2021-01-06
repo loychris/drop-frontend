@@ -1,11 +1,12 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    currentChatFormInput: '',
     currentChatId: '1',
     formHeight: 53,
+    chatInput: '',  
     allUsers: [],
     allUsersStatus: 'not loaded',
+    shouldDeleteInput: false,
 
     sendingFriendRequests: [],
     sentFriendRequests: [],
@@ -246,6 +247,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_CHATS_FAILED: return fetchChatsFailed(state, action);
 
         case actionTypes.CREATE_DUMMY_CHAT: return createDummyChat(state, action);
+        case actionTypes.CHANGE_SHOULD_DELETE_INPUT: return changeShouldDeleteInput(state, action);
         default: return state;
     }
 }
@@ -267,101 +269,34 @@ const setChatStateOnLogin = (state, action) => {
 //-------------------------------------------------------
 
 const changeChat = (state, action) => {
-
-    const inputValue = action.inputRef ? action.inputRef.current.value : '';
-    console.log('inputValue: ', inputValue);
-
-    // Chat already selected
-    if(state.currentChatId === action.chatId){
-        const chatsNew = state.chats.map(chat => {
-            if(chat.chatId === state.currentChatId){
-                return {
-                    ...chat,
-                    inputValue
-                }
-            } else {
-                return chat
-            }
-        })
-        action.inputRef.current.focus();
-        return {
-            ...state,
-            chats: chatsNew
-        }
-    } 
-
-    // Select a different Chat
-
-    let nextChat = state.chats.find(chat => {
-        return chat.chatId === action.chatId
-    })
-
-    let dummyChat;
-    
-    if(!nextChat){
-    
-        // Chat doesn't yet exist
-    
-        if(action.chatId.startsWith('friend')){
-            const friendId = action.chatId.substring(6, action.chatId.length)
-            nextChat = state.chats
-                .filter(chat => chat.members.length === 2)
-                .find(chat => {
-                    chat.members.some(user => user.userId === friendId)
-                })
-            if(!nextChat) {
-                dummyChat = {
-                    messages: [],
-                    chatId: 'dummy' + friendId,
-                    members: [action.self, action.user],
-                    inputValue: ''                
-                }
-                nextChat = dummyChat;
-            }
-        }
-    
-        if(action.chatId.startsWith('stranger')){
-            // TODO: same shit for strangers
-        }
-    }
-
-    // TODO create dummyChat
-
+    let chatInputNew;
     const chatsNew = state.chats.map(chat => {
         if(chat.chatId === state.currentChatId){
             return {
                 ...chat,
-                inputValue
+                inputValue: state.chatInput
             }
-        }else if(chat.chatId === action.chatId){
-            //////////////////////////////////////////
-            action.inputRef.current.value = chat.inputValue
-            //////////////////////////////////////////
+        } else if(chat.chatId === action.chatId){
+            chatInputNew = chat.inputValue; 
+            return chat;
+        } else {
+            return chat
         }
     })
-    action.inputRef.current.focus();
+
     return {
         ...state,
-        chats: dummyChat ? [...chatsNew, dummyChat] : chatsNew,
+        chats: chatsNew, 
+        inputValue: chatInputNew, 
         currentChatId: action.chatId,
     }
 }
 
 const chatInputChangeHandler = (state, action) => {
-    const chatsNew = state.streams.map(chat => {
-        if(chat.chatId === state.currentChatId){
-            return {
-                ...chat,
-                inputValue: action.value
-            }
-        } else {
-            return chat
-        }
-
-    })
+    const chatInputNew = action.value;
     return {
         ...state,
-        chats: chatsNew,
+        chatInput: chatInputNew,
     }
 }
 
@@ -376,7 +311,6 @@ const changeChatFormHeight = (state, action) => {
 
 
 const sendMessageStart = (state, action) => {
-    console.log(action);
     const chatsNew = state.chats.map(chat => {
         if(chat.chatId === action.chatId){
             return {
@@ -405,20 +339,19 @@ const sendMessageStart = (state, action) => {
     })
     return {
         ...state,
-        chats: chatsNew
+        chats: chatsNew,
+        chatInput: '',
+        shouldDeleteInput: true
     }
 }
 
 const sendMessageSuccess = (state, action) => {
-    console.log(action.message)
     const chatsNew = state.chats.map(chat => {
         if(chat.chatId === action.chatId){
-            console.log('Found Chat');
             return {
                 ...chat, 
                 messages: chat.messages.map(m => {
                     if(m.id === action.randId){
-                        console.log('found message');
                         return {
                             ...action.message,
                             new: true
@@ -636,6 +569,13 @@ const addNewUsers = (state, action) => {
     return {
         ...state,
         users: personsNew
+    }
+}
+
+const changeShouldDeleteInput = (state, action) => {
+    return {
+        ...state,
+        shouldDeleteInput: action.value
     }
 }
 

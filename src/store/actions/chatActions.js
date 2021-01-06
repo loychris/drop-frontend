@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { closeNewChatModal } from './UIActions'
+
 import * as actionTypes from '../actions/actionTypes';
 
 export const setChatStateOnLogin = (userdata) => {
@@ -193,11 +195,6 @@ export const fetchAllUsersFailed = () => {
 //--------- SEND MESSAGE -------------------------------------------------------
 
 export const sendTextMessage = (chatId, text, token, userId) => {
-    console.log(
-        'chatId', chatId,
-        'text', text,
-        'token', token
-    )
     return dispatch => {
         const randId = `${Date.now()}`;
         dispatch(sendMessageStart(chatId, text, randId, userId));
@@ -399,23 +396,33 @@ export const sendNewChatFailed = () => {
 
 //--------- ADD DUMMY CAHT -----------------------------------------------------
 
-export const createDummyChat = (userId, name) => {
-    return {
-        type: actionTypes.CREATE_DUMMY_CHAT,
-        userId, 
-        name
+export const newChat = (chatId, chatPartner, self) => {
+    return dispatch => {
+        if(chatId){
+            dispatch(changeChat(chatId));
+        } else {
+            dispatch(createDummyChat(chatPartner, self));
+        }
+        dispatch(closeNewChatModal())
     }
 }
 
-export const changeChat = (chatId, user, self, inputRef) => {
+export const changeChat = (chatId) => {
     return {
         type: actionTypes.CHANGE_CHAT,
         chatId, 
-        user, 
-        self,
-        inputRef
     }
 }
+
+export const createDummyChat = (chatPartner, self) => {
+    return {
+        type: actionTypes.CREATE_DUMMY_CHAT,
+        chatPartner, 
+        self,
+    }
+}
+
+
 
 //--------- RESET CHAT -----------------------------------------------------
 
@@ -424,5 +431,19 @@ export const addNewUsers = (users) => {
     return {
         type: actionTypes.ADD_NEW_USERS,
         users
+    }
+}
+
+export const changeChatInput = (value) => {
+    return {
+        type: actionTypes.CHANGE_CHAT_INPUT,
+        value
+    }
+}
+
+export const changeShouldDeleteInput = (value) => {
+    return {
+        type: actionTypes.CHANGE_SHOULD_DELETE_INPUT,
+        value
     }
 }

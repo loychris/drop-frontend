@@ -1,94 +1,89 @@
-import React, { Component } from 'react';
+import React, { useState, createRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import classes from './ChatForm.module.css';
 
 import NeumorphismButton from '../../../UI/NeumorphismButton/NeumorphismButton';
 
 import * as actions from '../../../../store/actions/index';
+import Textarea from './Textarea/Textarea';
 
 
-class ChatForm extends Component {
+const ChatForm = React.forwardRef((props, ref) => {
 
-    state = {
-        disabled: false,
-        dragging: false,
-        formHeight: 30,
-        textInput: '',
-    }
+    const [dragging, setDragging] = useState(false)
+    const [input, setInput] = useState('');
 
-    componentDidMount = () => {
-        this.multilineTextarea.style.height = 'auto';
-        this.multilineTextarea.style.height = `${this.multilineTextarea.scrollHeight}px`;
-    }
-
-    componentDidUpdate = () => {
-        this.multilineTextarea.focus()
-    }
-
-    onChangeHandler = (event) => {
-        this.setState({textInput: event.target.value});
-    }
-
-    getArrowRight = () => {
+    const getArrowRight = () => {
         return(
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="arrow_forward_24px">
-                <path id="icon/navigation/arrow_forward_24px" d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill={this.state.disabled ? 'grey' : 'black'} fillOpacity="0.54"/>
+                <path id="icon/navigation/arrow_forward_24px" d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill={props.chatInput.length === 0 ? 'grey' : 'black'} fillOpacity="0.54"/>
                 </g>
             </svg>
         )
     }
 
-    submitHandler = (event) => {
-        event.preventDefault();
-        console.log(            
-            'Inputvalue', this.state.textInput, 
-            'currentChatId', this.props.currentChatId, 
-            'token', this.props.token,
-            'UserId', this.props.userId
-        )
-        this.props.onSendTextMessage(
-            this.props.currentChatId, 
-            this.state.textInput, 
-            this.props.token,
-            this.props.userId
+    useEffect(() => {
+        if(props.shouldDeleteInput){
+            props.onChangeShouldDeleteInput(false);
+            deleteInput('');
+        }
+    })
+
+    const deleteInput = () => {
+        setInput('')
+    }
+
+    const onInput = (event) => {
+        setInput(event.target.value);
+    }
+
+    const submitHandler = () => {
+        props.onSendTextMessage(
+            props.currentChatId, 
+            input,
+            props.token,
+            props.userId
         ); 
-        this.setState({textInput: ''});
     }
 
-    render() {
-        let styleClasses = [classes.TextareaContainer];
-        if(this.state.dragging) styleClasses.push(classes.Dragging);
-        return(
-            <div className={classes.ChatInput}>
-                <div className={styleClasses.join(' ')}
-                    onDragEnter={() => this.setState({dragging: true})}
-                    onDragLeave={() => this.setState({dragging: false})}>
-                    <textarea 
-                        ref="chatForm"
-                        style={{
-                            height: `${this.props.formHeight+5}px`}}
-                        value={this.state.textInput}
-                        rows={1}
-                        className={classes.TextArea} 
-                        onChange={this.onChangeHandler}
-                        ref={ref => this.multilineTextarea = ref}
-                    />
-                    <NeumorphismButton
-                        colorTheme='light'
-                        buttonType='SubmitComment'
-                        clicked={this.submitHandler} 
-                        disabled={this.state.disabled} 
-                        className={classes.SubmitButton} 
-                        type='submit'>
-                            {this.getArrowRight()}
-                    </NeumorphismButton>
-                </div> 
-            </div>
-
-        )
-    }
-}
+    const inputRef = createRef();
+    let styleClasses = [classes.TextareaContainer];
+    console.log(props.chatInput === '')
+    return(
+        <div className={classes.ChatInput}>
+            <div className={styleClasses.join(' ')}
+                onDragEnter={() => setDragging(true)}
+                onDragLeave={() => setDragging(false)}>
+                {/* <input
+                    type='textx' 
+                    className={classes.Textarea} 
+                    style={{height: `${props.formHeight+5}px`}}
+                    value={props.chat}
+                    rows={1}
+                    onChange={changeInput}
+                    ref={ref}
+                /> */}
+                <textarea 
+                    className={classes.Textarea} 
+                    style={{height: `${props.formHeight+5}px`}}
+                    value={input}
+                    rows={1}
+                    onChange={onInput}
+                    ref={ref}
+                />                
+                <NeumorphismButton
+                    colorTheme='light'
+                    buttonType='SubmitComment'
+                    clicked={submitHandler} 
+                    className={classes.SubmitButton} 
+                    type='submit'>
+                        {getArrowRight()}
+                </NeumorphismButton>
+            </div> 
+        </div>
+    )
+})
 
 const mapStateToProps = state => {
     return {
@@ -96,16 +91,21 @@ const mapStateToProps = state => {
         formHeight: state.chat.formHeight,
         chats: state.chat.chats,
         currentChatId: state.chat.currentChatId,
+        chatInput: state.chat.chatInput,
+        shouldDeleteInput: state.chat.shouldDeleteInput,
 
-        token: state.auth.token,
-        userId: state.auth.userId,
+        token: state.user.token,
+        userId: state.user.userId,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        onChangeChatInput: (value) => dispatch(actions.changeChatInput(value)),
         onChangeFormHeight: (height) => dispatch(actions.changeFormHeight(height)),
         onSendTextMessage: (chatId, text, token, userId) => dispatch(actions.sendTextMessage(chatId, text, token, userId)), 
+        onChangeShouldDeleteInput: (value) => dispatch(actions.changeShouldDeleteInput(value)),
+
     }
 }
 

@@ -19,6 +19,11 @@ class ChatPreviews extends Component {
       if(this.searchInput) this.searchInput.focus();
     }
 
+    clicked = (chatId) => {
+      this.props.onChangeChat(chatId);
+      this.props.onChangeShouldDeleteInput(true);
+    }
+
     getChats = () => {
       let chats = [];
       if(this.props.chatsStatus === 'loading'){
@@ -40,7 +45,7 @@ class ChatPreviews extends Component {
               {...chat}
               inputRef={this.props.inputRef}
               key={chat.chatId}
-              clicked={() => this.props.onChangeChat(chat.chatId, null, null, this.props.inputRef)}
+              clicked={() => this.clicked(chat.chatId)}
             /> 
           )
         })
@@ -53,43 +58,6 @@ class ChatPreviews extends Component {
       )
     }
 
-
-    getFriends = () => {
-      let contacts;
-        if(this.props.friendsStatus === 'loading' || this.props.friendsStatus === 'not loaded'){
-          contacts = 
-          <div className={classes.LoaderContainer}>
-            <Loader 
-              className={classes.Spinner} 
-              type="ThreeDots" 
-              color="#00BFFF" 
-              height={30} 
-              width={30}/> 
-        </div>
-      }else {
-        contacts = this.props.friends
-        .filter(friend => this.props.friendsStatus !== 'loaded' ? true : friend.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
-        .map((friend) => {
-          return (
-            <ChatPrev 
-              inputRef={this.props.inputRef}
-              name={friend.name} 
-              userId={friend.userId} 
-              key={'f-' + friend.userId}
-              preview={friend.handle}
-              clicked={() => this.props.onChangeChat('friend'+friend.userId, friend, {userId: this.props.userId}, this.props.inputRef)}/>
-          );
-        })
-      }
-
-        return(
-          <div>
-            <h3>Your Friends ────────</h3>
-            {contacts}
-          </div>
-        )
-    }
-
     getFriendRequests = () => {
       if(this.state.searching || this.props.receivedFriendRequests.length === 0){
         return null
@@ -99,8 +67,7 @@ class ChatPreviews extends Component {
             <ChatPrev
               user
               {...user}
-              inputRef={this.props.inputRef}
-              buttonType='accept'
+              buttonType = {this.props.acceptingFriendRequests.some(id => id === user.userId) ? 'loading' : 'accept'}
               buttonClick={() => this.props.onAcceptFriendRequest(user.userId, this.props.token)}
               key={'request'+ user.userId}/>
           )
@@ -258,9 +225,9 @@ const mapStateToProps = state => {
     return {
       onFetchAllUsers: () => dispatch(actions.fetchAllUsers()),
       onChangeChat: (chatId, user, self, inputRef) => dispatch(actions.changeChat(chatId, user, self, inputRef)), 
-      onSendFriendRequest: (userId, token) => dispatch(actions.sendFriendRequest(userId, token)),
       onAcceptFriendRequest: (userId, token) => dispatch(actions.acceptFriendRequest(userId, token)),
       onOpenNewChatModal: () => dispatch(actions.openNewChatModal()),
+      onChangeShouldDeleteInput: (value) => dispatch(actions.changeShouldDeleteInput(value)), 
     }
   }
   

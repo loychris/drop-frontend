@@ -9,13 +9,33 @@ import ChatWindow from './ChatWindow/ChatWindow';
 
 class Chat extends Component {
 
+  state = {
+    textInput: 'placeholder'
+  }
+
+  clicked = (event) => {
+    event.stopPropagation();
+    if(!this.props.token){
+      this.props.onOpenAuth('Create an Account to chat & share memes with your friends')
+    }
+  }
+
+  setChatFormInputValue = (event) => {
+    this.setState({textInput: event.target.value})
+  }
+
+  changeChat = (chatId) => {
+    this.props.onChangeChat(chatId, null, null, this.state.textInput);
+    this.props.onChangeShouldDeleteInput(true);
+  }
+
   render() {
     const styleClasses = [classes.Chat];
     if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeft);
     if (this.props.currentTab === 'creator') styleClasses.push(classes.OutRight);
     return (
-      <div className={styleClasses.join(" ")} onClick={this.props.token ? null : () => this.props.onOpenAuth('Create an Account to chat & share memes with your friends')}>
-        <ChatPrevs contacts/>
+      <div className={styleClasses.join(" ")} onClick={this.clicked}>
+        <ChatPrevs/>
         <ChatWindow/>
       </div>
     );
@@ -25,14 +45,16 @@ class Chat extends Component {
 const mapStateToProps = state => {
   return {
     currentTab: state.ui.currentTab,
-    token: state.auth.token,
+    token: state.user.token,
     chats: state.stream.chats,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOpenAuth: (authReason) => dispatch(actions.openAuth(authReason)),
+    onOpenAuth: (authReason) => dispatch(actions.openMenu(authReason)),
+    onChangeChat: (chatId, self, user, inputValue) => dispatch(actions.changeChat(chatId, self, user, inputValue)),
+    onChangeShouldDeleteInput: (value) => dispatch(actions.changeShouldDeleteInput(value)),
   }
 }
 

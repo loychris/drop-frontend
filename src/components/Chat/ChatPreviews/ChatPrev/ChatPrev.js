@@ -51,9 +51,7 @@ class ChatPrev extends Component {
         preview = this.props.messages.length > 0 ? this.props.messages[0].text : ''
         profilePicSrc = DefaultProfilePic;
       }else {
-        console.log(this.props.currentUserId)
         const chatPartner = this.props.members.filter(m => m.userId !== this.props.currentUserId)[0];
-        console.log('Chatpartner', chatPartner)
         name = chatPartner.name;
         preview = this.props.messages.length > 0 ? this.props.messages[this.props.messages.length-1].text : '@' + chatPartner.handle;
         profilePicSrc = chatPartner.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + chatPartner.userId : DefaultProfilePic;
@@ -63,14 +61,10 @@ class ChatPrev extends Component {
       preview = '@' + this.props.handle;
       profilePicSrc = this.props.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + this.props.userId : DefaultProfilePic;
     }
-    console.log(`
-      name:    ${name}
-      preview: ${preview}
-      picsrc:  ${profilePicSrc}
-    `)
     const active = this.props.chat && this.props.chatId === this.props.currentChatId;
     let styleClasses = [classes.ChatPrev];
     if(active) styleClasses.push(classes.Active);
+
     return (
       <div onClick={this.props.clicked} className={styleClasses.join(" ")}>
         {active ? this.getConnector(true) : null } 

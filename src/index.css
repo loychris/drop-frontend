@@ -11,55 +11,8 @@ body {
   overflow-x: hidden;
 }
 
-
 html{
   height: 100%;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
-
-body, html {
-  height: 100%;
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 15px;
-}
-
-/* width */
-::-webkit-scrollbar:hover {
-  width: 20px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #0b0d16;
-}
-
-/* Track */
-::-webkit-scrollbar-track:hover {
-  background: #0b0d16;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #202040;
-  border-radius: 100px;
-  width: 40px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #202040;
-}
-
-.App {
-
 }
 
 .taktaktak {
@@ -89,35 +42,7 @@ body, html {
   z-index: -100;
 }
 
-
-@media screen and (min-width: 800px) {
-
-  .ArrowKeys {
-    position: absolute;
-    width: 100%;
-    margin-top: 20%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .ArrowKeysLeft {
-    float: left;
-    margin-left: 5%;
-    width: 10%;
-  }
-
-  .ArrowKeysRight {
-    float: right;
-    margin-right: 5%;
-    width: 10%;
-  }
+::-webkit-scrollbar {
+  display: none;
 }
-
-@media screen and (max-width: 1150px) {
-  .ArrowKeys {
-    display: none;
-  }
-}
-
-
 

@@ -2,15 +2,23 @@
 // UI 
     export const GO_DARK = 'GO_DARK';
     export const GO_LIGHT = 'GO_LIGHT';
+
     export const SWITCH_TAB = 'SWITCH_TAB';
+
     export const OPEN_MODAL = 'OPEN_MODAL';
     export const CLOSE_MODAL = 'CLOSE_MODAL';
+
     export const OPEN_MENU = 'OPEN_MENU';
     export const CLOSE_MENU = 'CLOSE_MENU';
+
     export const OPEN_AUTH = 'OPEN_AUTH';
     export const CLOSE_AUTH = 'CLOSE_AUTH';
+
     export const OPEN_BACKDROP = 'OPEN_BACKDROP';
     export const CLOSE_BACKDROP = 'CLOSE_BACKDROP';
+
+    export const OPEN_NEW_CHAT_MODAL = 'OPEN_NEW_CHAT_MODAL';
+    export const CLOSE_NEW_CHAT_MODAL = 'CLOSE_NEW_CHAT_MODAL';
 
 
 // AUTH
@@ -124,3 +132,5 @@
     export const FETCH_CHATS_START = 'FETCH_CHATS_START';
     export const FETCH_CHATS_SUCCESS = 'FETCH_CHATS_SUCCESS';
     export const FETCH_CHATS_FAILED = 'FETCH_CHATS_FAILED';
+    
+    export const CHANGE_SHOULD_DELETE_INPUT = 'CHANGE_SHOULD_DELETE_INPUT';

@@ -58,7 +58,7 @@ class ChatWindow extends Component {
           {latestMessages}
           <div style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el; }}></div>
         </div>
-        <ChatForm/>
+        <ChatForm inputRef={this.props.inputRef}/>
       </div>
     )
   }
@@ -72,7 +72,7 @@ const mapStateToProps = state => {
       currentChatId: state.chat.currentChatId,
       chats: state.chat.chats,
 
-      userId: state.auth.userId
+      userId: state.user.userId
     }
   }
   

@@ -25,8 +25,8 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-    if(action.type === actions.USER_LOGOUT){
-        console.log('logging out');
+    if(action.type === actions.LOGOUT){
+        console.log('logging out in index.js');
         state = undefined;
     }
     return appReducer(state, action);
