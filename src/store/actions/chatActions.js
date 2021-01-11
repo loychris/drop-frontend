@@ -94,7 +94,7 @@ export const fetchFriends = (ids, token) => {
             dispatch(addNewUsers(response.data));
             dispatch(fetchFriendsSuccess(response.data));
         }).catch(err => {
-            dispatch(fetchFriendsFailed())
+            dispatch(fetchFriendsFailed(err))
         })
     }
 }
@@ -232,9 +232,11 @@ export const sendMessageSuccess = (chatId, message, randId) => {
     }
 }
 
-export const sendMessageFailed = () => {
+export const sendMessageFailed = (chatId, randId) => {
     return {
-        type: actionTypes.SEND_MESSAGE_FAILED
+        type: actionTypes.SEND_MESSAGE_FAILED,
+        chatId,
+        randId
     }
 }
 

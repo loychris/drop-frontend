@@ -1,23 +1,22 @@
-import React, { useState, createRef, useEffect } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import { connect } from 'react-redux';
 import classes from './ChatForm.module.css';
 
 import NeumorphismButton from '../../../UI/NeumorphismButton/NeumorphismButton';
 
 import * as actions from '../../../../store/actions/index';
-import Textarea from './Textarea/Textarea';
 
 
-const ChatForm = React.forwardRef((props, ref) => {
+const ChatForm = (props) => {
 
-    const [dragging, setDragging] = useState(false)
+    // const [dragging, setDragging] = useState(false)
     const [input, setInput] = useState('');
 
     const getArrowRight = () => {
         return(
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="arrow_forward_24px">
-                <path id="icon/navigation/arrow_forward_24px" d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill={props.chatInput.length === 0 ? 'grey' : 'black'} fillOpacity="0.54"/>
+                <path id="icon/navigation/arrow_forward_24px" d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill={input.length === 0 ? 'grey' : 'black'} fillOpacity="0.54"/>
                 </g>
             </svg>
         )
@@ -28,6 +27,7 @@ const ChatForm = React.forwardRef((props, ref) => {
             props.onChangeShouldDeleteInput(false);
             deleteInput('');
         }
+        textInput.current.focus();
     })
 
     const deleteInput = () => {
@@ -47,30 +47,21 @@ const ChatForm = React.forwardRef((props, ref) => {
         ); 
     }
 
-    const inputRef = createRef();
+    const textInput = createRef();
     let styleClasses = [classes.TextareaContainer];
-    console.log(props.chatInput === '')
     return(
         <div className={classes.ChatInput}>
             <div className={styleClasses.join(' ')}
-                onDragEnter={() => setDragging(true)}
-                onDragLeave={() => setDragging(false)}>
-                {/* <input
-                    type='textx' 
-                    className={classes.Textarea} 
-                    style={{height: `${props.formHeight+5}px`}}
-                    value={props.chat}
-                    rows={1}
-                    onChange={changeInput}
-                    ref={ref}
-                /> */}
+                // onDragEnter={() => setDragging(true)}
+                // onDragLeave={() => setDragging(false)}>
+            >
                 <textarea 
+                    ref={textInput}
                     className={classes.Textarea} 
                     style={{height: `${props.formHeight+5}px`}}
                     value={input}
                     rows={1}
                     onChange={onInput}
-                    ref={ref}
                 />                
                 <NeumorphismButton
                     colorTheme='light'
@@ -83,7 +74,7 @@ const ChatForm = React.forwardRef((props, ref) => {
             </div> 
         </div>
     )
-})
+}
 
 const mapStateToProps = state => {
     return {

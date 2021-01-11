@@ -5,19 +5,6 @@ import { setDropsNotLoaded } from './streamActions';
 import { closeMenu } from './UIActions';
 import { fetchFriends, fetchFriendRequests, fetchChats, setChatStateOnLogin } from './chatActions';
 
-export const openAuth = (authReason) => {
-    return {
-        type: actionTypes.OPEN_AUTH,
-        authReason
-    }
-}
-
-export const closeAuth = () => {
-    return {
-        type: actionTypes.CLOSE_AUTH
-    }
-}
-
 export const logout = () => {
     localStorage.clear()
     return {
@@ -27,10 +14,6 @@ export const logout = () => {
 
 export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
-        console.log('FIRST');
-        setTimeout(() => console.log('SECOND'), 4000);
-        console.log(expirationTime*1000)
-        setTimeout(() => console.log('THIRD'), Number(expirationTime) * 1000)
     }
 }
 
@@ -54,19 +37,21 @@ export const login = (identifier, password) => {
             localStorage.setItem('expirationDate', expirationDate);
             localStorage.setItem('user', JSON.stringify(res.data));
             dispatch(loginSuccess(res.data));
-            console.log(res.data)
             dispatch(setDropsNotLoaded());
             dispatch(setChatStateOnLogin(res.data))
             dispatch(closeMenu());
-            if(res.data.friends ?? res.data.friends.length > 0){
-                dispatch(fetchFriends(res.data.friends));
-            }
-            if(res.data.friendRequests ?? res.data.friendRequests.length > 0){
-                dispatch(fetchFriendRequests(res.data.token));
-            }
-            if(res.data.chats ?? res.data.chats.length > 0){
-                dispatch(fetchChats(res.data.token, res.data.userId));
-            }
+
+            // For now everything will be directly fetched with login (via populate)
+
+            // if(res.data.friends ?? res.data.friends.length > 0){
+            //     dispatch(fetchFriends(res.data.friends));
+            // }
+            // if(res.data.friendRequests ?? res.data.friendRequests.length > 0){
+            //     dispatch(fetchFriendRequests(res.data.token));
+            // }
+            // if(res.data.chats ?? res.data.chats.length > 0){
+            //     dispatch(fetchChats(res.data.token, res.data.userId));
+            // }
         }).catch(err => {
             if(err.response && err.response.data && err.response.data.message){
                 dispatch(loginFail(err.response.data.message));
@@ -84,7 +69,6 @@ export const loginStart = () => {
 };
 
 export const loginSuccess = (responseData) => {
-    console.log(responseData);
     return {
         type: actionTypes.LOGIN_SUCCESS,
         ...responseData
@@ -166,14 +150,22 @@ export const authCheckState = () => {
             if (expirationDate <= new Date()) {
                 dispatch(logout());
             } else {
-
                 const user = JSON.parse(localStorage.getItem('user'));
-                console.log(user);
                 dispatch(loginSuccess(user));
                 dispatch(setDropsNotLoaded());
                 dispatch(setChatStateOnLogin(user));
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
-            }   
+                const url = '/api/users/refresh';
+                const headers =  { headers: {authorization: 'Bearer ' + token }};
+                axios.get(url, headers)
+                .then(res => {
+                    dispatch(loginSuccess(res.data));
+                    dispatch(setDropsNotLoaded());
+                    dispatch(setChatStateOnLogin(res.data))
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
         }
     };
 };
