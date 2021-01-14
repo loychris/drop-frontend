@@ -44,6 +44,8 @@ class ChatPrev extends Component {
   }
 
   render() {
+    const notification = this.props.notifications.some(n => n.chatId === this.props.chatId);
+
     let name, preview, profilePicSrc;
     if(this.props.chat){
       if(this.props.group){
@@ -74,6 +76,7 @@ class ChatPrev extends Component {
           <h3 className={classes.Name}>{name}</h3>
           <p className={classes.Preview}>{preview}</p>
         </div>
+        {notification ? <div className={classes.Notifiaction}></div> : null }
         {this.getButton()}
       </div>
     );
@@ -84,7 +87,8 @@ const mapStateToProps = state => {
   return {
     darkmode: state.ui.darkmode,
     currentChatId: state.chat.currentChatId,
-    currentUserId: state.user.userId
+    currentUserId: state.user.userId,
+    notifications: state.chat.notifications, 
   }
 }
 

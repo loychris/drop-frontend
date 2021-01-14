@@ -213,7 +213,6 @@ export const sendTextMessage = (chatId, text, token, userId) => {
 }
 
 export const sendMessageStart = (chatId, text, randId, userId) => {
-    console.log(text);
     return {
         type: actionTypes.SEND_MESSAGE_START,
         chatId, 

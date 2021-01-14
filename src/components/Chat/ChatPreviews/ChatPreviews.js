@@ -5,7 +5,6 @@ import Loader from 'react-loader-spinner';
 import ChatPrev from './ChatPrev/ChatPrev';
 import classes from './ChatPreviews.module.css';
 import * as actions from '../../../store/actions/index';
-import Modal from '../../UI/Modal/Modal';
 
 
 class ChatPreviews extends Component {
@@ -43,7 +42,6 @@ class ChatPreviews extends Component {
             <ChatPrev 
               chat
               {...chat}
-              inputRef={this.props.inputRef}
               key={chat.chatId}
               clicked={() => this.clicked(chat.chatId)}
             /> 
