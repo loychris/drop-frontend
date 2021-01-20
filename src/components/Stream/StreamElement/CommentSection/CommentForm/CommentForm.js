@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import * as streamActions from '../../../../../store/actions/index';
 import classes from './CommentForm.module.css';
@@ -26,7 +25,6 @@ class CommentForm extends Component {
     }
 
     submitHandler = (event) => {
-        const randId = `${Math.random()}`;
         event.preventDefault();
         if(!this.props.token){
             this.props.onOpenAuth("Create an account to write Comments")
@@ -45,7 +43,6 @@ class CommentForm extends Component {
                 }
                 this.props.onSendComment(this.props.dropId, newComment, this.props.token);
             } else {
-                const commentId = this.props.selectedComment.split(' ')[0];
                 const newSubComment = {
                     id: Date.now(),
                     author: this.props.userId, 
@@ -129,7 +126,7 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = dispatch => {
     return {
-        onOpenAuth: (authReason) => dispatch(streamActions.openAuth(authReason)),
+        onOpenAuth: (authReason) => dispatch(streamActions.openMenu(authReason)),
         onSendComment: (dropId, comment, token) => dispatch(streamActions.sendComment(dropId, comment, token)),
         onSendSubComment: (dropId, subComment, token) => dispatch(streamActions.sendSubComment(dropId, subComment, token)),    
     }

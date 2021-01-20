@@ -55,3 +55,15 @@ export const closeBackdrop = () => {
         type: actionTypes.CLOSE_BACKDROP
     }
 }
+
+export const closeNewChatModal = () => {
+    return {
+        type: actionTypes.CLOSE_NEW_CHAT_MODAL
+    }
+}
+
+export const openNewChatModal = () => {
+    return {
+        type: actionTypes.OPEN_NEW_CHAT_MODAL
+    }
+}

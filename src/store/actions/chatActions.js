@@ -448,3 +448,36 @@ export const changeShouldDeleteInput = (value) => {
         value
     }
 }
+
+
+//--------- FETCH NEW MESSAGES -----------------------------------------------------
+
+export const fetchNewMessages = () => {
+    return dispatch => {
+        dispatch(fetchNewMessagesStart());
+        axios.get()
+        .then(res => {
+            dispatch(fetchNewMessagesSuccess());
+        }).catch(err => {
+            dispatch(fetchNewMessagesFailed());
+        })
+    }
+}
+
+export const fetchNewMessagesStart = () => {
+    return {
+        type: actionTypes.FETCH_NEW_MESSAGES_START,
+    }
+}
+
+export const fetchNewMessagesSuccess = () => {
+    return {
+        type: actionTypes.FETCH_NEW_MESSAGES_SUCCESS,
+    }
+}
+
+export const fetchNewMessagesFailed = () => {
+    return {
+        type: actionTypes.FETCH_NEW_MESSAGES_FAILED,
+    }
+}

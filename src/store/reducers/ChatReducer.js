@@ -24,7 +24,7 @@ const initialState = {
             chatId: '1',
             members: [
                 { userId: '1', name: 'Username' }, 
-                { userId: '42069', name: 'Elon Musk', handle: 'Elon', profilePic: false }
+                { userId: '42069', name: 'Elon Musk', handle: 'elon', profilePic: false }
             ],
             inputValue: '',
             messages: [
@@ -33,27 +33,16 @@ const initialState = {
                     time: '14:32', 
                     type: 'text',
                     sender: '1',
-                    id: 1,
+                    id: '1',
                 },
                 {
                     text: 'Rocket goes brrrrrt',
                     time: '14:32', 
                     type: 'text',
                     sender: '5',
-                    id: 2,
-                },
-                // {
-                //     src: 'whatever',
-                //     type: 'image',
-                //     sender: 'chris',
-                //     id: 3,
-                // },
-                // {
-                //     type: 'drop',
-                //     id: 4, 
-                //     sender: 'chris',
-                //     dropId: '5fac3586eb20d00a220cc693',
-                // }
+                    id: '2',
+                    new: true
+                }
             ]
         },
         {
@@ -61,62 +50,69 @@ const initialState = {
             group: false,
             members: [
                 { userId: '1'}, 
-                { userId: '42069', name: 'Tonald Drump', profilePic: false}
+                { userId: '12', name: 'Tonald Drump', handle: 'donald', profilePic: false}
             ],            
             inputValue: '', 
             messages: [
                 {
                     text: 'I won. By a lot.',
                     time: '14:32', 
-                    sender: 'chris',
-                    id: 1,
-                    sent: true 
+                    type: 'text',
+                    sender: '12',
+                    id: '1',
+                    new: true,
                 }
             ],        
         },
         {
             chatId: '3',
-            name: 'Shrek',
-            members: ['4', '42069'],
-            inputValue: '', 
+            members: [
+                { userId: '1'}, 
+                { userId: '12345', name: 'Shrek', profilePic: false}
+            ],             inputValue: '', 
             messages: [
                 {
                     text: 'Get out of my swamp!',
                     time: '14:32', 
-                    sender: 'chris',
-                    id: 1,
-                    sent: true 
+                    type: 'text',
+                    sender: '12345',
+                    id: '1',
+                    new: true
                 }
             ],        
         },
         {
             chatId: '4',
-            name: 'Keanu Reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-            members: ['4', '42069'],
+            members: [
+                { userId: '1'}, 
+                { userId: '123456', name: 'Keano Reeeeeeeee', profilePic: false}
+            ], 
             inputValue: '', 
             messages: [
                 {
-                    text: 'I can do total sellout and the still love me, lol',
+                    text: 'I can do total sellout and they still love me lol',
                     time: '14:32', 
-                    sender: 'chris',
-                    id: 1,
-                    sent: true 
+                    type: 'text',
+                    sender: '123456',
+                    id: '1',
                 }
             ],
         },
         {
             chatId: '5',
             name: 'Rick Astley',
-            members: ['4', '42069'],
-            inputValue: '', 
+            members: [
+                { userId: '1'}, 
+                { userId: '42069', name: 'Rick Astley', profilePic: false}
+            ],            inputValue: '', 
             messages: [
                 {
-                    text: 'Never gonna give you up.',
+                    text: 'Never gonna give you up!',
                     time: '14:32', 
-                    sender: 'chris',
-                    id: 1,
-                    sent: true 
-                }
+                    type: 'text',
+                    sender: '12345',
+                    id: '1',
+                },
             ],        },
         {
             chatId: '6',
@@ -204,6 +200,9 @@ const initialState = {
             ],
         }
     ], 
+    seenUpdatesChats: [],
+
+    sendingMessages: [],
     users: [{name: 'Elon Musk', userId: '42069', handle: '@elon'}],
     chatsStatus: 'not loaded',
     currentChatLoaded: false, 
@@ -256,12 +255,31 @@ const reducer = (state = initialState, action) => {
 //----- LOG IN / OUT -----------------------------------------------------
 
 const setChatStateOnLogin = (state, action) => {
+    const newTextMessagesNotifications = action.userdata.notifications.filter(n => n.type === 'TEXT_MESSAGE');
+    console.log('#TEXT_NOTIFICATIONS', newTextMessagesNotifications.length);
+    const chats = action.userdata.chats.map(chat => {
+        const messages = chat.messages.map(message => {
+            if(newTextMessagesNotifications.some(n => n.chatId === chat.chatId && n.messageId === message.id)){
+                console.log('FOUND MESSAGE FROM NOTIFICATION');
+                return {
+                    ...message,
+                    new: true
+                }
+            }else {
+                return message
+            }
+        })
+        return {
+            ...chat,
+            messages
+        }
+    })
     return {
         ...state, 
-        receivedFriendRequests: action.userdata.friendRequests, 
+        receivedFriendRequests: action.userdata.receivedFriendRequests, 
         sentFriendRequests: action.userdata.sentFriendRequests,
         friends: action.userdata.friends,
-        chats: action.userdata.chats,
+        chats,
         currentChatId: action.userdata.chats.length > 0 ? action.userdata.chats[0].chatId : null,
     }
 }
@@ -272,8 +290,19 @@ const changeChat = (state, action) => {
     let chatInputNew;
     const chatsNew = state.chats.map(chat => {
         if(chat.chatId === state.currentChatId){
+            const messages = chat.messages.map(message => {
+                if(message.new){
+                    return {
+                        ...message,
+                        new: false
+                    }
+                }else {
+                    return message;
+                }
+            })
             return {
                 ...chat,
+                messages,
                 inputValue: state.chatInput
             }
         } else if(chat.chatId === action.chatId){
@@ -283,12 +312,14 @@ const changeChat = (state, action) => {
             return chat
         }
     })
+    const seenUpdatesChatsNew = [...state.seenUpdatesChats, action.chatId]
 
     return {
         ...state,
         chats: chatsNew, 
         inputValue: chatInputNew, 
         currentChatId: action.chatId,
+        seenUpdatesChats: seenUpdatesChatsNew, 
     }
 }
 
@@ -312,7 +343,7 @@ const changeChatFormHeight = (state, action) => {
 
 const sendMessageStart = (state, action) => {
     const chatsNew = state.chats.map(chat => {
-        if(chat.chatId === action.chatId){
+        if(chat.chatId === state.currentChatId){
             return {
                 ...chat, 
                 messages: [
@@ -337,37 +368,50 @@ const sendMessageStart = (state, action) => {
             return chat
         }
     })
+    const sendingMessagesNew = [...state.sendingMessages, {chatId: state.currentChatId, randId: action.randId}]
     return {
         ...state,
         chats: chatsNew,
+        sendingMessages: sendingMessagesNew,
         chatInput: '',
         shouldDeleteInput: true
     }
 }
 
 const sendMessageSuccess = (state, action) => {
+    const sendingMessage = state.sendingMessages.find(m => m.randId === action.randId);
+    const sendingMessagesNew = state.sendingMessages.filter(m => m.randId !== action.randId);
     const chatsNew = state.chats.map(chat => {
-        if(chat.chatId === action.chatId){
+
+        if(chat.chatId === sendingMessage.chatId){
+            console.log(`
+                currentChatId:            ${state.currentChatId}
+                chat.chatId:              ${chat.chatId}
+                sendingMessage.chatId:    ${sendingMessage.chatId}
+                sendingMessage.randId:    ${sendingMessage.randId}
+                state.caht.messages.ids:  ${chat.messages.map(m => m.id)}        
+            `)
+            const messagesNew = chat.messages.map(message => {
+                if(message.id === sendingMessage.randId){
+                    console.log('FOUND MESSAGE')
+                    console.log(action.message);
+                    return action.message;
+                }else{
+                    return message
+                }
+            })
             return {
-                ...chat, 
-                messages: chat.messages.map(m => {
-                    if(m.id === action.randId){
-                        return {
-                            ...action.message,
-                            new: true
-                        }
-                    }else {
-                        return m
-                    }
-                })
+                ...chat,
+                messages: messagesNew
             }
-        }else{
-            return chat;
+        }else {
+            return chat
         }
     })
     return {
         ...state,
-        chats: chatsNew
+        chats: chatsNew,
+        sendingMessages: sendingMessagesNew,
     }
 }
 

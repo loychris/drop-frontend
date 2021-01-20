@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
 
-import Sender from './Sender/Sender';
 import classes from "./Message.module.css";
 
 import StupidFuckingFace from '../../../../media/stupidfuckingface.jpeg';
@@ -34,11 +33,11 @@ class Message extends Component {
         this.state.drop ? <p className={classes.Text} key='title'>{this.state.drop.title}</p> : null, 
         <img className={classes.Drop} src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`} alt='' key='drop'/>
       ]
+      default: return []
     }
   }
 
   render() {
-
     const containerStyleclasses = [classes.MessageContainer];
     if(this.props.sent){
       containerStyleclasses.push(classes.Sent);
@@ -48,6 +47,9 @@ class Message extends Component {
     if(this.props.sending){
       containerStyleclasses.push(classes.Sending);
     }
+    if(this.props.messageNew){
+      containerStyleclasses.push(classes.New);
+    } 
     return (
       <div className={containerStyleclasses.join(' ')}>
         {/* <Sender sender={this.props.sender}/> */}

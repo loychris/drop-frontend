@@ -71,7 +71,8 @@ class Navigation extends Component {
 const mapStateToProps = state => {
   return {
     currentTab: state.ui.currentTab,
-    darkmode: state.ui.darkmode
+    darkmode: state.ui.darkmode,
+    allUsersStatus: state.chat.allUsersStatus,
   }
 }
 

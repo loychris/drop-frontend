@@ -7,6 +7,7 @@
     box-shadow: -10px 0px 10px -5px #00000066;
     background: #abcdef;
     border-radius: 10px;
+    scrollbar-width: none;
   }
 
 .Messages {
@@ -31,4 +32,12 @@
     right: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid red;
+}
+
+.NewMessageSeparator {
+   border-top: 1px solid #ffffff66;
+   color: #ffffff;
+   text-align: center;
+   margin: 10px 0px;
+   padding-top: 5px;
 }

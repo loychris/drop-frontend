@@ -11,6 +11,19 @@ const initialState = {
     authReason: null,
     hasProfilePic: false,
     profilePicSrc: null,
+    receivedFriendRequests: [],
+    notifications: [
+        {
+            type: 'TEXT_MESSAGE',
+            chatId: '2',
+            messageId: '1'
+        },
+        {
+            type: 'TEXT_MESSAGE',
+            chatId: '3',
+            messageId: '1'
+        },
+    ]
 }
 
 const loginStart = (state) => {
@@ -32,7 +45,8 @@ const loginSuccess = (state, action) => {
         token: action.token,
         email: action.email,
         friends: action.friends,
-        friendRequests: action.friendRequests
+        receivedFriendRequests: action.receivedFriendRequests,
+        notifications: action.notifications
     }
 }
 
@@ -72,7 +86,8 @@ const signupSuccess = (state, action) => {
         email: action.email,
         profilePicSrc: action.profilePicSrc,
         friends: action.friends,
-        friendRequests: action.friendRequests
+        receivedFriendRequests: [],
+        notifications: [],
     }
 }
 

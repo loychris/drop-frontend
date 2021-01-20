@@ -4,8 +4,6 @@ import * as actions from '../../store/actions/index';
 import Modal from '../UI/Modal/Modal';
 import ChatPrev from '../Chat/ChatPreviews/ChatPrev/ChatPrev';
 
-import Loader from 'react-loader-spinner';
-
 import classes from './NewChatModal.module.css';
 
 class NewChatModal extends Component {

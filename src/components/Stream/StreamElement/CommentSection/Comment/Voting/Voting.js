@@ -150,7 +150,7 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-      onOpenAuth: (authReason) => dispatch(actions.openAuth(authReason)),
+      onOpenAuth: (authReason) => dispatch(actions.openMenu(authReason)),
     }
   }
   

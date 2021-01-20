@@ -55,7 +55,6 @@ const ChatForm = (props) => {
     }
 
     const submitHandler = (event) => {
-        console.log(props.currentChatId);
         props.onSendTextMessage(
             currentChatRef.current, 
             inputValueRef.current,

@@ -63,9 +63,9 @@
     overflow-y: scroll;
 }
 
-.ScrollContainer::-webkit-scrollbar {
+/* .ScrollContainer::-webkit-scrollbar {
     display: none;
-  }
+  } */
 
 
 .EmptyMessage {

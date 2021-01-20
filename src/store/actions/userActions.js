@@ -3,7 +3,9 @@ import axios from 'axios';
 import * as actionTypes from './actionTypes';
 import { setDropsNotLoaded } from './streamActions';
 import { closeMenu } from './UIActions';
-import { fetchFriends, fetchFriendRequests, fetchChats, setChatStateOnLogin } from './chatActions';
+import { 
+    //fetchFriends, fetchFriendRequests, fetchChats, 
+    setChatStateOnLogin } from './chatActions';
 
 export const logout = () => {
     localStorage.clear()
@@ -162,6 +164,10 @@ export const authCheckState = () => {
                     dispatch(loginSuccess(res.data));
                     dispatch(setDropsNotLoaded());
                     dispatch(setChatStateOnLogin(res.data))
+                    const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
+                    localStorage.setItem('token', res.data.token);
+                    localStorage.setItem('expirationDate', expirationDate);
+                    localStorage.setItem('user', JSON.stringify(res.data)); 
                 }).catch(err => {
                     console.log(err);
                 })

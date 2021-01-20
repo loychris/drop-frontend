@@ -1,4 +1,4 @@
-import React, { Component, useEffect, createRef } from 'react';
+import React, { useEffect, createRef } from 'react';
 import { connect } from 'react-redux';
 
 import classes from './ChatWindow.module.css';
@@ -17,29 +17,71 @@ const ChatWindow = props => {
   const scrollToBottom = (smooth) => {
     bottomRef.current.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block: "start", inline: "nearest"});
   }
-
   const bottomRef = createRef()
 
-  
-  let latestMessages = [];
+
+  let messages = [];
+  let foundAllOldMessages = false;
+  let oldMessages = [];
+  let newMessages = [];
   const currentChat = props.chats.find((x) => x.chatId === props.currentChatId);
+  const newTextMessagesNotifications = props.notifications.filter(n => n.type === 'TEXT_MESSAGE');
   if(currentChat){
-    latestMessages = currentChat.messages.map(message => {
-      return <Message {...message} key={message.id} sent={props.userId === message.sender}/>;
+    currentChat.messages.forEach(message => {
+      if(!message.new){
+        messages.push(
+          <Message           
+            {...message} 
+            type='text'
+            key={message.id}
+            sent={props.userId === message.sender}
+          />
+        )
+      } else {
+        if(!foundAllOldMessages){
+          messages.push(
+            <div key='separator' className={classes.NewMessageSeparator}>new messages</div>
+          )
+          foundAllOldMessages = true;
+        }
+        messages.push(
+          <Message           
+            {...message} 
+            new
+            type='text'
+            key={message.id}
+            sent={props.userId === message.sender}
+          />
+        )
+      }
     })
-  }
-  if(props.chatsStatus === 'loading'){
-    return (
-      <div className={classes.ChatWindow}>
-        <div
-            className={classes.Messages} 
-            style={{height: `calc(80vh-${props.formHeight}px)`}}>
-              <Loader className={classes.Loader} type='Puff' height={50} width={50} color='#11192c'/>
-              <div style={{ clear: "both", border: '1px solid red', height: "77px"}} ref={bottomRef}></div>
-        </div>
-        <ChatForm/>
-      </div>
-    )
+
+
+
+
+    oldMessages = currentChat.messages
+    .filter(m => !newTextMessagesNotifications.some(n => n.messageId === m.id))
+    .map(message => {
+      return (
+        <Message           
+          {...message} 
+          type='text'
+          key={message.id}
+          sent={props.userId === message.sender}/>
+      );
+    })
+    newMessages = currentChat.messages
+    .filter(m => newTextMessagesNotifications.some(n => n.messageId === m.id))
+    .map(message => {
+      return (
+        <Message           
+          {...message} 
+          new
+          type='text'
+          key={message.id}
+          sent={props.userId === message.sender}/>
+      );
+    })
   }
 
   return (
@@ -52,7 +94,10 @@ const ChatWindow = props => {
           Or encrypted. But it is end-to-end, lol. <br/>
           What I mean is maybe don't send nudes here just yet. <br/>
         </p>
-        {latestMessages}
+        {/* {oldMessages}
+        {newMessages.length > 0 ? <div className={classes.NewMessageSeparator}>new messages</div> : null }
+        {newMessages} */}
+        {messages}
         <div style={{ height: "90px"}} ref={bottomRef}></div>
       </div>
       <ChatForm inputRef={props.inputRef}/>
@@ -67,8 +112,10 @@ const mapStateToProps = state => {
       chatsStatus: state.chat.chatsStatus,
       currentChatId: state.chat.currentChatId,
       chats: state.chat.chats,
+      unreadMessages: state.chat.unreadMessages,
 
-      userId: state.user.userId
+      userId: state.user.userId, 
+      notifications: state.user.notifications,
     }
   }
   

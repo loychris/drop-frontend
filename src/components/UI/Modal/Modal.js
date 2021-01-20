@@ -16,8 +16,8 @@ class Modal extends Component {
     render(){
         return(
             <Aux>
-                <Backdrop show={this.props.modalOpen} clicked={this.props.onCloseModal} />
-                <div className={classes.Modal}>
+                <Backdrop show={this.props.modalOpen} clicked={this.props.backDropClick} />
+                <div className={classes.Modal} style={{height: this.props.height, width: this.props.width}}>
                     {this.props.children}
                 </div>
             </Aux>

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Route, withRouter, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 
-import history from './history';
 import Stream from "./components/Stream/Stream";
 import Chat from "./components/Chat/Chat";
 import Creator from './components/Creator/Creator';
@@ -41,7 +40,7 @@ class App extends Component {
     return (
         <div className='App'>
           <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
-          <Route history={history} path={['/stream', '/chat', '/creator']} component={Stream}/>
+          <Route path={['/stream', '/chat', '/creator']} component={Stream}/>
           <Navigation/>
           <Route path={['/stream', '/chat', '/creator']} component={Chat}/>
           <Route path={['/stream', '/chat', '/creator']} component={Creator}/>

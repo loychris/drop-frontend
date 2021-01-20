@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import classes from "./ChatPrev.module.css";
 import DefaultProfilePic from "../../../../media/DefaultProfilePic.png";
-import DefaultGroupPic from "../../../../media/DefaultGroupPic.png";
 import AddButton from './AddButton/AddButton';
 import Connector from './Connector.svg';
 import * as actions from '../../../../store/actions/index';
@@ -44,7 +43,7 @@ class ChatPrev extends Component {
   }
 
   render() {
-    const notification = this.props.notifications.some(n => n.chatId === this.props.chatId);
+    const unreadMessages = this.props.notifiaction.filter(n => n.type === 'TEXT_MESSAGE' && n.chatId === this.props.chatId).length > 0; 
 
     let name, preview, profilePicSrc;
     if(this.props.chat){
@@ -76,7 +75,7 @@ class ChatPrev extends Component {
           <h3 className={classes.Name}>{name}</h3>
           <p className={classes.Preview}>{preview}</p>
         </div>
-        {notification ? <div className={classes.Notifiaction}></div> : null }
+        {unreadMessages ? <div className={classes.Notifiaction}></div> : null }
         {this.getButton()}
       </div>
     );
@@ -88,7 +87,11 @@ const mapStateToProps = state => {
     darkmode: state.ui.darkmode,
     currentChatId: state.chat.currentChatId,
     currentUserId: state.user.userId,
-    notifications: state.chat.notifications, 
+    unreadMessages: state.chat.unreadMessages, 
+    seenUpdatesChats: state.chat.seenUpdatesChats,
+    token: state.user.token,
+
+    notifiaction: state.user.notifications,
   }
 }
 
