@@ -58,7 +58,6 @@ const ChatForm = (props) => {
         props.onSendTextMessage(
             currentChatRef.current, 
             inputValueRef.current,
-            props.token,
             props.userId
         ); 
     }
@@ -102,7 +101,6 @@ const mapStateToProps = state => {
         chatInput: state.chat.chatInput,
         shouldDeleteInput: state.chat.shouldDeleteInput,
 
-        token: state.user.token,
         userId: state.user.userId,
     }
 }
@@ -111,7 +109,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onChangeChatInput: (value) => dispatch(actions.changeChatInput(value)),
         onChangeFormHeight: (height) => dispatch(actions.changeFormHeight(height)),
-        onSendTextMessage: (chatId, text, token, userId) => dispatch(actions.sendTextMessage(chatId, text, token, userId)), 
+        onSendTextMessage: (chatId, text, userId) => dispatch(actions.sendTextMessage(chatId, text, userId)), 
         onChangeShouldDeleteInput: (value) => dispatch(actions.changeShouldDeleteInput(value)),
 
     }

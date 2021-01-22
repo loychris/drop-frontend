@@ -200,10 +200,11 @@ export const sendNewChatFailed = (user) => {
 
 //--------- SEND MESSAGE -------------------------------------------------------
 
-export const sendTextMessage = (chatId, text, token, userId) => {
+export const sendTextMessage = (chatId, text, userId) => {
     return dispatch => {
         const randId = `${Date.now()}`;
         dispatch(sendMessageStart(chatId, text, randId, userId));
+        const token = localStorage.getItem('token');
         const headers = { headers: { authorization : `Bearer ${token}` } }
         const url = `/api/chat/${chatId}/textMessage`;
         const body = { message: text };

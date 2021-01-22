@@ -9,6 +9,11 @@ import * as UIActions from '../../store/actions/index';
 
 class Navigation extends Component {
   render() {
+    const chatNotification = this.props.notifications.some(n => {
+      if(n.type === 'TEXT_MESSAGE') return true;
+      return false;
+    })
+    console.log(chatNotification);
     return (
       <div className={classes.Navigation}>
         <nav>
@@ -16,14 +21,8 @@ class Navigation extends Component {
           <li>
               <NavLink style={{ textDecoration: "none" }} to="/creator">
                 <span
-                  className={
-                    this.props.currentTab === "creator"
-                      ? classes.active
-                      : classes.inactive
-                  }
-                  onClick={() => {
-                    this.props.onSwitchTab("creator");
-                  }}
+                  className={this.props.currentTab === "creator" ? classes.active : classes.inactive}
+                  onClick={() => this.props.onSwitchTab("creator")}
                 >
                   Creator
                 </span>
@@ -31,15 +30,10 @@ class Navigation extends Component {
             </li>
             <li>
               <NavLink style={{ textDecoration: "none" }} to="/chat">
+                {chatNotification ? <div className={classes.Notification}></div> : null }
                 <span
-                  className={
-                    this.props.currentTab === "chat"
-                      ? classes.active
-                      : classes.inactive
-                  }
-                  onClick={() => {
-                    this.props.onSwitchTab("chat");
-                  }}
+                  className={this.props.currentTab === "chat" ? classes.active : classes.inactive}
+                  onClick={() => this.props.onSwitchTab("chat")}
                 >
                   Chat
                 </span>
@@ -48,14 +42,8 @@ class Navigation extends Component {
             <li>
               <NavLink style={{ textDecoration: "none" }} to="/stream">
                 <span
-                  className={
-                    this.props.currentTab === "stream"
-                      ? classes.active
-                      : classes.inactive
-                  }
-                  onClick={() => {
-                    this.props.onSwitchTab("stream");
-                  }}
+                  className={this.props.currentTab === "stream" ? classes.active : classes.inactive }
+                  onClick={() => this.props.onSwitchTab("stream")}
                 >
                   Stream
                 </span>
@@ -73,6 +61,8 @@ const mapStateToProps = state => {
     currentTab: state.ui.currentTab,
     darkmode: state.ui.darkmode,
     allUsersStatus: state.chat.allUsersStatus,
+
+    notifications: state.user.notifications
   }
 }
 
