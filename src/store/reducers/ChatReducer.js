@@ -561,17 +561,21 @@ const fetchFriendsFailed = (state, action) => {
 // ------------------------------------------------------
 
 const createDummyChat = (state, action) => {
-    const dummyChat = {
-        group: false,
-        messages: [],
-        chatId: 'dummy'+ Date.now(),
-        members: [action.self, action.chatPartner],
-        name: action.chatPartner.name
-    }
-    const chatsNew = [dummyChat, ...state.chats];
+    const dummyChatId = 'dummy' + action.chatPartner.userId
+    const alreadyExists = state.chats.some(chat => chat.chatId === dummyChatId);
+    const chatsNew = alreadyExists ? state.chats : [
+        {
+            group: false,
+            messages: [],
+            chatId: dummyChatId,
+            members: [action.self, action.chatPartner],
+            name: action.chatPartner.name
+        }, 
+        ...state.chats]
     return {
         ...state,
-        chats: chatsNew
+        chats: chatsNew,
+        currentChatId: dummyChatId
     }
 }
 
