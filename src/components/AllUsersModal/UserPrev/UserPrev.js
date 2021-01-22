@@ -1,25 +1,13 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import classes from "./ChatPrev.module.css";
-import DefaultProfilePic from "../../../../media/DefaultProfilePic.png";
-import AddButton from './AddButton/AddButton';
-import Connector from './Connector.svg';
-import * as actions from '../../../../store/actions/index';
+import classes from "./UserPrev.module.css";
+import DefaultProfilePic from "../../../media/DefaultProfilePic.png";
+import AddButton from '../../Chat/ChatPreviews/ChatPrev/AddButton/AddButton';
+import * as actions from '../../../store/actions/index';
 
 
-class ChatPrev extends Component {
-
-  state={
-    connectorsOut: false
-  }
-
-  getConnector = (up) => {
-    return <img 
-      src={Connector} 
-      alt='' 
-      className={`${up ? classes.ConnectorUp : classes.ConnectorDown}`}/>
-  }
+class UserPrev extends Component {
 
   getButton = () => {
     let buttonType;
@@ -40,7 +28,7 @@ class ChatPrev extends Component {
 
     // CHECK BUTTON
     if(this.props.sentFriendRequests.some(user => user.userId === this.props.userId)){
-      buttonType = 'check';
+      buttonType = 'sent';
     } 
 
     //ACCEPT BUTTON
@@ -56,33 +44,33 @@ class ChatPrev extends Component {
     }
   }
 
-  render() {
-    const unreadMessages = this.props.notifiaction.filter(n => n.type === 'TEXT_MESSAGE' && n.chatId === this.props.chatId).length > 0; 
-    let name, preview, profilePicSrc;
-    if(this.props.chat){
-      const chatPartner = this.props.members.filter(m => m.userId !== this.props.currentUserId)[0];
-      name = chatPartner.name;
-      preview = this.props.messages.length > 0 ? this.props.messages[this.props.messages.length-1].text : '@' + chatPartner.handle;
-      profilePicSrc = chatPartner.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + chatPartner.userId : DefaultProfilePic;
-    } else if(this.props.user) {
-      name = this.props.name;
-      preview = '@' + this.props.handle;
-      profilePicSrc = this.props.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + this.props.userId : DefaultProfilePic;
+  clicked = () => {
+    const existingChat = this.props.chats.find(chat => chat.members.some(user => user.userId === this.props.userId));
+    if(existingChat){
+      this.props.onChangeChat(existingChat.chatId); 
+      this.props.onCloseNewChatModal();
+    }else{
+      const self = {
+        name: this.props.selfName,
+        handle: this.props.selfHandle,
+        userId: this.props.selfId,
+        profilePic: this.props.selfHasPfilePic,
+      }
+      const chatPartner = this.props.user;
+      this.props.onCreateDummyChat(chatPartner, self);
+      this.props.onCloseNewChatModal();
     }
-    const active = this.props.chat && this.props.chatId === this.props.currentChatId;
-    let styleClasses = [classes.ChatPrev];
-    if(active) styleClasses.push(classes.Active);
+  }
 
+  render() {
+    const profilePicSrc = this.props.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + this.props.userId : DefaultProfilePic;
     return (
-      <div onClick={this.props.clicked} className={styleClasses.join(" ")}>
-        {active ? this.getConnector(true) : null } 
-        {active ? this.getConnector(false) : null } 
+      <div onClick={this.clicked} className={classes.ChatPrev}>
         <img src={profilePicSrc} alt=" " className={classes.ProfilePic}/>
         <div className={classes.Info}>
-          <h3 className={classes.Name}>{name}</h3>
-          <p className={classes.Preview}>{preview}</p>
+          <h3 className={classes.Name}>{this.props.name}</h3>
+          <p className={classes.Preview}>@{this.props.handle}</p>
         </div>
-        {unreadMessages ? <div className={classes.Notifiaction}></div> : null }
         {this.getButton()}
       </div>
     );
@@ -99,7 +87,11 @@ const mapStateToProps = state => {
     token: state.user.token,
     chats: state.chat.chats,
     allUsers: state.chat.allUsers,
-    notifiaction: state.user.notifications,
+
+    selfId: state.user.userId,
+    selfName: state.user.name,
+    selfHandle: state.user.handle,
+    selfHasPfilePic: state.user.hasProfilePic,
 
     friends: state.chat.friends,
     acceptingFriendRequests: state.chat.acceptingFriendRequests,
@@ -113,12 +105,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onCreateDummyChat: (userId, name) => dispatch(actions.createDummyChat(userId, name)),
+    onCreateDummyChat: (chatPartner, self) => dispatch(actions.createDummyChat(chatPartner, self)),
     onChangeChat: (chatId) => dispatch(actions.changeChat(chatId)),
 
     onSendFriendRequest: (user) => dispatch(actions.sendFriendRequest(user)),
     onAcceptFriendRequest: (user) => dispatch(actions.acceptFriendRequest(user)),
+
+    onCloseNewChatModal: () => dispatch(actions.closeNewChatModal()),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatPrev);
+export default connect(mapStateToProps, mapDispatchToProps)(UserPrev);

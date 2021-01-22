@@ -485,7 +485,7 @@ class AuthForm extends Component {
                             onChange={this.onChangeNewsletter} 
                             checked={this.state.newsletter}/>
                         <p onClick={this.onChangeNewsletter} className={classes.CheckboxText}>
-                            Get an email whenever I feel like adding a new feature. (no more that 1 a week, I'm not an asshole)
+                            Get an email whenever I feel like adding a new feature. (no more that 1 per week, though. I'm not an asshole)
                         </p>
                     </div>
                 </MenuItem>

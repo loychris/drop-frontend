@@ -14,7 +14,6 @@ const initialState = {
 
     receivedFriendRequests: [],
     acceptingFriendRequests: [],
-    receivedFriendRequestsStatus: 'not loaded',
 
     friends: [],
     friendsStatus: 'not loaded',
@@ -233,10 +232,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS: return acceptFriendRequestSuccess(state, action);
         case actionTypes.ACCEPT_FRIEND_REQUEST_FAILED: return acceptFriendRequestFailed(state, action);
 
-        case actionTypes.FETCH_FIREND_REQUESTS_START: return fetchFriendRequestsStart(state, action);
-        case actionTypes.FETCH_FIREND_REQUESTS_SUCCESS: return fetchFriendRequestsSuccess(state, action);
-        case actionTypes.FETCH_FIREND_REQUESTS_FAILED: return fetchFriendRequestsFailed(state, action);
-
         case actionTypes.FETCH_FRIENDS_START: return fetchFriendsStart(state, action);
         case actionTypes.FETCH_FRIENDS_SUCCESS: return fetchFriendsSuccess(state, action);
         case actionTypes.FETCH_FRIENDS_FAILED: return fetchFriendsFailed(state, action);
@@ -256,11 +251,9 @@ const reducer = (state = initialState, action) => {
 
 const setChatStateOnLogin = (state, action) => {
     const newTextMessagesNotifications = action.userdata.notifications.filter(n => n.type === 'TEXT_MESSAGE');
-    console.log('#TEXT_NOTIFICATIONS', newTextMessagesNotifications.length);
     const chats = action.userdata.chats.map(chat => {
         const messages = chat.messages.map(message => {
             if(newTextMessagesNotifications.some(n => n.chatId === chat.chatId && n.messageId === message.id)){
-                console.log('FOUND MESSAGE FROM NOTIFICATION');
                 return {
                     ...message,
                     new: true
@@ -445,60 +438,33 @@ const fetchAllUsersFailed = (state, action) => {
     }
 }
 
-//----- FETCH FRIEND REQUESTS --------------------------------------------------
-
-const fetchFriendRequestsStart = (state, action) => {
-    return {
-        ...state,
-        receivedFriendRequestsStatus: 'loading'
-    }
-}
-
-const fetchFriendRequestsSuccess = (state, action) => {
-    return {
-        ...state,
-        receivedFriendRequests: action.users,
-        receivedFriendRequestsStatus: 'loaded',
-    }
-}
-
-const fetchFriendRequestsFailed = (state, action) => {
-    return {
-        ...state,
-    }
-}
-
 //----- SEND FRIEND REQUEST --------------------------------------------------
 
 const sendFriendRequestStart = (state, action) => {
-    const sendingFriendRequestsNew = [...state.sentFriendRequests, action.friendId]
+    const sendingFriendRequestsNew = [...state.sendingFriendRequests, action.user];
     return {
         ...state,
-        sendingFriendRequests: sendingFriendRequestsNew,
+        sendingFriendRequests: sendingFriendRequestsNew
     }
 }
 
 const sendFriendRequestSuccess = (state, action) => {
-    const sendingFriendRequestsNew = state.sentFriendRequests.filter(id => {
-        return id !== action.friendId
-    });
-    const sentFriendRequestsNew = [...state.sentFriendRequests, action.friendId];
+    const sendingFriendRequestsNew = state.sendingFriendRequests.filter(user => user.userId !== action.user.userId);
+    const sentFriendRequestsNew = [...state.sentFriendRequests, action.user];
     return {
         ...state,
         sendingFriendRequests: sendingFriendRequestsNew,
-        sentFriendRequests: sentFriendRequestsNew, 
+        sentFriendRequests: sentFriendRequestsNew,
     }
 }
 
 const sendFriendRequestFailed = (state, action) => {
-    const sendingFriendRequestsNew = state.sentFriendRequests.filter(id => {
-        return id !== action.friendId
-    });
-    const failedFriendRequestsNew = [...state.failedFriendRequests, action.friendId]
+    const sendingFriendRequestsNew = state.sendingFriendRequests.filter(user => user.userId !== action.user.userId);
+    const failedFriendRequestsNew = [...state.failedFriendRequests, action.user];
     return {
         ...state,
-        sendingFriendRequests: sendingFriendRequestsNew,
-        failedFriendRequests: failedFriendRequestsNew
+        failedFriendRequests: failedFriendRequestsNew,
+        sendingFriendRequests: sendingFriendRequestsNew, 
     }
 }
 
@@ -506,32 +472,33 @@ const sendFriendRequestFailed = (state, action) => {
 
 
 const acceptFriendRequestStart = (state, action) => {
-    const acceptingFriendRequestsNew = [...state.acceptingFriendRequests, action.userId]; 
+    console.log('USER', action.user);
+    const receivedFriendRequestsNew = state.receivedFriendRequests.filter(user => user.userId !== action.user.userId);
+    const acceptingFriendRequestsNew = [...state.acceptingFriendRequests, action.user]; 
     return {
         ...state, 
+        receivedFriendRequests: receivedFriendRequestsNew,
         acceptingFriendRequests: acceptingFriendRequestsNew
     }
 }
 
 const acceptFriendRequestSuccess = (state, action) => {
-    const acceptingFriendRequestsNew = state.acceptingFriendRequests.filter(id => id !== action.friend.userId);
-    const receivedFriendRequestsNew = state.receivedFriendRequests.filter(action.friend.userId);
-
-    const friendsNew = [...state.friends, action.friend]
-    const chatsNew = [action.chat, ...state.chats]
+    const acceptingFriendRequestsNew = state.acceptingFriendRequests.filter(user => user.userId !== action.friend.userId);
+    const friendsNew = [...state.friends, action.friend]; 
+    const chatsNew = [action.chat, ...state.chats];
     return {
         ...state,
-        receivedFriendRequests: receivedFriendRequestsNew,
         friends: friendsNew,
         chats: chatsNew,
         acceptingFriendRequests: acceptingFriendRequestsNew,
-        currentChatId: action.chat.chatId,
     }
 }
 
 const acceptFriendRequestFailed = (state, action) => {
+    const receivedFriendRequestsNew = [...state.receivedFriendRequests, action.user]
     return {
         ...state,
+        receivedFriendRequests: receivedFriendRequestsNew,
     }
 }
 
@@ -594,14 +561,14 @@ const fetchFriendsFailed = (state, action) => {
 // ------------------------------------------------------
 
 const createDummyChat = (state, action) => {
-    const dummyChatId = 'dummy'+action.userId;
-    const alreadyExists = state.streams.some(chat => chat.chatId === dummyChatId) 
-    const dummyChatNew = {
-        chatId: dummyChatId, 
-        name: action.name,
-        latestMessages: []
+    const dummyChat = {
+        group: false,
+        messages: [],
+        chatId: 'dummy'+ Date.now(),
+        members: [action.self, action.chatPartner],
+        name: action.chatPartner.name
     }
-    const chatsNew = alreadyExists ? state.streams : [...state.streams, dummyChatNew];
+    const chatsNew = [dummyChat, ...state.chats];
     return {
         ...state,
         chats: chatsNew

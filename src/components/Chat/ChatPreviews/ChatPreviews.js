@@ -38,14 +38,15 @@ class ChatPreviews extends Component {
       }else {
         chats = this.props.chats
           .map(chat => {
-          return (
-            <ChatPrev 
-              chat
-              {...chat}
-              key={chat.chatId}
-              clicked={() => this.clicked(chat.chatId)}
-            /> 
-          )
+            const getChatPartner = chat.members.filter(user => user.userId !== this.props.userId)[0];
+            return (
+              <ChatPrev 
+                chat
+                {...chat}
+                key={chat.chatId}
+                clicked={() => this.clicked(chat.chatId)}
+              /> 
+            )
         })
       }
       return (
@@ -65,14 +66,11 @@ class ChatPreviews extends Component {
             <ChatPrev
               user
               {...user}
-              buttonType = {this.props.acceptingFriendRequests.some(id => id === user.userId) ? 'loading' : 'accept'}
-              buttonClick={() => this.props.onAcceptFriendRequest(user.userId, this.props.token)}
               key={'request'+ user.userId}/>
           )
         }) 
         return(
           <div>
-            <h3>Friend Requests: ────────</h3>
             {requests}
           </div>
         )
@@ -223,7 +221,6 @@ const mapStateToProps = state => {
     return {
       onFetchAllUsers: () => dispatch(actions.fetchAllUsers()),
       onChangeChat: (chatId, user, self, inputRef) => dispatch(actions.changeChat(chatId, user, self, inputRef)), 
-      onAcceptFriendRequest: (userId, token) => dispatch(actions.acceptFriendRequest(userId, token)),
       onOpenNewChatModal: () => dispatch(actions.openNewChatModal()),
       onChangeShouldDeleteInput: (value) => dispatch(actions.changeShouldDeleteInput(value)), 
     }

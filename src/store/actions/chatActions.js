@@ -118,44 +118,6 @@ export const fetchFriendsFailed = () => {
     }
 }
 
-//--------- FETCH FRIEND REQUESTS -----------------------------------------------
-
-export const fetchFriendRequests = (token) => {
-    return dispatch => {
-        dispatch(fetchFriendRequestsStart());
-        const headers = { headers: { authorization: `Bearer ${token}` } }  
-        axios.get(
-            '/api/users/friendRequests',
-            headers
-        )
-        .then(response => {
-            dispatch(addNewUsers(response.data));
-            dispatch(fetchFriendRequestsSuccess(response.data));
-        }).catch(err => {
-            dispatch(fetchFriendRequestsFailed())
-        })
-    }
-}
-
-export const fetchFriendRequestsStart = () => {
-    return {
-        type: actionTypes.FETCH_FIREND_REQUESTS_START,
-    }
-}
-
-export const fetchFriendRequestsSuccess = (users) => {
-    return {
-        type: actionTypes.FETCH_FIREND_REQUESTS_SUCCESS,
-        users
-    }
-}
-
-export const fetchFriendRequestsFailed = () => {
-    return {
-        type: actionTypes.FETCH_FIREND_REQUESTS_FAILED
-    }
-}
-
 //--------- FETCH ALL USERS ---------------------------------------------------
 
 export const fetchAllUsers = () => {
@@ -190,6 +152,50 @@ export const fetchAllUsersFailed = () => {
     }
 }
 
+//--------- NEW CHAT -------------------------------------------------------
+
+export const sendNewChat = (user, userId, text) => {
+    return dispatch => {
+        dispatch(sendNewChatStart(user));
+        const url = '/api/chat';
+        const body = {
+            group: false,
+            members: [user.userId, userId],
+            message: text
+        };
+        const token = localStorage.getItem('token');
+        const headers = { headers: { authorization : `Bearer ${token}` } }
+        axios.post(url, body, headers)
+        .then(res => {
+            dispatch(sendNewChatSuccess(user));
+        })
+        .catch(err => {
+            dispatch(sendNewChatFailed(user));
+            console.log(err);
+        })
+    }
+}
+
+export const sendNewChatStart = (user) => {
+    return {
+        type: actionTypes.SEND_NEW_CHAT_START,
+        user
+    }
+}
+
+export const sendNewChatSuccess = (user) => {
+    return {
+        type: actionTypes.SEND_NEW_CHAT_SUCCESS,
+        user
+    }
+}
+
+export const sendNewChatFailed = (user) => {
+    return {
+        type: actionTypes.SEND_NEW_CHAT_FAILED,
+        user
+    }
+}
 
 
 //--------- SEND MESSAGE -------------------------------------------------------
@@ -241,63 +247,65 @@ export const sendMessageFailed = (chatId, randId) => {
 
 //--------- SEND FRIEND REQUEST -------------------------------------------
 
-export const sendFriendRequest = (friendId, token) => {
+export const sendFriendRequest = (user) => {
     return dispatch => {
-        dispatch(sendFriendRequestStart(friendId))
+        console.log("Sending Friend Request");
+        dispatch(sendFriendRequestStart(user))
+        const token = localStorage.getItem('token');
         const headers = { headers: { authorization : `Bearer ${token}` } }
-        axios.post('/api/users/addFriend', { friendId }, headers)
+        axios.post('/api/users/addFriend', { friendId: user.userId }, headers)
         .then(response => {
-            dispatch(sendFriendRequestSuccess(friendId))
+            dispatch(sendFriendRequestSuccess(user))
         }).catch(err => {
             console.log(err)
-            dispatch(sendFriendRequestFailed(friendId))
+            dispatch(sendFriendRequestFailed(user))
         })
     }
 }
 
-export const sendFriendRequestStart = (friendId) => {
+export const sendFriendRequestStart = (user) => {
     return {
         type: actionTypes.SEND_FRIEND_REQUEST_START,
-        friendId
+        user
     }
 }
 
-export const sendFriendRequestSuccess = (friendId) => {
+export const sendFriendRequestSuccess = (user) => {
     return {
         type: actionTypes.SEND_FRIEND_REQUEST_SUCCESS,
-        friendId
+        user
     }
 }
 
-export const sendFriendRequestFailed = (friendId) => {
+export const sendFriendRequestFailed = (user) => {
     return {
         type: actionTypes.SEND_FRIEND_REQUEST_FAILED,
-        friendId
+        user
     }
 }
 
 //--------- ACCEPT FIREND REQUEST -----------------------------------------
 
-export const acceptFriendRequest = (friendId, token) => {
+export const acceptFriendRequest = (user) => {
     return dispatch => {
-        console.log('FRIEND ID', friendId)
-        dispatch(acceptFriendRequestStart(friendId))
+        dispatch(acceptFriendRequestStart(user));
+        const token = localStorage.getItem('token');
         const headers = { headers: { authorization : `Bearer ${token}` } }
-        const body = { friendId: friendId };
+        const body = { friendId: user.userId };
         axios.post('/api/users/acceptFriendRequest', body, headers)
         .then(res => {
             dispatch(acceptFriendRequestSuccess(res.data.friend, res.data.chat))
         }).catch(err => {
             console.log(err)
-            dispatch(acceptFriendRequestFailed(friendId))
+            dispatch(acceptFriendRequestFailed(user))
         })
     }
 }
 
-export const acceptFriendRequestStart = (userId) => {
+export const acceptFriendRequestStart = (user) => {
     return {
         type: actionTypes.ACCEPT_FRIEND_REQUEST_START,
-        userId
+        user
     }
 }
 
@@ -309,10 +317,10 @@ export const acceptFriendRequestSuccess = (friend, chat) => {
     }
 }
 
-export const acceptFriendRequestFailed = (friendId) => {
+export const acceptFriendRequestFailed = (user) => {
     return {
         type: actionTypes.ACCEPT_FRIEND_REQUEST_FAILED,
-        friendId
+        user
     }
 }
 
@@ -357,43 +365,43 @@ export const chatInputChangeHandler = (value) => {
 
 //--------- NEW CHAT -----------------------------------------------------------
 
-export const sendNewChat = (friendId, message) => {
-    return dispatch => {
-        dispatch(sendNewChatStart());
-        const body = {
-            group: false,
-            members: [friendId],
-            message: message
-        };
-        const token = localStorage.getItem('token');
-        const headers = { headers: { authorization: `Bearer ${token}` } }  
-        axios.post('api/chat', body, headers)
-        .then(res => {
-            dispatch(sendNewChatSuccess());
-        }).catch(err => {
-            dispatch(sendNewChatFailed());
-            console.log(err)
-        })
-    }
-}
+// export const sendNewChat = (friendId, message) => {
+//     return dispatch => {
+//         dispatch(sendNewChatStart());
+//         const body = {
+//             group: false,
+//             members: [friendId],
+//             message: message
+//         };
+//         const token = localStorage.getItem('token');
+//         const headers = { headers: { authorization: `Bearer ${token}` } }  
+//         axios.post('api/chat', body, headers)
+//         .then(res => {
+//             dispatch(sendNewChatSuccess());
+//         }).catch(err => {
+//             dispatch(sendNewChatFailed());
+//             console.log(err)
+//         })
+//     }
+// }
 
-export const sendNewChatStart = () => {
-    return {
-        type: actionTypes.SEND_NEW_CHAT_START,
-    }
-}
+// export const sendNewChatStart = () => {
+//     return {
+//         type: actionTypes.SEND_NEW_CHAT_START,
+//     }
+// }
 
-export const sendNewChatSuccess = () => {
-    return {
-        type: actionTypes.SEND_MESSAGE_SUCCESS,
-    }
-}
+// export const sendNewChatSuccess = () => {
+//     return {
+//         type: actionTypes.SEND_MESSAGE_SUCCESS,
+//     }
+// }
 
-export const sendNewChatFailed = () => {
-    return {
-        type: actionTypes.SEND_NEW_CHAT_FAILED,
-    }
-}
+// export const sendNewChatFailed = () => {
+//     return {
+//         type: actionTypes.SEND_NEW_CHAT_FAILED,
+//     }
+// }
 
 //--------- ADD DUMMY CAHT -----------------------------------------------------
 
@@ -419,7 +427,7 @@ export const createDummyChat = (chatPartner, self) => {
     return {
         type: actionTypes.CREATE_DUMMY_CHAT,
         chatPartner, 
-        self,
+        self
     }
 }
 

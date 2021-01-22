@@ -71,8 +71,11 @@ class AddButton extends Component {
             styleClasses.push(classes.GlowOnHover);
         }
         if(this.props.type === 'sent'){
-            button = this.getCheckMark();
+            button = <span className={classes.Accept}>requested</span>;
             title = 'Friend Request Sent';
+        }
+        if(this.props.type === 'check'){
+            button = this.getCheckMark()
         }
         return(
             <div 

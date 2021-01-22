@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'; 
 import * as actions from '../../store/actions/index';
 import Modal from '../UI/Modal/Modal';
-import ChatPrev from '../Chat/ChatPreviews/ChatPrev/ChatPrev';
+import UserPrev from './UserPrev/UserPrev';
 
 import classes from './NewChatModal.module.css';
+import Backdrop from '../UI/Backdrop/Backdrop';
+import Loader from 'react-loader-spinner';
 
 class NewChatModal extends Component {
 
@@ -23,89 +25,63 @@ class NewChatModal extends Component {
       console.log()
     }
 
+    getAllUsers = () => {
+      let allUsers = null;
+      if(this.props.allUsersStatus === 'loading'){
+        allUsers = 
+        <div className={classes.LoaderContainer}>
+          <Loader 
+            className={classes.Spinner} 
+            type="ThreeDots" 
+            color="#00BFFF" 
+            height={30} 
+            width={30}/> 
+        </div>
+      }
+      if(this.props.allUsersStatus === 'loaded'){ 
+        allUsers = 
+        <div>
+          {
+            this.props.allUsers
+            .filter(user => {
+              return user.name.toLowerCase().includes(this.state.searchInput.toLowerCase()) 
+                      && user.userId !== this.props.logedinUserId
+                      && !this.props.friends.some(f => f.userId === user.userId)
+            })
+            .map(user => {
+              return (
+                <UserPrev 
+                  user={user}
+                  {...user}
+                  inputRef={this.props.inputRef} 
+                  key={'s' + user.userId}
+                  preview={user.handle}
+                />
+              )
+            })
+          }
+        </div>
+      }
+      return allUsers
+    }
+
     getFriends = () => {
-      const friends = 
-        this.props.friends
-        .filter(friend => friend.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
-        .map(friend => {
-          const chat = this.props.chats.find(chat => chat.members.some(member => member.userId === friend.userId));
-          const chatId = chat.chatId;
-          return (
-            <ChatPrev 
-              user
-              {...friend}
-              key={friend.userId}
-              preview={friend.handle}
-              clicked={() => this.props.onNewChat(null, null, chatId, this.props.inputRef)}/>
-          );
-        })
+      const friends = this.props.friends
+      .filter(friend => friend.name.toLowerCase().includes(this.state.searchInput.toLowerCase()) 
+      )
+      .map(friend => {
+        return (
+          <UserPrev 
+            user={friend}
+            {...friend}
+            inputRef={this.props.inputRef} 
+            key={'f' + friend.userId}
+            preview={friend.handle}
+          />
+        )
+      })
       return friends;
     }
-
-    getAllUsers = () => {
-      console.log(this.props.allUsersStatus)
-      return <h1>{this.props.allUsersStatus}</h1>
-    }
-
-    // getAllUsers = () => {
-    //   console.log(this.props.allUsersStatus)
-    //   let allUsers = null;
-    //   if(this.props.allUsersStatus === 'loading'){
-    //     allUsers = 
-    //     <div className={classes.LoaderContainer}>
-    //       <Loader 
-    //         className={classes.Spinner} 
-    //         type="ThreeDots" 
-    //         color="#00BFFF" 
-    //         height={30} 
-    //         width={30}/> 
-    //     </div>
-    //   }
-    //   if(this.props.allUsersStatus === 'loaded'){
-    //     return this.props.allUsers.map(user => <p key={user.userId + '1'}>{user.name}</p>)
-    //   }
-    //   if(this.props.allUsersStatus === 'loaded'){ 
-    //     allUsers = 
-    //     <div>
-    //       <h1>All Users</h1>
-    //       {
-    //         this.props.allUsers
-    //         .filter(user => {
-    //           return user.name.toLowerCase().includes(this.state.searchInput.toLowerCase()) 
-    //                   && user.userId !== this.props.userId
-    //                   && !this.props.friends.some(f => f.userId === user.userId)
-    //         })
-    //         .map(user => {
-    //           let buttonType = 'add';
-    //           if(this.props.sendingFriendRequests.some(id => id === user.userId)) buttonType='loading';
-    //           if(this.props.sentFriendRequests.some(id => id === user.userId)) buttonType='sent';
-    //           if(this.props.receivedFriendRequests.some(id=>id === user.userId)) buttonType='accept';
-    //           const self = {
-    //             userId: this.props.userId, 
-    //             handle: this.props.handle,
-    //             profilePic: this.props.profilePic,
-    //           }
-    //           const existingChat = this.props.chats.find(chat => chat.members.some(member => member.userId === user.userId));
-    //           const chatId = existingChat ? existingChat.chatId : null;
-    //           return (
-    //             <ChatPrev 
-    //               user
-    //               {...user}
-    //               inputRef={this.props.inputRef} 
-    //               key={'s' + user.userId}
-    //               buttonType={buttonType}
-    //               clicked={() => this.props.onNewChat(user, self, chatId, this.props.inputRef)}
-    //               buttonClick= {() => this.props.onSendFriendRequest(user.userId, this.props.token)}
-    //               preview={user.handle}
-    //             />
-    //           )
-    //         })
-    //       }
-    //     </div>
-    //   }
-    //   console.log(allUsers)
-    //   return allUsers
-    // }
 
     onSearchInput = (event) => {
       this.setState({searchInput: event.target.value});
@@ -113,26 +89,32 @@ class NewChatModal extends Component {
 
     render() {
         return(
-            <Modal height={'50vh'} width={'300px'} backDropClick={this.props.onCloseNewChatMenu}>
-              <h2>New Chat</h2>
-                <input 
-                  placeholder={"Search by username or @handle"}
-                  ref={(input) => { this.searchInput = input; }} 
-                  type="text" 
-                  onChange={this.onSearchInput}
-                  className={classes.SearchInput}/> 
-              <div className={classes.ScrollContainer}>
-                {this.getFriends()} 
-                {this.getAllUsers()} 
-                <h1>{this.props.allUsersStatus}</h1>
+            // <Modal height={'50vh'} width={'300px'} backDropClick={this.props.onCloseNewChatMenu}>
+            <div>
+              <Backdrop show={this.props.modalOpen} clicked={this.props.onCloseNewChatMenu} />
+              <div className={classes.Modal}>
+                <h2>New Chat</h2>
+                  <input 
+                    placeholder={"Search by username or @handle"}
+                    ref={(input) => { this.searchInput = input; }} 
+                    type="text" 
+                    onChange={this.onSearchInput}
+                    className={classes.SearchInput}/> 
+                <div className={classes.ScrollContainer}>
+                  {this.getFriends()}
+                  {this.getAllUsers()} 
+                </div>
               </div>
-            </Modal>
-        )
+            </div>
+
+           )
     }
 }
 
 const mapStateToProps = state => {
     return {
+        logedinUserId: state.user.userId, 
+
         allUsersStatus: state.chat.allUsersStatus,
         allUsers: state.chat.allUsers,
 
@@ -144,6 +126,8 @@ const mapStateToProps = state => {
         failedFriendRequest: state.chat.failedFriendRequest,
 
         receivedFriendRequests: state.chat.receivedFriendRequests,
+
+        token: state.user.token, 
     }
 }
 

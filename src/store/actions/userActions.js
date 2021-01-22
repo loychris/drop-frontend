@@ -4,7 +4,6 @@ import * as actionTypes from './actionTypes';
 import { setDropsNotLoaded } from './streamActions';
 import { closeMenu } from './UIActions';
 import { 
-    //fetchFriends, fetchFriendRequests, fetchChats, 
     setChatStateOnLogin } from './chatActions';
 
 export const logout = () => {
@@ -42,18 +41,6 @@ export const login = (identifier, password) => {
             dispatch(setDropsNotLoaded());
             dispatch(setChatStateOnLogin(res.data))
             dispatch(closeMenu());
-
-            // For now everything will be directly fetched with login (via populate)
-
-            // if(res.data.friends ?? res.data.friends.length > 0){
-            //     dispatch(fetchFriends(res.data.friends));
-            // }
-            // if(res.data.friendRequests ?? res.data.friendRequests.length > 0){
-            //     dispatch(fetchFriendRequests(res.data.token));
-            // }
-            // if(res.data.chats ?? res.data.chats.length > 0){
-            //     dispatch(fetchChats(res.data.token, res.data.userId));
-            // }
         }).catch(err => {
             if(err.response && err.response.data && err.response.data.message){
                 dispatch(loginFail(err.response.data.message));
