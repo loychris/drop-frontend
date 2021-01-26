@@ -20,7 +20,6 @@ class ChatPreviews extends Component {
 
     clicked = (chatId) => {
       this.props.onChangeChat(chatId);
-      this.props.onChangeShouldDeleteInput(true);
     }
 
     getChats = () => {
@@ -62,10 +61,17 @@ class ChatPreviews extends Component {
         return null
       } else {
         const requests = this.props.receivedFriendRequests.map(user => {
+          const self = {
+            name: this.props.selfName,
+            handle: this.props.selfHandle,
+            userId: this.props.selfId,
+            profilePic: this.props.selfHasPfilePic,
+          }
           return (
             <ChatPrev
               user
               {...user}
+              clicked={() => this.props.onCreateDummyChat(user, self)}
               key={'request'+ user.userId}/>
           )
         }) 
@@ -222,7 +228,7 @@ const mapStateToProps = state => {
       onFetchAllUsers: () => dispatch(actions.fetchAllUsers()),
       onChangeChat: (chatId, user, self, inputRef) => dispatch(actions.changeChat(chatId, user, self, inputRef)), 
       onOpenNewChatModal: () => dispatch(actions.openNewChatModal()),
-      onChangeShouldDeleteInput: (value) => dispatch(actions.changeShouldDeleteInput(value)), 
+      onCreateDummyChat: (chatPartner, self) => dispatch(actions.createDummyChat(chatPartner, self))
     }
   }
   

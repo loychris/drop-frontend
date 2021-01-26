@@ -6,7 +6,6 @@ const initialState = {
     chatInput: '',  
     allUsers: [],
     allUsersStatus: 'not loaded',
-    shouldDeleteInput: false,
 
     sendingFriendRequests: [],
     sentFriendRequests: [],
@@ -216,6 +215,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SEND_MESSAGE_SUCCESS: return sendMessageSuccess(state, action);
         case actionTypes.SEND_MESSAGE_FAILED: return sendMessageFailed(state, action);
 
+        case actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_START: return sendFirstMessageNewChatStart(state, action);
+        case actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_SUCCESS: return sendFirstMessageNewChatSuccess(state, action);
+        case actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_FAILED: return sendFirstMessageNewChatFailed(state, action);
+
         case actionTypes.CHANGE_CHAT: return changeChat(state, action);
         case actionTypes.CHANGE_FORM_HEIGHT: return changeChatFormHeight(state, action);
         case actionTypes.CHANGE_CHAT_INPUT: return chatInputChangeHandler(state, action);
@@ -241,7 +244,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_CHATS_FAILED: return fetchChatsFailed(state, action);
 
         case actionTypes.CREATE_DUMMY_CHAT: return createDummyChat(state, action);
-        case actionTypes.CHANGE_SHOULD_DELETE_INPUT: return changeShouldDeleteInput(state, action);
         default: return state;
     }
 }
@@ -342,11 +344,9 @@ const sendMessageStart = (state, action) => {
                 messages: [
                     ...chat.messages,
                     {
-                        new: true,
                         received: [],
                         seen: [],
                         liked: [],
-                        deleted: [],
                         text: action.text, 
                         sender: action.userId,
                         time: new Date(),
@@ -375,19 +375,9 @@ const sendMessageSuccess = (state, action) => {
     const sendingMessage = state.sendingMessages.find(m => m.randId === action.randId);
     const sendingMessagesNew = state.sendingMessages.filter(m => m.randId !== action.randId);
     const chatsNew = state.chats.map(chat => {
-
         if(chat.chatId === sendingMessage.chatId){
-            console.log(`
-                currentChatId:            ${state.currentChatId}
-                chat.chatId:              ${chat.chatId}
-                sendingMessage.chatId:    ${sendingMessage.chatId}
-                sendingMessage.randId:    ${sendingMessage.randId}
-                state.caht.messages.ids:  ${chat.messages.map(m => m.id)}        
-            `)
             const messagesNew = chat.messages.map(message => {
                 if(message.id === sendingMessage.randId){
-                    console.log('FOUND MESSAGE')
-                    console.log(action.message);
                     return action.message;
                 }else{
                     return message
@@ -411,6 +401,70 @@ const sendMessageSuccess = (state, action) => {
 const sendMessageFailed = (state, action) => {
     return {
         ...state
+    }
+}
+
+//----- SEND FIRST MESSAGE NEW CHAT -------------------------------------
+
+const sendFirstMessageNewChatStart = (state, action) => {
+    const { dummyChatId, randId, message, self } = action;
+    console.log(action);
+    const newMessage = {
+        new: true,
+        received: [],
+        seen: [],
+        liked: [],
+        text: message, 
+        sender: self.userId,
+        time: new Date(),
+        id: randId,
+        type: 'text', 
+        sent: true, 
+        sending: true
+    }
+    const chatsNew = state.chats.map(chat => {
+        if(chat.chatId === dummyChatId){
+            return {
+                ...chat,
+                messages: [newMessage],
+            }
+        }else{
+            return chat
+        }
+    });
+    return {
+        ...state,
+        chats: chatsNew
+    }
+}
+
+const sendFirstMessageNewChatSuccess = (state, action) => {
+    console.log(action);
+
+    const { dummyChatId, randId, createdChat, self, chatPartner } = action;
+
+    const currentChatIdNew = state.currentChatId === dummyChatId ? createdChat.chatId : state.currentChatId;
+    const chatsNew = state.chats.map(chat => {
+        if(chat.chatId === dummyChatId){
+            console.log('FOUND DUMMY CHAT');
+            return {
+                ...createdChat, 
+                members: [self, chatPartner]
+            }
+        } else {
+            return chat
+        }
+    })
+    return {
+        ...state, 
+        chats: chatsNew,
+        currentChatId: currentChatIdNew
+    }
+}
+
+const sendFirstMessageNewChatFailed = (state, action) => {
+    return {
+        ...state, 
     }
 }
 
@@ -587,12 +641,6 @@ const addNewUsers = (state, action) => {
     }
 }
 
-const changeShouldDeleteInput = (state, action) => {
-    return {
-        ...state,
-        shouldDeleteInput: action.value
-    }
-}
 
 
 export default reducer;

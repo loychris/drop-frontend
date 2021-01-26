@@ -6,7 +6,7 @@ import Stream from "./components/Stream/Stream";
 import Chat from "./components/Chat/Chat";
 import Creator from './components/Creator/Creator';
 import Navigation from "./components/Navigation/Navigation";
-import NewChatModal from './components/AllUsersModal/NewChatModal';
+import NewChatModal from './components/NewChatModal/NewChatModal';
 import taktaktak from './media/taktaktak.jpg'; 
 
 import * as actions from './store/actions/index';

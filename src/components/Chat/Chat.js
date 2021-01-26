@@ -54,7 +54,6 @@ const mapDispatchToProps = dispatch => {
   return {
     onOpenAuth: (authReason) => dispatch(actions.openMenu(authReason)),
     onChangeChat: (chatId, self, user, inputValue) => dispatch(actions.changeChat(chatId, self, user, inputValue)),
-    onChangeShouldDeleteInput: (value) => dispatch(actions.changeShouldDeleteInput(value)),
   }
 }
 

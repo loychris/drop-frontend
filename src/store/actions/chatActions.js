@@ -152,52 +152,6 @@ export const fetchAllUsersFailed = () => {
     }
 }
 
-//--------- NEW CHAT -------------------------------------------------------
-
-export const sendNewChat = (user, userId, text) => {
-    return dispatch => {
-        dispatch(sendNewChatStart(user));
-        const url = '/api/chat';
-        const body = {
-            group: false,
-            members: [user.userId, userId],
-            message: text
-        };
-        const token = localStorage.getItem('token');
-        const headers = { headers: { authorization : `Bearer ${token}` } }
-        axios.post(url, body, headers)
-        .then(res => {
-            dispatch(sendNewChatSuccess(user));
-        })
-        .catch(err => {
-            dispatch(sendNewChatFailed(user));
-            console.log(err);
-        })
-    }
-}
-
-export const sendNewChatStart = (user) => {
-    return {
-        type: actionTypes.SEND_NEW_CHAT_START,
-        user
-    }
-}
-
-export const sendNewChatSuccess = (user) => {
-    return {
-        type: actionTypes.SEND_NEW_CHAT_SUCCESS,
-        user
-    }
-}
-
-export const sendNewChatFailed = (user) => {
-    return {
-        type: actionTypes.SEND_NEW_CHAT_FAILED,
-        user
-    }
-}
-
-
 //--------- SEND MESSAGE -------------------------------------------------------
 
 export const sendTextMessage = (chatId, text, userId) => {
@@ -243,6 +197,57 @@ export const sendMessageFailed = (chatId, randId) => {
         type: actionTypes.SEND_MESSAGE_FAILED,
         chatId,
         randId
+    }
+}
+
+//--------- SEND FIRST MESSAGE IN NEW CHAT --------------------------------
+
+export const sendFirstMessageNewChat = (dummyChatId, self, chatPartner, text) => {
+    return dispatch => {
+        const randId = Date.now();
+        dispatch(sendFirstMessageNewChatStart(dummyChatId, randId, text, self));
+        const token = localStorage.getItem('token');
+        const headers = { headers: { authorization : `Bearer ${token}` } }
+        const body = {
+             members: [self.userId, chatPartner.userId],
+            message: text
+        }
+        axios.post('/api/chat', body, headers)
+        .then(res => {
+            console.log(res.data);
+            dispatch(sendFirstMessageNewChatSuccess(dummyChatId, randId, res.data, self, chatPartner))
+        }).catch(err => {
+            console.log("FIRST MESSAGE NEW CAHT ERROR");
+            console.log(err);
+            dispatch(sendFirstMessageNewChatFailed())
+        })
+    }
+}
+
+export const sendFirstMessageNewChatStart = (dummyChatId, randId, message, self) => {
+    return {
+        type: actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_START,
+        dummyChatId,
+        randId,
+        message,
+        self,
+    }
+}
+
+export const sendFirstMessageNewChatSuccess = (dummyChatId, randId, createdChat, self, chatPartner) => {
+    return {
+        type: actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_SUCCESS,
+        dummyChatId,
+        randId,
+        createdChat,
+        self,
+        chatPartner
+    }
+}
+
+export const sendFirstMessageNewChatFailed = () => {
+    return {
+        type: actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_FAILED,
     }
 }
 
@@ -418,6 +423,7 @@ export const newChat = (chatId, chatPartner, self) => {
 }
 
 export const changeChat = (chatId) => {
+    localStorage.setItem('currentChatId', chatId);
     return {
         type: actionTypes.CHANGE_CHAT,
         chatId, 
@@ -425,6 +431,8 @@ export const changeChat = (chatId) => {
 }
 
 export const createDummyChat = (chatPartner, self) => {
+    const dummyChatId = 'dummy' + chatPartner.userId
+    localStorage.setItem('currentChatId', dummyChatId);
     return {
         type: actionTypes.CREATE_DUMMY_CHAT,
         chatPartner, 
@@ -441,20 +449,6 @@ export const addNewUsers = (users) => {
     return {
         type: actionTypes.ADD_NEW_USERS,
         users
-    }
-}
-
-export const changeChatInput = (value) => {
-    return {
-        type: actionTypes.CHANGE_CHAT_INPUT,
-        value
-    }
-}
-
-export const changeShouldDeleteInput = (value) => {
-    return {
-        type: actionTypes.CHANGE_SHOULD_DELETE_INPUT,
-        value
     }
 }
 

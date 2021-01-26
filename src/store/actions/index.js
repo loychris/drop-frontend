@@ -30,6 +30,7 @@ export {
 export {
     setChatStateOnLogin,
     sendTextMessage,
+    sendFirstMessageNewChat, 
     fetchChats,
     changeFormHeight,
     fetchAllUsers,
@@ -39,8 +40,6 @@ export {
     createDummyChat, 
     changeChat,
     newChat,
-    changeChatInput,
-    changeShouldDeleteInput
 } from './chatActions';
 
 export {
