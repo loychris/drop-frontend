@@ -35,9 +35,10 @@ class ChatPreviews extends Component {
             width={30}/> 
         </div>
       }else {
-        chats = this.props.chats
-          .map(chat => {
-            const getChatPartner = chat.members.filter(user => user.userId !== this.props.userId)[0];
+        const newMessageChats = this.props.chats
+        .filter(chat => this.props.notifications.some(n => n.type === 'TEXT_MESSAGE' && n.chatId === chat.chatId))
+        .sort((chatA, chatB) => chatB.messages[0].sentTime - chatA.messages[0].sentTime)
+        .map(chat => {
             return (
               <ChatPrev 
                 chat
@@ -46,14 +47,26 @@ class ChatPreviews extends Component {
                 clicked={() => this.clicked(chat.chatId)}
               /> 
             )
+          })
+        const noNewMessageChats = this.props.chats
+        .filter(chat => !this.props.notifications.some(n => n.type === 'TEXT_MESSAGE' && n.chatId === chat.chatId))
+        .sort((chatA, chatB) => {
+          if(!chatA.messages.length === 0 || chatB.messages.length === 0) return 1
+          return chatB.messages[0].sentTime - chatA.messages[0].sentTime
         })
+        .map(chat => {
+            return (
+              <ChatPrev 
+                chat
+                {...chat}
+                key={chat.chatId}
+                clicked={() => this.clicked(chat.chatId)}
+              /> 
+            )
+          })
+        chats = [...newMessageChats, ...noNewMessageChats]
       }
-      return (
-        <div>
-          {this.state.searching ? <h3>Recent Chats ───────</h3> : null}
-          {chats}
-        </div>
-      )
+      return chats
     }
 
     getFriendRequests = () => {
@@ -202,6 +215,7 @@ const mapStateToProps = state => {
     return {
       userId: state.user.userId,
       token: state.user.token,
+      notifications: state.user.notifications,
 
       chats: state.chat.chats,
       chatsStatus: state.chat.chatsStatus,

@@ -410,7 +410,6 @@ const sendFirstMessageNewChatStart = (state, action) => {
     const { dummyChatId, randId, message, self } = action;
     console.log(action);
     const newMessage = {
-        new: true,
         received: [],
         seen: [],
         liked: [],
