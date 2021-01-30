@@ -35,9 +35,8 @@ class ChatPreviews extends Component {
             width={30}/> 
         </div>
       }else {
-        const newMessageChats = this.props.chats
-        .filter(chat => this.props.notifications.some(n => n.type === 'TEXT_MESSAGE' && n.chatId === chat.chatId))
-        .sort((chatA, chatB) => chatB.messages[0].sentTime - chatA.messages[0].sentTime)
+        chats = this.props.chats
+        .sort((chatA, chatB) => chatB.lastInteraction - chatA.lastInteraction)
         .map(chat => {
             return (
               <ChatPrev 
@@ -48,23 +47,7 @@ class ChatPreviews extends Component {
               /> 
             )
           })
-        const noNewMessageChats = this.props.chats
-        .filter(chat => !this.props.notifications.some(n => n.type === 'TEXT_MESSAGE' && n.chatId === chat.chatId))
-        .sort((chatA, chatB) => {
-          if(!chatA.messages.length === 0 || chatB.messages.length === 0) return 1
-          return chatB.messages[0].sentTime - chatA.messages[0].sentTime
-        })
-        .map(chat => {
-            return (
-              <ChatPrev 
-                chat
-                {...chat}
-                key={chat.chatId}
-                clicked={() => this.clicked(chat.chatId)}
-              /> 
-            )
-          })
-        chats = [...newMessageChats, ...noNewMessageChats]
+        
       }
       return chats
     }

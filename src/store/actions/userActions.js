@@ -4,7 +4,9 @@ import * as actionTypes from './actionTypes';
 import { setDropsNotLoaded } from './streamActions';
 import { closeMenu } from './UIActions';
 import { 
-    setChatStateOnLogin } from './chatActions';
+    setChatStateOnLogin,
+    checkAndAddNewMessages
+} from './chatActions';
 
 export const logout = () => {
     localStorage.clear()
@@ -162,3 +164,88 @@ export const authCheckState = () => {
         }
     };
 };
+
+
+
+//--------- SEND MESSAGES READ ---------------------------------------------
+
+export const sendMessagesRead = (chatId, messageIds) => {
+    return dispatch => {
+        dispatch(sendMessagesReadStart(chatId))
+        const token = localStorage.getItem('token');
+        const headers = { headers: { authorization : `Bearer ${token}` } }
+        const url = `/api/chat/${chatId}/read`;
+        const body = {
+            messageIds
+        }
+        axios.post(url, body, headers)
+        .then(res => {
+            console.log(res);
+            dispatch(sendMessagesReadSuccess())
+        }).catch(err => {
+            console.log(err); 
+            dispatch(sendMessagesReadFailed())
+        })
+    }
+}
+
+export const sendMessagesReadStart = (chatId) => {
+    return {
+        type: actionTypes.MESSAGES_READ_START,
+        chatId
+    }
+}
+
+export const sendMessagesReadSuccess = () => {
+    return {
+        type: actionTypes.MESSAGES_READ_SUCCESS,
+    }
+}
+
+export const sendMessagesReadFailed = () => {
+    return {
+        type: actionTypes.MESSAGES_READ_FAILED,
+    }
+}
+
+
+
+
+export const refreshNotifications = () => {
+    return dispatch => {
+        dispatch(refreshNotificationsStart())
+        const token = localStorage.getItem('token');
+        const headers = { headers: { authorization : `Bearer ${token}` } }
+        const url = `/api/users/notifications`;
+        axios.get(url, headers)
+        .then(res => {
+            dispatch(refreshNotificationsSuccess(res.data))
+            const messageNotifications = res.data.filter(n => n.type === 'TEXT_MESSAGE');
+            if(messageNotifications.length > 0){
+                dispatch(checkAndAddNewMessages(messageNotifications))
+            }
+        })
+        .catch(err => {
+            dispatch(refreshNotificationsFailed())
+        })
+    }
+}
+
+export const refreshNotificationsStart = () => {
+    return {
+        type: actionTypes.REFRESH_NOTIFICATIONS_START
+    }
+}
+
+export const refreshNotificationsSuccess = (notifications) => {
+    return {
+        type: actionTypes.REFRESH_NOTIFICATIONS_SUCCESS,
+        notifications
+    }
+}
+
+export const refreshNotificationsFailed = () => {
+    return {
+        type: actionTypes.REFRESH_NOTIFICATIONS_FAILED
+    }
+}

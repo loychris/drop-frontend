@@ -39,7 +39,6 @@ export {
     acceptFriendRequest,
     createDummyChat, 
     changeChat,
-    newChat,
 } from './chatActions';
 
 export {
@@ -47,5 +46,6 @@ export {
     login,
     signup,
     authCheckState,
-
+    sendMessagesRead,
+    refreshNotifications
 } from './userActions';

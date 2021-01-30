@@ -25,6 +25,7 @@ const initialState = {
                 { userId: '42069', name: 'Elon Musk', handle: 'elon', profilePic: false }
             ],
             inputValue: '',
+            lastInteraction: 1611673082511,
             messages: [
                 {
                     text: 'Whats poppin\' Elon?',
@@ -51,6 +52,7 @@ const initialState = {
                 { userId: '12', name: 'Tonald Drump', handle: 'donald', profilePic: false}
             ],            
             inputValue: '', 
+            lastInteraction: 1611673082510,
             messages: [
                 {
                     text: 'I won. By a lot.',
@@ -67,7 +69,9 @@ const initialState = {
             members: [
                 { userId: '1'}, 
                 { userId: '12345', name: 'Shrek', profilePic: false}
-            ],             inputValue: '', 
+            ],             
+            inputValue: '', 
+            lastInteraction: 1611673082509,
             messages: [
                 {
                     text: 'Get out of my swamp!',
@@ -86,6 +90,8 @@ const initialState = {
                 { userId: '123456', name: 'Keano Reeeeeeeee', profilePic: false}
             ], 
             inputValue: '', 
+            lastInteraction: 1611673082508,
+
             messages: [
                 {
                     text: 'I can do total sellout and they still love me lol',
@@ -111,12 +117,13 @@ const initialState = {
                     sender: '12345',
                     id: '1',
                 },
-            ],        },
+            ],        
+        },
         {
             chatId: '6',
-            name: '',
             members: ['4', '42069'],
             inputValue: '', 
+            lastInteraction: 1611673082507,
             messages: [
                 {
                     text: '',
@@ -125,78 +132,8 @@ const initialState = {
                     id: 1,
                     sent: true 
                 }
-            ],        },
-        {
-            chatId: '7',
-            name: 'Tonald Drump',
-            members: ['4', '42069'],
-            inputValue: '', 
-            messages: [
-                {
-                    text: '',
-                    time: '14:32', 
-                    sender: 'chris',
-                    id: 1,
-                    sent: true 
-                }
-            ],        },
-        {
-            chatId: '8',
-            name: '',
-            members: ['4', '42069'],
-            inputValue: '', 
-            messages: [
-                {
-                    text: '',
-                    time: '14:32', 
-                    sender: 'chris',
-                    id: 1,
-                    sent: true 
-                }
-            ],        },
-        {
-            chatId: '9',
-            name: '',
-            members: ['4', '42069'],
-            inputValue: '', 
-            messages: [
-                {
-                    text: '',
-                    time: '14:32', 
-                    sender: 'chris',
-                    id: 1,
-                    sent: true 
-                }
-            ],        },
-        {
-            chatId: '10',
-            name: 'Tonald Drump',
-            members: ['4', '42069'],
-            inputValue: '', 
-            messages: [
-                {
-                    text: '',
-                    time: '14:32', 
-                    sender: 'chris',
-                    id: 1,
-                    sent: true 
-                }
-            ],        },
-        {
-            chatId: '11',
-            name: '',
-            members: ['4', '42069'],
-            inputValue: '', 
-            messages: [
-                {
-                    text: '',
-                    time: '14:32', 
-                    sender: 'chris',
-                    id: 1,
-                    sent: true 
-                }
-            ],
-        }
+            ],        
+        },
     ], 
     seenUpdatesChats: [],
 
@@ -244,6 +181,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_CHATS_FAILED: return fetchChatsFailed(state, action);
 
         case actionTypes.CREATE_DUMMY_CHAT: return createDummyChat(state, action);
+        case actionTypes.CHECK_AND_ADD_NEW_MESSAGES: return checkAndAddNewMessages(state, action);
         default: return state;
     }
 }
@@ -639,6 +577,40 @@ const addNewUsers = (state, action) => {
         users: personsNew
     }
 }
+
+const removeDuplicateMessages = (messages) => {
+    let messageSet = [];
+    messages.forEach(message => {
+        if(!messageSet.some(m => m.id === message.id)){
+            messageSet.push(message);
+        }
+    })
+    return messageSet;
+}
+
+const checkAndAddNewMessages = (state, action) => {
+    const chatsNew = state.chats.map(chat => {
+        const newMessagesThisChat = action.notifications
+            .filter(n => n.chatId === chat.chatId)
+            .map(n => n.message)
+        if(newMessagesThisChat.length > 0){
+            const messagesNew = removeDuplicateMessages([...chat.messages, ...newMessagesThisChat]);
+            return {
+                ...chat,
+                messages: messagesNew
+            }
+        }else {
+            return chat
+        }
+    })
+
+    return {
+        ...state,
+        chats: chatsNew 
+    }
+}
+
+
 
 
 

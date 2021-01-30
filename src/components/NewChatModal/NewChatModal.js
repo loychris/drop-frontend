@@ -133,7 +133,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onNewChat: (chatPartner, self, chatId, inputRef) => dispatch(() => actions.newChat(chatPartner, self, chatId, inputRef)),
     onFetchAllUsers: () => dispatch(actions.fetchAllUsers()),
     onCloseNewChatMenu: () => dispatch(actions.closeNewChatModal()),
     onSendFriendRequest: (userId, token) => dispatch(actions.sendFriendRequest(userId, token)),

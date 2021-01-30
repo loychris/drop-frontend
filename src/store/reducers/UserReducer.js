@@ -91,6 +91,36 @@ const signupSuccess = (state, action) => {
     }
 }
 
+const messagesReadStart = (state, action) => {
+    console.log('BEFORE', state.notifications.length);
+    const notificationsNew = state.notifications
+        .filter(n => !(n.type === 'TEXT_MESSAGE' && n.chatId === action.chatId))
+    console.log('AFTER', notificationsNew.length)
+    return {
+        ...state,
+        notifications: notificationsNew
+    }
+}
+
+const messagesReadSuccess = (state, action) => {
+    return state
+}
+
+const messagesReadFailed = (state, action) => {
+    return state
+}
+
+const checkAndAddNewMessages = (state, action) => {
+    return state
+}
+
+const refreshNotificationsSuccess = (state, action) => {
+    return {
+        ...state,
+        notifications: action.notifications
+    }
+}
+
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
         case actionTypes.LOGIN_START: return loginStart(state);
@@ -100,6 +130,14 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SIGNUP_START: return signupStart(state);
         case actionTypes.SIGNUP_SUCCESS: return signupSuccess(state, action);
         case actionTypes.SIGNUP_FAIL: return signupFail(state, action);
+
+        case actionTypes.MESSAGES_READ_START: return messagesReadStart(state, action);
+        case actionTypes.MESSAGES_READ_SUCCESS: return messagesReadSuccess(state, action);
+        case actionTypes.MESSAGES_READ_FAILED: return messagesReadFailed(state, action);
+
+        case actionTypes.CHECK_AND_ADD_NEW_MESSAGES: return checkAndAddNewMessages(state, action);
+
+        case actionTypes.REFRESH_NOTIFICATIONS_SUCCESS: return refreshNotificationsSuccess(state, action);
 
         default: return state;
     }

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { closeNewChatModal } from './UIActions'
 
+
 import * as actionTypes from '../actions/actionTypes';
 
 export const setChatStateOnLogin = (userdata) => {
@@ -251,6 +252,7 @@ export const sendFirstMessageNewChatFailed = () => {
     }
 }
 
+
 //--------- SEND FRIEND REQUEST -------------------------------------------
 
 export const sendFriendRequest = (user) => {
@@ -482,5 +484,13 @@ export const fetchNewMessagesSuccess = () => {
 export const fetchNewMessagesFailed = () => {
     return {
         type: actionTypes.FETCH_NEW_MESSAGES_FAILED,
+    }
+}
+
+
+export const checkAndAddNewMessages = (notifications) => {
+    return {
+        type: actionTypes.CHECK_AND_ADD_NEW_MESSAGES, 
+        notifications
     }
 }

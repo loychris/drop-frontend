@@ -13,7 +13,6 @@ class Navigation extends Component {
       if(n.type === 'TEXT_MESSAGE') return true;
       return false;
     })
-    console.log(chatNotification);
     return (
       <div className={classes.Navigation}>
         <nav>

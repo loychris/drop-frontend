@@ -39,6 +39,7 @@ class App extends Component {
     }
     return (
         <div className='App'>
+          <button style={{border: '1ox solid red'}} onClick={this.props.onRefreshNotifications}>REFRESH NOTIFICATIONS</button>
           <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
           <Route path={['/stream', '/chat', '/creator']} component={Stream}/>
           <Navigation/>
@@ -63,7 +64,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTryAutoSignup: () => dispatch(actions.authCheckState())
+    onTryAutoSignup: () => dispatch(actions.authCheckState()),
+    onRefreshNotifications: () => dispatch(actions.refreshNotifications()),
   }
 }
 

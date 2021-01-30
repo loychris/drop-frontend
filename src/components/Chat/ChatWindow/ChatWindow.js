@@ -1,5 +1,6 @@
-import React, { useEffect, createRef } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../../../store/actions/index';
 
 import classes from './ChatWindow.module.css';
 import ChatForm from './ChatForm/ChatForm';
@@ -8,10 +9,17 @@ import Loader from 'react-loader-spinner';
 
 const ChatWindow = props => {
 
+  const [hasUpdated, setHasUpdated] = useState(false)
 
   useEffect(() => {
     scrollToBottom();
-    
+    const currentChatNotificatios = props.notifications.filter(n => n.type === 'TEXT_MESSAGE' && n.chatId === props.currentChatId);
+    if(currentChatNotificatios.length > 0){
+      console.log(currentChatNotificatios);
+      const messageIds = currentChatNotificatios.map(n => n.messageId);
+      props.onSendMessagesRead(props.currentChatId, messageIds);
+    //   setHasUpdated(true);
+    }
   })
 
   const scrollToBottom = (smooth) => {
@@ -121,6 +129,7 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
+      onSendMessagesRead: (chatId, messageIds) => dispatch(actions.sendMessagesRead(chatId, messageIds)),
     }
   }
   
