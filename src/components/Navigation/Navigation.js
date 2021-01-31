@@ -9,7 +9,7 @@ import * as UIActions from '../../store/actions/index';
 
 class Navigation extends Component {
   render() {
-    const chatNotification = this.props.notifications.some(n => {
+    const chatNotification = this.props.notifications.filter(n => {
       if(n.type === 'TEXT_MESSAGE') return true;
       return false;
     })
@@ -29,7 +29,7 @@ class Navigation extends Component {
             </li>
             <li>
               <NavLink style={{ textDecoration: "none" }} to="/chat">
-                {chatNotification ? <div className={classes.Notification}></div> : null }
+                {chatNotification.length > 0 ? <div className={classes.Notification}>{chatNotification.length}</div> : null }
                 <span
                   className={this.props.currentTab === "chat" ? classes.active : classes.inactive}
                   onClick={() => this.props.onSwitchTab("chat")}

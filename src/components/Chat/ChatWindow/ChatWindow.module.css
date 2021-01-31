@@ -3,17 +3,25 @@
     top: 0;
     bottom: 0px;
     right: 0;
-    left: max(calc(19.5vw + 20px), 270px);
     box-shadow: -10px 0px 10px -5px #00000066;
     background: #abcdef;
     border-radius: 10px;
     scrollbar-width: none;
   }
 
+.BigChatWindow {
+  left: calc(19.5vw + 20px);
+}
+
+.SmallChatWindow {
+  left: 270px;
+}
+
 .Messages {
     max-height: 100%;
     overflow-y: scroll;
     position: relative;
+    scrollbar-width: none;
 }
 
 .Messages::-webkit-scrollbar {

@@ -67,3 +67,10 @@ export const openNewChatModal = () => {
         type: actionTypes.OPEN_NEW_CHAT_MODAL
     }
 }
+
+export const setWindowWidth = (width) => {
+    return {
+        type: actionTypes.SET_WINDOW_WIDTH,
+        width
+    }
+}

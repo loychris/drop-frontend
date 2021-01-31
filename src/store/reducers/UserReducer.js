@@ -92,10 +92,8 @@ const signupSuccess = (state, action) => {
 }
 
 const messagesReadStart = (state, action) => {
-    console.log('BEFORE', state.notifications.length);
     const notificationsNew = state.notifications
         .filter(n => !(n.type === 'TEXT_MESSAGE' && n.chatId === action.chatId))
-    console.log('AFTER', notificationsNew.length)
     return {
         ...state,
         notifications: notificationsNew

@@ -20,6 +20,8 @@
     export const OPEN_NEW_CHAT_MODAL = 'OPEN_NEW_CHAT_MODAL';
     export const CLOSE_NEW_CHAT_MODAL = 'CLOSE_NEW_CHAT_MODAL';
 
+    export const SET_WINDOW_WIDTH = 'SET_WINDOW_WIDTH';
+
 
 // USER
 

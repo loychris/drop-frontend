@@ -5,7 +5,8 @@ const initialState = {
     modalOpen: false,
     currentTab: 'chat',
     menuOpen: false,
-    newChatModalOpen: false
+    newChatModalOpen: false,
+    windowWidth: 1080,
 }
 
 const reducer = (state = initialState, action ) => {
@@ -55,6 +56,11 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state,
                 newChatModalOpen: false
+            }
+        case actionTypes.SET_WINDOW_WIDTH: 
+            return {
+                ...state, 
+                windowWidth: action.width
             }
         default: return state;
     }

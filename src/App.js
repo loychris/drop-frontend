@@ -15,18 +15,16 @@ import SideMenu from "./components/SideMenu/SideMenu";
 
 class App extends Component {
 
-  state = {
-    width: 0
-  }
-
   componentDidMount = () => {
     this.props.onTryAutoSignup();
-    this.setState({width: window.innerWidth});
-    window.addEventListener('resize', () => this.setState({width: window.innerWidth}));
+    this.props.onSetWindowWidth(window.innerWidth);
+    window.addEventListener('resize', () => this.props.onSetWindowWidth(window.innerWidth));
+    setInterval(this.props.onRefreshNotifications, 5000);
   } 
 
   render() {
-    if(this.state.width < 600){
+
+    if(this.props.windowWidth < 600){
       return (
         <div className='DesktopOnlyMessage'>
           Desktop only for now, sry. <br/>
@@ -37,9 +35,9 @@ class App extends Component {
         </div>
       )
     }
+
     return (
         <div className='App'>
-          <button style={{border: '1ox solid red'}} onClick={this.props.onRefreshNotifications}>REFRESH NOTIFICATIONS</button>
           <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
           <Route path={['/stream', '/chat', '/creator']} component={Stream}/>
           <Navigation/>
@@ -56,6 +54,7 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
+    windowWidth: state.ui.windowWidth,
     darkmode: state.ui.darkmode,
     authOpen: state.user.authOpen,
     newChatModalOpen: state.ui.newChatModalOpen,
@@ -64,6 +63,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    onSetWindowWidth: (width) => dispatch(actions.setWindowWidth(width)),
     onTryAutoSignup: () => dispatch(actions.authCheckState()),
     onRefreshNotifications: () => dispatch(actions.refreshNotifications()),
   }

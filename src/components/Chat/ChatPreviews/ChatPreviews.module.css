@@ -61,11 +61,8 @@
     height: calc(80vh - 130px);
     padding-top: 10px; 
     overflow-y: scroll;
+    scrollbar-width: none;
 }
-
-/* .ScrollContainer::-webkit-scrollbar {
-    display: none;
-  } */
 
 
 .EmptyMessage {

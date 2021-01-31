@@ -8,6 +8,7 @@ export {
     closeMenu,
     openNewChatModal,
     closeNewChatModal,
+    setWindowWidth,
 } from './UIActions';
 
 export {

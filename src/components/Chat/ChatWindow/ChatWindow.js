@@ -5,20 +5,17 @@ import * as actions from '../../../store/actions/index';
 import classes from './ChatWindow.module.css';
 import ChatForm from './ChatForm/ChatForm';
 import Message from './Message/Message';
-import Loader from 'react-loader-spinner';
 
 const ChatWindow = props => {
 
-  const [hasUpdated, setHasUpdated] = useState(false)
 
   useEffect(() => {
     scrollToBottom();
     const currentChatNotificatios = props.notifications.filter(n => n.type === 'TEXT_MESSAGE' && n.chatId === props.currentChatId);
     if(currentChatNotificatios.length > 0){
       console.log(currentChatNotificatios);
-      const messageIds = currentChatNotificatios.map(n => n.messageId);
+      const messageIds = currentChatNotificatios.map(n => n.message.id);
       props.onSendMessagesRead(props.currentChatId, messageIds);
-    //   setHasUpdated(true);
     }
   })
 
@@ -91,9 +88,10 @@ const ChatWindow = props => {
       );
     })
   }
-
+  let styleClasses = [classes.ChatWindow];
+  styleClasses.push(props.windowWidth < 1277 ? classes.SmallChatWindow : classes.BigChatWindow);
   return (
-    <div className={classes.ChatWindow}>
+    <div className={styleClasses.join(' ')}>
       <div
         className={classes.Messages} 
         style={{height: `calc(80vh-${props.formHeight}px)`}}>
@@ -115,6 +113,8 @@ const ChatWindow = props => {
 
 const mapStateToProps = state => {
     return {
+      windowWidth: state.ui.windowWidth,
+
       height: state.chat.formHeight,
       darkmode: state.ui.currentTab,
       chatsStatus: state.chat.chatsStatus,
