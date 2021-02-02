@@ -83,6 +83,10 @@
   transition: 0.1s ease;
 }
 
+.ErrorMessage {
+  color: red;
+}
+
 .SendButton:hover{
   box-shadow: 0px 5px 7px 3px rgb(0,0,0,0.5);
 }

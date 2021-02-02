@@ -12,6 +12,8 @@ const initialState = {
     hasProfilePic: false,
     profilePicSrc: null,
     receivedFriendRequests: [],
+    sendingSubscribeEmailList: false,
+    sentSubscribeEmailList: false,
     notifications: [
         {
             type: 'TEXT_MESSAGE',
@@ -88,6 +90,7 @@ const signupSuccess = (state, action) => {
         friends: action.friends,
         receivedFriendRequests: [],
         notifications: [],
+        sendingSubscribeEmailList: false,
     }
 }
 
@@ -112,10 +115,34 @@ const checkAndAddNewMessages = (state, action) => {
     return state
 }
 
-const refreshNotificationsSuccess = (state, action) => {
+const updateNotifications = (state, action) => {
     return {
         ...state,
         notifications: action.notifications
+    }
+}
+
+const subscribeEmailListStart = (state, action) => {
+    return {
+        ...state,
+        sendingSubscribeEmailList: true
+    }
+}
+
+const subscribeEmailListSuccess = (state, action) => {
+    return {
+        ...state,
+        sendingSubscribeEmailList: false,
+        sentSubscribeEmailList: true
+    }
+}
+
+const subscribeEmailListFailed = (state, action) => {
+    return {
+        ...state,
+        emailListError: action.message,
+        sendingSubscribeEmailList: false,
+        sentSubscribeEmailList: false
     }
 }
 
@@ -135,7 +162,11 @@ const reducer = (state = initialState, action ) => {
 
         case actionTypes.CHECK_AND_ADD_NEW_MESSAGES: return checkAndAddNewMessages(state, action);
 
-        case actionTypes.REFRESH_NOTIFICATIONS_SUCCESS: return refreshNotificationsSuccess(state, action);
+        case actionTypes.UPDATE_NOTIFICATIONS: return updateNotifications(state, action);
+
+        case actionTypes.SUBSCRIBE_EMAIL_LIST_START: return subscribeEmailListStart(state, action);
+        case actionTypes.SUBSCRIBE_EMAIL_LIST_SUCCESS: return subscribeEmailListSuccess(state, action);
+        case actionTypes.SUBSCRIBE_EMAIL_LIST_FAILED: return subscribeEmailListFailed(state, action);
 
         default: return state;
     }

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import axios from 'axios';
 import Loader from 'react-loader-spinner'
 
 import TakTakTak from '../../media/taktaktak.jpg';
+import * as actions from '../../store/actions/index';
 import Checkmark from './Checkmark.svg';
 import classes from "./Creator.module.css";
 
@@ -13,8 +13,6 @@ class Creator extends Component {
     value: '',
     touched: false,
     valid: false,
-    sending: false, 
-    sent: false
   }
 
   onInputEmail = (event) => { 
@@ -27,14 +25,10 @@ class Creator extends Component {
 
   onSendEmail = (event) => {
     event.preventDefault();
-    console.log(this.state.value);
-    const route = '/api/list';
-    const body = { email: this.state.value };
-    const headers = {};
-    axios.post( route, body, headers )
-  .then(() => this.setState({sending: false, sent: true}))
-  .catch(console.log)
-  this.setState({sending: true}); 
+    if(this.state.valid){
+      console.log('Sending ', this.state.value);
+      this.props.onSubscribeEmailList(this.state.value); 
+    }
 
   }
 
@@ -53,29 +47,32 @@ class Creator extends Component {
         <h2>THE SICKEST MEME CREATOR ON THE INTERNET</h2>
         <br/>
         <br/>
-        {!this.state.sent ? <h2><b>Join Waiting List</b> and <b>get EARLY ACCESS</b></h2> : null }
+        {!this.props.sent ? <h2><b>Join Waiting List</b> and <b>get EARLY ACCESS</b></h2> : null }
         <div className={classes.SendingWrapper}>
           <div>
-            { this.state.sending ? <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/> : null }
-            { this.state.sent ? <img className={classes.Checkmark} src={Checkmark} alt='Checkmark'/> : null }
+            { this.props.sending ? <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/> : null }
+            { this.props.sent ? <img className={classes.Checkmark} src={Checkmark} alt='Checkmark'/> : null }
           </div>
-          { !this.state.sent ? <div className={`${classes.Form} ${this.state.sending ? classes.Sending: null}`}>
+          { !this.props.sent ? <div className={`${classes.Form} ${this.props.sending ? classes.Sending: null}`}>
             <input 
                 value={this.state.value} 
                 onChange={this.onInputEmail} 
                 placeholder='elon@musk.com' type="email"/>
             <div className={`${classes.SendButton} ${this.state.valid ? null : classes.Disabled}`} onClick={this.onSendEmail}>Join Waiting List </div>
           </div> : null}
+        { this.props.emailListError ? <div className={classes.ErrorMessage}>{this.props.emailListError}</div>: null }
         </div>
         <br/>
         <br/>
         <br/>
-        {this.state.sent 
+        {
+          this.props.sent 
           ? <div>
               <img alt="taktaktak"  className={classes.TakTakTak} src={TakTakTak}/>
               <p>Working all day and night to make it happen</p>
             </div>
-          : null }
+          : null 
+          }
       </div>
     );
   }
@@ -85,11 +82,16 @@ const mapStateToProps = state => {
   return {
     currentTab: state.ui.currentTab,
     darkmode: state.ui.currentTab,
+
+    sending: state.user.sendingSubscribeEmailList, 
+    sent: state.user.sentSubscribeEmailList, 
+    emailListError: state.user.emailListError,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    onSubscribeEmailList: (email) => dispatch(actions.subscribeEmailList(email)),
   }
 }
 

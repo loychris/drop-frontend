@@ -21,7 +21,8 @@ class CommentForm extends Component {
 
     inputChangedHandler = (event) => {
         const newValue = event.target.value; 
-        this.setState({textareaValue: newValue, disabled: newValue.trim() === ''});
+        const disabled = newValue.trim() === '' || this.props.StreamElements[0].id.startsWith("no more");
+        this.setState({textareaValue: newValue, disabled: disabled});
     }
 
     submitHandler = (event) => {
@@ -121,6 +122,7 @@ const mapStateToProps = state => {
         selectedComment: state.stream.selectedComment,
         token: state.user.token,
         userId: state.user.userId, 
+        StreamElements: state.stream.StreamElements, 
     }
 }
   

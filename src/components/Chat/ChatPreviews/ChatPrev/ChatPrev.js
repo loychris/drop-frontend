@@ -80,8 +80,15 @@ class ChatPrev extends Component {
           <h3 className={classes.Name}>{name}</h3>
           <p className={classes.Preview}>{preview}</p>
         </div>
-        {unreadMessages ? <div className={classes.Notifiaction}></div> : null }
-        {this.getButton()}
+        {unreadMessages
+          ? <div className={classes.Notification}>
+                  <span className={classes.NotificationCount}>
+                    {unreadMessages.length}
+                  </span>
+                </div> 
+              : null 
+          }
+    {this.getButton()}
       </div>
     );
   }

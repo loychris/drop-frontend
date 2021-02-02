@@ -29,7 +29,15 @@ class Navigation extends Component {
             </li>
             <li>
               <NavLink style={{ textDecoration: "none" }} to="/chat">
-                {chatNotification.length > 0 ? <div className={classes.Notification}>{chatNotification.length}</div> : null }
+                {
+                  chatNotification.length > 0 
+                    ? <div className={classes.Notification}>
+                        <span className={classes.NotificationCount}>
+                          {chatNotification.length}
+                        </span>
+                      </div> 
+                    : null 
+                }
                 <span
                   className={this.props.currentTab === "chat" ? classes.active : classes.inactive}
                   onClick={() => this.props.onSwitchTab("chat")}

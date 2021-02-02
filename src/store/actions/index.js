@@ -48,5 +48,6 @@ export {
     signup,
     authCheckState,
     sendMessagesRead,
-    refreshNotifications
+    refreshNotifications,
+    subscribeEmailList
 } from './userActions';

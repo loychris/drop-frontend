@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, withRouter, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import Stream from "./components/Stream/Stream";
 import Chat from "./components/Chat/Chat";
@@ -19,7 +20,31 @@ class App extends Component {
     this.props.onTryAutoSignup();
     this.props.onSetWindowWidth(window.innerWidth);
     window.addEventListener('resize', () => this.props.onSetWindowWidth(window.innerWidth));
-    setInterval(this.props.onRefreshNotifications, 5000);
+    setInterval(() => {
+      console.log('fbwkefbwoefnwjefnjkwenfwkjefnwkjfnwkjfnw');
+      const token = localStorage.getItem('token');
+      const headers = { headers: { authorization : `Bearer ${token}` } }
+      const url = `/api/users/notifications`;
+      axios.get(url, headers)
+      .then(res => {
+          if(this.props.notifications.length !== res.data.length){
+            this.props.onRefreshNotifications(res.data);
+          }else {
+            const inComingIds = res.data.map(n => n.id);
+            this.props.notifications.map(n => n.id)
+            .forEach(id => {
+              if(!inComingIds.some(iid => iid === id)){
+                this.props.onRefreshNotifications(res.data);
+              }
+            })
+            
+          }
+
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    }, 5000);
   } 
 
   render() {
@@ -58,6 +83,7 @@ const mapStateToProps = state => {
     darkmode: state.ui.darkmode,
     authOpen: state.user.authOpen,
     newChatModalOpen: state.ui.newChatModalOpen,
+    notifications: state.user.notifications,
   }
 }
 
@@ -65,7 +91,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onSetWindowWidth: (width) => dispatch(actions.setWindowWidth(width)),
     onTryAutoSignup: () => dispatch(actions.authCheckState()),
-    onRefreshNotifications: () => dispatch(actions.refreshNotifications()),
+    onRefreshNotifications: (notifications) => dispatch(actions.refreshNotifications(notifications)),
   }
 }
 

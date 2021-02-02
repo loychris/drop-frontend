@@ -209,43 +209,62 @@ export const sendMessagesReadFailed = () => {
 }
 
 
+//---- REFRESH NOTIFICATIONS ----------------------------------------------------
 
 
-export const refreshNotifications = () => {
+export const refreshNotifications = (notifications) => {
+    console.log(notifications);
     return dispatch => {
-        dispatch(refreshNotificationsStart())
-        const token = localStorage.getItem('token');
-        const headers = { headers: { authorization : `Bearer ${token}` } }
-        const url = `/api/users/notifications`;
-        axios.get(url, headers)
-        .then(res => {
-            dispatch(refreshNotificationsSuccess(res.data))
-            const messageNotifications = res.data.filter(n => n.type === 'TEXT_MESSAGE');
-            if(messageNotifications.length > 0){
-                dispatch(checkAndAddNewMessages(messageNotifications))
-            }
-        })
-        .catch(err => {
-            dispatch(refreshNotificationsFailed())
-        })
+        dispatch(updateNotifications(notifications));
+        const messageNotifications = notifications.filter(n => n.type === 'TEXT_MESSAGE');
+        if(messageNotifications.length > 0){
+            dispatch(checkAndAddNewMessages(messageNotifications))
+        }
     }
 }
 
-export const refreshNotificationsStart = () => {
+export const updateNotifications = (notifications) => {
     return {
-        type: actionTypes.REFRESH_NOTIFICATIONS_START
-    }
-}
-
-export const refreshNotificationsSuccess = (notifications) => {
-    return {
-        type: actionTypes.REFRESH_NOTIFICATIONS_SUCCESS,
+        type: actionTypes.UPDATE_NOTIFICATIONS,
         notifications
     }
 }
 
-export const refreshNotificationsFailed = () => {
+//---- SUBSCRIBE EMAIL LIST ------------------------------------------------------
+
+export const subscribeEmailList = (email) => {
+    return dispatch => {
+        console.log("subscribeEmailListStart");
+        dispatch(subscribeEmailListStart())
+        const url = '/api/users/emaillist'
+        const body = {email: email};
+        const headers = { }
+        axios.post(url, body, headers)
+        .then(res => {
+            dispatch(subscribeEmailListSuccess());
+        }).catch(err => {
+            console.log(err);
+            const message = err.response ? err.response.data ? err.response.data.message ? err.response.data.message : null : null : null;
+            dispatch(subscribeEmailListFailed(message));
+        })
+    }
+}
+
+export const subscribeEmailListStart = () => {
     return {
-        type: actionTypes.REFRESH_NOTIFICATIONS_FAILED
+        type:actionTypes.SUBSCRIBE_EMAIL_LIST_START
+    }
+}
+
+export const subscribeEmailListSuccess = () => {
+    return {
+        type:actionTypes.SUBSCRIBE_EMAIL_LIST_SUCCESS
+    }
+}
+
+export const subscribeEmailListFailed = (message) => {
+    return {
+        type:actionTypes.SUBSCRIBE_EMAIL_LIST_FAILED,
+        message
     }
 }

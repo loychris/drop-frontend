@@ -592,7 +592,7 @@ const checkAndAddNewMessages = (state, action) => {
     const chatsNew = state.chats.map(chat => {
         const newMessagesThisChat = action.notifications
             .filter(n => n.chatId === chat.chatId)
-            .map(n => n.message)
+            .map(n => {return {...n.message, new: true}})
         if(newMessagesThisChat.length > 0){
             const messagesNew = removeDuplicateMessages([...chat.messages, ...newMessagesThisChat]);
             return {
