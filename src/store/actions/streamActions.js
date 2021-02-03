@@ -113,15 +113,16 @@ export const unSelectSubComment = () => {
         type: actionTypes.UNSELECT_SUBCOMMENT,
     }
 }
-
+ 
 //-------- SEND COMMENT -----------------------------------------------------------------
 
-export const sendComment = ( dropId, comment, token ) => {
+export const sendComment = ( dropId, comment ) => {
     return dispatch => {
         dispatch(sendCommentStart(dropId, comment))
+        const token = localStorage.getItem('token');
+        const headers = { headers: { authorization : `Bearer ${token}` } }
         const url = `/api/drop/${dropId}/comment`;
-        const headers = { headers: { authorization: `Bearer ${token}` } };
-        const body = { authorId: '5fac2d3ec4b7a37c21c784e3', comment: comment.comment };
+        const body = { comment: comment.comment };
         axios.post(url, body, headers)
         .then(res => {
             dispatch(sendCommentSuccess(dropId, comment.id, res.data))

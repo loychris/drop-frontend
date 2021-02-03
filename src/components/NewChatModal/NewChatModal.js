@@ -87,6 +87,31 @@ class NewChatModal extends Component {
       this.setState({searchInput: event.target.value});
     }
 
+    getSearchIcon() {
+      return (
+        <svg className={classes.SearchIcon} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g id="search_24px">
+          <path id="icon/action/search_24px" fillRule="evenodd" clipRule="evenodd" d="M14.965 14.255H15.755L20.745 19.255L19.255 20.745L14.255 15.755V14.965L13.985 14.685C12.845 15.665 11.365 16.255 9.755 16.255C6.16504 16.255 3.255 13.345 3.255 9.755C3.255 6.16501 6.16504 3.255 9.755 3.255C13.345 3.255 16.255 6.16501 16.255 9.755C16.255 11.365 15.665 12.845 14.6851 13.985L14.965 14.255ZM5.255 9.755C5.255 12.245 7.26501 14.255 9.755 14.255C12.245 14.255 14.255 12.245 14.255 9.755C14.255 7.26501 12.245 5.255 9.755 5.255C7.26501 5.255 5.255 7.26501 5.255 9.755Z" fill={'#ffffff'}/>
+          </g>
+        </svg>
+      )
+    }
+
+    getSearchInput = () => {
+      if(this.state.searching){
+        return (
+          <input 
+          placeholder={"Search by username or @handle"}
+          ref={(input) => { this.searchInput = input; }} 
+          type="text" 
+          value={this.state.searchInput} 
+          onChange={this.onSearchInput}
+          className={classes.SearchInput}/> 
+        )
+      }
+      return null;
+    }
+
     render() {
         return(
             // <Modal height={'50vh'} width={'300px'} backDropClick={this.props.onCloseNewChatMenu}>
@@ -94,12 +119,16 @@ class NewChatModal extends Component {
               <Backdrop show={this.props.modalOpen} clicked={this.props.onCloseNewChatMenu} />
               <div className={classes.Modal}>
                 <h2>New Chat</h2>
-                  <input 
+                <div className={classes.SearchContainer}>
+                  {this.getSearchIcon()}
+                  {this.getSearchInput()}
+                </div>
+                  {/* <input 
                     placeholder={"Search by username or @handle"}
                     ref={(input) => { this.searchInput = input; }} 
                     type="text" 
                     onChange={this.onSearchInput}
-                    className={classes.SearchInput}/> 
+                    className={classes.SearchInput}/>  */}
                 <div className={classes.ScrollContainer}>
                   {this.getFriends()}
                   {this.getAllUsers()} 

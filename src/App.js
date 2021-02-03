@@ -20,31 +20,33 @@ class App extends Component {
     this.props.onTryAutoSignup();
     this.props.onSetWindowWidth(window.innerWidth);
     window.addEventListener('resize', () => this.props.onSetWindowWidth(window.innerWidth));
-    setInterval(() => {
-      console.log('fbwkefbwoefnwjefnjkwenfwkjefnwkjfnwkjfnw');
-      const token = localStorage.getItem('token');
-      const headers = { headers: { authorization : `Bearer ${token}` } }
-      const url = `/api/users/notifications`;
-      axios.get(url, headers)
-      .then(res => {
-          if(this.props.notifications.length !== res.data.length){
-            this.props.onRefreshNotifications(res.data);
-          }else {
-            const inComingIds = res.data.map(n => n.id);
-            this.props.notifications.map(n => n.id)
-            .forEach(id => {
-              if(!inComingIds.some(iid => iid === id)){
-                this.props.onRefreshNotifications(res.data);
-              }
-            })
-            
-          }
+    if(this.props.token){
+      setInterval(() => {
+        console.log('fbwkefbwoefnwjefnjkwenfwkjefnwkjfnwkjfnw');
+        const token = localStorage.getItem('token');
+        const headers = { headers: { authorization : `Bearer ${token}` } }
+        const url = `/api/users/notifications`;
+        axios.get(url, headers)
+        .then(res => {
+            if(this.props.notifications.length !== res.data.length){
+              this.props.onRefreshNotifications(res.data);
+            }else {
+              const inComingIds = res.data.map(n => n.id);
+              this.props.notifications.map(n => n.id)
+              .forEach(id => {
+                if(!inComingIds.some(iid => iid === id)){
+                  this.props.onRefreshNotifications(res.data);
+                }
+              })
+              
+            }
 
-      })
-      .catch(err => {
-        console.log(err);
-      })
-    }, 5000);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      }, 5000);
+    }
   } 
 
   render() {

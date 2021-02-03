@@ -15,7 +15,6 @@ class UserPrev extends Component {
 
     // ADD BUTTON
     if(!this.props.friends.some(friend => friend.userId === this.props.userId)){
-      console.log('Adding add button');
       buttonType = 'add';
       buttonClick = () => this.props.onSendFriendRequest(this.props.user);
     } 
@@ -39,7 +38,6 @@ class UserPrev extends Component {
     if(!buttonType){
       return null;
     }else {
-      console.log("ADDING BUTTON")
       return <AddButton type={buttonType} clicked={buttonClick} />
     }
   }

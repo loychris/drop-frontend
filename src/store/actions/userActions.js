@@ -178,14 +178,17 @@ export const sendMessagesRead = (chatId, messageIds) => {
         const body = {
             messageIds
         }
-        axios.post(url, body, headers)
-        .then(res => {
-            console.log(res);
-            dispatch(sendMessagesReadSuccess())
-        }).catch(err => {
-            console.log(err); 
-            dispatch(sendMessagesReadFailed())
-        })
+        if(token){
+            axios.post(url, body, headers)
+            .then(res => {
+                console.log(res);
+                dispatch(sendMessagesReadSuccess())
+            }).catch(err => {
+                console.log(err); 
+                dispatch(sendMessagesReadFailed())
+            })
+        }
+
     }
 }
 

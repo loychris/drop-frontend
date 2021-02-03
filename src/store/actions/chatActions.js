@@ -129,6 +129,7 @@ export const fetchAllUsers = () => {
             dispatch(addNewUsers(response.data));
             dispatch(fetchAllUsersSuccess(response.data))
         }).catch(err => {
+            console.log(err);
             dispatch(fetchAllUsersFailed())
         })
     }

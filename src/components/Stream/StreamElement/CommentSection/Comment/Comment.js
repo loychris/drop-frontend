@@ -110,7 +110,7 @@ class Comment extends Component {
         {selected ? <Backdrop zIndex={100} clicked={this.props.onUnselectComment}/> : null}
         {selected ? <CommentMenu token={this.props.token} userComment={this.props.authorId === this.props.userId}/> : null}
         <div className={`${classes.Comment} ${selected ? classes.selected : null}`}>
-          <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism}/>
+          <AuthorPic depth={0} indent={0} neuMorphism={this.props.neuMorphism} authorId={this.props.authorId}/>
           <div 
             className={backgroundStyleClasses.join(' ')}
             onClick={this.clicked(sending, selected)}

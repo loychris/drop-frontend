@@ -90,7 +90,7 @@ class CommentForm extends Component {
             <div className={classes.CommentForm}
                 style={this.props.path ? {zIndex: '200'} : null}>
                 <div className={classes.CommentInput} style={commentInputStyles}>
-                    <AuthorPic depth={depth} indent={INDENT}/>
+                    <AuthorPic depth={depth} indent={INDENT} authorId={this.props.userId}/>
                     <div className={classes.CommentInputBackground}>
                         <div className={classes.actualCommentForm} style={contentStyle}>
                             <TextareaAutosize 

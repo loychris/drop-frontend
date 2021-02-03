@@ -26,10 +26,10 @@ class ChatPrev extends Component {
     let buttonClick = () => console.log('Nothing should happen');
 
     // ADD BUTTON
-    if(!this.props.friends.some(friend => friend.userId === this.props.userId)){
-      buttonType = 'add';
-      buttonClick = () => this.props.onSendFriendRequest(this.props.user);
-    } 
+      // if(!this.props.friends.some(friend => friend.userId === this.props.userId)){
+      //   buttonType = 'add';
+      //   buttonClick = () => this.props.onSendFriendRequest(this.props.user);
+      // } 
 
     // LOADING BUTTON
     if(this.props.sendingFriendRequests.some(user => user.userId === this.props.userId) || 

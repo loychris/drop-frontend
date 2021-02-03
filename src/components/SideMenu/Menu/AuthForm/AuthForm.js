@@ -344,7 +344,7 @@ class AuthForm extends Component {
                             this.state.loginError ? <p className={classes.ErrorMessage}>{this.state.loginError}</p> : null
                         }
                     </MenuItem>
-                    <p className={classes.CreateAccount} onClick={() => this.setState({isLogin: false})}>Don't have an account? <u>Sign up!</u></p>
+                    <p className={classes.CreateAccount} onClick={() => this.setState({isLogin: false})}>Don't have an account? <u>Sign up free!</u></p>
                     <DropButton clicked={this.submitHandler}>
                         {
                             this.props.loading 

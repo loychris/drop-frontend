@@ -18,12 +18,24 @@ const initialState = {
         {
             type: 'TEXT_MESSAGE',
             chatId: '2',
-            messageId: '1'
+            message:{
+                text: 'I won. By a lot.',
+                time: '14:32', 
+                type: 'text',
+                sender: '12',
+                id: '1',
+            }
         },
         {
             type: 'TEXT_MESSAGE',
             chatId: '3',
-            messageId: '1'
+            message: {
+                text: 'Get out of my swamp!',
+                time: '14:32', 
+                type: 'text',
+                sender: '12345',
+                id: '1',
+            }
         },
     ]
 }

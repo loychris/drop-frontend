@@ -121,12 +121,15 @@ const initialState = {
         },
         {
             chatId: '6',
-            members: ['4', '42069'],
+            members: [
+                { userId: '1'}, 
+                { userId: '123456', name: 'Michael Jordan', profilePic: false }
+            ],
             inputValue: '', 
             lastInteraction: 1611673082507,
             messages: [
                 {
-                    text: '',
+                    text: 'And I took that personally.',
                     time: '14:32', 
                     sender: 'chris',
                     id: 1,
@@ -136,9 +139,8 @@ const initialState = {
         },
     ], 
     seenUpdatesChats: [],
-
+    users: [],
     sendingMessages: [],
-    users: [{name: 'Elon Musk', userId: '42069', handle: '@elon'}],
     chatsStatus: 'not loaded',
     currentChatLoaded: false, 
 }

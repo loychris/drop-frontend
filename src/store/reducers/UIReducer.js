@@ -9,6 +9,14 @@ const initialState = {
     windowWidth: 1080,
 }
 
+const scrollToTop = () => {
+    const c = document.documentElement.scrollTop || document.body.scrollTop;
+    if (c > 0) {
+      window.requestAnimationFrame(scrollToTop);
+      window.scrollTo(0, c - c / 10);
+    }
+};
+
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
         case actionTypes.GO_DARK: 
@@ -23,6 +31,7 @@ const reducer = (state = initialState, action ) => {
                 darkmode: false
             }
         case actionTypes.SWITCH_TAB: 
+            scrollToTop()
             return {
                 ...state,
                 currentTab: action.tab
