@@ -28,6 +28,14 @@ const initialState = {
             lastInteraction: 1611673082511,
             messages: [
                 {
+                    dropId: '5fe7c5a1a72a1a1e8445cd68',
+                    title: 'Title',
+                    time: '14:33',
+                    type: 'drop', 
+                    sender: '5',
+                    id: '3',
+                },
+                {
                     text: 'Whats poppin\' Elon?',
                     time: '14:32', 
                     type: 'text',
@@ -41,7 +49,7 @@ const initialState = {
                     sender: '5',
                     id: '2',
                     new: true
-                }
+                },
             ]
         },
         {
@@ -153,6 +161,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SEND_MESSAGE_START: return sendMessageStart(state, action);
         case actionTypes.SEND_MESSAGE_SUCCESS: return sendMessageSuccess(state, action);
         case actionTypes.SEND_MESSAGE_FAILED: return sendMessageFailed(state, action);
+
+        case actionTypes.SEND_MESSAGES_START: return sendMessagesStart(state, action);
+        case actionTypes.SEND_MESSAGES_SUCCESS: return sendMessagesSuccess(state, action);
+        case actionTypes.SEND_MESSAGES_FAILED: return sendMessagesFailed(state, action);
 
         case actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_START: return sendFirstMessageNewChatStart(state, action);
         case actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_SUCCESS: return sendFirstMessageNewChatSuccess(state, action);
@@ -343,6 +355,43 @@ const sendMessageFailed = (state, action) => {
         ...state
     }
 }
+
+//----- SEND FIRST MESSAGE NEW CHAT -------------------------------------
+
+const sendMessagesStart = (state, action) => {
+
+    const chatsNew = state.chats.map(chat => {
+        if(action.chatIds.some(id => id === chat.chatId)){
+            const messagesNew = [...chat.messages, action.message]
+            return {
+                ...chat,
+                messages: messagesNew
+            } 
+        }else {
+            return chat
+        }
+    })
+    const sendingM = action.chatIds.map(chatId => { return { randId: action.message.id, chatId}})
+    const sendingMessagesNew = [...state.sendingMessages, ...sendingM]
+    return {
+        ...state,
+        chats: chatsNew,
+        sendingMessages: sendingMessagesNew
+    }
+}
+
+const sendMessagesSuccess = (state, action) => {
+    return {
+        ...state, 
+    }
+}
+
+const sendMessagesFailed = (state, action) => {
+    return {
+        ...state
+    }
+}
+
 
 //----- SEND FIRST MESSAGE NEW CHAT -------------------------------------
 

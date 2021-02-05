@@ -2,8 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     darkmode: true,
-    modalOpen: false,
-    currentTab: 'chat',
+    dropModalOpen: false,
+    currentTab: 'stream',
     menuOpen: false,
     newChatModalOpen: false,
     windowWidth: 1080,
@@ -36,15 +36,15 @@ const reducer = (state = initialState, action ) => {
                 ...state,
                 currentTab: action.tab
             }
-        case actionTypes.OPEN_MODAL: 
+        case actionTypes.OPEN_DROP_MODAL: 
             return {
                 ...state,
-                modalOpen: true
+                dropModalOpen: true
             }
-        case actionTypes.CLOSE_MODAL: 
+        case actionTypes.CLOSE_DROP_MODAL: 
             return {
                 ...state,
-                modalOpen: false
+                dropModalOpen: false
             }
         case actionTypes.OPEN_MENU: 
             return {

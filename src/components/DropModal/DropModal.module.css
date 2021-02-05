@@ -1,0 +1,66 @@
+.Modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 500;
+    background-color: #11192c;
+    padding: 20px;
+    transition: all 0.3s ease-out;
+    border-radius: 30px;   
+    color: #ffffff;  
+    height: 50vh;
+    width: 300px;
+}
+
+.Modal h2 {
+    margin-top: 0;
+}
+
+.SearchContainer {
+    height: 20px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.SearchInput {
+    border: none;
+    width: 87%;
+    margin: auto;
+    margin-bottom: 5px;
+    display: block;
+    padding-left: 30px; 
+    padding-bottom: 6px;
+    /* border-bottom: 1px solid #ffffff; */
+    color: #ffffff;
+    background-color: #ffffff00;
+}
+
+.SearchIcon {
+    margin-top: 10px;
+    cursor: pointer;
+    margin: auto;
+    position: absolute;
+    top: 0; 
+    left: 0px; 
+    bottom: 0;
+    opacity: 0.54
+}
+
+.ScrollContainer{
+    overflow-y: scroll;
+    height: 310px;
+    border-radius: 9px;
+}
+
+.LoaderContainer {
+    position: relative;
+    height: 20px;
+}
+
+.Spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

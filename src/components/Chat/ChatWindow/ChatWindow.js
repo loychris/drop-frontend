@@ -11,12 +11,15 @@ const ChatWindow = props => {
 
   useEffect(() => {
     scrollToBottom();
-    const currentChatNotificatios = props.notifications.filter(n => n.type === 'TEXT_MESSAGE' && n.chatId === props.currentChatId);
-    if(currentChatNotificatios.length > 0){
-      console.log(currentChatNotificatios);
-      const messageIds = currentChatNotificatios.map(n => n.message.id);
-      props.onSendMessagesRead(props.currentChatId, messageIds);
+    if(props.currentTab === 'chat'){
+      const currentChatNotificatios = props.notifications.filter(n => n.type === 'TEXT_MESSAGE' && n.chatId === props.currentChatId);
+      if(currentChatNotificatios.length > 0){
+        console.log(currentChatNotificatios);
+        const messageIds = currentChatNotificatios.map(n => n.message.id);
+        props.onSendMessagesRead(props.currentChatId, messageIds);
+      }
     }
+
   })
 
   const scrollToBottom = (smooth) => {
@@ -37,7 +40,6 @@ const ChatWindow = props => {
         messages.push(
           <Message           
             {...message} 
-            type='text'
             key={message.id}
             sent={props.userId === message.sender}
           />
@@ -53,7 +55,6 @@ const ChatWindow = props => {
           <Message           
             {...message} 
             new
-            type='text'
             key={message.id}
             sent={props.userId === message.sender}
           />
@@ -70,7 +71,6 @@ const ChatWindow = props => {
       return (
         <Message           
           {...message} 
-          type='text'
           key={message.id}
           sent={props.userId === message.sender}/>
       );
@@ -82,7 +82,6 @@ const ChatWindow = props => {
         <Message           
           {...message} 
           new
-          type='text'
           key={message.id}
           sent={props.userId === message.sender}/>
       );
@@ -116,7 +115,8 @@ const mapStateToProps = state => {
       windowWidth: state.ui.windowWidth,
 
       height: state.chat.formHeight,
-      darkmode: state.ui.currentTab,
+      currentTab: state.ui.currentTab,
+
       chatsStatus: state.chat.chatsStatus,
       currentChatId: state.chat.currentChatId,
       chats: state.chat.chats,

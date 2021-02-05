@@ -2,8 +2,8 @@ export {
     goDark, 
     goLight,
     switchTab,
-    openModal,
-    closeModal,
+    closeDropModal,
+    openDropModal,
     openMenu,
     closeMenu,
     openNewChatModal,
@@ -16,6 +16,7 @@ export {
     swipe,
     selectDropTarget,
     unSelectDropTarget,
+    resetDropTargets,
     sendComment,
     sendSubComment,
     deleteComment,
@@ -26,6 +27,7 @@ export {
     setDropsNotLoaded,
     fetchDrop,
     fetchMemeSuccess,
+    sendDrop, 
 } from './streamActions';
 
 export {

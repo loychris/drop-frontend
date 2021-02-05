@@ -19,15 +19,15 @@ export const switchTab = (tab) => {
     }
 }
 
-export const openModal = () => {
+export const openDropModal = () => {
     return {
-        type: actionTypes.OPEN_MODAL
+        type: actionTypes.OPEN_DROP_MODAL
     }
 }
 
-export const closeModal = () => {
+export const closeDropModal = () => {
     return {
-        type: actionTypes.CLOSE_MODAL
+        type: actionTypes.CLOSE_DROP_MODAL
     }
 }
 

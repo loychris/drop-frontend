@@ -7,19 +7,6 @@ import StupidFuckingFace from '../../../../media/stupidfuckingface.jpeg';
 
 class Message extends Component {
 
-  state = {drop: null}
-
-  componentDidMount = () => {
-    if(this.props.type === 'drop'){
-      const url = `/api/drop/${this.props.dropId}`;
-      axios.get(url)
-      .then(res => {
-        this.setState({drop: res.data})
-      }).catch(err => {
-        console.log(err);
-      })
-    }
-  }
   
 
   getMessage = () => {
@@ -29,11 +16,15 @@ class Message extends Component {
         <img className={classes.Image} /*src={this.props.src}*/ src={StupidFuckingFace} alt='' key='image' />,
         this.props.text ? <p className={classes.Text} key='description'>{this.props.text}</p> : null
       ])
-      case 'drop': return [
-        this.state.drop ? <p className={classes.Text} key='title'>{this.state.drop.title}</p> : null, 
-        <img className={classes.Drop} src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`} alt='' key='drop'/>
-      ]
-      default: return []
+      case 'drop': 
+        console.log("DROP MESSAGE");
+        return ( 
+          <div>
+            {this.props.title ? <p className={classes.Text}>{this.props.title}</p> : null }
+            <img className={classes.Drop} src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`} alt='there was a problem' key='drop'/>
+          </div>
+        )
+      default: return null
     }
   }
 

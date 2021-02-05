@@ -9,6 +9,9 @@ class DropButton extends Component {
     } else {
       buttonClasses.push(classes.DropButtonFlat);
     }
+    if(this.props.disabled){
+      buttonClasses.push(classes.Disabled);
+    }
 
     return (
       <button className={buttonClasses.join(" ")} onClick={this.props.clicked}>

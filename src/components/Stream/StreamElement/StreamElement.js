@@ -6,7 +6,6 @@ import classes from "./StreamElement.module.css";
 
 import Content from "./Content/Content";
 import CommentSection from "./CommentSection/CommentSection";
-import DroppedToYouBy from "./DroppedToYouBy/DroppedToYouBy";
 import DropButton from "../../UI/DropButton/DropButton";
 
 // import LogoForButton from '../../../media/LogoForButton.png';
@@ -47,9 +46,9 @@ class StreamElement extends Component {
 
   dropButtonClicked = () => {
     if(!this.props.token){
-      this.props.onOpenAuth('Create an Account and directly share Memes with friends here!');
+      this.props.onOpenMenu('Create an Account and directly share Memes with friends here!');
     } else {
-      this.props.onOpenModal();
+      this.props.onOpenDropModal();
     }
   }
 
@@ -66,15 +65,6 @@ class StreamElement extends Component {
       if(this.props.halfRight) cssClasses.push(classes.HalfRight);
     }
     cssClasses.push(this.props.darkmode ? classes.Dark : classes.Light)
-
-    if (this.props.status === 'loaded') {
-      if (this.props.position < 2 && this.props.post && this.props.post.droppedBy) {
-        droppedToYouBy = <DroppedToYouBy names={this.props.post.droppedBy} />;
-      }
-      if (this.props.droppedBy) {
-        cssClasses.push("classes.DroppedByFriend");
-      }
-    }
     
     return (
       <div
@@ -114,8 +104,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOpenAuth: (authReason) => dispatch(actions.openMenu(authReason)),
-    onOpenModal: () => dispatch(actions.openModal()),
+    onOpenMenu: (authReason) => dispatch(actions.openMenu(authReason)),
+    onOpenDropModal: () => dispatch(actions.openDropModal()),
     onFetchDrop: (dropId, token) => dispatch(actions.fetchDrop(dropId, token)),
   }
 }

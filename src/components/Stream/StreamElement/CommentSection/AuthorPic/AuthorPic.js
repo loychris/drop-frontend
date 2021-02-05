@@ -14,7 +14,6 @@ class AuthorPic extends Component {
             }else {
                 if(this.props.token && this.props.hasProfilePic){
                     profilePicSrc = 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + this.props.selfId; 
-                    console.log(profilePicSrc);
                 }
             }
         }

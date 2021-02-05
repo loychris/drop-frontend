@@ -7,7 +7,7 @@ const initialState = {
     dropIds: [],
     currentIds: [],
     streamStatus: 'nothing loaded',
-    StreamElements: [
+    streamElements: [
         { position: 0, show: "left", id: "0", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 1, show: "show", id: "1", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 2, show: "show", id: "2", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
@@ -69,12 +69,12 @@ const scrollToTop = () => {
 };
 
 const setDropsNotLoaded = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map((s,i) => {
+    const streamElementsNew = state.streamElements.map((s,i) => {
         return {...s, show: i === 0 ? 'left' : 'show', id: `${i}`, status: 'not loaded', dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'}
     })
     return {
         ...state, 
-        StreamElements: StreamElementsNew,
+        streamElements: streamElementsNew,
         streamStatus: 'nothing loaded'
     }
 }
@@ -91,7 +91,7 @@ const fetchIdsStart = (state, action) => {
 const setIds = (state, action) => {
     let activeIds = action.ids.slice(0, 21);
     const ids = action.ids.slice(21, action.ids.length)
-    const StreamElementsNew = state.StreamElements.map((s, i) => {
+    const streamElementsNew = state.streamElements.map((s, i) => {
         if(s.position === 0){
             return s
         }else if(activeIds.length === 0){
@@ -104,8 +104,8 @@ const setIds = (state, action) => {
         ...state,
         dropIds: ids,
         currentIds: action.ids.slice(0,21),
-        currentlyLoadingMemeId: StreamElementsNew[1].id,
-        StreamElements: StreamElementsNew,
+        currentlyLoadingMemeId: streamElementsNew[1].id,
+        streamElements: streamElementsNew,
         streamStatus: 'ids loaded'
     }
 }
@@ -122,7 +122,7 @@ const fetchDropsStart = (state, action) => {
 }
 
 const setDrops = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map(s => {
+    const streamElementsNew = state.streamElements.map(s => {
         if(s.position === 0){
             return { position: 0, show: "left", id: "0", dropStatus: 'loaded', comments: [], memeStatus: 'loading'}
         }
@@ -142,7 +142,7 @@ const setDrops = (state, action) => {
     
     return {
         ...state,
-        StreamElements: StreamElementsNew,
+        streamElements: streamElementsNew,
         streamStatus: 'drops loaded'
     }
 }
@@ -157,7 +157,7 @@ const fetchDropsFailed = (state, action) => {
 const fetchMemeSuccess = (state, action) => {
     let nextPos; 
     let nextId = 'no more';
-    const StreamElementsNew = state.StreamElements.map(s => {
+    const streamElementsNew = state.streamElements.map(s => {
         if(action.dropId === s.id){
             nextPos = s.position + 1 
             return {
@@ -173,13 +173,13 @@ const fetchMemeSuccess = (state, action) => {
     })
     return {
         ...state,
-        StreamElements: StreamElementsNew,
+        streamElements: streamElementsNew,
         currentlyLoadingMemeId: nextId
     }
 }
 
 const fetchMemeFailed = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map(s => {
+    const streamElementsNew = state.streamElements.map(s => {
         if(s.id === action.dropId){
             return {
                 ...s,
@@ -189,14 +189,14 @@ const fetchMemeFailed = (state, action) => {
     })
     return {
         ...state, 
-        StreamElements: StreamElementsNew
+        streamElements: streamElementsNew
     }
 }
 
 // ----- FETCH DROP ----------------------------------------------------------
 
 const fetchDropStart = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map(s => {
+    const streamElementsNew = state.streamElements.map(s => {
         if(s.id === action.dropId){
             return {
                 ...s,
@@ -208,12 +208,12 @@ const fetchDropStart = (state, action) => {
     })
     return {
         ...state,
-        StreamElements: StreamElementsNew
+        streamElements: streamElementsNew
     }
 }
 
 const fetchDropSuccess = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map(s => {
+    const streamElementsNew = state.streamElements.map(s => {
         if(s.id === action.dropId){
             return {
                 ...s,
@@ -229,12 +229,12 @@ const fetchDropSuccess = (state, action) => {
     })
     return {
         ...state,
-        StreamElements: StreamElementsNew
+        streamElements: streamElementsNew
     }
 }
 
 const fetchDropFailed = (state, action) => {
-    const StreamElementsNew = state.StreamElements.map(s => {
+    const streamElementsNew = state.streamElements.map(s => {
         if(s.id === action.dropId){
             return {
                 ...s,
@@ -246,7 +246,7 @@ const fetchDropFailed = (state, action) => {
     })
     return {
         ...state,
-        StreamElements: StreamElementsNew
+        streamElements: streamElementsNew
     }
 }
 
@@ -256,7 +256,7 @@ const fetchDropFailed = (state, action) => {
 const sendCommentStart = (state, action) => {
     const sendingObject = { dropId: action.dropId, randId: action.comment.id }
     const sendingNew = [...state.sending, sendingObject];
-    const StreamElementsNew = state.StreamElements.map(s => {
+    const streamElementsNew = state.streamElements.map(s => {
         if(s.id === action.dropId){
             const commentsNew = [action.comment, ...s.comments];
             return {
@@ -270,14 +270,14 @@ const sendCommentStart = (state, action) => {
     return {
         ...state,
         sending: sendingNew, 
-        StreamElements: StreamElementsNew,
+        streamElements: streamElementsNew,
     }
 }
 
 const sendCommentSuccess = (state, action) => {
     console.log(action);
     const sendingNew = state.sending.filter(c => c.randId !== action.randId);
-    const StreamElementsNew = state.StreamElements.map(s => {
+    const streamElementsNew = state.streamElements.map(s => {
         if(s.id === action.dropId){
             const commentsNew = s.comments.map(c => {
                 if(c.id === action.comment.randId){
@@ -296,7 +296,7 @@ const sendCommentSuccess = (state, action) => {
     })
     return {
         ...state,
-        StreamElements: StreamElementsNew,
+        streamElements: streamElementsNew,
         sending: sendingNew,
     }
 }
@@ -308,31 +308,28 @@ const sendCommentFailed = (state, action) => {
     }
 }
 
-// ----- DROP TO FRIEND 
+// ----- SELECT DROP TARGET ------------------------------------------------------
 
 const selectDropTarget = (state, action) => {
+    const dropTargetsNew = [...state.dropTargets, action.chatId]
     return {
         ...state,
-        dropTargets: state.dropTargets.map(x => {
-            if(x.id === action.id){
-                state.selectedTargets.push({ ...x, selected: true });
-                return { ...x, selected: true }
-            } 
-            return x;
-        })
+        dropTargets: dropTargetsNew
     }
 }
 
 const unselectDropTarget = (state, action) => {
+    const dropTargetsNew = state.dropTargets.filter(id => id !== action.chatId)
+    return {
+        ...state, 
+        dropTargets: dropTargetsNew
+    }
+}
+
+const resetDropTargets = (state, action) => {
     return {
         ...state,
-        selectedTargets: state.selectedTargets.filter(x => x.id !== action.id),
-        dropTargets: state.dropTargets.map(x => {
-            if(x.id === action.id){
-                return { ...x, selected: false }
-            } 
-            return x;
-        })
+        dropTargets: []
     }
 }
 
@@ -350,10 +347,10 @@ const swipe = (state, action) => {
         let [nextId, ...idsNew] = state.dropIds;
         if(!nextId){ nextId = 'no more' + Math.random() }
 
-        let currentIdsNew = state.currentIds.filter(id => state.StreamElements[1].id === id);
+        let currentIdsNew = state.currentIds.filter(id => state.streamElements[1].id === id);
         currentIdsNew.push(nextId);
 
-        let StreamElementsNew = state.StreamElements.map(s => {
+        let streamElementsNew = state.streamElements.map(s => {
             return {
                 ...s, 
                 position: s.position - 1,
@@ -363,7 +360,7 @@ const swipe = (state, action) => {
         .filter(s => {
             return s.position >= 0
         })
-        StreamElementsNew.push({
+        streamElementsNew.push({
             position: 21,
             show: 'show',
             id: nextId,
@@ -373,10 +370,11 @@ const swipe = (state, action) => {
         })
         return {
             ...state,
-            StreamElements: StreamElementsNew,
+            streamElements: streamElementsNew,
             timeStampLastSwipe: timestamp,
             dropIds: idsNew, 
-            currentIds: currentIdsNew
+            currentIds: currentIdsNew,
+            dropTargets: [],
         }
     }
 }
@@ -413,7 +411,7 @@ const sendSubCommentStart = (state, action) => {
         points: 0,
         subComments: []
     }
-    const StreamElementsNew = state.StreamElements.map(s => {
+    const streamElementsNew = state.streamElements.map(s => {
         if(s.id === dropId){
             const comments = s.comments.map(c => {
                 if(state.selectedComment.split('/')[0] === c.id){
@@ -437,7 +435,7 @@ const sendSubCommentStart = (state, action) => {
     })
     return {
         ...state, 
-        StreamElements: StreamElementsNew, 
+        streamElements: streamElementsNew, 
         sending: sendingNew,
         selectedComment: null,
     }
@@ -448,7 +446,7 @@ const sendSubCommentSuccess = (state, action) => {
     const sendingNew = state.sending.filter(s => {
         return !(s.dropId === dropId && s.path === randPath)
     })
-    const StreamElementsNew = state.StreamElements.map(s => {
+    const streamElementsNew = state.streamElements.map(s => {
         if(s.id === dropId){
             const commentsNew = s.comments.map(c => {
                 if(randPath.startsWith(c.id)){
@@ -471,7 +469,7 @@ const sendSubCommentSuccess = (state, action) => {
     return {
         ...state,
         sending: sendingNew,
-        StreamElements: StreamElementsNew
+        streamElements: streamElementsNew
     }
 }
 
@@ -485,6 +483,7 @@ const reducer = (state = initialState, action ) => {
     switch( action.type ) {
         case actionTypes.SELECT_DROPTARGET: return selectDropTarget(state, action);
         case actionTypes.UNSELECT_DROPTARGET: return unselectDropTarget(state, action);
+        case actionTypes.RESET_DROP_TARGETS: return resetDropTargets(state, action);
 
         case actionTypes.SWIPE: return swipe(state, action);
 

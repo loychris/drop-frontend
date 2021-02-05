@@ -8,6 +8,7 @@ import Chat from "./components/Chat/Chat";
 import Creator from './components/Creator/Creator';
 import Navigation from "./components/Navigation/Navigation";
 import NewChatModal from './components/NewChatModal/NewChatModal';
+import DropModal from './components/DropModal/DropModal';
 import taktaktak from './media/taktaktak.jpg'; 
 
 import * as actions from './store/actions/index';
@@ -17,36 +18,35 @@ import SideMenu from "./components/SideMenu/SideMenu";
 class App extends Component {
 
   componentDidMount = () => {
+
     this.props.onTryAutoSignup();
     this.props.onSetWindowWidth(window.innerWidth);
     window.addEventListener('resize', () => this.props.onSetWindowWidth(window.innerWidth));
-    if(this.props.token){
       setInterval(() => {
-        console.log('fbwkefbwoefnwjefnjkwenfwkjefnwkjfnwkjfnw');
-        const token = localStorage.getItem('token');
-        const headers = { headers: { authorization : `Bearer ${token}` } }
-        const url = `/api/users/notifications`;
-        axios.get(url, headers)
-        .then(res => {
-            if(this.props.notifications.length !== res.data.length){
-              this.props.onRefreshNotifications(res.data);
-            }else {
-              const inComingIds = res.data.map(n => n.id);
-              this.props.notifications.map(n => n.id)
-              .forEach(id => {
-                if(!inComingIds.some(iid => iid === id)){
-                  this.props.onRefreshNotifications(res.data);
-                }
-              })
-              
-            }
-
-        })
-        .catch(err => {
-          console.log(err);
-        })
+        if(this.props.token){
+          const token = localStorage.getItem('token');
+          const headers = { headers: { authorization : `Bearer ${token}` } }
+          const url = `/api/users/notifications`;
+          axios.get(url, headers)
+          .then(res => {
+              if(this.props.notifications.length !== res.data.length){
+                this.props.onRefreshNotifications(res.data);
+              }else {
+                const inComingIds = res.data.map(n => n.id);
+                this.props.notifications.map(n => n.id)
+                .forEach(id => {
+                  if(!inComingIds.some(iid => iid === id)){
+                    this.props.onRefreshNotifications(res.data);
+                  }
+                })
+              }
+          })
+          .catch(err => {
+            console.log(err);
+          })
+        }
       }, 5000);
-    }
+
   } 
 
   render() {
@@ -67,11 +67,12 @@ class App extends Component {
         <div className='App'>
           <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
           <Route path={['/stream', '/chat', '/creator']} component={Stream}/>
-          <Navigation/>
           <Route path={['/stream', '/chat', '/creator']} component={Chat}/>
           <Route path={['/stream', '/chat', '/creator']} component={Creator}/>
           <Redirect to='/stream'/>
           {this.props.newChatModalOpen ? <NewChatModal/> : null}
+          {this.props.dropModalOpen ? <DropModal/> : null}
+          <Navigation/>
           <SideMenu/> 
           <Footer/>
         </div>
@@ -81,11 +82,13 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
+    dropModalOpen: state.ui.dropModalOpen,
     windowWidth: state.ui.windowWidth,
     darkmode: state.ui.darkmode,
     authOpen: state.user.authOpen,
     newChatModalOpen: state.ui.newChatModalOpen,
     notifications: state.user.notifications,
+    token: state.user.token,
   }
 }
 

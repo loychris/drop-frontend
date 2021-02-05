@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import { closeDropModal, switchTab } from './UIActions';
+import { sendDropStart, sendDropSuccess, sendDropFailed} from './chatActions';
+
 import * as actionTypes from './actionTypes';
 
 //-------- SWIPE  -----------------------------------------------------------------
@@ -321,19 +324,58 @@ export const fetchMemeSuccess = (dropId) => {
     }
 }
 
-//---------------------------------------------------------------------------------
+//--------- SELECT DROP TARGET -------------------------------------------------------
 
 
-export const selectDropTarget = (id) => {
+export const selectDropTarget = (chatId) => {
     return {
         type: actionTypes.SELECT_DROPTARGET,
-        id: id
+        chatId
     }
 }
 
-export const unSelectDropTarget = (id) => {
+export const unSelectDropTarget = (chatId) => {
     return {
         type: actionTypes.UNSELECT_DROPTARGET,
-        id: id
+        chatId
+    }
+}
+
+//--------- SEND DROP ----------------------------------------------------------------
+
+export const sendDrop = (targets, dropId, title, userId) => {
+    return dispatch => {
+        dispatch(closeDropModal())
+        dispatch(switchTab('chat'))
+        const randId = `${Date.now()}`;
+        const message = {
+            id: randId, 
+            type: 'drop',
+            sender: userId,
+            sentTime: Date.now(),  
+            liked: [],
+            title,
+            dropId
+        }
+        dispatch(sendDropStart(targets, message)) // in Chat
+        const url = `/api/chat/`;
+        const token = localStorage.getItem('token');
+        const headers = { headers: { authorization : `Bearer ${token}` } };
+        const body = { 
+            chatIds: targets
+        };
+        // axios.post(url, body, headers)
+        // .then(res => {
+        //     dispatch(sendMessagesSuccess(targets, randId));
+        // }).catch(err => {
+        //     console.log(err);
+        //     dispatch(sendMessagesFailed());
+        // })
+    }
+}
+
+export const resetDropTargets = () => {
+    return {
+        type: actionTypes.RESET_DROP_TARGETS, 
     }
 }

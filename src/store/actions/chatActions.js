@@ -202,6 +202,32 @@ export const sendMessageFailed = (chatId, randId) => {
     }
 }
 
+//--------- SEND MESSAGES -------------------------------------------------
+
+export const sendDropStart = (chatIds, message) => {
+    return {
+        type: actionTypes.SEND_MESSAGES_START,
+        chatIds, 
+        message
+    }
+}
+
+export const sendDropSuccess = (chatIds, randId) => {
+    return {
+        type: actionTypes.SEND_MESSAGES_FAILED,
+        chatIds, 
+        randId, 
+    }
+}
+
+export const sendDropFailed = () => {
+    return {
+        type: actionTypes.SEND_MESSAGES_SUCCESS, 
+
+    }
+}
+
+
 //--------- SEND FIRST MESSAGE IN NEW CHAT --------------------------------
 
 export const sendFirstMessageNewChat = (dummyChatId, self, chatPartner, text) => {

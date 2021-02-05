@@ -5,14 +5,10 @@ import * as streamActions from '../../store/actions/index';
 
 import StreamElement from "./StreamElement/StreamElement";
 import classes from "./Stream.module.css";
-import Modal from "../UI/Modal/Modal";
-import SecondModal from "../UI/SecondModal/SecondModal";
 import RiverWhite from "../../SVGs/RiverWhite.svg";
 import River from "../../SVGs/River.svg";
 import RiverGlow from "../../SVGs/RiverGlow.svg";
 import Boat from "../../media/Boat.png";
-import DropOptionsMenu from "./DropOptionsMenu/DropOptionsMenu";
-import SelectedDropTargets from "./SelectedDropTargets/SelectedDropTargets";
 
 // import URLs from './URLs.json';
 
@@ -179,9 +175,9 @@ class Stream extends Component {
   }
 
   getStreamElements = () => {
-    let StreamElements = [];
+    let streamElements = [];
     this.props.streamElements.forEach((element) => {
-      StreamElements.unshift(
+      streamElements.unshift(
         <StreamElement
           halfLeft={this.state.glowLeft}
           halfRight={this.state.glowRight}
@@ -191,23 +187,7 @@ class Stream extends Component {
         />
       );
     });
-    return StreamElements;
-  }
-
-  getModal = () => {
-    return(
-      this.props.modalOpen 
-      ? <Modal><DropOptionsMenu/></Modal> 
-      : null
-    )
-  }
-
-  getSecondModal = () => {
-    return(
-      this.props.modalOpen 
-      ? <SecondModal><SelectedDropTargets/></SecondModal> 
-      : null
-    )
+    return streamElements;
   }
 
   getRiverGlow = () => {
@@ -225,8 +205,6 @@ class Stream extends Component {
     }
     return (
       <div className={styleClasses.join(" ")}>
-        {this.getModal()}
-        {this.getSecondModal()}
         {this.getRiver()}
         {this.getRiverGlow()}
         <img src={Boat} alt="" className={classes.Boat1} />
@@ -242,7 +220,7 @@ class Stream extends Component {
 const mapStateToProps = state => {
   return {
     timeStampLastSwipe: state.stream.timeStampLastSwipe,
-    streamElements: state.stream.StreamElements,
+    streamElements: state.stream.streamElements,
     initialStreamLoad: state.stream.initialStreamLoad,
     streamStatus: state.stream.streamStatus,
     currentTab: state.ui.currentTab,

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; 
 import * as actions from '../../store/actions/index';
-import Modal from '../UI/Modal/Modal';
 import UserPrev from './UserPrev/UserPrev';
 
 import classes from './NewChatModal.module.css';
@@ -114,7 +113,6 @@ class NewChatModal extends Component {
 
     render() {
         return(
-            // <Modal height={'50vh'} width={'300px'} backDropClick={this.props.onCloseNewChatMenu}>
             <div>
               <Backdrop show={this.props.modalOpen} clicked={this.props.onCloseNewChatMenu} />
               <div className={classes.Modal}>
@@ -123,12 +121,6 @@ class NewChatModal extends Component {
                   {this.getSearchIcon()}
                   {this.getSearchInput()}
                 </div>
-                  {/* <input 
-                    placeholder={"Search by username or @handle"}
-                    ref={(input) => { this.searchInput = input; }} 
-                    type="text" 
-                    onChange={this.onSearchInput}
-                    className={classes.SearchInput}/>  */}
                 <div className={classes.ScrollContainer}>
                   {this.getFriends()}
                   {this.getAllUsers()} 
