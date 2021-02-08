@@ -42,6 +42,7 @@ export {
     acceptFriendRequest,
     createDummyChat, 
     changeChat,
+    openChrisChat
 } from './chatActions';
 
 export {

@@ -100,6 +100,7 @@ class NewChatModal extends Component {
       if(this.state.searching){
         return (
           <input 
+          spellCheck='false'
           placeholder={"Search by username or @handle"}
           ref={(input) => { this.searchInput = input; }} 
           type="text" 

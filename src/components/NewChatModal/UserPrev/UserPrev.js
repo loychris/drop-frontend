@@ -32,7 +32,7 @@ class UserPrev extends Component {
 
     //ACCEPT BUTTON
     if(this.props.receivedFriendRequests.some(user => user.userId === this.props.userId)){
-      buttonType='accept';
+      buttonType='received';
       buttonClick = () => this.props.onAcceptFriendRequest(this.props.user);
     } 
     if(!buttonType){

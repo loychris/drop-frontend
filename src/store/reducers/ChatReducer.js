@@ -14,7 +14,16 @@ const initialState = {
     receivedFriendRequests: [],
     acceptingFriendRequests: [],
 
-    friends: [],
+    friends: [
+        { userId: '42069',  name: 'Elon Musk',        handle: 'elon',    profilePic: false},
+        { userId: '12',     name: 'Tonald Drump',     handle: 'donald',  profilePic: false},
+        { userId: '12345',  name: 'Shrek',            handle: 'shrek',   profilePic: false},
+        { userId: '42069',  name: 'Rick Astley',      handle: 'rick',    profilePic: false},
+        { userId: '123456', name: 'Keano Reeeeeeeee', handle: 'Keano',   profilePic: false},
+        { userId: '122',    name: 'Michael Jordan',   handle: 'michael', profilePic: false},
+
+
+    ],
     friendsStatus: 'not loaded',
     chats: [
         {
@@ -26,15 +35,7 @@ const initialState = {
             ],
             inputValue: '',
             lastInteraction: 1611673082511,
-            messages: [
-                {
-                    dropId: '5fe7c5a1a72a1a1e8445cd68',
-                    title: 'Title',
-                    time: '14:33',
-                    type: 'drop', 
-                    sender: '5',
-                    id: '3',
-                },
+            messages: [ 
                 {
                     text: 'Whats poppin\' Elon?',
                     time: '14:32', 
@@ -131,7 +132,7 @@ const initialState = {
             chatId: '6',
             members: [
                 { userId: '1'}, 
-                { userId: '123456', name: 'Michael Jordan', profilePic: false }
+                { userId: '122', name: 'Michael Jordan', handle: 'michael', profilePic: false},
             ],
             inputValue: '', 
             lastInteraction: 1611673082507,
@@ -162,16 +163,15 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SEND_MESSAGE_SUCCESS: return sendMessageSuccess(state, action);
         case actionTypes.SEND_MESSAGE_FAILED: return sendMessageFailed(state, action);
 
-        case actionTypes.SEND_MESSAGES_START: return sendMessagesStart(state, action);
-        case actionTypes.SEND_MESSAGES_SUCCESS: return sendMessagesSuccess(state, action);
-        case actionTypes.SEND_MESSAGES_FAILED: return sendMessagesFailed(state, action);
+        case actionTypes.SEND_DROP_START: return sendDropStart(state, action);
+        case actionTypes.SEND_DROP_SUCCESS: return sendDropSuccess(state, action);
+        case actionTypes.SEND_DROP_FAILED: return sendDropFailed(state, action);
 
         case actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_START: return sendFirstMessageNewChatStart(state, action);
         case actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_SUCCESS: return sendFirstMessageNewChatSuccess(state, action);
         case actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_FAILED: return sendFirstMessageNewChatFailed(state, action);
 
         case actionTypes.CHANGE_CHAT: return changeChat(state, action);
-        case actionTypes.CHANGE_FORM_HEIGHT: return changeChatFormHeight(state, action);
         case actionTypes.CHANGE_CHAT_INPUT: return chatInputChangeHandler(state, action);
         
         case actionTypes.FETCH_ALL_USERS_START: return fetchAllUsersStart(state, action);
@@ -186,16 +186,13 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ACCEPT_FRIEND_REQUEST_SUCCESS: return acceptFriendRequestSuccess(state, action);
         case actionTypes.ACCEPT_FRIEND_REQUEST_FAILED: return acceptFriendRequestFailed(state, action);
 
-        case actionTypes.FETCH_FRIENDS_START: return fetchFriendsStart(state, action);
-        case actionTypes.FETCH_FRIENDS_SUCCESS: return fetchFriendsSuccess(state, action);
-        case actionTypes.FETCH_FRIENDS_FAILED: return fetchFriendsFailed(state, action);
-
         case actionTypes.FETCH_CHATS_START: return fetchChatsStart(state, action);
         case actionTypes.FETCH_CHATS_SUCCESS: return fetchChatsSuccess(state, action);
         case actionTypes.FETCH_CHATS_FAILED: return fetchChatsFailed(state, action);
 
         case actionTypes.CREATE_DUMMY_CHAT: return createDummyChat(state, action);
         case actionTypes.CHECK_AND_ADD_NEW_MESSAGES: return checkAndAddNewMessages(state, action);
+        case actionTypes.OPEN_CHRIS_CHAT: return openChrisChat(state, action);
         default: return state;
     }
 }
@@ -204,34 +201,61 @@ const reducer = (state = initialState, action) => {
 //----- LOG IN / OUT -----------------------------------------------------
 
 const setChatStateOnLogin = (state, action) => {
-    const newTextMessagesNotifications = action.userdata.notifications.filter(n => n.type === 'TEXT_MESSAGE');
-    const chats = action.userdata.chats.map(chat => {
-        const messages = chat.messages.map(message => {
-            if(newTextMessagesNotifications.some(n => n.chatId === chat.chatId && n.messageId === message.id)){
-                return {
-                    ...message,
-                    new: true
-                }
-            }else {
-                return message
-            }
-        })
+    console.log(action.userdata.receivedFriendRequests);
+    const newTextMessagesNotifications = action.userdata.notifications.filter(n => n.type.startsWith('NEW_MESSAGE'));
+    const dummyChatsFromRequests = action.userdata.receivedFriendRequests
+    .filter(user => !action.userdata.chats.some(c => c.members.some(m => m.userId === user.userId)))
+    .map(user => {
+        console.log(user);
+        const self = {
+            userId: action.userdata.userId,
+            name: action.userdata.name,
+            handle: action.userdata.handle,
+            profilePic: action.userdata.profilePic,
+        }
+        const dummyChatId = `dummy${user.userId}`
         return {
-            ...chat,
-            messages
+            group: false,
+            messages: [],
+            chatId: dummyChatId,
+            members: [self, user],
+            name: user.name,
+            lastInteraction: Date.now(),
         }
     })
+    console.log(dummyChatsFromRequests);
+    const chatsNew = [
+        ...action.userdata.chats.map(chat => {
+            const messages = chat.messages.map(message => {
+                if(newTextMessagesNotifications.some(n => n.chatId === chat.chatId && n.messageId === message.id)){
+                    return {
+                        ...message,
+                        new: true
+                    }
+                }else {
+                    return message
+                }
+            })
+            return {
+                ...chat,
+                messages
+            }
+        }),
+        ...dummyChatsFromRequests
+    ]
     return {
         ...state, 
         receivedFriendRequests: action.userdata.receivedFriendRequests, 
         sentFriendRequests: action.userdata.sentFriendRequests,
         friends: action.userdata.friends,
-        chats,
+        chats: chatsNew,
         currentChatId: action.userdata.chats.length > 0 ? action.userdata.chats[0].chatId : null,
     }
 }
 
-//-------------------------------------------------------
+
+
+//----- CHANGE CHAT ------------------------------------------------------
 
 const changeChat = (state, action) => {
     let chatInputNew;
@@ -278,15 +302,7 @@ const chatInputChangeHandler = (state, action) => {
     }
 }
 
-const changeChatFormHeight = (state, action) => {
-    return {
-        ...state,
-        formHeight: action.height,
-    }
-}
-
 //----- SEND MESSAGE  -------------------------------------------------
-
 
 const sendMessageStart = (state, action) => {
     const chatsNew = state.chats.map(chat => {
@@ -358,8 +374,7 @@ const sendMessageFailed = (state, action) => {
 
 //----- SEND FIRST MESSAGE NEW CHAT -------------------------------------
 
-const sendMessagesStart = (state, action) => {
-
+const sendDropStart = (state, action) => {
     const chatsNew = state.chats.map(chat => {
         if(action.chatIds.some(id => id === chat.chatId)){
             const messagesNew = [...chat.messages, action.message]
@@ -376,22 +391,55 @@ const sendMessagesStart = (state, action) => {
     return {
         ...state,
         chats: chatsNew,
-        sendingMessages: sendingMessagesNew
+        sendingMessages: sendingMessagesNew,
+        currentChatId: action.chatIds[0],
     }
 }
 
-const sendMessagesSuccess = (state, action) => {
+const sendDropSuccess = (state, action) => {
+    
+    const { messageReplacements, chatReplacements, randId } = action;
+    let currentChatIdNew = state.currentChatLoaded;
+    console.log(action)
+    const chatsNew = state.chats.map(chat => {
+        if(chat.chatId.startsWith('dummy')){
+            console.log('FOUND DUMMY CHAT');
+            const chatReplacement = chatReplacements.find(r => `dummy${r.userId}` === chat.chatId); 
+            if(chatReplacement){
+                console.log('FOUND A MATCHING REPLACEMENT');
+                currentChatIdNew = chatReplacement.chat.chatId;
+                return chatReplacement.chat;
+            }
+        }
+        const messageReplacement = messageReplacements.find(r => r.chatId === chat.chatId);
+        if(messageReplacement){
+            const messagesNew = chat.messages.map(message => {
+                if(message.id === randId){
+                    return messageReplacement.message
+                }else {
+                    return message
+                }
+            })
+            return {
+                ...chat,
+                messages: messagesNew
+            }
+        } else {
+            return chat
+        }
+    })
     return {
-        ...state, 
+        ...state,
+        chats: chatsNew,
+        currentChatId: currentChatIdNew, 
     }
 }
 
-const sendMessagesFailed = (state, action) => {
+const sendDropFailed = (state, action) => {
     return {
         ...state
     }
 }
-
 
 //----- SEND FIRST MESSAGE NEW CHAT -------------------------------------
 
@@ -492,21 +540,36 @@ const sendFriendRequestStart = (state, action) => {
 
 const sendFriendRequestSuccess = (state, action) => {
     const sendingFriendRequestsNew = state.sendingFriendRequests.filter(user => user.userId !== action.user.userId);
-    const sentFriendRequestsNew = [...state.sentFriendRequests, action.user];
+    const sentFriendRequestsNew = action.chat ? state.sentFriendRequests : [...state.sentFriendRequests, action.user];
+    let chatsNew = state.chats;
+    let currentChatIdNew = state.currentChatId;
+    let friendsNew = state.friends;
+    if(action.chat){
+        chatsNew = [
+            ...state.chats.filter(chat => chat.chatId !== action.chat.chatId && chat.chatId !== `dummy${action.user.userId}`),
+            action.chat
+        ]
+        currentChatIdNew = action.chat.chatId;
+        friendsNew = [...state.friends, action.user]
+    }
     return {
         ...state,
-        sendingFriendRequests: sendingFriendRequestsNew,
         sentFriendRequests: sentFriendRequestsNew,
+        sendingFriendRequests: sendingFriendRequestsNew, 
+        chats: chatsNew,
+        currentChatId: currentChatIdNew,
+        friends: friendsNew,
     }
 }
 
 const sendFriendRequestFailed = (state, action) => {
     const sendingFriendRequestsNew = state.sendingFriendRequests.filter(user => user.userId !== action.user.userId);
     const failedFriendRequestsNew = [...state.failedFriendRequests, action.user];
+
     return {
-        ...state,
-        failedFriendRequests: failedFriendRequestsNew,
+        ...state, 
         sendingFriendRequests: sendingFriendRequestsNew, 
+        failedFriendRequests: failedFriendRequestsNew, 
     }
 }
 
@@ -525,14 +588,21 @@ const acceptFriendRequestStart = (state, action) => {
 }
 
 const acceptFriendRequestSuccess = (state, action) => {
-    const acceptingFriendRequestsNew = state.acceptingFriendRequests.filter(user => user.userId !== action.friend.userId);
-    const friendsNew = [...state.friends, action.friend]; 
-    const chatsNew = [action.chat, ...state.chats];
+    const { friend, chat } = action;
+    const acceptingFriendRequestsNew = state.acceptingFriendRequests.filter(user => user.userId !== friend.userId);
+    const friendsNew = [...state.friends, friend]; 
+    const dummyId = `request${friend.userId}`
+    const chatsNew = [
+        ...state.chats.filter(c => c.chatId !== dummyId && c.chatId !== chat.chatId), 
+        chat
+    ]
+    const currentChatIdNew = chat.chatId;
     return {
         ...state,
         friends: friendsNew,
         chats: chatsNew,
         acceptingFriendRequests: acceptingFriendRequestsNew,
+        currentChatId: currentChatIdNew,
     }
 }
 
@@ -576,29 +646,6 @@ const fetchChatsFailed = (state, action) => {
     }
 }
 
-//----- FETCH FRIENDS --------------------------------------------------
-
-const fetchFriendsStart = (state, action) => {
-    return {
-        ...state,
-        friendsStatus: 'loading'
-
-    }
-}
-
-const fetchFriendsSuccess = (state, action) => {
-    return {
-        ...state,
-        friends: action.friends,
-        friendsStatus: 'loaded',
-    }
-}
-
-const fetchFriendsFailed = (state, action) => {
-    return {
-        ...state
-    }
-}
 
 // ------------------------------------------------------
 
@@ -611,7 +658,8 @@ const createDummyChat = (state, action) => {
             messages: [],
             chatId: dummyChatId,
             members: [action.self, action.chatPartner],
-            name: action.chatPartner.name
+            name: action.chatPartner.name,
+            lastInteraction: Date.now()
         }, 
         ...state.chats]
     return {
@@ -661,8 +709,28 @@ const checkAndAddNewMessages = (state, action) => {
     }
 }
 
-
-
+const openChrisChat = (state, action) => {
+    const existingChrisChat = state.chats.find(chat => chat.chatId === 'dummy5fe08af76cece946855c16c9' || chat.members.some(m => m.userId === '5fe08af76cece946855c16c9')); 
+    const currentChatIdNew = existingChrisChat ? existingChrisChat.chatId : 'dummy5fe08af76cece946855c16c9';
+    const chatsNew = existingChrisChat ? state.chats : [...state.chats, {
+        group: false,
+        name: 'Chris Loy',
+        messages: [],
+        chatId: 'dummy5fe08af76cece946855c16c9',
+        members: [action.self, {
+            name: 'Chris Loy',
+            handle: 'chris',
+            userId: '5fe08af76cece946855c16c9', 
+            profilePic: true
+        }],
+        lastInteraction: Date.now(),
+    }]
+    return {
+        ...state, 
+        chats: chatsNew, 
+        currentChatId: currentChatIdNew,
+    }
+}
 
 
 export default reducer;

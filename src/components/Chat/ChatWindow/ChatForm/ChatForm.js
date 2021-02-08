@@ -59,7 +59,7 @@ class ChatForm extends Component {
                     // onDragLeave={() => setDragging(false)}>
                 >
                     <textarea 
-                        id="CHAT_TEXT_AREA"
+                        id="chatForm"
                         className={classes.Textarea} 
                         style={{height: `${this.props.formHeight+5}px`}}
                         value={this.state.inputValue}

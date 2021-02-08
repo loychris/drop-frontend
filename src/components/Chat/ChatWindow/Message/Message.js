@@ -17,11 +17,10 @@ class Message extends Component {
         this.props.text ? <p className={classes.Text} key='description'>{this.props.text}</p> : null
       ])
       case 'drop': 
-        console.log("DROP MESSAGE");
         return ( 
           <div>
             {this.props.title ? <p className={classes.Text}>{this.props.title}</p> : null }
-            <img className={classes.Drop} src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`} alt='there was a problem' key='drop'/>
+            <img className={classes.Drop} src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`} key='drop'/>
           </div>
         )
       default: return null

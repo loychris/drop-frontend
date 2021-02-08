@@ -21,53 +21,37 @@ class ChatPrev extends Component {
       className={`${up ? classes.ConnectorUp : classes.ConnectorDown}`}/>
   }
 
-  getButton = () => {
+  getButton = (chatPartner, active) => {
     let buttonType;
     let buttonClick = () => console.log('Nothing should happen');
-
-    // ADD BUTTON
-      // if(!this.props.friends.some(friend => friend.userId === this.props.userId)){
-      //   buttonType = 'add';
-      //   buttonClick = () => this.props.onSendFriendRequest(this.props.user);
-      // } 
-
-    // LOADING BUTTON
-    if(this.props.sendingFriendRequests.some(user => user.userId === this.props.userId) || 
-       this.props.acceptingFriendRequests.some(user => user.userId === this.props.userId)){
-         buttonType='loading';
+    if(!this.props.friends.some(friend => friend.userId === chatPartner.userId)){
+      buttonType = 'add';
+      buttonClick = () => this.props.onSendFriendRequest(chatPartner, this.props.chatId.startsWith('request') ? this.props.chatId : null);
     }
-
-    // CHECK BUTTON
-    if(this.props.sentFriendRequests.some(user => user.userId === this.props.userId)){
-      buttonType = 'check';
-    } 
-
-    //ACCEPT BUTTON
-    if(this.props.receivedFriendRequests.some(user => user.userId === this.props.userId)){
-      buttonType='accept';
-      buttonClick = () => this.props.onAcceptFriendRequest(this.props.user);
-    } 
-    if(!buttonType){
-      return null;
-    }else {
-      return <AddButton type={buttonType} clicked={buttonClick} />
+    if(this.props.sentFriendRequests.some(user => user.userId === chatPartner.userId)){
+      buttonType= 'sent';
     }
+    if(this.props.sendingFriendRequests.some(user => user.userId === chatPartner.userId)){
+      buttonType='sending';
+    }
+    if(this.props.acceptingFriendRequests.some(user => user.userId === chatPartner.userId)){
+      buttonType='accepting';
+    }
+    if(this.props.receivedFriendRequests.some(user => user.userId === chatPartner.userId)){
+      buttonType='received';
+      buttonClick = () => this.props.onAcceptFriendRequest(chatPartner);
+    }
+    return buttonType ? <AddButton type={buttonType} clicked={buttonClick} inverted={active}/> : null;
   }
 
   render() {
-    const unreadMessages = this.props.notifiaction.filter(n => n.type === 'TEXT_MESSAGE' && n.chatId === this.props.chatId).length > 0; 
-    let name, preview, profilePicSrc;
-    if(this.props.chat){
-      const chatPartner = this.props.members.filter(m => m.userId !== this.props.currentUserId)[0];
-      name = chatPartner.name;
-      preview = this.props.messages.length > 0 ? this.props.messages[this.props.messages.length-1].text : '@' + chatPartner.handle;
-      profilePicSrc = chatPartner.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + chatPartner.userId : DefaultProfilePic;
-    } else if(this.props.user) {
-      name = this.props.name;
-      preview = '@' + this.props.handle;
-      profilePicSrc = this.props.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + this.props.userId : DefaultProfilePic;
-    }
-    const active = this.props.chat && this.props.chatId === this.props.currentChatId;
+    const unreadMessages = this.props.notifiaction.filter(n => n.type.startsWith('NEW_MESSAGE') && n.chatId === this.props.chatId).length > 0; 
+    const chatPartner = this.props.members.filter(m => m.userId !== this.props.userId)[0];
+    const name = chatPartner.name;
+    const preview = this.props.messages.length > 0 ? this.props.messages[this.props.messages.length-1].text : '@' + chatPartner.handle;
+    const profilePicSrc = chatPartner.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + chatPartner.userId : DefaultProfilePic;
+
+    const active = this.props.chatId === this.props.currentChatId;
     let styleClasses = [classes.ChatPrev];
     if(active) styleClasses.push(classes.Active);
 
@@ -88,7 +72,7 @@ class ChatPrev extends Component {
                 </div> 
               : null 
           }
-    {this.getButton()}
+    {this.getButton(chatPartner, active)}
       </div>
     );
   }
@@ -98,13 +82,14 @@ const mapStateToProps = state => {
   return {
     darkmode: state.ui.darkmode,
     currentChatId: state.chat.currentChatId,
-    currentUserId: state.user.userId,
     unreadMessages: state.chat.unreadMessages, 
     seenUpdatesChats: state.chat.seenUpdatesChats,
-    token: state.user.token,
     chats: state.chat.chats,
     allUsers: state.chat.allUsers,
     notifiaction: state.user.notifications,
+    token: state.user.token,
+    userId: state.user.userId,
+
 
     friends: state.chat.friends,
     acceptingFriendRequests: state.chat.acceptingFriendRequests,
@@ -121,7 +106,7 @@ const mapDispatchToProps = dispatch => {
     onCreateDummyChat: (userId, name) => dispatch(actions.createDummyChat(userId, name)),
     onChangeChat: (chatId) => dispatch(actions.changeChat(chatId)),
 
-    onSendFriendRequest: (user) => dispatch(actions.sendFriendRequest(user)),
+    onSendFriendRequest: (user, existingChatId) => dispatch(actions.sendFriendRequest(user)),
     onAcceptFriendRequest: (user) => dispatch(actions.acceptFriendRequest(user)),
   }
 }

@@ -3,12 +3,12 @@
   height: 50px;
   display: block;
   margin-bottom: 5px;
-  margin-left: 10px;
+  margin-left: 0px;
   display: flex;
   color: #ffffff;
   cursor: pointer;
   padding-top: 5px;
-  background-color: rgba(0, 2, 10, 0.6);
+  background: #070B18;
   text-decoration: none;
   transition: 0.2s ease;
   border-bottom-left-radius: 10px;
@@ -29,7 +29,7 @@
 }
 
 .Active {
-  margin-left: 0px;
+  margin-left: -10px;
   height: 60px;
   z-index: 1000;
   background-color: #abcdea;

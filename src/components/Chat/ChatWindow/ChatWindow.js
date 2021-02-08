@@ -12,7 +12,7 @@ const ChatWindow = props => {
   useEffect(() => {
     scrollToBottom();
     if(props.currentTab === 'chat'){
-      const currentChatNotificatios = props.notifications.filter(n => n.type === 'TEXT_MESSAGE' && n.chatId === props.currentChatId);
+      const currentChatNotificatios = props.notifications.filter(n => n.type.startsWith('NEW_MESSAGE') && n.chatId === props.currentChatId);
       if(currentChatNotificatios.length > 0){
         console.log(currentChatNotificatios);
         const messageIds = currentChatNotificatios.map(n => n.message.id);
@@ -33,7 +33,7 @@ const ChatWindow = props => {
   let oldMessages = [];
   let newMessages = [];
   const currentChat = props.chats.find((x) => x.chatId === props.currentChatId);
-  const newTextMessagesNotifications = props.notifications.filter(n => n.type === 'TEXT_MESSAGE');
+  const newTextMessagesNotifications = props.notifications.filter(n => n.type === 'NEW_MESSAGE_TEXT');
   if(currentChat){
     currentChat.messages.forEach(message => {
       if(!message.new){

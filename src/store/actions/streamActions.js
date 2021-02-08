@@ -268,7 +268,6 @@ export const deleteCommentFailed = () => {
 export const fetchDrop = (dropId, token) => {
     return dispatch => {
         dispatch(fetchDropStart(dropId))
-        console.log('dropId', dropId);
         if(dropId.startsWith('no')){
             dispatch(fetchDropSuccess(dropId, { dropId, title: "", creatorId: "5fe08af76cece946855c16c9", comments: []}))
         }else{
@@ -345,8 +344,6 @@ export const unSelectDropTarget = (chatId) => {
 
 export const sendDrop = (targets, dropId, title, userId) => {
     return dispatch => {
-        dispatch(closeDropModal())
-        dispatch(switchTab('chat'))
         const randId = `${Date.now()}`;
         const message = {
             id: randId, 
@@ -356,21 +353,26 @@ export const sendDrop = (targets, dropId, title, userId) => {
             liked: [],
             title,
             dropId
-        }
-        dispatch(sendDropStart(targets, message)) // in Chat
-        const url = `/api/chat/`;
+        }   
+        dispatch(closeDropModal());
+        dispatch(switchTab('chat'));
+        dispatch(resetDropTargets());
+        dispatch(sendDropStart(targets, message)); 
+        const url = `/api/chat/dropMessage`;
         const token = localStorage.getItem('token');
         const headers = { headers: { authorization : `Bearer ${token}` } };
         const body = { 
-            chatIds: targets
+            chatIds: targets,
+            dropId
         };
-        // axios.post(url, body, headers)
-        // .then(res => {
-        //     dispatch(sendMessagesSuccess(targets, randId));
-        // }).catch(err => {
-        //     console.log(err);
-        //     dispatch(sendMessagesFailed());
-        // })
+        axios.post(url, body, headers)
+        .then(res => {
+            console.log(res.data);
+            dispatch(sendDropSuccess(res.data.messageReplacements, res.data.chatReplacements, randId));
+        }).catch(err => {
+            console.log(err);
+            dispatch(sendDropFailed());
+        })
     }
 }
 

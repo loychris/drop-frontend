@@ -1,0 +1,20 @@
+.Feedback{
+    height: 128px;
+    width: 200px;
+    padding: 20px;
+    color: #ffffff;
+    position: fixed; 
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.6;
+    font-size: 9pt;
+}
+
+.Feedback h2 {
+    margin: 0;
+}
+
+.Link {
+    color: lightblue;
+    cursor: pointer;
+}

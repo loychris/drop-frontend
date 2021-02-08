@@ -28,7 +28,7 @@ class Menu extends Component {
       <div className={menuClasses.join(' ')}>
         <div className={classes.NameArea}>
           <h2 className={classes.Name}>{this.props.name}</h2>
-          <p className={classes.Handle}>{this.props.handle}</p>
+          {this.props.token ? <p className={classes.Handle}>@{this.props.handle}</p> : null }
         </div>
         <hr/>
         <div className={classes.MenuItems}>

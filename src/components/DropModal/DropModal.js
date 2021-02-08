@@ -65,10 +65,9 @@ class DropModal extends Component {
       )
     }
 
-    send = (dropId) => {
-      console.log(dropId);
-      console.log(this.props.streamElements[1].id);
+    send = () => {
       this.props.onSendDrop(this.props.dropTargets, this.props.streamElements[1].id, this.props.title, this.props.userId);
+      document.getElementById('chatForm').focus();
     }
 
     render() {
@@ -77,13 +76,12 @@ class DropModal extends Component {
             return this.props.chats.find(chat => chat.chatId === targetId).name;
           })
           .map(name => name.split(' ')[0]);
-        console.log(targetNames);
 
         return(
             <div>
               <Backdrop show={this.props.modalOpen} clicked={this.props.onCloseDropModal} />
               <div className={classes.Modal}>
-                <h2>Select Friend</h2>
+                <h2>Select Chat</h2>
                 <div className={classes.SearchContainer}>
                   {this.getSearchIcon()}
                   <input 
@@ -97,12 +95,15 @@ class DropModal extends Component {
                 <div className={classes.ScrollContainer}>
                   {this.getChats()}
                 </div>
-                <DropButton theme={false} clicked={() => this.send(this.props.streamElements[0].id)} disabled={this.props.dropTargets.length === 0}>
-                    {
-                      this.props.dropTargets.length > 0 
-                      ? <h3>Drop to {targetNames.join(', ')}</h3>
-                      : <h3>Drop</h3>
-                    }
+                <DropButton 
+                  theme={false} 
+                  clicked={() => this.send(this.props.streamElements[0].id)} 
+                  disabled={this.props.dropTargets.length === 0}>
+                  {
+                    this.props.dropTargets.length > 0 
+                    ? <h3>Drop to {targetNames.join(', ')}</h3>
+                    : <h3>Drop</h3>
+                  }
                 </DropButton>
               </div>
             </div>

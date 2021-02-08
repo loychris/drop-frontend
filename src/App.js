@@ -14,6 +14,7 @@ import taktaktak from './media/taktaktak.jpg';
 import * as actions from './store/actions/index';
 import Footer from "./components/Footer/Footer";
 import SideMenu from "./components/SideMenu/SideMenu";
+import Feedback from "./components/Feedback/Feedback";
 
 class App extends Component {
 
@@ -46,8 +47,13 @@ class App extends Component {
           })
         }
       }, 5000);
-
   } 
+
+  componentDidUpdate(){
+    if(this.props.windowWidth !== window.innerWidth){
+      this.props.onSetWindowWidth(window.innerWidth);
+    }
+  }
 
   render() {
 
@@ -75,6 +81,7 @@ class App extends Component {
           <Navigation/>
           <SideMenu/> 
           <Footer/>
+          <Feedback/>
         </div>
     );
   }

@@ -20,6 +20,7 @@ class ChatPreviews extends Component {
 
     clicked = (chatId) => {
       this.props.onChangeChat(chatId);
+      document.getElementById('chatForm').focus();
     }
 
     getChats = () => {
@@ -40,7 +41,6 @@ class ChatPreviews extends Component {
         .map(chat => {
             return (
               <ChatPrev 
-                chat
                 {...chat}
                 key={chat.chatId}
                 clicked={() => this.clicked(chat.chatId)}
@@ -50,33 +50,6 @@ class ChatPreviews extends Component {
         
       }
       return chats
-    }
-
-    getFriendRequests = () => {
-      if(this.state.searching || this.props.receivedFriendRequests.length === 0){
-        return null
-      } else {
-        const requests = this.props.receivedFriendRequests.map(user => {
-          const self = {
-            name: this.props.selfName,
-            handle: this.props.selfHandle,
-            userId: this.props.selfId,
-            profilePic: this.props.selfHasPfilePic,
-          }
-          return (
-            <ChatPrev
-              user
-              {...user}
-              clicked={() => this.props.onCreateDummyChat(user, self)}
-              key={'request'+ user.userId}/>
-          )
-        }) 
-        return(
-          <div>
-            {requests}
-          </div>
-        )
-      }
     }
 
     getSearchIcon() {
@@ -151,7 +124,6 @@ class ChatPreviews extends Component {
                 </div> 
                 {this.getNewChatButton()}
                 <div className={classes.ScrollContainer}>
-                  {this.getFriendRequests()}
                   {this.getChats()}
                 </div>
             </div>

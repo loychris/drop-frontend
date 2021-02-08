@@ -163,7 +163,10 @@ export const sendTextMessage = (chatId, text, userId) => {
         const token = localStorage.getItem('token');
         const headers = { headers: { authorization : `Bearer ${token}` } }
         const url = `/api/chat/${chatId}/textMessage`;
-        const body = { message: text };
+        const body = { 
+            type: 'text',
+            message: { text }
+        };
         axios.post(url, body, headers)
         .then(response => {
             dispatch(sendMessageSuccess(chatId, response.data, randId));
@@ -206,23 +209,24 @@ export const sendMessageFailed = (chatId, randId) => {
 
 export const sendDropStart = (chatIds, message) => {
     return {
-        type: actionTypes.SEND_MESSAGES_START,
+        type: actionTypes.SEND_DROP_START,
         chatIds, 
         message
     }
 }
 
-export const sendDropSuccess = (chatIds, randId) => {
+export const sendDropSuccess = (messageReplacements, chatReplacements, randId) => {
     return {
-        type: actionTypes.SEND_MESSAGES_FAILED,
-        chatIds, 
-        randId, 
+        type: actionTypes.SEND_DROP_SUCCESS,
+        messageReplacements,
+        chatReplacements,
+        randId
     }
 }
 
 export const sendDropFailed = () => {
     return {
-        type: actionTypes.SEND_MESSAGES_SUCCESS, 
+        type: actionTypes.SEND_DROP_FAILED, 
 
     }
 }
@@ -289,8 +293,8 @@ export const sendFriendRequest = (user) => {
         const token = localStorage.getItem('token');
         const headers = { headers: { authorization : `Bearer ${token}` } }
         axios.post('/api/users/addFriend', { friendId: user.userId }, headers)
-        .then(response => {
-            dispatch(sendFriendRequestSuccess(user))
+        .then(res => {
+            dispatch(sendFriendRequestSuccess(user, res.data.chat));
         }).catch(err => {
             console.log(err)
             dispatch(sendFriendRequestFailed(user))
@@ -305,10 +309,11 @@ export const sendFriendRequestStart = (user) => {
     }
 }
 
-export const sendFriendRequestSuccess = (user) => {
+export const sendFriendRequestSuccess = (user, chat) => {
     return {
         type: actionTypes.SEND_FRIEND_REQUEST_SUCCESS,
-        user
+        user,
+        chat
     }
 }
 
@@ -321,15 +326,18 @@ export const sendFriendRequestFailed = (user) => {
 
 //--------- ACCEPT FIREND REQUEST -----------------------------------------
 
-export const acceptFriendRequest = (user) => {
+export const acceptFriendRequest = (user, existingChatId) => {
     return dispatch => {
         dispatch(acceptFriendRequestStart(user));
         const token = localStorage.getItem('token');
         const headers = { headers: { authorization : `Bearer ${token}` } }
-        const body = { friendId: user.userId };
+        const body = { 
+            friendId: user.userId,
+            existingChatId
+        };
         axios.post('/api/users/acceptFriendRequest', body, headers)
         .then(res => {
-            dispatch(acceptFriendRequestSuccess(res.data.friend, res.data.chat))
+            dispatch(acceptFriendRequestSuccess(res.data.friend, res.data.chat, existingChatId))
         }).catch(err => {
             console.log(err)
             dispatch(acceptFriendRequestFailed(user))
@@ -444,6 +452,7 @@ export const newChat = (chatId, chatPartner, self) => {
     return dispatch => {
         if(chatId){
             dispatch(changeChat(chatId));
+            document.getElementById('chatForm').focus();
         } else {
             dispatch(createDummyChat(chatPartner, self));
         }
@@ -519,5 +528,12 @@ export const checkAndAddNewMessages = (notifications) => {
     return {
         type: actionTypes.CHECK_AND_ADD_NEW_MESSAGES, 
         notifications
+    }
+}
+
+export const openChrisChat = (self) => {
+    return {
+        type: actionTypes.OPEN_CHRIS_CHAT,
+        self
     }
 }

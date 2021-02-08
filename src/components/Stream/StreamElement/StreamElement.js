@@ -80,7 +80,7 @@ class StreamElement extends Component {
           status={this.props.status} 
           source={this.props.source}
           memeStatus={this.props.memeStatus}/>
-        <DropButton theme={NEUMORPHISM} clicked={this.dropButtonClicked}>
+        <DropButton theme={NEUMORPHISM} clicked={this.dropButtonClicked} disabled={this.props.id.length < 4 || this.props.id.startsWith('no more')}>
           <h3 className={classes.DROP}>Drop</h3>
         </DropButton>
         <CommentSection 

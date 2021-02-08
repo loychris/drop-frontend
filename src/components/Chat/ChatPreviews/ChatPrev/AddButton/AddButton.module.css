@@ -1,32 +1,39 @@
 .AddButton {
+    background: #070B18;
     position: absolute;
-    right: -10px; 
-    top: 16.5px;
-    height: 17.5px;
-    transform: translate(-50%, 0 );
-    border: 2px solid #abcdef; 
+    right: 10px; 
+    top: 50px;
+    height: 30px;
+    transform: translate3d(0, -120%, 0);
     border-radius: 30px; 
     padding: 0px 8px 2px 8px; 
     text-align: center;
     color: #abcdef;
     min-width: 20px; 
+    transition: 0.1s ease;
 }
 
-.GlowOnHover:hover{
-    border: 2px solid #ffffff;
-    box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
-    color: #ffffff;
-}
-
-.Add {
-    width: 40px;
+.Spinner {
+    margin-top: 6px;
 }
 
 .AddIcon {
-    margin-top: -1px;
+    margin-top: 4px;
     margin-left: -2px;
     height: 22px;
     width: 22px;
+}
+
+.AddButton:hover .AddIcon {
+    opacity: 100%; 
+}
+
+.AddButton:hover .AddIcon g path {
+    fill: #ffffff;
+}
+
+.Inverted .AddButton:hover .AddIcon g path {
+    fill: #000000;
 }
 
 .AddIconGLow {
@@ -36,12 +43,40 @@
     transform: translate(-50%, -50%);
 }
 
-.Clicked {
-    background-color: #abcdef;
-    color: #202040;
+.Clickable {
+    background: #070B18;
+    box-shadow: -3px -3px 4px #000000, 3px 3px 5px #1F2C3F;
 }
 
-.Accept {
-    display: block; 
-    position: relative; 
+.Clickable:hover {
+    background: #070B18;
+    box-shadow: -5px -5px 5px #000000, 4px 4px 5px #1F2C3F;
+    color: #ffffff; 
 }
+
+.TextButton {
+    margin-top: 5px;
+    display: block; 
+    position: relative;
+}
+
+.Inverted {
+    margin-top: 4px;
+    background: #abcdef;
+    color: #444444;
+}
+
+.Inverted.Clickable {
+    box-shadow: -4px -4px 4px rgb(255,255,255,0.3), 4px 4px 4px #829DB8;
+}
+
+.Inverted.Clickable:hover {
+    box-shadow: -7px -7px 5px rgba(255, 255, 255, 0.3), 7px 7px 5px #829DB8;
+    background: #abcdef;
+    color: #000000;
+}
+
+
+
+
+

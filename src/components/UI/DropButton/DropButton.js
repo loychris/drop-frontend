@@ -14,7 +14,7 @@ class DropButton extends Component {
     }
 
     return (
-      <button className={buttonClasses.join(" ")} onClick={this.props.clicked}>
+      <button className={buttonClasses.join(" ")} onClick={this.props.disabled ? null : this.props.clicked}>
         {this.props.children}
       </button>
     );

@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     darkmode: true,
     dropModalOpen: false,
-    currentTab: 'stream',
+    currentTab: 'chat',
     menuOpen: false,
     newChatModalOpen: false,
     windowWidth: 1080,

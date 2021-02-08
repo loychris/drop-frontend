@@ -10,7 +10,7 @@ import * as UIActions from '../../store/actions/index';
 class Navigation extends Component {
   render() {
     const chatNotification = this.props.notifications.filter(n => {
-      if(n.type === 'TEXT_MESSAGE') return true;
+      if(n.type.startsWith('NEW_MESSAGE')) return true;
       return false;
     })
     return (
@@ -40,7 +40,10 @@ class Navigation extends Component {
                 }
                 <span
                   className={this.props.currentTab === "chat" ? classes.active : classes.inactive}
-                  onClick={() => this.props.onSwitchTab("chat")}
+                  onClick={() => {
+                    this.props.onSwitchTab("chat");
+                    document.getElementById('chatForm').focus();
+                  }}
                 >
                   Chat
                 </span>

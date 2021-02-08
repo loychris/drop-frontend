@@ -44,14 +44,13 @@
 
 .NewChatContainer {
     position: relative;
-    height: 50px;
+    height: 55px;
     display: block;
     margin-left: 80px;
     display: flex;
     align-items: center;
     color: #ffffff;
     cursor: pointer;
-    padding-top: 5px;
     background-color: rgba(0, 2, 10, 0.6);
     text-decoration: none;
     transition: 0.1s ease;
@@ -73,11 +72,12 @@
 
 .NewChatMessage {
     font-size: 20px;
+    margin: 0px;
     color: #ffffff;
     opacity: 0.5;
     transition: 0.1s ease;
-    padding-top: 5px;
 }
+
 
 .NewChatContainer:hover .NewChatMessage, .NewChatContainer:hover .AddChatIcon {
     opacity: 1;
@@ -87,6 +87,7 @@
     height: calc(80vh - 130px);
     overflow-y: scroll;
     padding-top: 10px;
+    padding-left: 10px;
     scrollbar-width: none;
 }
 

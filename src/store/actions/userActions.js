@@ -219,7 +219,7 @@ export const refreshNotifications = (notifications) => {
     console.log(notifications);
     return dispatch => {
         dispatch(updateNotifications(notifications));
-        const messageNotifications = notifications.filter(n => n.type === 'TEXT_MESSAGE');
+        const messageNotifications = notifications.filter(n => n.type.startsWith('NEW_MESSAGE'));
         if(messageNotifications.length > 0){
             dispatch(checkAndAddNewMessages(messageNotifications))
         }

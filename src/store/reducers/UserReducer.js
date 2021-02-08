@@ -40,6 +40,8 @@ const initialState = {
     ]
 }
 
+//------ LOGIN ---------------------------------------------------
+
 const loginStart = (state) => {
     return { 
         ...state, 
@@ -71,6 +73,9 @@ const loginFail = (state, action) => {
         error: action.error 
     }
 }
+
+//------ SIGNUP --------------------------------------------------
+
 
 const signupStart = ( state) => {
     return { 
@@ -106,9 +111,11 @@ const signupSuccess = (state, action) => {
     }
 }
 
+//------ MESSAGES READ -------------------------------------------
+
 const messagesReadStart = (state, action) => {
     const notificationsNew = state.notifications
-        .filter(n => !(n.type === 'TEXT_MESSAGE' && n.chatId === action.chatId))
+        .filter(n => !(n.type.startsWith('NEW_MESSAGE') && n.chatId === action.chatId))
     return {
         ...state,
         notifications: notificationsNew
@@ -123,6 +130,9 @@ const messagesReadFailed = (state, action) => {
     return state
 }
 
+//------ UPDATE NOTIFICATIONS -------------------------------------
+
+
 const checkAndAddNewMessages = (state, action) => {
     return state
 }
@@ -133,6 +143,8 @@ const updateNotifications = (state, action) => {
         notifications: action.notifications
     }
 }
+
+//------ SUBSCRIBE EMAIL LIST -------------------------------------
 
 const subscribeEmailListStart = (state, action) => {
     return {
