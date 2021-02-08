@@ -531,9 +531,29 @@ export const checkAndAddNewMessages = (notifications) => {
     }
 }
 
+export const fetchNewChatStart = () => {
+    return {
+        type: actionTypes.FETCH_NEW_CHAT_START,
+    }
+}
+
+export const fetchNewChatSuccess = (chat) => {
+    return {
+        type: actionTypes.FETCH_NEW_CHAT_SUCCESS,
+        chat
+    }
+}
+
+export const fetchNewChatFailed = () => {
+    return {
+        type: actionTypes.FETCH_NEW_CHAT_FAILED,
+    }
+}
+
 export const openChrisChat = (self) => {
     return {
         type: actionTypes.OPEN_CHRIS_CHAT,
         self
     }
 }
+

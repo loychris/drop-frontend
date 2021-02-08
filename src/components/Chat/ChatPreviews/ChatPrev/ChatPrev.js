@@ -103,10 +103,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onCreateDummyChat: (userId, name) => dispatch(actions.createDummyChat(userId, name)),
     onChangeChat: (chatId) => dispatch(actions.changeChat(chatId)),
-
-    onSendFriendRequest: (user, existingChatId) => dispatch(actions.sendFriendRequest(user)),
+    onSendFriendRequest: (user) => dispatch(actions.sendFriendRequest(user)),
     onAcceptFriendRequest: (user) => dispatch(actions.acceptFriendRequest(user)),
   }
 }

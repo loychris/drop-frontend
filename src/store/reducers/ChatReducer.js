@@ -190,9 +190,15 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_CHATS_SUCCESS: return fetchChatsSuccess(state, action);
         case actionTypes.FETCH_CHATS_FAILED: return fetchChatsFailed(state, action);
 
+        case actionTypes.FETCH_NEW_CHAT_START: return fetchNewChatStart(state, action);
+        case actionTypes.FETCH_NEW_CHAT_SUCCESS: return fetchNewChatSuccess(state, action);
+        case actionTypes.FETCH_NEW_CHAT_FAILED: return fetchNewChatFailed(state, action);
+
         case actionTypes.CREATE_DUMMY_CHAT: return createDummyChat(state, action);
         case actionTypes.CHECK_AND_ADD_NEW_MESSAGES: return checkAndAddNewMessages(state, action);
         case actionTypes.OPEN_CHRIS_CHAT: return openChrisChat(state, action);
+
+
         default: return state;
     }
 }
@@ -709,8 +715,34 @@ const checkAndAddNewMessages = (state, action) => {
     }
 }
 
+//------ FETCH NEW CHAT ------------------------------------------------------------
+
+const fetchNewChatStart = (state, action) => {
+    return {
+        ...state, 
+    }
+}
+
+const fetchNewChatSuccess = (state, action) => {
+    const chatsNew = [...state.chats, action.chat]
+    return {
+        ...state, 
+        chats: chatsNew
+    }
+}
+
+const fetchNewChatFailed = (state, action) => {
+    return {
+        ...state, 
+    }
+}
+
+//------ OPEN CHRIS CHAT -----------------------------------------------------------
+
 const openChrisChat = (state, action) => {
-    const existingChrisChat = state.chats.find(chat => chat.chatId === 'dummy5fe08af76cece946855c16c9' || chat.members.some(m => m.userId === '5fe08af76cece946855c16c9')); 
+    const existingChrisChat = state.chats
+        .find(chat => chat.chatId === 'dummy5fe08af76cece946855c16c9' 
+           || chat.members.some(m => m.userId === '5fe08af76cece946855c16c9')); 
     const currentChatIdNew = existingChrisChat ? existingChrisChat.chatId : 'dummy5fe08af76cece946855c16c9';
     const chatsNew = existingChrisChat ? state.chats : [...state.chats, {
         group: false,

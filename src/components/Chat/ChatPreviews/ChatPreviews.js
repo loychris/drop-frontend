@@ -162,7 +162,6 @@ const mapStateToProps = state => {
       onFetchAllUsers: () => dispatch(actions.fetchAllUsers()),
       onChangeChat: (chatId, user, self, inputRef) => dispatch(actions.changeChat(chatId, user, self, inputRef)), 
       onOpenNewChatModal: () => dispatch(actions.openNewChatModal()),
-      onCreateDummyChat: (chatPartner, self) => dispatch(actions.createDummyChat(chatPartner, self))
     }
   }
   

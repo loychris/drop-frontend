@@ -5,7 +5,9 @@ import { setDropsNotLoaded } from './streamActions';
 import { closeMenu } from './UIActions';
 import { 
     setChatStateOnLogin,
-    checkAndAddNewMessages
+    checkAndAddNewMessages,
+    fetchNewChatSuccess,
+    fetchNewChatFailed,
 } from './chatActions';
 
 export const logout = () => {
@@ -178,17 +180,14 @@ export const sendMessagesRead = (chatId, messageIds) => {
         const body = {
             messageIds
         }
-        if(token){
-            axios.post(url, body, headers)
-            .then(res => {
-                console.log(res);
-                dispatch(sendMessagesReadSuccess())
-            }).catch(err => {
-                console.log(err); 
-                dispatch(sendMessagesReadFailed())
-            })
-        }
-
+        axios.post(url, body, headers)
+        .then(res => {
+            console.log(res);
+            dispatch(sendMessagesReadSuccess())
+        }).catch(err => {
+            console.log(err); 
+            dispatch(sendMessagesReadFailed())
+        })
     }
 }
 
@@ -222,6 +221,23 @@ export const refreshNotifications = (notifications) => {
         const messageNotifications = notifications.filter(n => n.type.startsWith('NEW_MESSAGE'));
         if(messageNotifications.length > 0){
             dispatch(checkAndAddNewMessages(messageNotifications))
+        }
+        const newChatNotifications = notifications.filter(n => n.type.startsWith('NEW_CHAT'));
+        if(newChatNotifications.length > 0 ){
+            newChatNotifications.forEach(n => {
+                const token = localStorage.getItem('token');
+                const headers = { headers: { authorization : `Bearer ${token}` } }
+                const url = `/api/chat/${n.chatId}`;
+                axios.get(url, headers)
+                .then(res => {
+                    console.log(res.data);
+                    dispatch(fetchNewChatSuccess(res.data));
+                }).catch(err => {
+                    console.log(err); 
+                    dispatch(fetchNewChatFailed())
+                })
+
+            })
         }
     }
 }
