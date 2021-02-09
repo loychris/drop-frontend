@@ -61,22 +61,18 @@ class Stream extends Component {
   keyboardSwipeHandler = (event) => {
     if (event.keyCode === 37 && this.state.glowLeft) {
         this.resetGlow();
-        if(this.props.streamElements[1].memeStatus === 'loaded' && this.props.streamElements[1].status === 'id loaded'){
-          this.props.onSwipe('left', this.props.streamElements[1].id);
-        }
+        this.swipeHandler(true);
     } 
     if (event.keyCode === 39 && this.state.glowRight) {
       this.resetGlow();
-      if(this.props.streamElements[1].memeStatus === 'loaded' && this.props.streamElements[1].status === 'id loaded'){
-        this.props.onSwipe('right', this.props.streamElements[1].id);
-      }    
+      this.swipeHandler(false);
+  
     }
   };
 
-  // onClick
-  buttonSwipeHandler = (left) => {
+  swipeHandler = (left) => {
     if(this.props.streamElements[1].memeStatus === 'loaded' && this.props.streamElements[1].status === 'id loaded'){
-      this.props.onSwipe(left ? 'left' : 'right', this.props.streamElements[1].id);
+      this.props.onSwipe(left ? 'left' : 'right', this.props.streamElements[1].id, this.props.anonymousId);
     }
   }
 
@@ -85,7 +81,7 @@ class Stream extends Component {
       <svg
         onMouseEnter={() => this.onLightUp(true, false)}
         onMouseLeave={this.resetGlow}
-        onClick={() => this.buttonSwipeHandler(true)}
+        onClick={() => this.swipeHandler(true)}
         className={`${classes.LeftThumb} ${classes.ThumbGlow}`}
         xmlns="http://www.w3.org/2000/svg" width="130" height="130" fill="none" viewBox="0 0 130 130">
         <g filter={this.state.glowLeft ? "url(#filter0_dd)" : null}>
@@ -125,7 +121,7 @@ class Stream extends Component {
       <svg
         onMouseEnter={() => this.onLightUp(false, true)}
         onMouseLeave={this.resetGlow}
-        onClick={() => this.buttonSwipeHandler(false)}
+        onClick={() => this.swipeHandler(false)}
         className={`${classes.RightThumb} ${classes.ThumbGlow}`}
         xmlns="http://www.w3.org/2000/svg" width="132" height="132" fill="none" viewBox="0 0 132 132">
         <g filter={this.state.glowRight ? "url(#filter0_dd1)" : null}>
@@ -221,17 +217,19 @@ const mapStateToProps = state => {
     streamElements: state.stream.streamElements,
     initialStreamLoad: state.stream.initialStreamLoad,
     streamStatus: state.stream.streamStatus,
+
     currentTab: state.ui.currentTab,
     modalOpen: state.ui.modalOpen,
-    darkmode: state.ui.darkmode
+    darkmode: state.ui.darkmode,
 
+    anonymousId: state.user.anonymousId,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     onFetchIds: () => dispatch(streamActions.fetchIds()),
-    onSwipe: (dir, dropId) => dispatch(streamActions.swipe(dir, dropId)),
+    onSwipe: (dir, dropId, anonymousId) => dispatch(streamActions.swipe(dir, dropId, anonymousId)),
   }
 }
 

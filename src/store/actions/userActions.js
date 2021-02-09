@@ -11,7 +11,9 @@ import {
 } from './chatActions';
 
 export const logout = () => {
-    localStorage.clear()
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('expirationDate');
     return {
         type: actionTypes.LOGOUT
     }
@@ -19,6 +21,13 @@ export const logout = () => {
 
 export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
+    }
+}
+
+export const setAnonymousId = (anonymousId) => {
+    return {
+        type: actionTypes.SET_ANONYMOUS_ID,
+        anonymousId
     }
 }
 

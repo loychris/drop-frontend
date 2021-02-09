@@ -19,7 +19,11 @@ import Feedback from "./components/Feedback/Feedback";
 class App extends Component {
 
   componentDidMount = () => {
-
+    let anonymousId = localStorage.getItem('anonymousId');
+    if(!anonymousId) {
+      localStorage.setItem('anonymousId', 'anonymous'+Date.now());
+    }
+    this.props.onSetAnonymousId(anonymousId);
     this.props.onTryAutoSignup();
     this.props.onSetWindowWidth(window.innerWidth);
     window.addEventListener('resize', () => this.props.onSetWindowWidth(window.innerWidth));
@@ -50,6 +54,14 @@ class App extends Component {
   } 
 
   componentDidUpdate(){
+    if(this.props.anonymousId === ''){
+      console.log('anonymousId empty. Setting new one ');
+      let anonymousId = localStorage.getItem('anonymousId');
+      if(!anonymousId) {
+        localStorage.setItem('anonymousId', 'anonymous'+Date.now());
+      }
+      this.props.onSetAnonymousId(anonymousId);
+    }
     if(this.props.windowWidth !== window.innerWidth){
       this.props.onSetWindowWidth(window.innerWidth);
     }
@@ -96,6 +108,7 @@ const mapStateToProps = state => {
     newChatModalOpen: state.ui.newChatModalOpen,
     notifications: state.user.notifications,
     token: state.user.token,
+    anonymousId: state.user.anonymousId,
   }
 }
 
@@ -104,6 +117,7 @@ const mapDispatchToProps = dispatch => {
     onSetWindowWidth: (width) => dispatch(actions.setWindowWidth(width)),
     onTryAutoSignup: () => dispatch(actions.authCheckState()),
     onRefreshNotifications: (notifications) => dispatch(actions.refreshNotifications(notifications)),
+    onSetAnonymousId: (anonymousId) => dispatch(actions.setAnonymousId(anonymousId)),
   }
 }
 

@@ -46,6 +46,7 @@ export {
 } from './chatActions';
 
 export {
+    setAnonymousId,
     logout,
     login,
     signup,

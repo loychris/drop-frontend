@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
+    anonymousId: '',
     token: null,
     name: null,
     handle: null,
@@ -39,6 +40,13 @@ const initialState = {
         },
     ], 
     deletingNotifications: [],
+}
+
+const setAnonymousId = (state, action) => {
+    return {
+        ...state,
+        anonymousId: action.anonymousId
+    }
 }
 
 //------ LOGIN ---------------------------------------------------
@@ -200,7 +208,9 @@ const deleteNotificationFailed = (state, action) => {
 
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
-        case actionTypes.LOGIN_START: return loginStart(state);
+        case actionTypes.SET_ANONYMOUS_ID: return setAnonymousId(state, action);
+
+        case actionTypes.LOGIN_START: return loginStart(state, action);
         case actionTypes.LOGIN_SUCCESS: return loginSuccess(state, action);
         case actionTypes.LOGIN_FAIL: return loginFail(state, action);
 

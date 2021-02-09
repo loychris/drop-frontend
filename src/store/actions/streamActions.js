@@ -7,15 +7,17 @@ import * as actionTypes from './actionTypes';
 
 //-------- SWIPE  -----------------------------------------------------------------
 
-export const swipe = (dir, dropId) => {
+export const swipe = (dir, dropId, anonymousId ) => {
     console.log('dir' , dir);
+    console.log('anonymousId', anonymousId);
     return dispatch => {
         dispatch(swipeStart(dir)); 
         if(!dropId.startsWith('no more')){
             const url = `/api/drop/${dropId}/swipe`;
             const token = localStorage.getItem('token');
-            const body = { like: dir === 'right'};
-            const headers = { headers: { authorization : `Bearer ${token}` } };
+            const body = { like: dir === 'right', anonymousId };
+            const headers = token ? { headers: { authorisation : `Bearer ${token}` } } : null;
+            console.log(headers);
             axios.post(url, body, headers )
             .then(res => {
                 console.log(res);
