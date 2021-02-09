@@ -249,6 +249,47 @@ export const updateNotifications = (notifications) => {
     }
 }
 
+//---- DELETE NOTIFICATION -------------------------------------------------------
+
+export const deleteNotification = (notificationId) => {
+    return dispatch => {
+        dispatch(deleteNotificationStart(notificationId));
+        const url = `/api/users/notification/${notificationId}`;
+        const token = localStorage.getItem('token');
+        const headers = { headers: { authorization : `Bearer ${token}` } }
+        axios.delete(url, headers)
+        .then(res => {
+            console.log(res.data);
+            dispatch(deleteNotificationSuccess());
+        }).catch(err => {
+            console.log(err);
+            dispatch(deleteNotificationFailed());
+        })
+    }
+}
+
+export const deleteNotificationStart = (notificationId) => {
+    return {
+        type: actionTypes.DELETE_NOTIFICATION_START,
+        notificationId
+    }
+}
+
+export const deleteNotificationSuccess = (notificationId) => {
+    return {
+        type: actionTypes.DELETE_NOTIFICATION_SUCCESS,
+        notificationId
+    }
+}
+
+export const deleteNotificationFailed = (notificationId) => {
+    return {
+        type: actionTypes.DELETE_NOTIFICATION_FAILED,
+        notificationId,
+    }
+}
+
+
 //---- SUBSCRIBE EMAIL LIST ------------------------------------------------------
 
 export const subscribeEmailList = (email) => {

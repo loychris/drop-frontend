@@ -45,7 +45,12 @@ class ChatPrev extends Component {
   }
 
   render() {
-    const unreadMessages = this.props.notifiaction.filter(n => n.type.startsWith('NEW_MESSAGE') && n.chatId === this.props.chatId).length > 0; 
+    const unreadMessages = this.props.notifiaction
+      .filter(n => (n.type.startsWith('NEW_MESSAGE') && n.chatId === this.props.chatId)
+        || n.type.startsWith('NEW_CHAT') && n.chatId === this.props.chatId); 
+    const notifiactionStype = unreadMessages.length > 99 
+      ? classes.TrippleDigit : unreadMessages.length > 9 
+        ? classes.DoubleDigit : classes.SingleDigit
     const chatPartner = this.props.members.filter(m => m.userId !== this.props.userId)[0];
     const name = chatPartner.name;
     const preview = this.props.messages.length > 0 ? this.props.messages[this.props.messages.length-1].text : '@' + chatPartner.handle;
@@ -64,14 +69,13 @@ class ChatPrev extends Component {
           <h3 className={classes.Name}>{name}</h3>
           <p className={classes.Preview}>{preview}</p>
         </div>
-        {unreadMessages
-          ? <div className={classes.Notification}>
-                  <span className={classes.NotificationCount}>
-                    {unreadMessages.length}
-                  </span>
-                </div> 
-              : null 
-          }
+        { 
+          unreadMessages.length > 0
+          ? <div className={notifiactionStype}>
+                  <span className={classes.NotificationCount}>{unreadMessages.length}</span>
+            </div> 
+          : null 
+        }
     {this.getButton(chatPartner, active)}
       </div>
     );

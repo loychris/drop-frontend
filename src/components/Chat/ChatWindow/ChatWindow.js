@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createRef } from 'react';
+import React, { useEffect, createRef } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
 
@@ -12,11 +12,24 @@ const ChatWindow = props => {
   useEffect(() => {
     scrollToBottom();
     if(props.currentTab === 'chat'){
-      const currentChatNotificatios = props.notifications.filter(n => n.type.startsWith('NEW_MESSAGE') && n.chatId === props.currentChatId);
-      if(currentChatNotificatios.length > 0){
-        console.log(currentChatNotificatios);
-        const messageIds = currentChatNotificatios.map(n => n.message.id);
+      const currentMessageNotificatios = props.notifications.filter(n => n.type.startsWith('NEW_MESSAGE') && n.chatId === props.currentChatId);
+      if(currentMessageNotificatios.length > 0){
+        const messageIds = currentMessageNotificatios.map(n => n.message.id);
         props.onSendMessagesRead(props.currentChatId, messageIds);
+      }
+      const currentNewChatNotifications = props.notifications.find(n => {
+        if(n.type.startsWith('NEW_CHAT')){
+          console.log('FOUND NEW CHAT NOTIFICATON');
+          console.log(props.currentChatId);
+          console.log(n.chatId);
+          if(n.chatId === props.currentChatId) return true;
+        }
+        return false;
+      })
+      if(currentNewChatNotifications){
+        console.log('Found new Chat Notification')
+        console.log(currentNewChatNotifications);
+        props.onDeleteNotification(currentNewChatNotifications.id);
       }
     }
 
@@ -25,15 +38,13 @@ const ChatWindow = props => {
   const scrollToBottom = (smooth) => {
     bottomRef.current.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block: "start", inline: "nearest"});
   }
+
   const bottomRef = createRef()
 
 
   let messages = [];
   let foundAllOldMessages = false;
-  let oldMessages = [];
-  let newMessages = [];
   const currentChat = props.chats.find((x) => x.chatId === props.currentChatId);
-  const newTextMessagesNotifications = props.notifications.filter(n => n.type === 'NEW_MESSAGE_TEXT');
   if(currentChat){
     currentChat.messages.forEach(message => {
       if(!message.new){
@@ -60,31 +71,6 @@ const ChatWindow = props => {
           />
         )
       }
-    })
-
-
-
-
-    oldMessages = currentChat.messages
-    .filter(m => !newTextMessagesNotifications.some(n => n.messageId === m.id))
-    .map(message => {
-      return (
-        <Message           
-          {...message} 
-          key={message.id}
-          sent={props.userId === message.sender}/>
-      );
-    })
-    newMessages = currentChat.messages
-    .filter(m => newTextMessagesNotifications.some(n => n.messageId === m.id))
-    .map(message => {
-      return (
-        <Message           
-          {...message} 
-          new
-          key={message.id}
-          sent={props.userId === message.sender}/>
-      );
     })
   }
   let styleClasses = [classes.ChatWindow];
@@ -130,6 +116,7 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
       onSendMessagesRead: (chatId, messageIds) => dispatch(actions.sendMessagesRead(chatId, messageIds)),
+      onDeleteNotification: (notificationId) => dispatch(actions.deleteNotification(notificationId)),
     }
   }
   

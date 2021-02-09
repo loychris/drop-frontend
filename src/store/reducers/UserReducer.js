@@ -37,7 +37,8 @@ const initialState = {
                 id: '1',
             }
         },
-    ]
+    ], 
+    deletingNotifications: [],
 }
 
 //------ LOGIN ---------------------------------------------------
@@ -170,6 +171,33 @@ const subscribeEmailListFailed = (state, action) => {
     }
 }
 
+const deleteNotificationStart = (state, action) => {
+    const { notificationId } = action;
+    const toDelte = state.notifications.find(n => n.id === action.notificationId);
+    console.log(toDelte);
+    const notificationsNew = state.notifications.filter(n => n.id !== action.notificationId);
+    const deletingNotificationsNew = [...state.deletingNotifications, toDelte];
+    return {
+        ...state,
+        notifications: notificationsNew,
+        deletingNotifications: deletingNotificationsNew,
+    }
+}
+
+const deleteNotificationSuccess = (state, action) => {
+    const deletingNotificationsNew = state.deletingNotifications.filter(n => n.id === action.notificationId)
+    return {
+        ...state,
+        deletingNotifications: deletingNotificationsNew,
+    }
+}
+
+const deleteNotificationFailed = (state, action) => {
+    return {
+        ...state,
+    }
+}
+
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
         case actionTypes.LOGIN_START: return loginStart(state);
@@ -191,6 +219,10 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SUBSCRIBE_EMAIL_LIST_START: return subscribeEmailListStart(state, action);
         case actionTypes.SUBSCRIBE_EMAIL_LIST_SUCCESS: return subscribeEmailListSuccess(state, action);
         case actionTypes.SUBSCRIBE_EMAIL_LIST_FAILED: return subscribeEmailListFailed(state, action);
+
+        case actionTypes.DELETE_NOTIFICATION_START: return deleteNotificationStart(state, action);
+        case actionTypes.DELETE_NOTIFICATION_SUCCESS: return deleteNotificationSuccess(state, action);
+        case actionTypes.DELETE_NOTIFICATION_FAILED: return deleteNotificationFailed(state, action);
 
         default: return state;
     }

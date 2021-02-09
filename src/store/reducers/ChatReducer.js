@@ -481,10 +481,7 @@ const sendFirstMessageNewChatStart = (state, action) => {
 }
 
 const sendFirstMessageNewChatSuccess = (state, action) => {
-    console.log(action);
-
-    const { dummyChatId, randId, createdChat, self, chatPartner } = action;
-
+    const { dummyChatId, createdChat, self, chatPartner } = action;
     const currentChatIdNew = state.currentChatId === dummyChatId ? createdChat.chatId : state.currentChatId;
     const chatsNew = state.chats.map(chat => {
         if(chat.chatId === dummyChatId){
@@ -597,7 +594,7 @@ const acceptFriendRequestSuccess = (state, action) => {
     const { friend, chat } = action;
     const acceptingFriendRequestsNew = state.acceptingFriendRequests.filter(user => user.userId !== friend.userId);
     const friendsNew = [...state.friends, friend]; 
-    const dummyId = `request${friend.userId}`
+    const dummyId = `dummy${friend.userId}`
     const chatsNew = [
         ...state.chats.filter(c => c.chatId !== dummyId && c.chatId !== chat.chatId), 
         chat
@@ -724,7 +721,8 @@ const fetchNewChatStart = (state, action) => {
 }
 
 const fetchNewChatSuccess = (state, action) => {
-    const chatsNew = [...state.chats, action.chat]
+    
+    const chatsNew = [...state.chats.filter(chat => chat.chatId !== action.chat.chatId), action.chat]
     return {
         ...state, 
         chats: chatsNew

@@ -9,10 +9,14 @@ import * as UIActions from '../../store/actions/index';
 
 class Navigation extends Component {
   render() {
-    const chatNotification = this.props.notifications.filter(n => {
+    const chatNotifications = this.props.notifications.filter(n => {
       if(n.type.startsWith('NEW_MESSAGE')) return true;
+      if(n.type.startsWith('NEW_CHAT')) return true;
       return false;
     })
+    const notifiactionStyle = chatNotifications.length > 99 
+    ? classes.TrippleDigit : chatNotifications.length > 9 
+      ? classes.DoubleDigit : classes.SingleDigit
     return (
       <div className={classes.Navigation}>
         <nav>
@@ -30,10 +34,10 @@ class Navigation extends Component {
             <li>
               <NavLink style={{ textDecoration: "none" }} to="/chat">
                 {
-                  chatNotification.length > 0 
-                    ? <div className={classes.Notification}>
+                  chatNotifications.length > 0 
+                    ? <div className={notifiactionStyle}>
                         <span className={classes.NotificationCount}>
-                          {chatNotification.length}
+                          {chatNotifications.length}
                         </span>
                       </div> 
                     : null 

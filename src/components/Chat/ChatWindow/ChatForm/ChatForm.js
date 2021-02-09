@@ -88,7 +88,6 @@ const mapStateToProps = state => {
         chats: state.chat.chats,
         currentChatId: state.chat.currentChatId,
         chatInput: state.chat.chatInput,
-        currentChatId: state.chat.currentChatId,
 
         userId: state.user.userId,
         handle: state.user.handle,

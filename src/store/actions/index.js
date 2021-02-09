@@ -42,7 +42,7 @@ export {
     acceptFriendRequest,
     createDummyChat, 
     changeChat,
-    openChrisChat
+    openChrisChat, 
 } from './chatActions';
 
 export {
@@ -52,5 +52,6 @@ export {
     authCheckState,
     sendMessagesRead,
     refreshNotifications,
-    subscribeEmailList
+    subscribeEmailList,
+    deleteNotification,
 } from './userActions';
