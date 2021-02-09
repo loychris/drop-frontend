@@ -10,16 +10,15 @@ import classes from './Content.module.css';
 class Content extends Component {
 
     getLoader = () => {
-        if(this.props.memeStatus === 'loaded' || this.props.position > 2){
-            return null;
-        }else {
+        if(this.props.position > 2) return null;
+        if(this.props.memeStatus !== 'loaded'){
             return <Loader className={classes.Spinner} type="Puff" color="#00BFFF" height={50} width={50}/>
         }
     }
  
     render() {
         const src = this.props.dropId.startsWith('no') 
-                    ? 'https://storage.googleapis.com/drop-meme-bucket/meme-5fe89cd23a8f403b8f0e0c33'
+                    ? 'https://storage.googleapis.com/drop-meme-bucket/meme-6022a6fec54847291bdee46c'
                     : `https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`
         return(
             <div className={classes.Content}>

@@ -48,11 +48,6 @@ class Stream extends Component {
     this.setState({glowLeft: false, glowRight: false});
   }
 
-  checkTimeLock = () => {
-    const currentTimestamp = new Date();
-    return this.props.currentTab === 'stream' && currentTimestamp - TIME_BLOCK_NEXT_SWIPE > this.props.timeStampLastSwipe
-  }
-
   // onKeyDown
   keypressHandler = (event) => {
     if (event.keyCode === 37) {
@@ -64,21 +59,24 @@ class Stream extends Component {
 
   // onKeyUp
   keyboardSwipeHandler = (event) => {
-    if(this.checkTimeLock()){
-        if (event.keyCode === 37 && this.state.glowLeft) {
-          this.props.onSwipe('left');
-          this.resetGlow();
-      } else if (event.keyCode === 39 && this.state.glowRight) {
-          this.props.onSwipe('right');
-          this.resetGlow();
-      }
+    if (event.keyCode === 37 && this.state.glowLeft) {
+        this.resetGlow();
+        if(this.props.streamElements[1].memeStatus === 'loaded' && this.props.streamElements[1].status === 'id loaded'){
+          this.props.onSwipe('left', this.props.streamElements[1].id);
+        }
+    } 
+    if (event.keyCode === 39 && this.state.glowRight) {
+      this.resetGlow();
+      if(this.props.streamElements[1].memeStatus === 'loaded' && this.props.streamElements[1].status === 'id loaded'){
+        this.props.onSwipe('right', this.props.streamElements[1].id);
+      }    
     }
   };
 
   // onClick
   buttonSwipeHandler = (left) => {
-    if(this.checkTimeLock()){
-      this.props.onSwipe(left ? 'left' : 'right');
+    if(this.props.streamElements[1].memeStatus === 'loaded' && this.props.streamElements[1].status === 'id loaded'){
+      this.props.onSwipe(left ? 'left' : 'right', this.props.streamElements[1].id);
     }
   }
 
@@ -233,7 +231,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onFetchIds: () => dispatch(streamActions.fetchIds()),
-    onSwipe: (dir) => dispatch(streamActions.swipe(dir)),
+    onSwipe: (dir, dropId) => dispatch(streamActions.swipe(dir, dropId)),
   }
 }
 

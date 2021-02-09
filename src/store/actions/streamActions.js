@@ -7,10 +7,45 @@ import * as actionTypes from './actionTypes';
 
 //-------- SWIPE  -----------------------------------------------------------------
 
-export const swipe = (dir) => {
+export const swipe = (dir, dropId) => {
+    console.log('dir' , dir);
+    return dispatch => {
+        dispatch(swipeStart(dir)); 
+        if(!dropId.startsWith('no more')){
+            const url = `/api/drop/${dropId}/swipe`;
+            const token = localStorage.getItem('token');
+            const body = { like: dir === 'right'};
+            const headers = { headers: { authorization : `Bearer ${token}` } };
+            axios.post(url, body, headers )
+            .then(res => {
+                console.log(res);
+                dispatch(swipeSuccess()); 
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch(swipeFailed());
+            })
+        }
+
+    }
+}
+
+export const swipeStart = (dir) => {
     return {
-        type: actionTypes.SWIPE,
+        type: actionTypes.SWIPE_START,
         dir: dir
+    }
+}
+
+export const swipeSuccess = () => {
+    return {
+        type: actionTypes.SWIPE_SUCCESS
+    }
+}
+
+export const swipeFailed = () => {
+    return {
+        type: actionTypes.SWIPE_FAILED
     }
 }
 

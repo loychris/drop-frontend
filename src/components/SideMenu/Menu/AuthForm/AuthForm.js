@@ -344,7 +344,7 @@ class AuthForm extends Component {
                             this.state.loginError ? <p className={classes.ErrorMessage}>{this.state.loginError}</p> : null
                         }
                     </MenuItem>
-                    <p className={classes.CreateAccount} onClick={() => this.setState({isLogin: false})}>Don't have an account? <u>Sign up free!</u></p>
+                    <p className={classes.CreateAccount} onClick={() => this.setState({isLogin: false})}>Don't have an account? <b><u>Sign up free!</u></b></p>
                     <DropButton clicked={this.submitHandler}>
                         {
                             this.props.loading 
@@ -356,7 +356,6 @@ class AuthForm extends Component {
                             : <h3>Login</h3>
                         }
                     </DropButton>
-                    <div onClick={() => this.props.onLogin('cloy202@gmail.com', '1234567890')}>Log in as Chris</div>
                 </form>
             )
         }

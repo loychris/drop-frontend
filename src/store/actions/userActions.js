@@ -145,7 +145,7 @@ export const authCheckState = () => {
             } else {
                 const user = JSON.parse(localStorage.getItem('user'));
                 dispatch(loginSuccess(user));
-                dispatch(setDropsNotLoaded());
+                // dispatch(setDropsNotLoaded());
                 dispatch(setChatStateOnLogin(user));
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
                 const url = '/api/users/refresh';
@@ -153,7 +153,7 @@ export const authCheckState = () => {
                 axios.get(url, headers)
                 .then(res => {
                     dispatch(loginSuccess(res.data));
-                    dispatch(setDropsNotLoaded());
+                    // dispatch(setDropsNotLoaded());
                     dispatch(setChatStateOnLogin(res.data))
                     const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
                     localStorage.setItem('token', res.data.token);

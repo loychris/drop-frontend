@@ -5,7 +5,6 @@ const initialState = {
     dropTargets: [],
     selectedTargets: [],
     dropIds: [],
-    currentIds: [],
     streamStatus: 'nothing loaded',
     streamElements: [
         { position: 0, show: "left", id: "0", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
@@ -103,7 +102,6 @@ const setIds = (state, action) => {
     return {
         ...state,
         dropIds: ids,
-        currentIds: action.ids.slice(0,21),
         currentlyLoadingMemeId: streamElementsNew[1].id,
         streamElements: streamElementsNew,
         streamStatus: 'ids loaded'
@@ -335,47 +333,55 @@ const resetDropTargets = (state, action) => {
 
 // ----- SWIPE -----------------------------------------------------------------------
 
-const swipe = (state, action) => {
-    const timestamp  = Date.now();
+const swipeStart = (state, action) => {
     scrollToTop();
     if(state.selectedComment){
         return {
             ...state,
             selectedComment: null
         }
-    }else{
-        let [nextId, ...idsNew] = state.dropIds;
-        if(!nextId){ nextId = 'no more' + Math.random() }
-
-        let currentIdsNew = state.currentIds.filter(id => state.streamElements[1].id === id);
-        currentIdsNew.push(nextId);
-
-        let streamElementsNew = state.streamElements.map(s => {
-            return {
-                ...s, 
-                position: s.position - 1,
-                show: s.position-1 === 0 ? action.dir : 'show'
+    } else {
+        if(state.dropIds.length > 0) console.log('##################');
+        const nextId = state.dropIds.length !== 0 ? state.dropIds[0] : 'no more' + Date.now();
+        const dropIdsNew = state.dropIds.slice(1, state.dropIds.length); 
+        const streamElementsNew = [
+            ...state.streamElements.map(s => {
+                return {
+                    ...s, 
+                    position: s.position - 1,
+                    show: s.position-1 === 0 ? action.dir : 'show'
+                }
+            })
+            .filter(s => {
+                return s.position >= 0
+            }),
+            {
+                position: 21,
+                show: 'show',
+                id: nextId,
+                status: 'id loaded',
+                dropStatus: 'not loaded',
+                comments: []
             }
-        })
-        .filter(s => {
-            return s.position >= 0
-        })
-        streamElementsNew.push({
-            position: 21,
-            show: 'show',
-            id: nextId,
-            status: 'id loaded',
-            dropStatus: 'not loaded',
-            comments: []
-        })
+        ]
         return {
             ...state,
             streamElements: streamElementsNew,
-            timeStampLastSwipe: timestamp,
-            dropIds: idsNew, 
-            currentIds: currentIdsNew,
+            dropIds: dropIdsNew, 
             dropTargets: [],
         }
+    }
+}
+
+const swipeSuccess = (state, action) => {
+    return {
+        ...state,
+    }
+}
+
+const swipeFailed = (state, action) => {
+    return {
+        ...state,
     }
 }
 
@@ -485,7 +491,9 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.UNSELECT_DROPTARGET: return unselectDropTarget(state, action);
         case actionTypes.RESET_DROP_TARGETS: return resetDropTargets(state, action);
 
-        case actionTypes.SWIPE: return swipe(state, action);
+        case actionTypes.SWIPE_START: return swipeStart(state, action);
+        case actionTypes.SWIPE_SUCCESS: return swipeSuccess(state, action);
+        case actionTypes.SWIPE_FAILED: return swipeFailed(state, action);
 
         case actionTypes.FETCH_IDS_START: return fetchIdsStart(state, action);
         case actionTypes.SET_IDS: return setIds(state, action);

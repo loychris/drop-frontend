@@ -55,7 +55,10 @@
 
 
 // STREAM
-    export const SWIPE = 'SWIPE';
+    export const SWIPE_START = 'SWIPE_START';
+    export const SWIPE_SUCCESS = 'SWIPE_SUCCESS';
+    export const SWIPE_FAILED = 'SWIPE_FAILED';
+    
     export const SELECT_DROPTARGET = 'SELECT_DROPTARGET';
     export const UNSELECT_DROPTARGET = 'UNSELECT_DROPTARGET';
     export const RESET_DROP_TARGETS = 'RESET_DROP_TARGETS';
