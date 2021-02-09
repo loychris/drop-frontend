@@ -120,7 +120,7 @@
 }
 
 .DoubleDigit {
-  width: 16px;
+  width: 14px;
 }
 
 .TrippleDigit {
@@ -130,7 +130,7 @@
 
 .NotificationCount {
   display: block;
-  width: 12px; 
-  transform: translate(-2px, 0);
+  width: inherit; 
+  text-align: center;
   padding: 0px; 
 }

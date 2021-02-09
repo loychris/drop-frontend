@@ -32,7 +32,7 @@ class Navigation extends Component {
               </NavLink>
             </li>
             <li>
-              <NavLink style={{ textDecoration: "none" }} to="/chat">
+              <NavLink style={{ textDecoration: "none", position: 'relative' }} to="/chat">
                 {
                   chatNotifications.length > 0 
                     ? <div className={notifiactionStyle}>
