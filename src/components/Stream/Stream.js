@@ -9,10 +9,7 @@ import RiverWhite from "../../SVGs/RiverWhite.svg";
 import River from "../../SVGs/River.svg";
 import RiverGlow from "../../SVGs/RiverGlow.svg";
 import Boat from "../../media/Boat.png";
-
-// import URLs from './URLs.json';
-
-const TIME_BLOCK_NEXT_SWIPE = 500;
+import DropButton from "../UI/DropButton/DropButton";
 
 class Stream extends Component {
 
@@ -20,6 +17,7 @@ class Stream extends Component {
     timeStampLastSwipe: 0,
     glowLeft: false,
     glowRight: false,
+    wtfOpen: false,
   }
 
   componentDidMount() {
@@ -192,6 +190,48 @@ class Stream extends Component {
     )
   }
 
+  getWtf = () => {
+    if(!this.state.wtfOpen){
+      return <h2 className={classes.wtfButton} onClick={() => this.setState({wtfOpen: true})}>WTF?</h2>
+    }
+    return (
+      <div className={classes.wtfContainer}>
+        
+        <h1>Wellcome to Meme Drop ✌</h1>
+        <p className={classes.SubLine}>The bests place to discover, share, discuss and soon create memes</p>
+        <h2>The Meme Stream</h2>
+        <p>The neverending source of the freshes &amp; dankest memes out there.</p>
+        <p>Press&nbsp;
+          <b onMouseEnter={() => this.onLightUp(true, false)} onMouseLeave={this.resetGlow} className={classes.EmojiButton}>
+            👎 or ◀ 
+          </b>
+          &nbsp;if you don't like the meme and press &nbsp;
+          <b onMouseEnter={() => this.onLightUp(false, true)} onMouseLeave={this.resetGlow} className={classes.EmojiButton}>
+            👍 or ▶
+          </b>
+          &nbsp; if you do (just like on your favorite dating App).
+        </p>
+        <p>
+          <h3>Why though?</h3>
+          Im afraid you won't find the love of your life here (never say never, though). Behind the Meme Stream there is a magic recommendation engine that learns your taste in memes with every like/dislike. Soon it will recommend memes to you that fit your taste. The more honest you are while like/dislike, the better your recommendations will be.<br/>
+          ( <b>Note: </b> nobody will see your likes/dislikes. It's just for the magic ) 
+        </p>
+        <p>
+          If you want to share a meme with a friend press <b className={classes.EmojiButton}>Drop</b>.
+        </p>
+        <p>Also follow&nbsp;
+          <a href='https://www.instagram.com/meme_drops/' className={classes.Link}  target="_blank" rel="noopener noreferrer">
+            @meme_drops
+          </a> on Instagram or you'll die.
+        </p>
+          
+        <DropButton clicked={() => this.setState({wtfOpen: false})}>
+          <h3>Got it!</h3>
+        </DropButton>
+      </div>
+    )
+  }
+
   render = () => {
     const styleClasses = [classes.Stream];
     if (this.props.currentTab !== 'stream') {
@@ -199,6 +239,7 @@ class Stream extends Component {
     }
     return (
       <div className={styleClasses.join(" ")}>
+        {this.getWtf()}
         {this.getRiver()}
         {this.getRiverGlow()}
         <img src={Boat} alt="" className={classes.Boat1} />

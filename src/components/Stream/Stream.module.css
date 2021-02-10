@@ -65,6 +65,64 @@
   -webkit-user-drag: none; /* Prevents dragging of images/divs etc */
 }
 
+.wtfButton {
+  position: absolute; 
+  left: calc(50% + 300px);
+  color: #ffffff;
+  opacity: 30%;
+  cursor: pointer;
+  user-select: none; 
+  -webkit-user-drag: none;  
+}
+
+.wtfButton:hover {
+  opacity: 100%;
+}
+
+
+.wtfContainer {
+  position: absolute;
+  /* height: 200px;  */
+  width: 400px;
+  left: calc(50% + 300px);
+  top: 50px;
+  padding: 20px 20px 0 20px;
+  background: #abcdef;
+  border-radius: 9px; 
+  z-index: 1000;
+  font-size: 80%;
+}
+
+.wtfContainer h1 {
+  text-align: center;
+  margin: 0; 
+  margin-bottom: -10px;
+}
+
+.SubLine {
+  color: #333333;
+  text-align: center;
+  font-size: 10pt;
+  margin-bottom: 20px;
+}
+
+.wtfContainer h2, .wtfContainer h3 {
+  margin-bottom: 3px;
+}
+
+.wtfContainer p {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.EmojiButton {
+  border: 1px solid #000000;
+  border-radius: 3px;
+  padding: 1px 4px 3px 4px;
+  cursor: pointer;
+
+}
+
 .LeftThumb, .RightThumb {
   position: fixed;
   top: 40vh; 
@@ -99,3 +157,4 @@
     margin-right: -50px;  
   }
 } 
+
