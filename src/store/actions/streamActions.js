@@ -306,7 +306,7 @@ export const fetchDrop = (dropId, token) => {
     return dispatch => {
         dispatch(fetchDropStart(dropId))
         if(dropId.startsWith('no')){
-            dispatch(fetchDropSuccess(dropId, { dropId, title: "", creatorId: "5fe08af76cece946855c16c9", comments: []}))
+            dispatch(fetchDropSuccess(dropId, { dropId, title: "", creatorId: "6022396f28d69d22509a5d46", comments: []}))
         }else{
             const url = dropId.startsWith('no more') ? 'apidrop/nomore' : `/api/drop/${dropId}`;
             const headers = token ? { headers: { authorization: `Bearer ${token}` } } : null 

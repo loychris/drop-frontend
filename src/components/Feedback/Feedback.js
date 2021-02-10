@@ -7,13 +7,14 @@ import classes from './Feedback.module.css';
 class Feedback extends Component {
 
     handleClicked = () => {
-        if(this.props.token && this.props.userId !== '5fe08af76cece946855c16c9'){
+        if(this.props.token && this.props.userId !== '6022396f28d69d22509a5d46'){
             const self = {
                 handle: this.props.handle,
                 name: this.props.name, 
                 profilePic: this.props.profilePic, 
                 userId: this.props.userId
             }
+            this.props.onSwitchTab('chat');
             this.props.onOpenChrisChat(self);
         }
     }
@@ -42,7 +43,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOpenChrisChat: (self) => dispatch(actions.openChrisChat(self)), 
+        onOpenChrisChat: (self) => dispatch(actions.openChrisChat(self)),
+        onSwitchTab: (tab) => dispatch(actions.switchTab(tab)), 
     }
 }
 

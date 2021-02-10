@@ -86,8 +86,7 @@ export const loginFail = (message) => {
 
 //------ SIGNUP ----------------------------------------------------------------------
 
-export const signup = (name, email, handle, password, profilePic, src) => {
-    console.log('SRCSRCSRC', src);
+export const signup = (name, email, handle, password, profilePic, src, newsletter) => {
     return dispatch => {
         dispatch(signupStart())
         const url = '/api/users/signup';
@@ -96,7 +95,8 @@ export const signup = (name, email, handle, password, profilePic, src) => {
         formData.append('email', email);
         formData.append('handle', handle);
         formData.append('password', password);
-        formData.append('profilePic', profilePic)
+        formData.append('profilePic', profilePic);
+        formData.append('newsletter', newsletter);
         axios({
             method: 'post',
             url: url, 

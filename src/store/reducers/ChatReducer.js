@@ -739,18 +739,18 @@ const fetchNewChatFailed = (state, action) => {
 
 const openChrisChat = (state, action) => {
     const existingChrisChat = state.chats
-        .find(chat => chat.chatId === 'dummy5fe08af76cece946855c16c9' 
-           || chat.members.some(m => m.userId === '5fe08af76cece946855c16c9')); 
-    const currentChatIdNew = existingChrisChat ? existingChrisChat.chatId : 'dummy5fe08af76cece946855c16c9';
+        .find(chat => chat.chatId === 'dummy6022396f28d69d22509a5d46' 
+           || chat.members.some(m => m.userId === '6022396f28d69d22509a5d46')); 
+    const currentChatIdNew = existingChrisChat ? existingChrisChat.chatId : 'dummy6022396f28d69d22509a5d46';
     const chatsNew = existingChrisChat ? state.chats : [...state.chats, {
         group: false,
         name: 'Chris Loy',
         messages: [],
-        chatId: 'dummy5fe08af76cece946855c16c9',
+        chatId: 'dummy6022396f28d69d22509a5d46',
         members: [action.self, {
             name: 'Chris Loy',
             handle: 'chris',
-            userId: '5fe08af76cece946855c16c9', 
+            userId: '6022396f28d69d22509a5d46', 
             profilePic: true
         }],
         lastInteraction: Date.now(),

@@ -309,7 +309,8 @@ class AuthForm extends Component {
                     this.state.handle.value, 
                     this.state.password.value, 
                     this.state.profilePic.file,
-                    this.state.profilePic.src
+                    this.state.profilePic.src, 
+                    this.state.newsletter
                 );
             }
         }
@@ -484,7 +485,7 @@ class AuthForm extends Component {
                             onChange={this.onChangeNewsletter} 
                             checked={this.state.newsletter}/>
                         <p onClick={this.onChangeNewsletter} className={classes.CheckboxText}>
-                            Get an email whenever I feel like adding a new feature. (no more that 1 per week, though. I'm not an asshole)
+                            Get an email whenever I feel like adding a new feature. (no more that 1 per week, though. I'm not an asshole.)
                         </p>
                     </div>
                 </MenuItem>
@@ -507,14 +508,14 @@ class AuthForm extends Component {
 const mapStateToProps = state => {
     return {
         loading: state.user.loading,
-        authReason: state.user.authReason
+        authReason: state.user.authReason, 
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onLogin: (email, password) => dispatch(actions.login(email, password)),
-        onSignup: (name, email, handle, password, file, src) => dispatch(actions.signup(name, email, handle, password, file, src)),
+        onSignup: (name, email, handle, password, file, src, newsletter) => dispatch(actions.signup(name, email, handle, password, file, src, newsletter)),
     }
 }
 
