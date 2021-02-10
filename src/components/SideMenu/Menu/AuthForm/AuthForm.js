@@ -44,10 +44,9 @@ class AuthForm extends Component {
             tooUgly: true,
             src: null,
             file: null, 
-
         },
         userConditions: {
-            value: false,
+            value: true,
             touched: false,
         }, 
         newsletter: true,
@@ -101,14 +100,13 @@ class AuthForm extends Component {
         }
     }
 
-    onProfilePicCheckboxChange = (event) => {
-        this.setState(prevState => {
-            return { 
-                profilePic: {
-                    ...prevState.profilePic,
-                    tooUgly: !prevState.profilePic.tooUgly,
-                }
-            }
+    onRemoveProfilePic = (event) => {
+        this.setState({
+            profilePic: {
+                tooUgly: true,
+                src: null,
+                file: null, 
+            },
         })
     }
 
@@ -235,7 +233,6 @@ class AuthForm extends Component {
             }
         })
     }
-
 
 
     formStateValid = () => {
@@ -381,8 +378,8 @@ class AuthForm extends Component {
                 </MenuItem>
                 <MenuItem>
                     <h4>Profile Picture</h4>
-                    <input type='checkbox' onChange={this.onProfilePicCheckboxChange} checked={this.state.profilePic.tooUgly}/> I'm too ugly<br/>
-                    <input type='checkbox' onChange={this.onProfilePicCheckboxChange} checked={!this.state.profilePic.tooUgly}/> Upload picture
+                    <input type='checkbox' onChange={this.onRemoveProfilePic} checked={this.state.profilePic.tooUgly}/> I'm too ugly<br/>
+                    <input type='checkbox' onChange={() => console.log('Upload Pic!')} checked={!this.state.profilePic.tooUgly}/> Upload picture
 
                     <Dropzone onDrop={this.onUploadprofilePic}>
                         {({getRootProps, getInputProps}) => (

@@ -90,6 +90,7 @@ export const signup = (name, email, handle, password, profilePic, src, newslette
     return dispatch => {
         dispatch(signupStart())
         const url = '/api/users/signup';
+        const anonymousId = localStorage.getItem('anonymousId');
         const formData = new FormData();
         formData.append('name', name);
         formData.append('email', email);
@@ -97,6 +98,7 @@ export const signup = (name, email, handle, password, profilePic, src, newslette
         formData.append('password', password);
         formData.append('profilePic', profilePic);
         formData.append('newsletter', newsletter);
+        formData.append('anonymousId', anonymousId);
         axios({
             method: 'post',
             url: url, 
