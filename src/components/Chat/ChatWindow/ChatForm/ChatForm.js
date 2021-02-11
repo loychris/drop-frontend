@@ -34,7 +34,12 @@ class ChatForm extends Component {
             const currentChat = this.props.chats.find(c => c.chatId === this.props.currentChatId);
             const self = currentChat.members.find(m => m.userId === this.props.userId);
             const chatPartner = currentChat.members.find(m => m.userId !== this.props.userId);
-            this.props.onSendFirstMessageNewChat(this.props.currentChatId, self, chatPartner, this.state.inputValue);
+            if(this.props.creatingChats.some(id => id === this.props.currentChatId)){
+                this.props.onAddMessageToBuffer(this.props.currentChatId, this.state.inputValue, this.props.userId);
+            }else {
+                this.props.onSendFirstMessageNewChat(this.props.currentChatId, self, chatPartner, this.state.inputValue);
+
+            }
         }else {
             this.props.onSendTextMessage(this.props.currentChatId, this.state.inputValue, this.props.userId);
         }
@@ -88,6 +93,7 @@ const mapStateToProps = state => {
         chats: state.chat.chats,
         currentChatId: state.chat.currentChatId,
         chatInput: state.chat.chatInput,
+        creatingChats: state.chat.creatingChats,
 
         userId: state.user.userId,
         handle: state.user.handle,
@@ -102,7 +108,7 @@ const mapDispatchToProps = dispatch => {
         onChangeFormHeight: (height) => dispatch(actions.changeFormHeight(height)),
         onSendTextMessage: (chatId, text, userId) => dispatch(actions.sendTextMessage(chatId, text, userId)), 
         onSendFirstMessageNewChat: (dummyChatId, self, chatPartner, text) => dispatch(actions.sendFirstMessageNewChat(dummyChatId, self, chatPartner, text)),
-
+        onAddMessageToBuffer: (dummyChatId, text, userId) => dispatch(actions.addMessageToBuffer(dummyChatId, text, userId)),
     }
 }
 

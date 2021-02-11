@@ -20,6 +20,20 @@ class Chat extends Component {
     }
   }
 
+  componentDidUpdate = () => {
+    const unbufferMessage = this.props.messageBuffer.find(m => !m.dummyChatId.startsWith('dummy') && !m.sending); 
+    if(unbufferMessage){
+      console.log('Sending Message');
+      console.log(unbufferMessage); 
+      this.props.onSendMessageFromBuffer(
+        unbufferMessage.id, 
+        unbufferMessage.dummyChatId, 
+        unbufferMessage.dummyMessageId,
+        unbufferMessage.text
+      );
+    }
+  }
+
   setChatFormInputValue = (event) => {
     this.setState({textInput: event.target.value})
   }
@@ -47,6 +61,7 @@ const mapStateToProps = state => {
     currentTab: state.ui.currentTab,
     token: state.user.token,
     chats: state.stream.chats,
+    messageBuffer: state.chat.messageBuffer,
   }
 }
 
@@ -54,6 +69,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onOpenAuth: (authReason) => dispatch(actions.openMenu(authReason)),
     onChangeChat: (chatId, self, user, inputValue) => dispatch(actions.changeChat(chatId, self, user, inputValue)),
+    onSendMessageFromBuffer: (id, dummyChatId, dummyMessageId, text) => dispatch(actions.sendMessageFromBuffer(id, dummyChatId, dummyMessageId, text)), 
   }
 }
 

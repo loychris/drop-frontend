@@ -43,6 +43,8 @@ export {
     createDummyChat, 
     changeChat,
     openChrisChat, 
+    addMessageToBuffer,
+    sendMessageFromBuffer, 
 } from './chatActions';
 
 export {

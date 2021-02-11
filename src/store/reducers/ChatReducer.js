@@ -13,6 +13,8 @@ const initialState = {
 
     receivedFriendRequests: [],
     acceptingFriendRequests: [],
+    creatingChats: [],
+    messageBuffer: [],
 
     friends: [
         { userId: '42069',  name: 'Elon Musk',        handle: 'elon',    profilePic: false},
@@ -171,6 +173,12 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_SUCCESS: return sendFirstMessageNewChatSuccess(state, action);
         case actionTypes.SEND_FIRST_MESSAGE_NEW_CHAT_FAILED: return sendFirstMessageNewChatFailed(state, action);
 
+        case actionTypes.ADD_MESSAGE_TO_BUFFER: return addMessageToBuffer(state, action);
+        case actionTypes.SEND_MESSAGE_FROM_BUFFER_START: return sendMessageFromBufferStart(state, action);
+        case actionTypes.SEND_MESSAGE_FROM_BUFFER_SUCCESS: return sendMessageFromBufferSuccess(state, action);
+        case actionTypes.SEND_MESSAGE_FROM_BUFFER_FAILED: return sendMessageFromBufferFailed(state, action);
+         
+
         case actionTypes.CHANGE_CHAT: return changeChat(state, action);
         case actionTypes.CHANGE_CHAT_INPUT: return chatInputChangeHandler(state, action);
         
@@ -311,6 +319,7 @@ const chatInputChangeHandler = (state, action) => {
 //----- SEND MESSAGE  -------------------------------------------------
 
 const sendMessageStart = (state, action) => {
+    const { randId, text, userId } = action;
     const chatsNew = state.chats.map(chat => {
         if(chat.chatId === state.currentChatId){
             return {
@@ -321,10 +330,10 @@ const sendMessageStart = (state, action) => {
                         received: [],
                         seen: [],
                         liked: [],
-                        text: action.text, 
-                        sender: action.userId,
+                        text: text, 
+                        sender: userId,
                         time: new Date(),
-                        id: action.randId,
+                        id: randId,
                         type: 'text', 
                         sending: true
                     }
@@ -474,36 +483,160 @@ const sendFirstMessageNewChatStart = (state, action) => {
             return chat
         }
     });
+    const creatingChatsNew = [...state.creatingChats, dummyChatId];
     return {
         ...state,
-        chats: chatsNew
+        chats: chatsNew,
+        creatingChats: creatingChatsNew
     }
 }
 
 const sendFirstMessageNewChatSuccess = (state, action) => {
     const { dummyChatId, createdChat, self, chatPartner } = action;
     const currentChatIdNew = state.currentChatId === dummyChatId ? createdChat.chatId : state.currentChatId;
+    const dummyChatMessages = state.chats.find(c => c.chatId === dummyChatId).messages;
     const chatsNew = state.chats.map(chat => {
         if(chat.chatId === dummyChatId){
             console.log('FOUND DUMMY CHAT');
             return {
                 ...createdChat, 
-                members: [self, chatPartner]
+                messages: [...createdChat.messages, ...dummyChatMessages.slice(1, dummyChatMessages.length)],
+                members: [self, chatPartner],
             }
         } else {
             return chat
         }
     })
+    const messageBufferNew = state.messageBuffer.map(message => {
+        if(message.dummyChatId === dummyChatId){
+            return {
+                ...message, 
+                dummyChatId: createdChat.chatId
+            }
+        }else {
+            return message
+        }
+    })
+    const creatingChatsNew = state.creatingChats.filter(id => id !== dummyChatId);
     return {
         ...state, 
         chats: chatsNew,
-        currentChatId: currentChatIdNew
+        currentChatId: currentChatIdNew,
+        messageBuffer: messageBufferNew, 
+        creatingChats: creatingChatsNew,
     }
 }
 
 const sendFirstMessageNewChatFailed = (state, action) => {
     return {
         ...state, 
+    }
+}
+
+//----- ADD_MESSAGE_TO_BUFFER ------------------------------------------
+
+const addMessageToBuffer = (state, action) => {
+    const { dummyChatId, dummyMessageId, text, userId } = action; 
+    const messageBufferNew = [...state.messageBuffer, {
+        dummyChatId,
+        dummyMessageId, 
+        text, 
+        id: `${Date.now()}`
+    }]
+    const chatsNew = state.chats.map(chat => {
+        if(chat.chatId === state.currentChatId){
+            return {
+                ...chat, 
+                messages: [
+                    ...chat.messages,
+                    {
+                        received: [],
+                        seen: [],
+                        liked: [],
+                        text: text, 
+                        sender: userId,
+                        time: new Date(),
+                        id: dummyMessageId,
+                        type: 'text', 
+                        sending: true
+                    }
+                ]
+            }
+        }
+        else {
+            return chat
+        }
+    })
+    return {
+        ...state,
+        messageBuffer: messageBufferNew,
+        chats: chatsNew
+    }
+}
+
+const sendMessageFromBufferStart = (state, action) => {
+    const { id } = action;
+    const messageBufferNew = state.messageBuffer.map(m => {
+        if(m.id === id){
+            return {
+                ...m, 
+                sending: true
+            }
+        }else {
+            return m; 
+        }
+    })
+    return {
+        ...state, 
+        messageBuffer: messageBufferNew
+    }
+}
+
+//////////////////////////////////////////////////////////////////////
+
+const sendMessageFromBufferSuccess = (state, action) => {
+    const { id, response } = action;;
+    const bufferMessage = state.messageBuffer.find(m => m.id === id);
+    console.log(bufferMessage);
+    const chatsNew = state.chats.map(chat => {
+        if(chat.chatId === bufferMessage.dummyChatId){
+            const messagesNew = [
+                ...chat.messages.filter(m => m.id !== bufferMessage.dummyMessageId),
+                response
+            ]
+            return {
+                ...chat, 
+                messages: messagesNew
+            }
+        }else {
+            return chat
+        }
+    })
+    const messageBufferNew = state.messageBuffer.filter(m => m.id !== id)
+    return {
+        ...state,
+        chats: chatsNew,
+        messageBuffer: messageBufferNew 
+    }
+}
+
+///////////////////////////////////////////////////////////////////////
+
+const sendMessageFromBufferFailed = (state, action) => {
+    const { id } = action;
+    const messageBufferNew = state.messageBuffer.map(m => {
+        if(m.id === id){
+            return {
+                ...m, 
+                sending: false
+            }
+        }else {
+            return m; 
+        }
+    })
+    return {
+        ...state, 
+        messageBuffer: messageBufferNew
     }
 }
 

@@ -209,7 +209,7 @@ class Stream extends Component {
           <b onMouseEnter={() => this.onLightUp(false, true)} onMouseLeave={this.resetGlow} className={classes.EmojiButton}>
             👍 or ▶
           </b>
-          &nbsp; if you do (just like on your favorite dating App).
+          &nbsp; if you do (just like on y'alls favorite dating App).
         </p>
         <p>
           <h3>Why though?</h3>

@@ -205,6 +205,57 @@ export const sendMessageFailed = (chatId, randId) => {
     }
 }
 
+export const addMessageToBuffer = (dummyChatId, text, userId) => {
+    return {
+        type: actionTypes.ADD_MESSAGE_TO_BUFFER, 
+        dummyChatId, 
+        dummyMessageId: `${Date.now()}`,
+        text, 
+        userId,
+    }
+}
+
+export const sendMessageFromBuffer = (id, chatId, dummyMessageId, text) => {
+    return dispatch => {    
+        dispatch(sendMessageFromBufferStart(id));
+        const token = localStorage.getItem('token');
+        const headers = { headers: { authorization : `Bearer ${token}` } }
+        const url = `/api/chat/${chatId}/textMessage`;
+        const body = { 
+            type: 'text',
+            message: { text }
+        };
+        axios.post(url, body, headers)
+        .then(response => {
+            dispatch(sendMessageFromBufferSuccess(id, response.data));
+        }).catch(err => {
+            dispatch(sendMessageFromBufferFailed(id))
+        })
+    }
+}
+
+export const sendMessageFromBufferStart = (id) => {
+    return {
+        type: actionTypes.SEND_MESSAGE_FROM_BUFFER_START,
+        id
+    }
+}
+
+export const sendMessageFromBufferSuccess = (id, response) => {
+    return {
+        type: actionTypes.SEND_MESSAGE_FROM_BUFFER_SUCCESS,
+        id, 
+        response
+    }
+}
+
+export const sendMessageFromBufferFailed = (id) => {
+    return {
+        type: actionTypes.SEND_MESSAGE_FROM_BUFFER_FAILED,
+        id
+    }
+}
+
 //--------- SEND MESSAGES -------------------------------------------------
 
 export const sendDropStart = (chatIds, message) => {
