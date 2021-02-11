@@ -600,10 +600,13 @@ const sendMessageFromBufferSuccess = (state, action) => {
     console.log(bufferMessage);
     const chatsNew = state.chats.map(chat => {
         if(chat.chatId === bufferMessage.dummyChatId){
-            const messagesNew = [
-                ...chat.messages.filter(m => m.id !== bufferMessage.dummyMessageId),
-                response
-            ]
+            const messagesNew = chat.messages.map(m => {
+                if(m.id === bufferMessage.dummyMessageId){
+                    return response
+                }else{
+                    return m
+                }
+            })
             return {
                 ...chat, 
                 messages: messagesNew

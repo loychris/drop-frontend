@@ -14,7 +14,6 @@ import Dropzone from 'react-dropzone';
 class AuthForm extends Component {
 
     state = {
-        isLogin: true,
         name: {
             value: '',
             touched: false,
@@ -51,12 +50,6 @@ class AuthForm extends Component {
         }, 
         newsletter: true,
         loginError: null,
-    }
-
-    switchModeHandler = () => {
-        this.setState(prevState => {
-            return { isLogin: !prevState.isLogin }
-        })
     }
 
     //--------- NAME ---------------------------------------------------------
@@ -245,7 +238,7 @@ class AuthForm extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        if(this.state.isLogin){
+        if(this.props.loginOrSignup === 'login'){
             if(!this.state.email.valid || !this.state.password.valid){
                 this.setState({
                     email: {
@@ -315,7 +308,7 @@ class AuthForm extends Component {
     }
    
     render() {
-        if(this.state.isLogin){
+        if(this.props.loginOrSignup === 'login'){
             return(
                 <form className={classes.Form}>
                     <h2>Log in</h2>
@@ -342,7 +335,7 @@ class AuthForm extends Component {
                             this.state.loginError ? <p className={classes.ErrorMessage}>{this.state.loginError}</p> : null
                         }
                     </MenuItem>
-                    <p className={classes.CreateAccount} onClick={() => this.setState({isLogin: false})}>Don't have an account? <b><u>Sign up free!</u></b></p>
+                    <p className={classes.CreateAccount} onClick={this.props.openSignup}>Don't have an account? <b><u>Sign up free!</u></b></p>
                     <DropButton clicked={this.submitHandler}>
                         {
                             this.props.loading 
@@ -380,7 +373,6 @@ class AuthForm extends Component {
                     <h4>Profile Picture</h4>
                     <input type='checkbox' onChange={this.onRemoveProfilePic} checked={this.state.profilePic.tooUgly}/> I'm too ugly<br/>
                     <input type='checkbox' onChange={() => console.log('Upload Pic!')} checked={!this.state.profilePic.tooUgly}/> Upload picture
-
                     <Dropzone onDrop={this.onUploadprofilePic}>
                         {({getRootProps, getInputProps}) => (
                             <section>
@@ -506,11 +498,14 @@ const mapStateToProps = state => {
     return {
         loading: state.user.loading,
         authReason: state.user.authReason, 
+        loginOrSignup: state.ui.loginOrSignup
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        openLogin: () => dispatch(actions.openLogin()),
+        openSignup: () => dispatch(actions.openSignup()), 
         onLogin: (email, password) => dispatch(actions.login(email, password)),
         onSignup: (name, email, handle, password, file, src, newsletter) => dispatch(actions.signup(name, email, handle, password, file, src, newsletter)),
     }

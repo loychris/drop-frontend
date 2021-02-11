@@ -6,6 +6,7 @@ import * as actions from '../../store/actions/index';
 import classes from "./Chat.module.css";
 import ChatPrevs from './ChatPreviews/ChatPreviews';
 import ChatWindow from './ChatWindow/ChatWindow';
+import DropButton from '../UI/DropButton/DropButton';
 
 class Chat extends Component {
 
@@ -15,9 +16,7 @@ class Chat extends Component {
 
   clicked = (event) => {
     event.stopPropagation();
-    if(!this.props.token){
-      this.props.onOpenAuth('Create an Account to chat & share memes with your friends')
-    }
+    this.props.onOpenAuth('Create an Account to chat & share memes with your friends');
   }
 
   componentDidUpdate = () => {
@@ -43,12 +42,29 @@ class Chat extends Component {
     this.props.onChangeShouldDeleteInput(true);
   }
 
+  getNotLoggedInMessage = () => {
+    return(
+      <div className={classes.NotLoggedInContainer}>
+        <div className={classes.NotLoggedInMessage}>
+          <div className={classes.InnerContainer}>
+            <DropButton clicked={this.props.openSignup}><h3>Sign up</h3></DropButton> 
+            or
+            <DropButton clicked={this.props.openLogin}><h3>Log in</h3></DropButton>
+            to use the Dropchat!
+            <p>Chat with friends and share memes!</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     const styleClasses = [classes.Chat];
     if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeft);
     if (this.props.currentTab === 'creator') styleClasses.push(classes.OutRight);
     return (
       <div className={styleClasses.join(" ")} onClick={this.clicked}>
+        { !this.props.token ? this.getNotLoggedInMessage() : null }
         <ChatPrevs/>
         <ChatWindow/>
       </div>
@@ -68,6 +84,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onOpenAuth: (authReason) => dispatch(actions.openMenu(authReason)),
+    openLogin: () => dispatch(actions.openLogin()),
+    openSignup: () => dispatch(actions.openSignup()),
     onChangeChat: (chatId, self, user, inputValue) => dispatch(actions.changeChat(chatId, self, user, inputValue)),
     onSendMessageFromBuffer: (id, dummyChatId, dummyMessageId, text) => dispatch(actions.sendMessageFromBuffer(id, dummyChatId, dummyMessageId, text)), 
   }

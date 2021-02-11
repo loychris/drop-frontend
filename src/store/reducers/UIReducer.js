@@ -7,6 +7,7 @@ const initialState = {
     menuOpen: false,
     newChatModalOpen: false,
     windowWidth: 1080,
+    loginOrSignup: 'login',
 }
 
 const scrollToTop = () => {
@@ -70,6 +71,18 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state, 
                 windowWidth: action.width
+            }
+        case actionTypes.OPEN_SIGNUP: 
+            return {
+                ...state,
+                loginOrSignup: 'signup',
+                menuOpen: true, 
+            }
+        case actionTypes.OPEN_LOGIN: 
+            return {
+                ...state, 
+                loginOrSignup: 'login',
+                menuOpen: true, 
             }
         default: return state;
     }

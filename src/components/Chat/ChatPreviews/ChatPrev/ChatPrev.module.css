@@ -31,7 +31,7 @@
 .Active {
   margin-left: -10px;
   height: 60px;
-  z-index: 1000;
+  z-index: 900;
   background-color: #abcdea;
   color: #000000;
   box-shadow: -10px 0px 10px -5px #00000066;

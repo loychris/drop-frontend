@@ -9,6 +9,8 @@ export {
     openNewChatModal,
     closeNewChatModal,
     setWindowWidth,
+    openSignup,
+    openLogin,
 } from './UIActions';
 
 export {

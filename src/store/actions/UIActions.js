@@ -74,3 +74,15 @@ export const setWindowWidth = (width) => {
         width
     }
 }
+
+export const openSignup = () => {
+    return {
+        type: actionTypes.OPEN_SIGNUP
+    }
+}
+
+export const openLogin = () => {
+    return {
+        type: actionTypes.OPEN_LOGIN
+    }
+}
