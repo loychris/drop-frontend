@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import classes from './CommentMenu.module.css';
 import TrashOpen from './TrashOpen.svg';
 import TrashClosed from './TrashClosed.svg';
+
+import * as actions from '../../../../../../store/actions/index';
 
 class CommentMenu extends Component {
 
@@ -31,7 +34,7 @@ class CommentMenu extends Component {
                     : null }
                 { this.state.deleteCommentOpen 
                     ? <div className={classes.DeleteDialog}>Delete Comment? 
-                        <button className={classes.YesButton}>yes</button>
+                        <button className={classes.YesButton} onClick={() => this.props.onDeleteComment(this.props.dropId, this.props.commentId)}>yes</button>
                         <button className={classes.NoButton} onClick={() => this.setState({deleteCommentOpen: false})}>no</button>
                       </div>
                     : null }
@@ -40,4 +43,16 @@ class CommentMenu extends Component {
     }
 }
 
-export default CommentMenu;
+const mapStateToProps = state => {
+    return {
+        token: state.user.token,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onDeleteComment: (dropId, commentId) => dispatch(actions.deleteComment(dropId, commentId)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentMenu);

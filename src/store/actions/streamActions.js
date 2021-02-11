@@ -259,37 +259,34 @@ export const setDropsNotLoaded = () => {
 
 //-------- DELETE COMMENT -------------------------------------------------------------------
 
-export const deleteComment = (dropId, commentId, path, token ) => {
+export const deleteComment = (dropId, commentId) => {
     return dispatch => {
-        dispatch(deleteCommentStart(dropId, commentId, path))
-        const url = path ? `/comment/${commentId}` : null
-        const headers = token ? { authorization: 'Bearer ' + token } : null;
-        const body = path ? { path } : null;
-        axios.delete(url, headers, body)
+        dispatch(deleteCommentStart(dropId, commentId))
+        const url = `api/comment/${commentId}`
+        const token = localStorage.getItem('token');
+        const headers = { headers: { authorization : `Bearer ${token}` } }
+        axios.delete(url, headers)
         .then(() => {
             dispatch(deleteCommentSuccess())
         })
         .catch(err => {
+            console.log(err);
             dispatch(deleteCommentFailed())
         });
     }
 }
 
-export const deleteCommentStart = (dropId, commentId, path) => {
+export const deleteCommentStart = (dropId, commentId) => {
     return {
         type: actionTypes.DELETE_COMMENT_START,
         dropId,
         commentId,
-        path
     }
 }
 
-export const deleteCommentSuccess = (dropId, commentId, path) => {
+export const deleteCommentSuccess = () => {
     return {
         type: actionTypes.DELETE_COMMENT_SUCCESS,
-        dropId,
-        commentId,
-        path
     }
 }
 

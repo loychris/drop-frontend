@@ -34,7 +34,7 @@ class CommentForm extends Component {
 
             if(!this.props.subComment) {
                 const newComment = {
-                    id: Date.now(),
+                    id: `${Date.now()}`,
                     comment: this.state.textareaValue, 
                     authorId: this.props.userId, 
                     posted: new Date(), 
@@ -45,7 +45,7 @@ class CommentForm extends Component {
                 this.props.onSendComment(this.props.dropId, newComment, this.props.token);
             } else {
                 const newSubComment = {
-                    id: Date.now(),
+                    id: `${Date.now()}`,
                     author: this.props.userId, 
                     points: 0, 
                     subComments: [],

@@ -485,6 +485,34 @@ const sendSubCommentFailed = (state, action) => {
     }
 }
 
+const deleteCommentStart = (state, action) => {
+    const { dropId, commentId } = action;
+    const streamElementsNew = state.streamElements.map(s => {
+        if(s.id === dropId){
+            const commentsNew = s.comments.filter(c => c.id !== commentId);
+            return {
+                ...s,
+                comments: commentsNew
+            }
+        } else {
+            return s
+        }
+    })
+    return {
+        ...state, 
+        streamElements: streamElementsNew, 
+        selectedComment: null,
+    }
+}
+
+const deleteCommentSuccess = (state, action) => {
+    return state
+}
+
+const deleteCommentFailed = (state, action) => {
+    return state
+}
+
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
         case actionTypes.SELECT_DROPTARGET: return selectDropTarget(state, action);
@@ -521,9 +549,15 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SEND_COMMENT_SUCCESS: return sendCommentSuccess(state, action);
         case actionTypes.SEND_COMMENT_FAILED: return sendCommentFailed(state, action);
 
+        case actionTypes.DELETE_COMMENT_START: return deleteCommentStart(state, action);
+        case actionTypes.DELETE_COMMENT_SUCCESS: return deleteCommentSuccess(state, action);
+        case actionTypes.DELETE_COMMENT_FAILED: return deleteCommentFailed(state, action);
+
         case actionTypes.SEND_SUBCOMMENT_START: return sendSubCommentStart(state, action);
         case actionTypes.SEND_SUBCOMMENT_SUCCESS: return sendSubCommentSuccess(state, action);
         case actionTypes.SEND_SUBCOMMENT_FAILED: return sendSubCommentFailed(state, action);
+
+
     
         default: return state;
     }
