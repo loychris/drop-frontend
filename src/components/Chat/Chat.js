@@ -13,12 +13,7 @@ class Chat extends Component {
   state = {
     textInput: 'placeholder'
   }
-
-  clicked = (event) => {
-    event.stopPropagation();
-    this.props.onOpenAuth('Create an Account to chat & share memes with your friends');
-  }
-
+  
   componentDidUpdate = () => {
     const unbufferMessage = this.props.messageBuffer.find(m => !m.dummyChatId.startsWith('dummy') && !m.sending); 
     if(unbufferMessage){
@@ -63,7 +58,7 @@ class Chat extends Component {
     if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeft);
     if (this.props.currentTab === 'creator') styleClasses.push(classes.OutRight);
     return (
-      <div className={styleClasses.join(" ")} onClick={this.clicked}>
+      <div className={styleClasses.join(" ")}>
         { !this.props.token ? this.getNotLoggedInMessage() : null }
         <ChatPrevs/>
         <ChatWindow/>

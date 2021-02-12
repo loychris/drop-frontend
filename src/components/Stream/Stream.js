@@ -211,8 +211,8 @@ class Stream extends Component {
           </b>
           &nbsp; if you do (just like on y'alls favorite dating App).
         </p>
+        <h3>Why though?</h3>
         <p>
-          <h3>Why though?</h3>
           Im afraid you won't find the love of your life here (never say never, though). Behind the Meme Stream there is a magic recommendation engine that learns your taste in memes with every like/dislike. Soon it will recommend memes to you that fit your taste. The more honest you are while like/dislike, the better your recommendations will be.<br/>
           ( <b>Note: </b> nobody will see your likes/dislikes. It's just for the magic ) 
         </p>
