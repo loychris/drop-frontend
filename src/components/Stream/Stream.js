@@ -197,17 +197,17 @@ class Stream extends Component {
     return (
       <div className={classes.wtfContainer}>
         
-        <h1>Wellcome to Meme Drop ✌</h1>
+        <h1>Wellcome to Meme Drop <span role='img'>✌</span></h1>
         <p className={classes.SubLine}>The bests place to discover, share, discuss and soon create memes</p>
         <h2>The Meme Stream</h2>
         <p>The neverending source of the freshes &amp; dankest memes out there.</p>
         <p>Press&nbsp;
           <b onMouseEnter={() => this.onLightUp(true, false)} onMouseLeave={this.resetGlow} className={classes.EmojiButton}>
-            👎 or ◀ 
+            <span role='img'>👎</span> or <span role='img'>◀</span> 
           </b>
           &nbsp;if you don't like the meme and press &nbsp;
           <b onMouseEnter={() => this.onLightUp(false, true)} onMouseLeave={this.resetGlow} className={classes.EmojiButton}>
-            👍 or ▶
+          <span role='img'>👍</span> or <span role='img'></span>▶
           </b>
           &nbsp; if you do (just like on y'alls favorite dating App).
         </p>

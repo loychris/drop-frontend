@@ -18,8 +18,8 @@ class Content extends Component {
  
     render() {
         const src = this.props.dropId.startsWith('no') 
-                    ? 'https://storage.googleapis.com/drop-meme-bucket/meme-6022a6fec54847291bdee46c'
-                    : `https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`
+                    ? `${process.env.REACT_APP_MEME_SOURCE_URL}6022a6fec54847291bdee46c`
+                    : `${process.env.REACT_APP_MEME_SOURCE_URL}${this.props.dropId}`
         return(
             <div className={classes.Content}>
                 <div className={classes.ContentContainer}>

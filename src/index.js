@@ -15,7 +15,8 @@ import ChatReducer from './store/reducers/ChatReducer';
 import UserReducer from './store/reducers/UserReducer';
 import UIReducer from './store/reducers/UIReducer'
 
-axios.defaults.baseURL = 'http://localhost:5000';
+console.log(process.env.REACT_APP_BACKEND_URL);
+axios.defaults.baseURL = `${process.env.REACT_APP_BACKEND_URL}`;
 
 const appReducer = combineReducers({
     user: UserReducer,

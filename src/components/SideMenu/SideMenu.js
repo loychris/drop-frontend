@@ -17,7 +17,7 @@ class SideMenu extends Component {
             profilePicSrc = this.props.profilePicSrc;
         }else {
             if(token && this.props.hasProfilePic){
-                profilePicSrc = 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + this.props.userId; 
+                profilePicSrc = `${process.env.REACT_APP_PROFILE_PICTURES_SOURCE_URL}` + this.props.userId; 
             }
         }
         return (

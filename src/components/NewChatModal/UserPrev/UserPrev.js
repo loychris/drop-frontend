@@ -61,7 +61,7 @@ class UserPrev extends Component {
   }
 
   render() {
-    const profilePicSrc = this.props.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + this.props.userId : DefaultProfilePic;
+    const profilePicSrc = this.props.profilePic ? `${process.env.REACT_APP_PROFILE_PICTURES_SOURCE_URL}` + this.props.userId : DefaultProfilePic;
     return (
       <div onClick={this.clicked} className={classes.ChatPrev}>
         <img src={profilePicSrc} alt=" " className={classes.ProfilePic}/>

@@ -180,7 +180,6 @@ const subscribeEmailListFailed = (state, action) => {
 }
 
 const deleteNotificationStart = (state, action) => {
-    const { notificationId } = action;
     const toDelte = state.notifications.find(n => n.id === action.notificationId);
     console.log(toDelte);
     const notificationsNew = state.notifications.filter(n => n.id !== action.notificationId);

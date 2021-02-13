@@ -47,14 +47,14 @@ class ChatPrev extends Component {
   render() {
     const unreadMessages = this.props.notifiaction
       .filter(n => (n.type.startsWith('NEW_MESSAGE') && n.chatId === this.props.chatId)
-        || n.type.startsWith('NEW_CHAT') && n.chatId === this.props.chatId); 
+        || (n.type.startsWith('NEW_CHAT') && n.chatId === this.props.chatId)); 
     const notifiactionStype = unreadMessages.length > 99 
       ? classes.TrippleDigit : unreadMessages.length > 9 
         ? classes.DoubleDigit : classes.SingleDigit
     const chatPartner = this.props.members.filter(m => m.userId !== this.props.userId)[0];
     const name = chatPartner.name;
     const preview = this.props.messages.length > 0 ? this.props.messages[this.props.messages.length-1].text : '@' + chatPartner.handle;
-    const profilePicSrc = chatPartner.profilePic ? 'https://storage.googleapis.com/drop-profile-pictures-bucket/profilePic-' + chatPartner.userId : DefaultProfilePic;
+    const profilePicSrc = chatPartner.profilePic ? `${process.env.REACT_APP_PROFILE_PICTURES_SOURCE_URL}` + chatPartner.userId : DefaultProfilePic;
 
     const active = this.props.chatId === this.props.currentChatId;
     let styleClasses = [classes.ChatPrev];
@@ -85,22 +85,21 @@ class ChatPrev extends Component {
 const mapStateToProps = state => {
   return {
     darkmode: state.ui.darkmode,
+
     currentChatId: state.chat.currentChatId,
     unreadMessages: state.chat.unreadMessages, 
     seenUpdatesChats: state.chat.seenUpdatesChats,
     chats: state.chat.chats,
     allUsers: state.chat.allUsers,
-    notifiaction: state.user.notifications,
-    token: state.user.token,
-    userId: state.user.userId,
-
-
     friends: state.chat.friends,
     acceptingFriendRequests: state.chat.acceptingFriendRequests,
     sendingFriendRequests: state.chat.sendingFriendRequests,
     sentFriendRequests: state.chat.sentFriendRequests, 
     receivedFriendRequests: state.chat.receivedFriendRequests,
-    acceptingFriendRequests: state.chat.acceptingFriendRequests, 
+
+    notifiaction: state.user.notifications,
+    token: state.user.token,
+    userId: state.user.userId,
 
   }
 }

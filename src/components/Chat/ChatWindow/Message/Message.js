@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from 'axios';
 
 import classes from "./Message.module.css";
 
@@ -20,7 +19,7 @@ class Message extends Component {
         return ( 
           <div>
             {this.props.title ? <p className={classes.Text}>{this.props.title}</p> : null }
-            <img className={classes.Drop} src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`} key='drop'/>
+            <img className={classes.Drop} src={`https://storage.googleapis.com/drop-meme-bucket/meme-${this.props.dropId}`} key='drop' alt='could not load meme. Refresh motherfucker.'/>
           </div>
         )
       default: return null
