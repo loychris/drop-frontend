@@ -52,6 +52,7 @@ class ChatPrev extends Component {
       ? classes.TrippleDigit : unreadMessages.length > 9 
         ? classes.DoubleDigit : classes.SingleDigit
     const chatPartner = this.props.members.filter(m => m.userId !== this.props.userId)[0];
+    if(!chatPartner) console.log(this.props.members, this.props.userId);
     const name = chatPartner.name;
     const preview = this.props.messages.length > 0 ? this.props.messages[this.props.messages.length-1].text : '@' + chatPartner.handle;
     const profilePicSrc = chatPartner.profilePic ? `${process.env.REACT_APP_PROFILE_PICTURES_SOURCE_URL}` + chatPartner.userId : DefaultProfilePic;

@@ -874,19 +874,20 @@ const fetchNewChatFailed = (state, action) => {
 //------ OPEN CHRIS CHAT -----------------------------------------------------------
 
 const openChrisChat = (state, action) => {
+    console.log('CHRIS CHAT ID', `dummy${process.env.REACT_APP_CHRIS_ID}`)
     const existingChrisChat = state.chats
-        .find(chat => chat.chatId === 'dummy6022396f28d69d22509a5d46' 
-           || chat.members.some(m => m.userId === '6022396f28d69d22509a5d46')); 
-    const currentChatIdNew = existingChrisChat ? existingChrisChat.chatId : 'dummy6022396f28d69d22509a5d46';
+        .find(chat => chat.chatId === `dummy${process.env.REACT_APP_CHRIS_ID}` 
+           || chat.members.some(m => m.userId === `${process.env.REACT_APP_CHRIS_ID}`)); 
+    const currentChatIdNew = existingChrisChat ? existingChrisChat.chatId : `dummy${process.env.REACT_APP_CHRIS_ID}`;
     const chatsNew = existingChrisChat ? state.chats : [...state.chats, {
         group: false,
         name: 'Chris Loy',
         messages: [],
-        chatId: 'dummy6022396f28d69d22509a5d46',
+        chatId: `dummy${process.env.REACT_APP_CHRIS_ID}`,
         members: [action.self, {
             name: 'Chris Loy',
             handle: 'chris',
-            userId: '6022396f28d69d22509a5d46', 
+            userId: `${process.env.REACT_APP_CHRIS_ID}`, 
             profilePic: true
         }],
         lastInteraction: Date.now(),
