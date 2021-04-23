@@ -54,12 +54,18 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.OPEN_MENU: 
             return {
                 ...state,
-                menuOpen: true
+                menu: {
+                    ...state.menu,
+                    open: true
+                }
             }
         case actionTypes.CLOSE_MENU: 
             return {
                 ...state,
-                menuOpen: false
+                menu: {
+                    ...state.menu,
+                    open: false
+                }
             }
         case actionTypes.OPEN_NEW_CHAT_MODAL: 
             return {
@@ -76,24 +82,12 @@ const reducer = (state = initialState, action ) => {
                 ...state, 
                 windowWidth: action.width
             }
-        case actionTypes.OPEN_SIGNUP: 
-            return {
-                ...state,
-                loginOrSignup: 'signup',
-                menuOpen: true, 
-            }
-        case actionTypes.OPEN_LOGIN: 
-            return {
-                ...state, 
-                loginOrSignup: 'login',
-                menuOpen: true, 
-            }
         case actionTypes.SET_UI_STATE_ON_LOGIN: 
             return {
                 ...state, 
                 menu: {
                     open: true,
-                    menuStack: ['LOGOUT'],
+                    menuStack: ['USER_MENU'],
                     currentDepth: 0,
                 },
             }

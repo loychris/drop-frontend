@@ -2,37 +2,13 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
 
-import LogoutIcon from './logout.svg';
 
 import classes from "./Menu.module.css";
 import AuthForm from "./AuthForm/AuthForm";
-import MenuItem from "./MenuItem/MenuItem";
-import MenuScreen from "../MenuScreen/MenuScreen";
+import MenuScreen from './MenuScreen/MenuScreen';
 
 
 class Menu extends Component { 
-
-  componentDidMount = () => {
-    console.log(this.props.token);
-    if(this.props.token) this.setState({menuStack: ['LOGOUT']})
-  }
-
-  goBack = () => {
-    this.setState({
-      menuStack: this.props.menuStack.slice(0, this.props.menuStack.length-1),
-      currentDepth: this.props.currentDepth-1
-    });
-  }
-
-  addToMenuStack = (next) => {
-    this.setState({
-      menuStack: [...this.props.menuStack, next]
-    })
-  }
-
-  getMenuScreen = () => {
-    return <MenuScreen/>
-  }
 
 
   getMenuScreens = () => {
@@ -67,7 +43,6 @@ class Menu extends Component {
         </div>
         <hr/>
         <div className={classes.MenuItems}>
-          {/* {this.props.token ? null : <AuthForm/> } */}
           { this.getMenuScreens() }
         </div>
       </div>
@@ -82,7 +57,6 @@ const mapStateToProps = state => {
     darkmode: state.ui.darkmode,
     currentDepth: state.ui.menu.currentDepth, 
 
-    userId: state.user.userId,
     name: state.user.name, 
     handle: state.user.handle,
     token: state.user.token,
@@ -92,9 +66,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGoDark: () => dispatch(actions.goDark()),
-    onGoLight: () => dispatch(actions.goLight()),
-    onLogout: () => dispatch(actions.logout()),
   }
 }
 

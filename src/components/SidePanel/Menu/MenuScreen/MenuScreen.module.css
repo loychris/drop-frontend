@@ -26,3 +26,18 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.LogoutContainer {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+.LogoutIcon {
+    height: 15px;
+    margin-right: 10px;  
+}
+
+.LogoutText{
+    margin: 0;
+}

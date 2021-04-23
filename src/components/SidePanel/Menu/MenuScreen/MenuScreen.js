@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import classes from './MenuScreen.module.css';
 
 import { ReactComponent as ArrowBack } from './arrow_back.svg'
-import DropButton from '../../UI/DropButton/DropButton';
-import MenuItem from '../Menu/MenuItem/MenuItem';
+import DropButton from '../../../UI/DropButton/DropButton';
+import MenuItem from './MenuItem/MenuItem';
 
-import * as actions from '../../../store/actions/index';
+import * as actions from '../../../../store/actions/index';
+import LogoutIcon from './logout.svg';
+import Loader from 'react-loader-spinner';
 
 
 
@@ -231,7 +233,7 @@ class MenuScreen extends Component {
     getArrowBack = () => {
           return (
             <div className={classes.BackButton}>
-                <ArrowBack className={classes.BackArrow} onClick={this.props.goBack}/>
+                <ArrowBack className={classes.ArrowBack} onClick={this.props.goBack}/>
             </div>
           )
       }
@@ -261,7 +263,14 @@ class MenuScreen extends Component {
                                 onBlur={this.onLeavePasswordFocus}
                             />
                             <DropButton clicked={() => this.props.onLogin(this.state.email.value, this.state.password.value)}>
-                                <h3>Login</h3>
+                                { this.props.loading 
+                                ? <Loader 
+                                    className={classes.Spinner} 
+                                    type="ThreeDots" 
+                                    color="#FFFFFF" 
+                                    height={30} 
+                                    width={30}/> 
+                                : <h3>Login</h3> }
                             </DropButton>
                         </MenuItem>
                         <MenuItem invalid={false}>
@@ -313,9 +322,12 @@ class MenuScreen extends Component {
                     />
                 </MenuItem>
             )
-            case 'LOGOUT': return (
+            case 'USER_MENU': return (
                 <MenuItem>
-                    
+                    <div className={classes.LogoutContainer} onClick={this.props.onLogout}>
+                    <img className={classes.LogoutIcon} src={LogoutIcon} alt='logoutIcon'/>
+                    <p className={classes.LogoutText}>logout</p>
+                    </div>
                 </MenuItem>
             )
             default: return null
@@ -325,7 +337,7 @@ class MenuScreen extends Component {
     render() {
         return(
             <div className={`${classes.MenuScreen} ${this.props.pos === -1 ? classes.left : this.props.pos === 1 ? classes.right : null}`}>
-                {this.props.screen !== 'AUTH' ? this.getArrowBack() : null}
+                {this.props.currentDepth !== 0 ? this.getArrowBack() : null}
                 {this.getContent()}
             </div>
         )
@@ -337,7 +349,9 @@ const mapStateToProps = state => {
     return {
         loading: state.user.loading,
         authReason: state.user.authReason, 
-        loginOrSignup: state.ui.loginOrSignup
+
+        loginOrSignup: state.ui.loginOrSignup,
+        currentDepth: state.ui.menu.currentDepth, 
     }
 }
 
@@ -346,6 +360,7 @@ const mapDispatchToProps = dispatch => {
         openLogin: () => dispatch(actions.openLogin()),
         openSignup: () => dispatch(actions.openSignup()), 
         onLogin: (email, password) => dispatch(actions.login(email, password)),
+        onLogout: () => dispatch(actions.logout()), 
         onSignup: (name, email, handle, password, file, src, newsletter) => dispatch(actions.signup(name, email, handle, password, file, src, newsletter)),
     }
 }

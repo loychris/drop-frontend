@@ -4,7 +4,8 @@ import * as actionTypes from './actionTypes';
 import { setDropsNotLoaded } from './streamActions';
 import { 
     closeMenu, 
-    setUIStateonLogin 
+    setUIStateonLogin,
+    setUIStateonLogout
 } from './UIActions';
 import { 
     setChatStateOnLogin,
@@ -55,6 +56,7 @@ export const login = (identifier, password) => {
             localStorage.setItem('user', JSON.stringify(res.data));
             dispatch(loginSuccess(res.data));
             dispatch(setDropsNotLoaded());
+            dispatch(setUIStateonLogin())
             dispatch(setChatStateOnLogin(res.data))
             dispatch(closeMenu());
         }).catch(err => {
@@ -116,6 +118,7 @@ export const signup = (name, email, handle, password, profilePic, src, newslette
             localStorage.setItem('user', JSON.stringify(res.data));                
             dispatch(signupSuccess(res.data, src));
             dispatch(setDropsNotLoaded());
+            dispatch(setUIStateonLogin())
             dispatch(setChatStateOnLogin(res.data))
             dispatch(closeMenu());
         }).catch(err => {
@@ -151,10 +154,12 @@ export const authCheckState = () => {
     return dispatch => {
         const token = localStorage.getItem('token');
         if (!token) {
+            dispatch(setUIStateonLogout())
             dispatch(logout());
         } else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             if (expirationDate <= new Date()) {
+                dispatch(setUIStateonLogout())
                 dispatch(logout());
             } else {
                 const user = JSON.parse(localStorage.getItem('user'));

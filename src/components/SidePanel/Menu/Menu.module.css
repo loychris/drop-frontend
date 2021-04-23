@@ -164,21 +164,6 @@
     height: 18px;
 }
 
-.LogoutContainer {
-    display: flex;
-    flex-direction: row;
-    cursor: pointer;
-}
-
-.LogoutIcon {
-    height: 15px;
-    margin-right: 10px;  
-}
-
-.LogoutText{
-    margin: 0;
-}
-
 .BackButton {
     position: absolute;
     left: 20px; 

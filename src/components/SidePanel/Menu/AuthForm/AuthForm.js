@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import MenuItem from '../MenuItem/MenuItem';
+import MenuItem from '../MenuScreen/MenuItem/MenuItem';
 import Loader from 'react-loader-spinner';
 import DropButton from '../../../UI/DropButton/DropButton';
 
