@@ -15,7 +15,6 @@ import ChatReducer from './store/reducers/ChatReducer';
 import UserReducer from './store/reducers/UserReducer';
 import UIReducer from './store/reducers/UIReducer'
 
-console.log(process.env.REACT_APP_BACKEND_URL);
 axios.defaults.baseURL = `${process.env.REACT_APP_BACKEND_URL}`;
 
 const appReducer = combineReducers({
@@ -27,7 +26,6 @@ const appReducer = combineReducers({
 
 const rootReducer = (state, action) => {
     if(action.type === actions.LOGOUT){
-        console.log('logging out in index.js');
         state = undefined;
     }
     return appReducer(state, action);

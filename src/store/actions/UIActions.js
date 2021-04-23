@@ -98,3 +98,22 @@ export const setUIStateonLogout = () => {
         type: actionTypes.SET_UI_STATE_ON_LOGOUT
     }
 }
+
+export const addToMenuStack = (next) => {
+    return {
+        type: actionTypes.ADD_TO_MENU_STACK, 
+        next
+    }
+}
+
+export const popFromMenuStack = () => {
+    return {
+        type: actionTypes.POP_FROM_MENU_STACK
+    }
+}
+
+export const moveRight = () => {
+    return {
+        type: actionTypes.MOVE_MENU_RIGHT
+    }
+}

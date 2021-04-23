@@ -8,6 +8,7 @@ const initialState = {
         open: true,
         menuStack: ['AUTH'],
         currentDepth: 0,
+        shouldMoveRight: false,
     },
     newChatModalOpen: false,
     windowWidth: 1080,
@@ -98,6 +99,34 @@ const reducer = (state = initialState, action ) => {
                     open: true,
                     menuStack: ['AUTH'],
                     currentDepth: 0,
+                }
+            }
+        case actionTypes.ADD_TO_MENU_STACK: 
+            return {
+                ...state,
+                menu: {
+                    ...state.menu,
+                    shouldMoveRight: true, 
+                    menuStack: [...state.menu.menuStack, action.next]
+                    
+                }
+            }
+        case actionTypes.POP_FROM_MENU_STACK: 
+            return {
+                ...state, 
+                menu: {
+                    ...state.menu,
+                    currentDepth: state.menu.currentDepth-1,
+                    menuStack: state.menu.menuStack.slice(0, state.menu.menuStack.length-1)
+                }
+            }
+        case actionTypes.MOVE_MENU_RIGHT: 
+            return {
+                ...state, 
+                menu: {
+                    ...state.menu,
+                    shouldMoveRight: false, 
+                    currentDepth: state.menu.currentDepth + 1 
                 }
             }
         default: return state;

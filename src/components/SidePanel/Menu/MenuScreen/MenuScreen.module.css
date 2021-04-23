@@ -6,11 +6,11 @@
 }
 
 .left {
-    transform: translate(-50%, 0);
+    transform: translate(-110%, 0);
 }
 
 .right {
-    transform: translate(50%, 0);
+    transform: translate(110%, 0);
 }
 
 .TextInput {
@@ -40,4 +40,42 @@
 
 .LogoutText{
     margin: 0;
+}
+
+.CheckboxText {
+    cursor: pointer;
+    margin: 0;
+}
+
+.CheckboxContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.Dropzone {
+    height: 100px;
+    width: 100px;
+    background-color: lightgrey;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px; 
+    cursor: pointer;
+    position: relative; 
+}
+
+.ProfilePicPlaceholder, .ProfilePic  {
+    position: absolute;
+    left: 50%; 
+    top: 50%; 
+    height: 80px; 
+    width: 80px; 
+    transform: translate(-50%, -50%);
+    transition: 0.1s ease;
+}
+
+.ProfilePicPlaceholder:hover {
+    height: 90px; 
+    width: 90px;
 }

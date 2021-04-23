@@ -8,8 +8,10 @@ import DropButton from '../../../UI/DropButton/DropButton';
 import MenuItem from './MenuItem/MenuItem';
 
 import * as actions from '../../../../store/actions/index';
+import ProfilePicPlaceholder from './ProfilePicPlaceholder.svg'; 
 import LogoutIcon from './logout.svg';
 import Loader from 'react-loader-spinner';
+import Dropzone from 'react-dropzone';
 
 
 
@@ -233,7 +235,7 @@ class MenuScreen extends Component {
     getArrowBack = () => {
           return (
             <div className={classes.BackButton}>
-                <ArrowBack className={classes.ArrowBack} onClick={this.props.goBack}/>
+                <ArrowBack className={classes.ArrowBack} onClick={this.props.onPopFromMenuStack}/>
             </div>
           )
       }
@@ -247,7 +249,7 @@ class MenuScreen extends Component {
                             <input
                                 className={classes.TextInput}
                                 element="input"
-                                id="email"
+                                id="emailLogin"
                                 type="email"
                                 placeholder='email'
                                 value={this.state.email.value}
@@ -277,9 +279,9 @@ class MenuScreen extends Component {
                             <input
                                 className={classes.TextInput}
                                 element="input"
-                                id="email"
+                                id="emailSignup"
                                 type="email"
-                                placeholder="Elon@musk.com"
+                                placeholder='email'
                                 value={this.state.email.value}
                                 onChange={this.onInputEmail}
                             />
@@ -288,20 +290,38 @@ class MenuScreen extends Component {
                                 element="input"
                                 type="password"
                                 placeholder='password'
-                                value={null}
-                                onChange={null}
-                                onBlur={null}
+                                value={this.state.password.value}
+                                onChange={this.onInputPassword}
+                                onBlur={this.onLeavePasswordFocus}
                             />
                             <input 
                                 className={classes.TextInput}
                                 id="name" 
-                                placeholder="Full Name"
+                                placeholder="Your Name"
                                 type="text"
-                                value={null}
-                                onChange={null}
-                                onBlur={null}
+                                value={this.state.name.value}
+                                onChange={this.onInputName}
+                                onBlur={this.onLeaveNameFocus}
                             />
-                            <DropButton clicked={() => this.props.addToMenuStack('CHOOSE_HANDLE')}>
+                            <div className={classes.CheckboxContainer}>
+                                <input 
+                                    type='checkbox' 
+                                    onChange={this.onChangeUserconditions} 
+                                    checked={this.state.userConditions.value}/>
+                                <p onClick={this.onChangeUserconditions} className={classes.CheckboxText}>
+                                    accept user conditions & shit
+                                </p>
+                            </div>
+                            <div className={classes.CheckboxContainer}>
+                                <input 
+                                    type='checkbox' 
+                                    onChange={this.onChangeNewsletter} 
+                                    checked={this.state.newsletter}/>
+                                <p onClick={this.onChangeNewsletter} className={classes.CheckboxText}>
+                                    Receive an email for every big new feature
+                                </p>
+                            </div>
+                            <DropButton clicked={() => this.props.onAddToMenuStack('CHOOSE_HANDLE')}>
                                 <h3>Create Account</h3>
                             </DropButton>
                     </MenuItem>
@@ -316,10 +336,42 @@ class MenuScreen extends Component {
                         id="handle"
                         type="text"
                         placeholder="@elon"
-                        value={'@' + 'chris'}
-                        onChange={null}
-                        onBlur={null}
+                        value={'@' + this.state.handle.value}
+                        onChange={this.onInputHandle}
+                        onBlur={this.onLeaveHandleFocus}
                     />
+                        <DropButton clicked={() => this.props.onAddToMenuStack('CHOOSE_PROFILE_PIC')}>
+                            <h3>Choose {this.state.handle.value}</h3>
+                        </DropButton>
+                </MenuItem>
+            )
+            case 'CHOOSE_PROFILE_PIC': return (
+                <MenuItem>
+                    <h4>Profile Picture</h4>
+                    <input type='checkbox' onChange={this.onRemoveProfilePic} checked={this.state.profilePic.tooUgly}/> I'm too ugly<br/>
+                    <input type='checkbox' onChange={() => console.log('Upload Pic!')} checked={!this.state.profilePic.tooUgly}/> Upload picture
+                    <Dropzone onDrop={this.onUploadprofilePic}>
+                        {({getRootProps, getInputProps}) => (
+                            <section>
+                            <div {...getRootProps()}>
+                                <input {...getInputProps()} />
+                                    <div className={classes.Dropzone}>
+                                    { 
+                                        this.state.profilePic.src 
+                                        ? <img 
+                                            className={classes.ProfilePic}
+                                            src={this.state.profilePic.src} 
+                                            alt='profilePic'/> 
+                                        : <img 
+                                            className={classes.ProfilePicPlaceholder} 
+                                            src={ProfilePicPlaceholder} 
+                                            alt='drag & drop profile Pic here'/>
+                                    }
+                                    </div> 
+                                </div>
+                            </section>
+                        )}
+                    </Dropzone>
                 </MenuItem>
             )
             case 'USER_MENU': return (
@@ -357,6 +409,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onPopFromMenuStack: () => dispatch(actions.popFromMenuStack()), 
+        onAddToMenuStack: (next) => dispatch(actions.addToMenuStack(next)), 
         openLogin: () => dispatch(actions.openLogin()),
         openSignup: () => dispatch(actions.openSignup()), 
         onLogin: (email, password) => dispatch(actions.login(email, password)),

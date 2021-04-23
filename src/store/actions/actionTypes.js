@@ -28,6 +28,10 @@
     export const SET_UI_STATE_ON_LOGIN = 'SET_UI_STATE_ON_LOGIN';
     export const SET_UI_STATE_ON_LOGOUT = 'SET_UI_STATE_ON_LOGOUT';
 
+    export const ADD_TO_MENU_STACK = 'ADD_TO_MENU_STACK';
+    export const POP_FROM_MENU_STACK = 'POP_FROM_MENU_STACK'; 
+    export const MOVE_MENU_RIGHT = 'MOVE_MENU_RIGHT';
+
 // USER
 
     export const SET_ANONYMOUS_ID = 'SET_ANONYMOUS_ID'; 

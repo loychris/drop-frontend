@@ -10,11 +10,17 @@ import MenuScreen from './MenuScreen/MenuScreen';
 
 class Menu extends Component { 
 
+  componentDidUpdate = () => {
+    if(this.props.shouldMoveRight) {
+      this.props.onMoveRight()
+      console.log('MOVE RIGHT!')
+    }; 
+  }
+
 
   getMenuScreens = () => {
     return this.props.menuStack.map((s,i) => {
       const pos = this.props.menuStack[this.props.currentDepth] === s ? 0 : i < this.props.currentDepth ? -1 : 1
-      console.log(s, pos)
       return <MenuScreen key={s} screen={s} pos={pos} goBack={this.goBack} addToMenuStack={this.addToMenuStack}/>
     })
   }
@@ -56,16 +62,17 @@ const mapStateToProps = state => {
     menuStack: state.ui.menu.menuStack, 
     darkmode: state.ui.darkmode,
     currentDepth: state.ui.menu.currentDepth, 
+    shouldMoveRight: state.ui.menu.shouldMoveRight, 
 
     name: state.user.name, 
     handle: state.user.handle,
     token: state.user.token,
-
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    onMoveRight: () => dispatch(actions.moveRight()),
   }
 }
 

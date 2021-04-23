@@ -11,6 +11,9 @@ export {
     setWindowWidth,
     openSignup,
     openLogin,
+    addToMenuStack,
+    popFromMenuStack,
+    moveRight,
 } from './UIActions';
 
 export {
