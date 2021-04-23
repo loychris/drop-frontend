@@ -86,3 +86,15 @@ export const openLogin = () => {
         type: actionTypes.OPEN_LOGIN
     }
 }
+
+export const setUIStateonLogin = () => {
+    return {
+        type: actionTypes.SET_UI_STATE_ON_LOGIN
+    }
+}
+
+export const setUIStateonLogout = () => {
+    return {
+        type: actionTypes.SET_UI_STATE_ON_LOGOUT
+    }
+}

@@ -25,6 +25,9 @@
     export const OPEN_SIGNUP = 'OPEN_SIGNUP';
     export const OPEN_LOGIN = 'OPEN_LOGIN';
 
+    export const SET_UI_STATE_ON_LOGIN = 'SET_UI_STATE_ON_LOGIN';
+    export const SET_UI_STATE_ON_LOGOUT = 'SET_UI_STATE_ON_LOGOUT';
+
 // USER
 
     export const SET_ANONYMOUS_ID = 'SET_ANONYMOUS_ID'; 

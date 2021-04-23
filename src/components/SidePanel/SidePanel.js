@@ -2,15 +2,18 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import * as actions from '../../store/actions/index';
-import classes from "./SideMenu.module.css";
+import classes from "./SidePanel.module.css";
 import DefaultProfilePic from '../../media/DefaultProfilePic.png';
 
 import Menu from "./Menu/Menu";
 
-class SideMenu extends Component {
 
-    render() {
-        const menu = this.props.menuOpen ? <Menu/> : null;
+
+class SidePanel extends Component {
+
+
+
+    getProfilePic = () => {
         let profilePicSrc = DefaultProfilePic;
         const token = localStorage.getItem('token');
         if(this.props.profilePicSrc){
@@ -20,16 +23,24 @@ class SideMenu extends Component {
                 profilePicSrc = `${process.env.REACT_APP_PROFILE_PICTURES_SOURCE_URL}` + this.props.userId; 
             }
         }
+        return(
+            <img 
+                alt=''
+                className={`${classes.ProfilePic} ${this.props.menuOpen ? classes.MenuOpen : ''}`} 
+                src={profilePicSrc}/>
+        )
+    }
+
+    render() {
+        const menu = this.props.menuOpen ? <Menu/> : null;
+
         return (
             <div className={classes.Container}>
                 { this.props.menuOpen ? <div className={classes.Overlay} onClick={this.props.onCloseMenu}></div> : null }
                 <div 
                     onClick={this.props.menuOpen ? this.props.onCloseMenu : this.props.onOpenMenu} 
                     className={classes.Assistant}>
-                <img 
-                    alt=''
-                    className={`${classes.ProfilePic} ${this.props.menuOpen ? classes.MenuOpen : ''}`} 
-                    src={profilePicSrc}/>
+                    { this.getProfilePic() }
                 </div>
                 { menu }
             </div>
@@ -39,7 +50,7 @@ class SideMenu extends Component {
 
 const mapStateToProps = state => {
     return {
-        menuOpen: state.ui.menuOpen,
+        menuOpen: state.ui.menu.open,
         token: state.user.token,
         userId: state.user.userId,
         hasProfilePic: state.user.hasProfilePic,
@@ -54,4 +65,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(SidePanel);

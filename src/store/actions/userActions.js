@@ -2,7 +2,10 @@ import axios from 'axios';
 
 import * as actionTypes from './actionTypes';
 import { setDropsNotLoaded } from './streamActions';
-import { closeMenu } from './UIActions';
+import { 
+    closeMenu, 
+    setUIStateonLogin 
+} from './UIActions';
 import { 
     setChatStateOnLogin,
     checkAndAddNewMessages,
@@ -158,6 +161,7 @@ export const authCheckState = () => {
                 dispatch(loginSuccess(user));
                 // dispatch(setDropsNotLoaded());
                 dispatch(setChatStateOnLogin(user));
+                dispatch(setUIStateonLogin())
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
                 const url = '/api/users/refresh';
                 const headers =  { headers: {authorization: 'Bearer ' + token }};

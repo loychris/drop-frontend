@@ -6,6 +6,7 @@
     bottom: 0;
     padding: 20px;
     padding-bottom: 100px;
+    overflow: hidden;
 }
 
 .NameArea{
@@ -176,4 +177,10 @@
 
 .LogoutText{
     margin: 0;
+}
+
+.BackButton {
+    position: absolute;
+    left: 20px; 
+    top: 110px; 
 }

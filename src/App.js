@@ -13,7 +13,7 @@ import taktaktak from './media/taktaktak.jpg';
 
 import * as actions from './store/actions/index';
 import Footer from "./components/Footer/Footer";
-import SideMenu from "./components/SideMenu/SideMenu";
+import SidePanel from "./components/SidePanel/SidePanel";
 import Feedback from "./components/Feedback/Feedback";
 
 class App extends Component {
@@ -91,7 +91,7 @@ class App extends Component {
           {this.props.newChatModalOpen ? <NewChatModal/> : null}
           {this.props.dropModalOpen ? <DropModal/> : null}
           <Navigation/>
-          <SideMenu/> 
+          <SidePanel/> 
           <Footer/>
           <Feedback/>
         </div>

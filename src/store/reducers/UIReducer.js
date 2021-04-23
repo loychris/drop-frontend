@@ -4,7 +4,11 @@ const initialState = {
     darkmode: true,
     dropModalOpen: false,
     currentTab: 'stream',
-    menuOpen: false,
+    menu: {
+        open: true,
+        menuStack: ['AUTH'],
+        currentDepth: 0,
+    },
     newChatModalOpen: false,
     windowWidth: 1080,
     loginOrSignup: 'login',
@@ -83,6 +87,24 @@ const reducer = (state = initialState, action ) => {
                 ...state, 
                 loginOrSignup: 'login',
                 menuOpen: true, 
+            }
+        case actionTypes.SET_UI_STATE_ON_LOGIN: 
+            return {
+                ...state, 
+                menu: {
+                    open: true,
+                    menuStack: ['LOGOUT'],
+                    currentDepth: 0,
+                },
+            }
+        case actionTypes.SET_UI_STATE_ON_LOGIN: 
+            return {
+                ...state, 
+                menu: {
+                    open: true,
+                    menuStack: ['AUTH'],
+                    currentDepth: 0,
+                }
             }
         default: return state;
     }
