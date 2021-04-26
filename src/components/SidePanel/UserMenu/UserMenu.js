@@ -1,14 +1,24 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
+import Dropzone from 'react-dropzone';
 import * as actions from '../../../store/actions/index';
 
+import MenuScreen from '../MenuScreen/MenuScreen';
+import DropButton from '../../UI/DropButton/DropButton'; 
+import MenuItem from "../MenuItem/MenuItem";
+import Loader from "react-loader-spinner";
 
-import classes from "./Menu.module.css";
-import AuthForm from "./AuthForm/AuthForm";
-import MenuScreen from './MenuScreen/MenuScreen';
+import classes from "./UserMenu.module.css";
+import LogoutIcon from './logout.svg';
+import ProfilePicPlaceholder from './ProfilePicPlaceholder.svg'; 
 
 
-class Menu extends Component { 
+
+class AuthMenu extends Component { 
+
+  state = {
+
+}
 
   componentDidUpdate = () => {
     if(this.props.shouldMoveRight) {
@@ -19,9 +29,32 @@ class Menu extends Component {
 
 
   getMenuScreens = () => {
+
+
     return this.props.menuStack.map((s,i) => {
-      const pos = this.props.menuStack[this.props.currentDepth] === s ? 0 : i < this.props.currentDepth ? -1 : 1
-      return <MenuScreen key={s} screen={s} pos={pos} goBack={this.goBack} addToMenuStack={this.addToMenuStack}/>
+        console.log(classes.LogoutContainer);
+        console.log('########################')
+        const pos = this.props.menuStack[this.props.currentDepth] === s ? 0 : i < this.props.currentDepth ? -1 : 1
+        let content = []; 
+        switch(s){
+            case 'USER_MENU': 
+                content.push(
+                    <MenuItem  key={s}>
+                      <h1>fjwefkjwen</h1>
+                        <div className={classes.LogoutContainer} onClick={this.props.onLogout}>
+                          <img className={classes.LogoutIcon} src={LogoutIcon} alt='logoutIcon'/>
+                          <p className={classes.LogoutText}>logout</p>
+                        </div>
+                    </MenuItem>
+                );
+                break; 
+            default: console.log('INVALID ELEMENT ON MENU STACK');
+        }
+        return (
+            <MenuScreen screen={s} pos={pos} goBack={this.goBack} addToMenuStack={this.addToMenuStack}  key={s}>
+                {content}
+            </MenuScreen>
+        )
     })
   }
 
@@ -76,5 +109,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(UserMenu);
 

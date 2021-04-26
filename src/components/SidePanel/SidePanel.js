@@ -5,7 +5,7 @@ import * as actions from '../../store/actions/index';
 import classes from "./SidePanel.module.css";
 import DefaultProfilePic from '../../media/DefaultProfilePic.png';
 
-import Menu from "./Menu/Menu";
+import AuthMenu from "./AuthMenu/AuthMenu";
 
 
 
@@ -32,7 +32,7 @@ class SidePanel extends Component {
     }
 
     render() {
-        const menu = this.props.menuOpen ? <Menu/> : null;
+        const menu = this.props.menuOpen ? <AuthMenu/> : null;
 
         return (
             <div className={classes.Container}>

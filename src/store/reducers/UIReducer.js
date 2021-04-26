@@ -102,6 +102,8 @@ const reducer = (state = initialState, action ) => {
                 }
             }
         case actionTypes.ADD_TO_MENU_STACK: 
+            console.log('Before Change');
+            console.log(state.menu)
             return {
                 ...state,
                 menu: {
