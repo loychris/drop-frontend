@@ -62,7 +62,8 @@ const loginSuccess = (state, action) => {
     return { 
         ...state, 
         loading: false, 
-        error: null, 
+        loginError: null, 
+        signupError: null, 
         hasProfilePic: action.profilePic,
         name: action.name,
         handle: action.handle,
@@ -79,7 +80,7 @@ const loginFail = (state, action) => {
     return { 
         ...state, 
         loading: false, 
-        error: action.error 
+        loginError: action.error 
     }
 }
 
@@ -97,7 +98,7 @@ const signupFail = (state, action) => {
     return { 
         ...state, 
         loading: false, 
-        error: action.error 
+        signupError: action.error 
     }
 }
 

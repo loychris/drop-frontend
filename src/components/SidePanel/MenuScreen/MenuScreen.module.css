@@ -5,6 +5,11 @@
     transition: 300ms ease;
 }
 
+.MenuScreen h3 {
+    margin-top: 0; 
+    margin-bottom: 10; 
+}
+
 .left {
     transform: translate(-110%, 0);
 }

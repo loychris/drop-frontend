@@ -39,7 +39,6 @@ class ChatPreviews extends Component {
         chats = this.props.chats
         .sort((chatA, chatB) => chatB.lastInteraction - chatA.lastInteraction)
         .map(chat => {
-            console.log(chat.members.length);
             return (
               <ChatPrev 
                 {...chat}

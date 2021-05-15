@@ -55,7 +55,6 @@ class App extends Component {
 
   componentDidUpdate(){
     if(this.props.anonymousId === ''){
-      console.log('anonymousId empty. Setting new one ');
       let anonymousId = localStorage.getItem('anonymousId');
       if(!anonymousId) {
         localStorage.setItem('anonymousId', 'anonymous'+Date.now());

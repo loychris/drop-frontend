@@ -11,14 +11,24 @@ import MenuItem from "../MenuItem/MenuItem";
 import Loader from "react-loader-spinner";
 
 import classes from "./AuthMenu.module.css";
-import LogoutIcon from './logout.svg';
 import ProfilePicPlaceholder from './ProfilePicPlaceholder.svg'; 
 
+const UNACCEPTABLE_PASSWORDS = ['12345', '123456', '1234567', '12345678', '123456789', '1234567890']
 
 
 class AuthMenu extends Component { 
 
   state = {
+    loginEmail: {
+        value: '',
+        touched: false,
+        valid: false,
+    },
+    loginPassword: {
+        value: '',
+        touched: false,
+        valid: false,
+    },
     name: {
         value: '',
         touched: false,
@@ -28,6 +38,7 @@ class AuthMenu extends Component {
         value: '',
         touched: false,
         valid: false,
+        errorMessage: 'Min 5 Characters'
     },
     secondPassword: {
         value: '', 
@@ -54,7 +65,52 @@ class AuthMenu extends Component {
         touched: false,
     }, 
     newsletter: true,
-    loginError: null,
+}
+
+//--------- LOGIN EMAIL --------------------------------------------------------
+
+onInputLoginEmail = (event) => {
+    const email = event.target.value;
+    const valid = email ? /^\S+@\S+\.\S+$/.test(email) : false;
+    this.setState({ 
+        loginEmail: {
+            ...this.state.loginEmail,
+            value: event.target.value,
+            errorMessage: valid ? null : 'Please enter valid email.',
+            valid: valid
+        }
+    })  
+}
+
+onLeaveLoginEmailFocus = () => {
+    this.setState({
+        loginEmail: {
+            ...this.state.loginEmail, 
+            touched: true
+        }
+    })
+}
+
+//--------- LOGIN PASSWORD -----------------------------------------------------
+
+
+onInputLoginPassword = (event) => {
+    const password = event.target.value;
+    this.setState({ 
+        loginPassword: {
+            ...this.state.loginPassword, 
+            value: password
+        }
+    })
+}
+
+onLeaveLoginPasswordFocus = () => {
+    this.setState({
+        loginPassword: {
+            ...this.state.loginPassword,
+            touched: true
+        }
+    })
 }
 
 //--------- NAME ---------------------------------------------------------
@@ -108,6 +164,8 @@ onRemoveProfilePic = (event) => {
     })
 }
 
+
+
 //--------- EMAIL --------------------------------------------------------
 
 onInputEmail = (event) => {
@@ -116,7 +174,6 @@ onInputEmail = (event) => {
     this.setState({ 
         email: {
             value: event.target.value,
-            touched: true,
             errorMessage: valid ? null : 'Please enter valid email.',
             valid: valid
         }
@@ -163,8 +220,17 @@ onLeaveHandleFocus = () => {
 
 onInputPassword = (event) => {
     const password = event.target.value;
-    const valid = password && password !== '123456' ? password.length >= 5 : false
-    const errorMessage = valid ? null : password === '123456' ? 'Really? Can u please chose another password?' : 'Min 5 characters.';
+    let valid, errorMessage;
+    if(!password || password.length < 5){
+        valid = false;
+        errorMessage = 'Min 5 Characters';
+    } else if(UNACCEPTABLE_PASSWORDS.includes(password)){
+        valid = false;
+        errorMessage = 'Really? Can u please chose another password?';
+    } else if(password.length > 30){
+        valid = false;
+        errorMessage = 'Max 30 characters'
+    }
     this.setState({ 
         password: {
             ...this.state.password,
@@ -174,6 +240,7 @@ onInputPassword = (event) => {
         }
     })
 }
+
 
 onLeavePasswordFocus = () => {
     this.setState({
@@ -204,7 +271,7 @@ onInputSecondPassword = (event) => {
 onLeaveSecondPasswordFocus = () => {
     this.setState({
         secondPassword: {
-            ...this.state.password,
+            ...this.state.secondPassword,
             touched: true
         }
     })
@@ -222,7 +289,6 @@ onChangeUserconditions = (event) => {
         }
     })
 }
-
 
 onChangeNewsletter = (event) => {
     this.setState(prevState => {
@@ -259,95 +325,178 @@ onChangeNewsletter = (event) => {
     );
   }
 
+  login = (event) => {
+    event.preventDefault();
+    this.props.onLogin(this.state.loginEmail.value, this.state.loginPassword.value)
+  }
+
+  signup = (event) => {
+    event.preventDefault();
+    if(this.state.email.valid && this.state.password.valid && this.state.secondPassword.valid && this.state.name.valid){
+        this.props.onAddToMenuStack('CHOOSE_HANDLE')
+
+    }else {
+        this.setState({
+            email: { ...this.state.email, touched: true },
+            password: { ...this.state.password, touched: true },
+            secondPassword: { ...this.state.secondPassword, touched: true },
+            name: { ...this.state.name, touched: true },
+        })
+    }
+  }
+
+  handleAutoFillLogin = (event) => {
+      console.log();
+  }
+
 
   getMenuScreens = () => {
+
+
+    const loginErrorMessage = !this.state.loginEmail.valid & this.state.loginEmail.touched ? 'Not a valid email' : this.props.loginError;
+    let emailErrorMessage, 
+        passwordErrorMessage, 
+        secondPasswordErrorMessage;
+    if(!this.state.email.valid && this.state.email.touched) emailErrorMessage = 'Not a valid email';
+    if(!this.state.password.valid && this.state.password.touched) passwordErrorMessage = this.state.password.errorMessage;
+    if(!this.state.secondPassword.valid && this.state.secondPassword.touched) secondPasswordErrorMessage = this.state.secondPassword.errorMessage;
+    if(passwordErrorMessage) console.log(passwordErrorMessage)
+
     return this.props.menuStack.map((s,i) => {
         const pos = this.props.menuStack[this.props.currentDepth] === s ? 0 : i < this.props.currentDepth ? -1 : 1
         let content = []; 
         switch(s){
             case 'AUTH': 
                 content.push(
-                    <MenuItem invalid={this.state.email.valid} key={s + 'login'}>
-                        <input
-                            className={classes.TextInput}
-                            element="input"
-                            id="emailLogin"
-                            type="email"
-                            placeholder='email'
-                            value={this.state.email.value}
-                            onChange={this.onInputEmail}
-                            onBlur={this.onLeaveEmailFocus}
-                        />
-                        <input
-                            className={classes.TextInput}
-                            element="input"
-                            type="password"
-                            placeholder='password'
-                            value={this.state.password.value}
-                            onChange={this.onInputPassword}
-                            onBlur={this.onLeavePasswordFocus}
-                        />
-                        <DropButton clicked={() => this.props.onLogin(this.state.email.value, this.state.password.value)}>
-                            { this.props.loading 
-                            ? <Loader 
-                                className={classes.Spinner} 
-                                type="ThreeDots" 
-                                color="#FFFFFF" 
-                                height={30} 
-                                width={30}/> 
-                            : <h3>Login</h3> }
-                        </DropButton>
+                    <MenuItem invalid={this.state.loginEmail.valid} key={s + 'login'}>
+                        <form onSubmit={this.login}>
+                            <input
+                                onAnimationStart={this.onInputEmail}
+                                className={classes.TextInput}
+                                element="input"
+                                id="emailLogin"
+                                type="email"
+                                placeholder='email'
+                                spellCheck='false'
+                                value={this.state.loginEmail.value}
+                                onChange={this.onInputLoginEmail}
+                                onBlur={this.onLeaveLoginEmailFocus}
+                            />
+                            <input
+                                onAnimationStart={this.onInputLoginPassword}
+                                className={classes.TextInput}
+                                element="input"
+                                type="password"
+                                placeholder='password'
+                                value={this.state.loginPassword.value}
+                                onChange={this.onInputLoginPassword}
+                                onBlur={this.onLeaveLoginPasswordFocus}
+                            />
+                            {
+                                loginErrorMessage ? 
+                                <div className={classes.ErrorMessage}>
+                                    {loginErrorMessage}
+                                </div>
+                                :null
+                            }
+
+                            <DropButton clicked={this.login}>
+                                { this.props.loading 
+                                ? <Loader 
+                                    className={classes.Spinner} 
+                                    type="ThreeDots" 
+                                    color="#FFFFFF" 
+                                    height={30} 
+                                    width={30}/> 
+                                : <h3>Login</h3> }
+                            </DropButton>
+                        </form>
                     </MenuItem>)
                 content.push(
                     <MenuItem invalid={false}  key={s + 'signup'}>
-                        <input
-                            className={classes.TextInput}
-                            element="input"
-                            id="emailSignup"
-                            type="email"
-                            placeholder='email'
-                            value={this.state.email.value}
-                            onChange={this.onInputEmail}
-                        />
-                        <input
-                            className={classes.TextInput}
-                            element="input"
-                            type="password"
-                            placeholder='password'
-                            value={this.state.password.value}
-                            onChange={this.onInputPassword}
-                            onBlur={this.onLeavePasswordFocus}
-                        />
-                        <input 
-                            className={classes.TextInput}
-                            id="name" 
-                            placeholder="Your Name"
-                            type="text"
-                            value={this.state.name.value}
-                            onChange={this.onInputName}
-                            onBlur={this.onLeaveNameFocus}
-                        />
-                        <div className={classes.CheckboxContainer}>
+                        <form onSubmit={this.signup}>
+                            <input
+                                className={classes.TextInput}
+                                element="input"
+                                id="emailSignup"
+                                type="email"
+                                placeholder='email'
+                                value={this.state.email.value}
+                                onChange={this.onInputEmail}
+                                onAnimationStart={this.onInputEmail}
+                                onBlur={this.onLeaveEmailFocus}
+                            />
+                            {
+                                emailErrorMessage ? 
+                                <div className={classes.ErrorMessage}>
+                                    {emailErrorMessage}
+                                </div>
+                                : null
+                            }
+                            <input
+                                className={classes.TextInput}
+                                element="input"
+                                type="password"
+                                placeholder='password'
+                                value={this.state.password.value}
+                                onChange={this.onInputPassword}
+                                onAnimationStart={this.onInputPassword}
+                                onBlur={this.onLeavePasswordFocus}
+                            />
+                            {
+                                passwordErrorMessage ? 
+                                <div className={classes.ErrorMessage}>
+                                    {passwordErrorMessage}
+                                </div>
+                                :null
+                            }
+                            <input
+                                className={classes.TextInput}
+                                element="input"
+                                type="password"
+                                placeholder='repeat password'
+                                value={this.state.secondPassword.value}
+                                onChange={this.onInputSecondPassword}
+                                onAnimationStart={this.onInputSecondPassword}
+                                onBlur={this.onLeaveSecondPasswordFocus}
+                            />
+                            {
+                                secondPasswordErrorMessage ? 
+                                <div className={classes.ErrorMessage}>
+                                    {secondPasswordErrorMessage}
+                                </div>:null
+                            }
                             <input 
-                                type='checkbox' 
-                                onChange={this.onChangeUserconditions} 
-                                checked={this.state.userConditions.value}/>
-                            <p onClick={this.onChangeUserconditions} className={classes.CheckboxText}>
-                                accept user conditions & shit
-                            </p>
-                        </div>
-                        <div className={classes.CheckboxContainer}>
-                            <input 
-                                type='checkbox' 
-                                onChange={this.onChangeNewsletter} 
-                                checked={this.state.newsletter}/>
-                            <p onClick={this.onChangeNewsletter} className={classes.CheckboxText}>
-                                Receive an email for every big new feature
-                            </p>
-                        </div>
-                        <DropButton clicked={() => this.props.onAddToMenuStack('CHOOSE_HANDLE')}>
-                            <h3>Create Account</h3>
-                        </DropButton>
+                                className={classes.TextInput}
+                                id="name" 
+                                placeholder="Your Name"
+                                type="text"
+                                value={this.state.name.value}
+                                onChange={this.onInputName}
+                                onAnimationStart={this.onInputName}
+                            />
+                            <div className={classes.CheckboxContainer}>
+                                <input 
+                                    type='checkbox' 
+                                    onChange={this.onChangeUserconditions} 
+                                    checked={this.state.userConditions.value}/>
+                                <p onClick={this.onChangeUserconditions} className={classes.CheckboxText}>
+                                    accept user conditions & shit
+                                </p>
+                            </div>
+                            <div className={classes.CheckboxContainer}>
+                                <input 
+                                    type='checkbox' 
+                                    onChange={this.onChangeNewsletter} 
+                                    checked={this.state.newsletter}/>
+                                <p onClick={this.onChangeNewsletter} className={classes.CheckboxText}>
+                                    Receive an email for every big new feature
+                                </p>
+                            </div>
+                            <DropButton type="submit" clicked={(event) => this.signup(event)}>
+                                <h3>Create Account</h3>
+                            </DropButton>
+                        </form>
                     </MenuItem>
                 );
                 break; 
@@ -363,7 +512,7 @@ onChangeNewsletter = (event) => {
                             placeholder="@elon"
                             value={'@' + this.state.handle.value}
                             onChange={this.onInputHandle}
-                            onBlur={this.onLeaveHandleFocus}
+                            onAnimationStart={this.onInputHandle}
                         />
                         <DropButton clicked={() => this.props.onAddToMenuStack('CHOOSE_PROFILE_PIC')}>
                             <h3>Choose {this.state.handle.value}</h3>
@@ -374,7 +523,7 @@ onChangeNewsletter = (event) => {
             case 'CHOOSE_PROFILE_PIC':
                 content.push(
                     <MenuItem  key={s}>
-                        <h4>Profile Picture</h4>
+                        <h3>Profile Picture</h3>
                         <input type='checkbox' onChange={this.onRemoveProfilePic} checked={this.state.profilePic.tooUgly}/> I'm too ugly<br/>
                         <input type='checkbox' onChange={() => console.log('Upload Pic!')} checked={!this.state.profilePic.tooUgly}/> Upload picture
                         <Dropzone onDrop={this.onUploadprofilePic}>
@@ -405,16 +554,6 @@ onChangeNewsletter = (event) => {
                     </MenuItem>
                 );
                 break; 
-            case 'USER_MENU': 
-                content.push(
-                    <MenuItem  key={s}>
-                        <div className={classes.LogoutContainer} onClick={this.props.onLogout}>
-                        <img className={classes.LogoutIcon} src={LogoutIcon} alt='logoutIcon'/>
-                        <p className={classes.LogoutText}>logout</p>
-                        </div>
-                    </MenuItem>
-                );
-                break; 
             default: console.log('INVALID ELEMENT ON MENU STACK');
         }
         return (
@@ -427,31 +566,10 @@ onChangeNewsletter = (event) => {
 
 
   render() {
-    let menuClasses = [classes.Menu];
-    let lightButtonClasses = [classes.LightButton];
-    let darkButtonClasses = [classes.DarkButton];
-    if(this.props.darkmode){
-      menuClasses.push(classes.DarkMenu); 
-      darkButtonClasses.push(classes.Active);
-      lightButtonClasses.push(classes.Inactive);
-    } else {
-      menuClasses.push(classes.LightMenu); 
-      lightButtonClasses.push(classes.Active);
-      darkButtonClasses.push(classes.Inactive);
-    }
-
-
     return (
-      <div className={menuClasses.join(' ')}>
-        <div className={classes.NameArea}>
-          <h2 className={classes.Name}>{this.props.name}</h2>
-          {this.props.token ? <p className={classes.Handle}>@{this.props.handle}</p> : null }
-        </div>
-        <hr/>
         <div className={classes.MenuItems}>
           { this.getMenuScreens() }
         </div>
-      </div>
     );
   }
 }
@@ -469,6 +587,9 @@ const mapStateToProps = state => {
     name: state.user.name, 
     handle: state.user.handle,
     token: state.user.token,
+
+    loginError: state.user.loginError, 
+    signupError: state.user.signupError,
   }
 }
 

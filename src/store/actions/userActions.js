@@ -60,10 +60,12 @@ export const login = (identifier, password) => {
             dispatch(setChatStateOnLogin(res.data))
             dispatch(closeMenu());
         }).catch(err => {
-            if(err.response && err.response.data && err.response.data.message){
+            if(err.toJSON().message === 'Network Error'){
+                dispatch(loginFail("Check your connection, bro"))
+            }else if(err.response && err.response.data && err.response.data.message){
                 dispatch(loginFail(err.response.data.message));
             }else {
-                dispatch(loginFail("Check your connection, bro"))
+                dispatch(loginFail("Something went wrong"))
             }
         })
     }

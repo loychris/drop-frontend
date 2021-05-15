@@ -96,7 +96,6 @@ const mapStateToProps = state => {
     sendingFriendRequests: state.chat.sendingFriendRequests,
     sentFriendRequests: state.chat.sentFriendRequests, 
     receivedFriendRequests: state.chat.receivedFriendRequests,
-    acceptingFriendRequests: state.chat.acceptingFriendRequests, 
 
   }
 }

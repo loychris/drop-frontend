@@ -6,6 +6,7 @@ import classes from "./SidePanel.module.css";
 import DefaultProfilePic from '../../media/DefaultProfilePic.png';
 
 import AuthMenu from "./AuthMenu/AuthMenu";
+import UserMenu from "./UserMenu/UserMenu";
 
 
 
@@ -32,8 +33,7 @@ class SidePanel extends Component {
     }
 
     render() {
-        const menu = this.props.menuOpen ? <AuthMenu/> : null;
-
+        let menuClasses = [classes.Menu, classes.DarkMode];
         return (
             <div className={classes.Container}>
                 { this.props.menuOpen ? <div className={classes.Overlay} onClick={this.props.onCloseMenu}></div> : null }
@@ -42,7 +42,29 @@ class SidePanel extends Component {
                     className={classes.Assistant}>
                     { this.getProfilePic() }
                 </div>
-                { menu }
+                {
+                    this.props.menuOpen 
+                    ? <div className={menuClasses.join(' ')}>
+                        <div className={classes.NameArea}>
+                        <h2 className={classes.Name}>{this.props.name}</h2>
+                        {
+                            this.props.token 
+                            ? <p className={classes.Handle}>@{this.props.handle}</p>
+                            : null 
+                        }
+                        </div>
+                        <hr/>
+                        { 
+                            this.props.menuOpen 
+                            ? this.props.token 
+                                ? <UserMenu/> 
+                                : <AuthMenu/> 
+                            : null
+                        }
+                    </div>
+                    : null
+                }
+ 
             </div>
         );
     }
@@ -50,11 +72,17 @@ class SidePanel extends Component {
 
 const mapStateToProps = state => {
     return {
+        darkmode: state.ui.darkmode, 
         menuOpen: state.ui.menu.open,
+
         token: state.user.token,
         userId: state.user.userId,
+        handle: state.user.handle,
+        name: state.user.name, 
+
         hasProfilePic: state.user.hasProfilePic,
         profilePicSrc: state.user.profilePicSrc,
+
     }
 }
 

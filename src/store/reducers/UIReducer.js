@@ -92,18 +92,16 @@ const reducer = (state = initialState, action ) => {
                     currentDepth: 0,
                 },
             }
-        case actionTypes.SET_UI_STATE_ON_LOGIN: 
-            return {
-                ...state, 
-                menu: {
-                    open: true,
-                    menuStack: ['AUTH'],
-                    currentDepth: 0,
-                }
-            }
+        // case actionTypes.SET_UI_STATE_ON_LOGOUT: 
+        //     return {
+        //         ...state, 
+        //         menu: {
+        //             open: true,
+        //             menuStack: ['AUTH'],
+        //             currentDepth: 0,
+        //         }
+        //     }
         case actionTypes.ADD_TO_MENU_STACK: 
-            console.log('Before Change');
-            console.log(state.menu)
             return {
                 ...state,
                 menu: {
