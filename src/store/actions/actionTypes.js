@@ -48,6 +48,11 @@
     export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
     export const SIGNUP_FAIL ='SIGNUP_FAIL';
 
+    export const CHECK_EMAIL_TAKEN_START = 'CHECK_EMAIL_TAKEN_START';
+    export const CHECK_EMAIL_TAKEN_SUCCESS = 'CHECK_EMAIL_TAKEN_SUCCESS';
+    export const CHECK_EMAIL_TAKEN_FAILED = 'CHECK_EMAIL_TAKEN_FAILED';
+    export const EMAIL_ALREADY_TAKEN = 'EMAIL_ALREADY_TAKEN'; 
+
     export const SIGNUP = 'SIGNUP';
     export const LOGOUT = 'LOGOUT';
     export const CHECK_EMAIL = 'CHECK_EMAIL';

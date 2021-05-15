@@ -8,6 +8,8 @@ const initialState = {
     userId: '1',
     error: null,
     loading: null,
+    checkEmailLoading: false,
+    checkedButTakenEmails: [],
     authOpen: false, 
     authReason: null,
     hasProfilePic: false,
@@ -54,14 +56,14 @@ const setAnonymousId = (state, action) => {
 const loginStart = (state) => {
     return { 
         ...state, 
-        loading: true 
+        loginLoading: true 
     }
 }
 
 const loginSuccess = (state, action) => {
     return { 
         ...state, 
-        loading: false, 
+        loginLoading: false, 
         loginError: null, 
         signupError: null, 
         hasProfilePic: action.profilePic,
@@ -79,7 +81,7 @@ const loginSuccess = (state, action) => {
 const loginFail = (state, action) => {
     return { 
         ...state, 
-        loading: false, 
+        loginLoading: false, 
         loginError: action.error 
     }
 }
@@ -90,14 +92,14 @@ const loginFail = (state, action) => {
 const signupStart = ( state) => {
     return { 
         ...state, 
-        loading: true 
+        signupLoading: true 
     }
 }
 
 const signupFail = (state, action) => {
     return { 
         ...state, 
-        loading: false, 
+        signupLoading: false, 
         signupError: action.error 
     }
 }
@@ -105,7 +107,7 @@ const signupFail = (state, action) => {
 const signupSuccess = (state, action) => {
     return { 
         ...state, 
-        loading: false, 
+        signupLoading: false, 
         error: null, 
         hasProfilePic: action.profilePic,
         name: action.name,
@@ -118,6 +120,40 @@ const signupSuccess = (state, action) => {
         receivedFriendRequests: [],
         notifications: [],
         sendingSubscribeEmailList: false,
+    }
+}
+
+//------ CHECK EMAIL TAKEN ---------------------------------------
+
+const checkEmailTakenStart = (state, action) => {
+    return {
+        ...state,
+        checkEmailLoading: true,
+    }
+}
+
+const checkEmailTakenSuccess = (state, action) => {
+    return {
+        ...state,
+        checkEmailLoading: false,
+    }
+}
+
+const checkEmailTakenFailed = (state, action) => {
+    return {
+        ...state,
+        checkEmailLoading: false,
+    }
+}
+
+const emailAlreadyTaken = (state, action) => {
+    return {
+        ...state,
+        checkEmailLoading: false,
+        checkedButTakenEmails: [
+            ...state.checkedButTakenEmails,
+            action.email
+        ]
     }
 }
 
@@ -214,9 +250,14 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.LOGIN_SUCCESS: return loginSuccess(state, action);
         case actionTypes.LOGIN_FAIL: return loginFail(state, action);
 
-        case actionTypes.SIGNUP_START: return signupStart(state);
+        case actionTypes.SIGNUP_START: return signupStart(state, action);
         case actionTypes.SIGNUP_SUCCESS: return signupSuccess(state, action);
         case actionTypes.SIGNUP_FAIL: return signupFail(state, action);
+
+        case actionTypes.CHECK_EMAIL_TAKEN_START: return checkEmailTakenStart(state, action);
+        case actionTypes.CHECK_EMAIL_TAKEN_SUCCESS: return checkEmailTakenSuccess(state, action);
+        case actionTypes.CHECK_EMAIL_TAKEN_FAILED: return checkEmailTakenFailed(state, action);
+        case actionTypes.EMAIL_ALREADY_TAKEN: return emailAlreadyTaken(state, action);
 
         case actionTypes.MESSAGES_READ_START: return messagesReadStart(state, action);
         case actionTypes.MESSAGES_READ_SUCCESS: return messagesReadSuccess(state, action);

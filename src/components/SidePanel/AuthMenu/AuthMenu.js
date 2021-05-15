@@ -220,7 +220,8 @@ onLeaveHandleFocus = () => {
 
 onInputPassword = (event) => {
     const password = event.target.value;
-    let valid, errorMessage;
+    let valid = true; 
+    let errorMessage;
     if(!password || password.length < 5){
         valid = false;
         errorMessage = 'Min 5 Characters';
@@ -331,10 +332,10 @@ onChangeNewsletter = (event) => {
   }
 
   signup = (event) => {
+      console.log('triggered')
     event.preventDefault();
     if(this.state.email.valid && this.state.password.valid && this.state.secondPassword.valid && this.state.name.valid){
-        this.props.onAddToMenuStack('CHOOSE_HANDLE')
-
+        this.props.checkEmailTaken(this.state.email.value);
     }else {
         this.setState({
             email: { ...this.state.email, touched: true },
@@ -358,6 +359,7 @@ onChangeNewsletter = (event) => {
         passwordErrorMessage, 
         secondPasswordErrorMessage;
     if(!this.state.email.valid && this.state.email.touched) emailErrorMessage = 'Not a valid email';
+    if(this.props.checkedButTakenEmails.some(e => e === this.state.email.value)) emailErrorMessage = 'There already exists an account with that email.';
     if(!this.state.password.valid && this.state.password.touched) passwordErrorMessage = this.state.password.errorMessage;
     if(!this.state.secondPassword.valid && this.state.secondPassword.touched) secondPasswordErrorMessage = this.state.secondPassword.errorMessage;
     if(passwordErrorMessage) console.log(passwordErrorMessage)
@@ -401,7 +403,7 @@ onChangeNewsletter = (event) => {
                             }
 
                             <DropButton clicked={this.login}>
-                                { this.props.loading 
+                                { this.props.loginLoading 
                                 ? <Loader 
                                     className={classes.Spinner} 
                                     type="ThreeDots" 
@@ -494,7 +496,16 @@ onChangeNewsletter = (event) => {
                                 </p>
                             </div>
                             <DropButton type="submit" clicked={(event) => this.signup(event)}>
-                                <h3>Create Account</h3>
+                                { 
+                                    this.props.checkEmailLoading 
+                                    ? <Loader 
+                                        className={classes.Spinner} 
+                                        type="ThreeDots" 
+                                        color="#FFFFFF" 
+                                        height={30} 
+                                        width={30}/> 
+                                    : <h3>Create Account</h3>
+                                }
                             </DropButton>
                         </form>
                     </MenuItem>
@@ -578,7 +589,8 @@ const mapStateToProps = state => {
 
   return {
     menuStack: state.ui.menu.menuStack, 
-    loading: state.user.loading,
+    loginLoading: state.user.loginLoading,
+    checkEmailLoading: state.user.checkEmailLoading,
     shouldMoveRight: state.ui.menu.shouldMoveRight, 
 
     darkmode: state.ui.darkmode,
@@ -590,6 +602,7 @@ const mapStateToProps = state => {
 
     loginError: state.user.loginError, 
     signupError: state.user.signupError,
+    checkedButTakenEmails: state.user.checkedButTakenEmails,
   }
 }
 
@@ -597,6 +610,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onMoveRight: () => dispatch(actions.moveRight()),
     onAddToMenuStack: (next) => dispatch(actions.addToMenuStack(next)), 
+
+    checkEmailTaken: (email) => dispatch(actions.checkEmailTaken(email)),
     onLogin: (email, password) => dispatch(actions.login(email, password)),
     onSignup: (name, email, handle, password, file, src, newsletter) => dispatch(actions.signup(name, email, handle, password, file, src, newsletter)),
   }

@@ -57,6 +57,7 @@ export {
     logout,
     login,
     signup,
+    checkEmailTaken,
     authCheckState,
     sendMessagesRead,
     refreshNotifications,

@@ -68,6 +68,10 @@
     margin-right: auto;
 }
 
+.TextInput.Invaid {
+    border: 1px solid red; 
+}
+
 .TextInput:-webkit-autofill {
     animation-name: onAutoFillStart;
     transition: background-color 50000s ease-in-out 0s;
@@ -86,6 +90,7 @@
 
 .ErrorMessage {
     color: red; 
+    margin: 0px 5px;
 }
 
 .CreateAccount{
@@ -101,8 +106,4 @@
 .CheckboxContainer {
     display: flex;
     flex-direction: row;
-}
-
-.ErrorMessage{
-    margin: 0px 5px;
 }

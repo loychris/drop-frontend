@@ -5,7 +5,8 @@ import { setDropsNotLoaded } from './streamActions';
 import { 
     closeMenu, 
     setUIStateonLogin,
-    setUIStateonLogout
+    setUIStateonLogout,
+    addToMenuStack
 } from './UIActions';
 import { 
     setChatStateOnLogin,
@@ -150,6 +151,59 @@ export const signupFail = (response) => {
         error: response && response.data && response.data.message ? response.data.message : 'Something went wrong'
     }
 }
+
+//------ CHECK EMAIL TAKEN ------------------------------------------------------------------
+
+export const checkEmailTaken = (email) => {
+    return dispatch => {
+        dispatch(checkEmailTakenStart())
+        const url = '/api/users/checkEmail';
+        const body = { email }
+        axios.post(url, body)
+        .then(res => {
+            if(res.data && res.data.exists){
+                dispatch(emailAlreadyTaken(email));
+            } else {
+                dispatch(checkEmailTakenSuccess(res.data));
+                dispatch(addToMenuStack('CHOOSE_HANDLE'));
+            }
+        }).catch(err => {
+            dispatch(checkEmailTakenFailed(err))
+            console.log(err);
+        })
+        
+    }
+}
+
+export const emailAlreadyTaken = (email) => {
+    return {
+        type: actionTypes.EMAIL_ALREADY_TAKEN,
+        email
+    }
+}
+
+export const checkEmailTakenStart = () => {
+    return {
+        type: actionTypes.CHECK_EMAIL_TAKEN_START
+    }
+}
+
+export const checkEmailTakenSuccess = (res) => {
+    console.log(res);
+    return {
+        type: actionTypes.CHECK_EMAIL_TAKEN_SUCCESS
+    }
+}
+
+export const checkEmailTakenFailed = (err) => {
+    console.log(err);
+    return {
+        type: actionTypes.CHECK_EMAIL_TAKEN_FAILED
+    }
+}
+
+//------ CHECK AUTH STATE ----------------------------------------------------------------------
+
 
 
 export const authCheckState = () => {
