@@ -48,9 +48,9 @@ class Stream extends Component {
 
   // onKeyDown
   keypressHandler = (event) => {
-    if (event.keyCode === 37) {
+    if (event.keyCode === 37 && !this.props.menuOpen) {
       this.onLightUp(true, false);
-    } else if (event.keyCode === 39) {
+    } else if (event.keyCode === 39 && !this.props.menuOpen) {
       this.onLightUp(false, true);
     }
   }
@@ -69,7 +69,11 @@ class Stream extends Component {
   };
 
   swipeHandler = (left) => {
-    if(this.props.streamElements[1].memeStatus === 'loaded' && this.props.streamElements[1].status === 'id loaded'){
+    if(
+      this.props.streamElements[1].memeStatus === 'loaded' 
+      && this.props.streamElements[1].status === 'id loaded'
+      && !this.props.menuOpen
+      ){
       this.props.onSwipe(left ? 'left' : 'right', this.props.streamElements[1].id, this.props.anonymousId);
     }
   }
@@ -239,7 +243,7 @@ class Stream extends Component {
     }
     return (
       <div className={styleClasses.join(" ")}>
-        {this.getWtf()}
+        {/*this.getWtf()*/}
         {this.getRiver()}
         {this.getRiverGlow()}
         <img src={Boat} alt="" className={classes.Boat1} />
@@ -261,6 +265,7 @@ const mapStateToProps = state => {
 
     currentTab: state.ui.currentTab,
     modalOpen: state.ui.modalOpen,
+    menuOpen: state.ui.menu.open,
     darkmode: state.ui.darkmode,
 
     anonymousId: state.user.anonymousId,

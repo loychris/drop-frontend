@@ -302,8 +302,10 @@ onChangeNewsletter = (event) => {
   componentDidUpdate = () => {
     if(this.props.shouldMoveRight) {
       this.props.onMoveRight()
-      console.log('MOVE RIGHT!')
     }; 
+    if(this.props.menuStack[this.props.menuStack.length-1] === 'CHOOSE_HANDLE'){
+        document.getElementById('handle').focus(); 
+    }
   }
 
   createAccount = () => {
@@ -332,7 +334,6 @@ onChangeNewsletter = (event) => {
   }
 
   signup = (event) => {
-      console.log('triggered')
     event.preventDefault();
     if(this.state.email.valid && this.state.password.valid && this.state.secondPassword.valid && this.state.name.valid){
         this.props.checkEmailTaken(this.state.email.value);
@@ -346,31 +347,35 @@ onChangeNewsletter = (event) => {
     }
   }
 
-  handleAutoFillLogin = (event) => {
-      console.log();
+  chooseHandle = (event) => {
+      event.preventDefault(); 
+      if(this.state.handle.valid){
+        this.props.checkHandleTaken(this.state.handle.value);
+      }else{
+          this.setState({
+              handle: { ...this.state.handle, touched: true }
+          })
+      }
   }
 
 
   getMenuScreens = () => {
-
-
-    const loginErrorMessage = !this.state.loginEmail.valid & this.state.loginEmail.touched ? 'Not a valid email' : this.props.loginError;
-    let emailErrorMessage, 
-        passwordErrorMessage, 
-        secondPasswordErrorMessage;
-    if(!this.state.email.valid && this.state.email.touched) emailErrorMessage = 'Not a valid email';
-    if(this.props.checkedButTakenEmails.some(e => e === this.state.email.value)) emailErrorMessage = 'There already exists an account with that email.';
-    if(!this.state.password.valid && this.state.password.touched) passwordErrorMessage = this.state.password.errorMessage;
-    if(!this.state.secondPassword.valid && this.state.secondPassword.touched) secondPasswordErrorMessage = this.state.secondPassword.errorMessage;
-    if(passwordErrorMessage) console.log(passwordErrorMessage)
-
     return this.props.menuStack.map((s,i) => {
         const pos = this.props.menuStack[this.props.currentDepth] === s ? 0 : i < this.props.currentDepth ? -1 : 1
         let content = []; 
         switch(s){
             case 'AUTH': 
+                const loginErrorMessage = !this.state.loginEmail.valid & this.state.loginEmail.touched ? 'Not a valid email' : this.props.loginError;
+                let emailErrorMessage, 
+                    passwordErrorMessage, 
+                    secondPasswordErrorMessage;
+                if(!this.state.email.valid && this.state.email.touched) emailErrorMessage = 'Not a valid email';
+                if(this.props.takenEmails.some(e => e === this.state.email.value)) emailErrorMessage = 'There already exists an account with that email.';
+                if(!this.state.password.valid && this.state.password.touched) passwordErrorMessage = this.state.password.errorMessage;
+                if(!this.state.secondPassword.valid && this.state.secondPassword.touched) secondPasswordErrorMessage = this.state.secondPassword.errorMessage;
+            
                 content.push(
-                    <MenuItem invalid={this.state.loginEmail.valid} key={s + 'login'}>
+                    <MenuItem key={s + 'login'}>
                         <form onSubmit={this.login}>
                             <input
                                 onAnimationStart={this.onInputEmail}
@@ -415,7 +420,7 @@ onChangeNewsletter = (event) => {
                         </form>
                     </MenuItem>)
                 content.push(
-                    <MenuItem invalid={false}  key={s + 'signup'}>
+                    <MenuItem key={s + 'signup'}>
                         <form onSubmit={this.signup}>
                             <input
                                 className={classes.TextInput}
@@ -512,22 +517,43 @@ onChangeNewsletter = (event) => {
                 );
                 break; 
             case 'CHOOSE_HANDLE': 
+                let handleErrorMessage;
+                if(!this.state.handle.valid && this.state.handle.touched) handleErrorMessage = this.state.handle.errorMessage;
+                if(this.props.takenHandles.some(h => h === this.state.handle.value)) handleErrorMessage = 'Handle already taken'
                 content.push(
                     <MenuItem  key={s}>
-                        <h3>Enter @ Handle:</h3>            
-                        <input
-                            className={classes.TextInput}
-                            element="input"
-                            id="handle"
-                            type="text"
-                            placeholder="@elon"
-                            value={'@' + this.state.handle.value}
-                            onChange={this.onInputHandle}
-                            onAnimationStart={this.onInputHandle}
-                        />
-                        <DropButton clicked={() => this.props.onAddToMenuStack('CHOOSE_PROFILE_PIC')}>
-                            <h3>Choose {this.state.handle.value}</h3>
-                        </DropButton>
+                        <form onSubmit={this.chooseHandle}>
+                            <h3>Enter @ Handle:</h3>            
+                            <input
+                                className={classes.TextInput}
+                                element="input"
+                                id="handle"
+                                type="text"
+                                placeholder="@elon"
+                                value={'@' + this.state.handle.value}
+                                onChange={this.onInputHandle}
+                                onAnimationStart={this.onInputHandle}
+                                onBlur={this.onLeaveHandleFocus}
+                            />
+                            {
+                                handleErrorMessage ? 
+                                <div className={classes.ErrorMessage}>
+                                    {handleErrorMessage}
+                                </div>:null
+                            }
+                            <DropButton type="submit" clicked={(event) => this.chooseHandle(event)}>
+                            { 
+                                this.props.checkHandleLoading 
+                                ? <Loader 
+                                    className={classes.Spinner} 
+                                    type="ThreeDots" 
+                                    color="#FFFFFF" 
+                                    height={30} 
+                                    width={30}/> 
+                                : <h3>Choose {this.state.handle.value}</h3>
+                            }
+                            </DropButton>
+                        </form>
                     </MenuItem>
                 ); 
                 break; 
@@ -560,7 +586,16 @@ onChangeNewsletter = (event) => {
                             )}
                         </Dropzone>
                         <DropButton clicked={this.createAccount}>
-                            <h3>Finish</h3>
+                        { 
+                                this.props.signupLoading 
+                                ? <Loader 
+                                    className={classes.Spinner} 
+                                    type="ThreeDots" 
+                                    color="#FFFFFF" 
+                                    height={30} 
+                                    width={30}/> 
+                                : <h3>Finish</h3>
+                            }
                         </DropButton>
                     </MenuItem>
                 );
@@ -591,6 +626,8 @@ const mapStateToProps = state => {
     menuStack: state.ui.menu.menuStack, 
     loginLoading: state.user.loginLoading,
     checkEmailLoading: state.user.checkEmailLoading,
+    signupLoading: state.user.signupLoading,
+    checkHandleLoading: state.user.checkHandleLoading,
     shouldMoveRight: state.ui.menu.shouldMoveRight, 
 
     darkmode: state.ui.darkmode,
@@ -602,7 +639,10 @@ const mapStateToProps = state => {
 
     loginError: state.user.loginError, 
     signupError: state.user.signupError,
-    checkedButTakenEmails: state.user.checkedButTakenEmails,
+    takenEmails: state.user.takenEmails,
+    takenHandles: state.user.takenHandles,
+
+    
   }
 }
 
@@ -612,6 +652,7 @@ const mapDispatchToProps = dispatch => {
     onAddToMenuStack: (next) => dispatch(actions.addToMenuStack(next)), 
 
     checkEmailTaken: (email) => dispatch(actions.checkEmailTaken(email)),
+    checkHandleTaken: (handle) => dispatch(actions.checkHandleTaken(handle)),
     onLogin: (email, password) => dispatch(actions.login(email, password)),
     onSignup: (name, email, handle, password, file, src, newsletter) => dispatch(actions.signup(name, email, handle, password, file, src, newsletter)),
   }

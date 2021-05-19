@@ -5,7 +5,7 @@ const initialState = {
     dropModalOpen: false,
     currentTab: 'stream',
     menu: {
-        open: true,
+        open: false,
         menuStack: ['AUTH'],
         currentDepth: 0,
         shouldMoveRight: false,
@@ -87,7 +87,7 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state, 
                 menu: {
-                    open: true,
+                    open: false,
                     menuStack: ['USER_MENU'],
                     currentDepth: 0,
                 },

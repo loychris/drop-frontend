@@ -42,9 +42,9 @@ class Chat extends Component {
       <div className={classes.NotLoggedInContainer}>
         <div className={classes.NotLoggedInMessage}>
           <div className={classes.InnerContainer}>
-            <DropButton clicked={this.props.openSignup}><h3>Sign up</h3></DropButton> 
+            <DropButton clicked={this.props.onOpenMenu}><h3>Log in</h3></DropButton>
             or
-            <DropButton clicked={this.props.openLogin}><h3>Log in</h3></DropButton>
+            <DropButton clicked={this.props.onOpenMenu}><h3>Create Account</h3></DropButton> 
             to use the Dropchat!
             <p>Chat with friends and share memes!</p>
           </div>
@@ -79,8 +79,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onOpenAuth: (authReason) => dispatch(actions.openMenu(authReason)),
-    openLogin: () => dispatch(actions.openLogin()),
-    openSignup: () => dispatch(actions.openSignup()),
+    onOpenMenu: () => dispatch(actions.openMenu()),
     onChangeChat: (chatId, self, user, inputValue) => dispatch(actions.changeChat(chatId, self, user, inputValue)),
     onSendMessageFromBuffer: (id, dummyChatId, dummyMessageId, text) => dispatch(actions.sendMessageFromBuffer(id, dummyChatId, dummyMessageId, text)), 
   }

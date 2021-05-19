@@ -9,7 +9,10 @@ const initialState = {
     error: null,
     loading: null,
     checkEmailLoading: false,
-    checkedButTakenEmails: [],
+    checkHandleLoading: false,
+    takenEmails: [],
+    takenHandles: [],
+    signupLoading: false,
     authOpen: false, 
     authReason: null,
     hasProfilePic: false,
@@ -150,9 +153,43 @@ const emailAlreadyTaken = (state, action) => {
     return {
         ...state,
         checkEmailLoading: false,
-        checkedButTakenEmails: [
-            ...state.checkedButTakenEmails,
+        takenEmails: [
+            ...state.takenEmails,
             action.email
+        ]
+    }
+}
+
+//------ CHECK HANDLE TAKEN ---------------------------------------
+
+const checkHandleTakenStart = (state, action) => {
+    return {
+        ...state,
+        checkHandleLoading: true,
+    }
+}
+
+const checkHandleTakenSuccess = (state, action) => {
+    return {
+        ...state,
+        checkHandleLoading: false,
+    }
+}
+
+const checkHandleTakenFailed = (state, action) => {
+    return {
+        ...state,
+        checkHandleLoading: false,
+    }
+}
+
+const handleAlreadyTaken = (state, action) => {
+    return {
+        ...state,
+        checkHandleLoading: false,
+        takenHandles: [
+            ...state.takenHandles,
+            action.handle
         ]
     }
 }
@@ -258,6 +295,11 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.CHECK_EMAIL_TAKEN_SUCCESS: return checkEmailTakenSuccess(state, action);
         case actionTypes.CHECK_EMAIL_TAKEN_FAILED: return checkEmailTakenFailed(state, action);
         case actionTypes.EMAIL_ALREADY_TAKEN: return emailAlreadyTaken(state, action);
+
+        case actionTypes.CHECK_HANDLE_TAKEN_START: return checkHandleTakenStart(state, action);
+        case actionTypes.CHECK_HANDLE_TAKEN_SUCCESS: return checkHandleTakenSuccess(state, action);
+        case actionTypes.CHECK_HANDLE_TAKEN_FAILED: return checkHandleTakenFailed(state, action);
+        case actionTypes.HANDLE_ALREADY_TAKEN: return handleAlreadyTaken(state, action);
 
         case actionTypes.MESSAGES_READ_START: return messagesReadStart(state, action);
         case actionTypes.MESSAGES_READ_SUCCESS: return messagesReadSuccess(state, action);

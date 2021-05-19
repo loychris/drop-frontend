@@ -202,6 +202,58 @@ export const checkEmailTakenFailed = (err) => {
     }
 }
 
+//------ CHECK HANDLE TAKEN ------------------------------------------------------------------
+
+export const checkHandleTaken = (handle) => {
+    return dispatch => {
+        dispatch(checkHandleTakenStart())
+        const url = '/api/users/checkHandle';
+        const body = { handle }
+        axios.post(url, body)
+        .then(res => {
+            if(res.data && res.data.exists){
+                dispatch(handleAlreadyTaken(handle));
+            } else {
+                dispatch(checkHandleTakenSuccess(res.data));
+                dispatch(addToMenuStack('CHOOSE_PROFILE_PIC'));
+                console.log(document.getElementById('handle'))
+                document.getElementById('handle').focus(); 
+            }
+        }).catch(err => {
+            dispatch(checkHandleTakenFailed(err))
+            console.log(err);
+        })
+        
+    }
+}
+
+export const handleAlreadyTaken = (handle) => {
+    return {
+        type: actionTypes.HANDLE_ALREADY_TAKEN,
+        handle
+    }
+}
+
+export const checkHandleTakenStart = () => {
+    return {
+        type: actionTypes.CHECK_HANDLE_TAKEN_START
+    }
+}
+
+export const checkHandleTakenSuccess = (res) => {
+    console.log(res);
+    return {
+        type: actionTypes.CHECK_HANDLE_TAKEN_SUCCESS
+    }
+}
+
+export const checkHandleTakenFailed = (err) => {
+    console.log(err);
+    return {
+        type: actionTypes.CHECK_HANDLE_TAKEN_FAILED
+    }
+}
+
 //------ CHECK AUTH STATE ----------------------------------------------------------------------
 
 

@@ -19,7 +19,6 @@ class UserMenu extends Component {
   componentDidUpdate = () => {
     if(this.props.shouldMoveRight) {
       this.props.onMoveRight()
-      console.log('MOVE RIGHT!')
     }; 
   }
 

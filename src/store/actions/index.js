@@ -58,6 +58,7 @@ export {
     login,
     signup,
     checkEmailTaken,
+    checkHandleTaken,
     authCheckState,
     sendMessagesRead,
     refreshNotifications,
