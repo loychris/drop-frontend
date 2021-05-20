@@ -51,7 +51,7 @@ class Voting extends Component {
                 this.setState(newState);
             } 
         } else {
-            this.props.onOpenAuth("Create an Account to upvote Comments");
+            this.props.onOpenMenu("Create an Account to upvote Comments");
         }
 
         // nothing should happen otherwise; either already upvoted or both are true (should not happen)
@@ -76,7 +76,7 @@ class Voting extends Component {
                 }
             }
         } else {
-            this.props.onOpenAuth("Create an Account to downvote Comments");
+            this.props.onOpenMenu();
         }
         // nothing should happen otherwise; either already downvoted or both are true (should not happen)
     }
@@ -84,7 +84,7 @@ class Voting extends Component {
     unvote = (event) => {
         event.stopPropagation();
         if(!this.props.token){
-            this.props.onOpenAuth("Create an Account to vote Comments");
+            this.props.onOpenMenu();
         } else if(this.state.didDownvote || this.state.didUpvote){
             const route = this.props.path ? `/api/comment/${this.props.commentId}/voteSub` : `/api/comment/${this.props.commentId}/vote`
             const body = this.props.path ? {vote: 'neutral', voterId: this.props.userId, path: this.props.path } : { vote: 'neutral' }
@@ -150,7 +150,7 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-      onOpenAuth: (authReason) => dispatch(actions.openMenu(authReason)),
+        onOpenMenu: () => dispatch(actions.openMenu()),
     }
   }
   

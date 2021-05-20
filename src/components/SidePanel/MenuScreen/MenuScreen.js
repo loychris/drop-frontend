@@ -33,7 +33,6 @@ class MenuScreen extends Component {
 const mapStateToProps = state => {
     return {
         authReason: state.user.authReason, 
-
         loginOrSignup: state.ui.loginOrSignup,
         currentDepth: state.ui.menu.currentDepth, 
     }
@@ -42,9 +41,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onPopFromMenuStack: () => dispatch(actions.popFromMenuStack()), 
-        openLogin: () => dispatch(actions.openLogin()),
-        openSignup: () => dispatch(actions.openSignup()), 
-        onLogout: () => dispatch(actions.logout()), 
     }
 }
 

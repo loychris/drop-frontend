@@ -28,7 +28,7 @@ class CommentForm extends Component {
     submitHandler = (event) => {
         event.preventDefault();
         if(!this.props.token){
-            this.props.onOpenAuth("Create an account to write Comments")
+            this.props.onOpenMenu();
         } else {
             this.setState({textareaValue: '', disabled: true});
 
@@ -128,7 +128,7 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = dispatch => {
     return {
-        onOpenAuth: (authReason) => dispatch(streamActions.openMenu(authReason)),
+        onOpenMenu: () => dispatch(streamActions.openMenu()),
         onSendComment: (dropId, comment, token) => dispatch(streamActions.sendComment(dropId, comment, token)),
         onSendSubComment: (dropId, subComment, token) => dispatch(streamActions.sendSubComment(dropId, subComment, token)),    
     }
