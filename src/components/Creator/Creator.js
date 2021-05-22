@@ -32,8 +32,12 @@ class Creator extends Component {
           type='text'
           elementId={'5'} 
           selected={'5' === this.state.selectedId}
-          select={this.select}
-          />
+          select={this.select}/>
+        <Rectangle 
+          type='pic'
+          elementId={'5'} 
+          selected={'5' === this.state.selectedId}
+          select={this.select}/>
       </div>
     );
   }

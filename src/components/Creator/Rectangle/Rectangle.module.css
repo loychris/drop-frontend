@@ -17,6 +17,8 @@
     color: #ffffff;
     font-size: 30pt; 
     background: rgba(0,0,0,0);
+    word-wrap: break-word;
+    overflow-x: visible;
 }
 
 .Corner {
