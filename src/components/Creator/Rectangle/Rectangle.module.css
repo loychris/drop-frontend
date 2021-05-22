@@ -10,8 +10,13 @@
     cursor: grab;
 }
 
+.Selected {
+    border: 1px solid #555555;
+    transform: translate(-1px, -1px)
+
+}
+
 .TextInput {
-    border: 1px solid red;
     width: 100%; 
     margin: 0; 
     color: #ffffff;

@@ -13,39 +13,69 @@ class Rectangle extends Component {
         posX: 200,
         posY: 200,
 
-        text: '',
+        text: 'oergnoiwrfgew',
     }
 
     componentDidMount = () => {
-        const elem = document.getElementById(`${this.props.elementId}-input`);
         if(this.props.type === 'text'){
+            const elem = document.getElementById(`${this.props.elementId}-input`);
+            elem.innerHTML = this.state.text;
             this.setState({height: elem.offsetHeight})
         }
     }
 
+    componentDidUpdate = () => {
+        if(this.props.type === 'text' && this.props.currentlyEditing){
+            const elem = document.getElementById(`${this.props.elementId}-input`);
+            elem.focus(); 
+        }
+    }
+
     onTextInput = (e) => {
+        console.log("onTextInput");
         this.setState({text: e.target.innerHTML});
         const elem = document.getElementById(`${this.props.elementId}-input`);
         this.setState({height: elem.offsetHeight})
     }
 
-    inputMouseDown = (e) => {
-        console.log('imput mouse down')
+    onTextFocus = () => {
+        console.log('onTextFocus'); 
+        const el = document.getElementById(`${this.props.elementId}-input`);
+        if (typeof window.getSelection != "undefined"
+            && typeof document.createRange != "undefined") {
+            const range = document.createRange();
+            range.selectNodeContents(el);
+            range.collapse(false);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else if (typeof document.body.createTextRange != "undefined") {
+            const textRange = document.body.createTextRange();
+            textRange.moveToElementText(el);
+            textRange.collapse(false);
+            textRange.select();
+        }
+    }
+
+    onTextClick = (e) => {
         e.stopPropagation();
     }
 
     rectangleMouseDown = e => {
+        console.log('Rectangle mousedown'); 
         e.preventDefault();
         e.stopPropagation();
         this.props.select(e, this.props.elementId);
         const prevX = this.state.posX - e.clientX;
         const prevY = this.state.posY - e.clientY;
         const mousemove = (e) => {
+            console.log('Rectangle mousemove'); 
             const newX = prevX + e.clientX;
             const newY = prevY + e.clientY;
             this.setState({posX: newX, posY: newY})
         }
         const mouseup = (e) => {
+            console.log('Rectangle mouseup'); 
             e.preventDefault();
             e.stopPropagation();
             window.removeEventListener('mousemove', mousemove);
@@ -54,8 +84,7 @@ class Rectangle extends Component {
         window.addEventListener('mousemove', mousemove);
         window.addEventListener('mouseup', mouseup);
     }
-    rectangleClick = (e) => {
-    }
+
     
     resizeMouseDown = (e, dir) => {
         e.preventDefault();
@@ -158,7 +187,6 @@ class Rectangle extends Component {
             width: `${this.state.width}px`,
             left: `${this.state.posX}px`,
             top: `${this.state.posY}px`,
-            border: this.props.selected ? '1px solid #555555' : 'none'
         }
     }
 
@@ -166,25 +194,28 @@ class Rectangle extends Component {
         if(this.props.type !== 'text') return null;
         return(
             <p
-                contentEditable
+                contentEditable={this.props.currentlyEditing}
                 type='text' 
                 id={`${this.props.elementId}-input`}
                 className={classes.TextInput} 
-                onMouseDown={this.inputMouseDown}
+                onClick={this.onTextClick}
+                onDoubleClick={(e) => this.props.selectAndEdit(e, this.props.elementId)}
+                onFocus={this.onTextFocus}
                 onInput={this.onTextInput}>
             </p>
         )
     }
 
     render() {  
+        let styleClasses = [classes.Rectangle];
+        if(this.props.selected) styleClasses.push(classes.Selected);
         return(
-                <div className={classes.Rectangle}
-                    onMouseDown={this.rectangleMouseDown}
+                <div className={styleClasses.join(' ')}
+                    onMouseDown={!this.props.currentlyEditing ? this.rectangleMouseDown : null}
                     onClick={this.rectangleClick}
                     style={this.getStyles()}
                 >
                     {this.getTextInput()}
-
                     {this.getResizeHandlers()}
                 </div>
         )

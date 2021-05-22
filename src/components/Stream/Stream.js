@@ -48,11 +48,14 @@ class Stream extends Component {
 
   // onKeyDown
   keypressHandler = (event) => {
-    if (event.keyCode === 37 && !this.props.menuOpen) {
-      this.onLightUp(true, false);
-    } else if (event.keyCode === 39 && !this.props.menuOpen) {
-      this.onLightUp(false, true);
+    if(!this.props.menuOpen && this.props.currentTab === 'stream'){
+      if (event.keyCode === 37) {
+        this.onLightUp(true, false);
+      } else if (event.keyCode === 39) {
+        this.onLightUp(false, true);
+      }
     }
+
   }
 
   // onKeyUp
