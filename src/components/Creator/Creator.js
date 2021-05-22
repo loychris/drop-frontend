@@ -29,13 +29,9 @@ class Creator extends Component {
     return (
       <div className={styleClasses.join(" ")}>
         <Rectangle 
+          type='text'
           elementId={'5'} 
           selected={'5' === this.state.selectedId}
-          select={this.select}
-          />
-        <Rectangle 
-          elementId={'6'} 
-          selected={'6' === this.state.selectedId}
           select={this.select}
           />
       </div>

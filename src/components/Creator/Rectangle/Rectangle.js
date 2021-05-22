@@ -13,12 +13,16 @@ class Rectangle extends Component {
         posX: 200,
         posY: 200,
 
-        mouseX: 0,
-        mouseY: 0.
+        text: ''
     }
 
-    componentDidMount(){
-        document.addEventListener('mousemove', (e) => this.setState({mouseX: e.clientX, mouseY: e.clientY}))
+    onTextInput = (e) => {
+        this.setState({text: e.target.value});
+    }
+
+    inputMouseDown = (e) => {
+        console.log('imput mouse down')
+        e.stopPropagation();
     }
 
     rectangleMouseDown = e => {
@@ -64,7 +68,6 @@ class Rectangle extends Component {
 
             const diffX = e.clientX - mouseStartX;
             const diffY = e.clientY - mouseStartY;
-            console.log('X', diffX, 'Y', diffY)
 
             switch(dir) {
                 case 'E': 
@@ -134,8 +137,17 @@ class Rectangle extends Component {
             <div key={`${this.props.elementId}-N`} className={`${classes.Edge} ${classes.N}`} onMouseDown={(e) => this.cornerMouseDown(e, 'N')}></div>,
             <div key={`${this.props.elementId}-S`} className={`${classes.Edge} ${classes.S}`} onMouseDown={(e) => this.cornerMouseDown(e, 'S')}></div>,
             <div key={`${this.props.elementId}-W`} className={`${classes.Edge} ${classes.W}`} onMouseDown={(e) => this.cornerMouseDown(e, 'W')}></div>,
-
         ]
+    }
+
+    getStyles = () => {
+        return {
+            height: `${this.state.height}px`, 
+            width: `${this.state.width}px`,
+            left: `${this.state.posX}px`,
+            top: `${this.state.posY}px`,
+            border: this.props.selected ? '1px solid #555555' : 'none'
+        }
     }
 
     render() {  
@@ -143,16 +155,17 @@ class Rectangle extends Component {
                 <div className={classes.Rectangle}
                     onMouseDown={this.rectangleMouseDown}
                     onClick={this.rectangleClick}
-                    style={{
-                        height: `${this.state.height}px`, 
-                        width: `${this.state.width}px`,
-                        left: `${this.state.posX}px`,
-                        top: `${this.state.posY}px`,
-                        border: this.props.selected ? '1px solid #555555' : 'none'
-                    }}
+                    style={this.getStyles()}
                 >
-                <p>X: {this.state.mouseX} Y: {this.state.mouseY}</p>
-                {this.getResizeHandlers()}
+                    <input 
+                        type='text' 
+                        id={`${this.props.elementId}-input`}
+                        className={classes.TextInput} 
+                        placeholder='textInput' 
+                        onMouseDown={this.inputMouseDown}
+                        onChange={this.onTextInput}
+                        value={this.state.text}/>
+                    {this.getResizeHandlers()}
                 </div>
         )
     }
