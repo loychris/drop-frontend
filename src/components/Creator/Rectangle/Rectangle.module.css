@@ -4,6 +4,7 @@
     -khtml-user-select: none;
     user-select: none;
     color: #ffffff;
+    background-color: #444444;
 }
 
 .Rectangle:hover {
