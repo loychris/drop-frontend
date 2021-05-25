@@ -10,7 +10,7 @@ class Creator extends Component {
   state = {
     selectedId: '5',
     editingId: '5', 
-
+    strg: false,
     elements: [
       {
         type: 'text', 
@@ -29,9 +29,20 @@ class Creator extends Component {
         posX: 600,
         posY: 600,
         text: 'Text Element 2',
+      },
+      {
+        type: 'image',
+        elementId: '7',
+        imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
+        posX: 600,
+        posY: 600,
+        height: 400,
+        width: 400
       }
     ]
   }
+
+  componentDidMount
 
   select = (e, elementId) => {
     e.stopPropagation();
@@ -69,7 +80,6 @@ class Creator extends Component {
     const element = this.state.elements.find(e => e.elementId === elementId);
     const prevX = element.posX - e.clientX;
     const prevY = element.posY - e.clientY;
-
     const mousemove = (e) => {
       let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
       const newX = prevX + e.clientX;
@@ -96,7 +106,7 @@ class Creator extends Component {
     }
       window.addEventListener('mousemove', mousemove);
       window.addEventListener('mouseup', mouseup);
-    this.setState({selectedId: elementId})
+    this.setState({selectedId: elementId, editingId: ''})
   }
 
   onTextInput = (e, elementId) => {
@@ -116,15 +126,9 @@ class Creator extends Component {
     });
   }
 
-
-
   adjustTextElementHeight = (elementId) => {
-
-    console.log('adjustTextElementHeight', elementId)
-
     let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
     const element = this.state.elements.find(e => e.elementId === elementId);
-
     const elem = document.getElementById(`${elementId}-input`);
     elem.innerHTML = element.text;
     console.log(elem.offsetHeight, element.height) 
@@ -142,12 +146,14 @@ class Creator extends Component {
 
 
   resizeMouseDown = (e, dir, elementId) => {
-
-    
     e.preventDefault();
     e.stopPropagation(); 
 
     const element = this.state.elements.find(e => e.elementId === elementId);
+
+    const aspectRatioFix = element.type === 'image';
+    const aspectRatio = element.width / element.height;
+
 
     const prevWidth = element.width;
     const prevHeight = element.height;
@@ -163,43 +169,43 @@ class Creator extends Component {
         let newLeft = prevLeft;
         let newTop = prevTop;
 
-        const diffX = e.clientX - mouseStartX;
-        const diffY = e.clientY - mouseStartY;
+        const diffWidth = e.clientX - mouseStartX;
+        const diffHeight = e.clientY - mouseStartY;
 
         switch(dir) {
             case 'E': 
-                newWidth += diffX;
+                newWidth += diffWidth;
                 break;
             case 'S': 
-                newHeight += diffY; 
+                newHeight += diffHeight; 
                 break; 
             case 'W': 
-                newWidth -= diffX;
-                newLeft += diffX;
+                newWidth -= diffWidth;
+                newLeft += diffWidth;
                 break;    
             case 'N': 
-                newHeight -= diffY;
-                newTop += diffY;
+                newHeight -= diffHeight;
+                newTop += diffHeight;
                 break;                 
             case 'SE':
-                newWidth += diffX; 
-                newHeight += diffY; 
+                newWidth += diffWidth; 
+                newHeight = e.shiftKey ? newHeight + diffHeight : newWidth / aspectRatio; 
                 break; 
             case 'NE':
-                newWidth += diffX; 
-                newHeight -= diffY; 
-                newTop += diffY; 
+                newWidth += diffWidth; 
+                newHeight = e.shiftKey ? newHeight - diffHeight : newWidth / aspectRatio;
+                newTop += prevHeight - newHeight; 
                 break; 
             case 'SW':
-                newWidth -= diffX; 
-                newHeight += diffY; 
-                newLeft += diffX; 
+                newWidth -= diffWidth; 
+                newHeight = e.shiftKey ? newHeight + diffHeight : newWidth / aspectRatio; 
+                newLeft += prevWidth - newWidth; 
                 break;
             case 'NW':
-                newWidth -= diffX; 
-                newHeight -= diffY; 
-                newLeft += diffX; 
-                newTop += diffY; 
+                newWidth -= diffWidth; 
+                newHeight = e.shiftKey ? newHeight - diffHeight : newWidth / aspectRatio;
+                newLeft += prevWidth - newWidth; 
+                newTop += prevHeight - newHeight; 
                 break; 
             default: console.log('Invalid dir', dir)
         }
@@ -255,6 +261,23 @@ class Creator extends Component {
               resizeMouseDown={this.resizeMouseDown}
             />
           ) 
+        case 'image': 
+          return(
+            <Rectangle 
+              currentlyEditing={this.state.editingId === e.elementId}
+              type='image'
+              key={e.elementId}
+              element={e}
+              elementId={e.elementId} 
+              selected={e.elementId === this.state.selectedId}
+              select={this.select}
+              selectAndEdit={this.selectAndEdit}
+              rectangleMouseDown={this.rectangleMouseDown}
+              onTextInput={this.onTextInput}
+              adjustTextElementHeight={this.adjustTextElementHeight}
+              resizeMouseDown={this.resizeMouseDown}
+            />
+          )
         default: console.log('Invalid Element Type!'); 
       }
     })

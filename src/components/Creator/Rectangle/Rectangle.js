@@ -61,19 +61,32 @@ class Rectangle extends Component {
         }
     }
 
-    getTextInput = () => {
-        if(this.props.type !== 'text') return null;
-        return(
-            <p
-                contentEditable={true}//this.props.currentlyEditing}
-                type='text' 
-                id={`${this.props.elementId}-input`}
-                className={classes.TextInput} 
-                onDoubleClick={this.onTextFocus}
-                onInput={e => this.props.onTextInput(e, this.props.elementId)}>
-            </p>
-        )
+    getContent = () => {
+        switch(this.props.type){
+            case 'text': 
+                return(
+                    <p
+                        contentEditable={true}//this.props.currentlyEditing}
+                        type='text' 
+                        id={`${this.props.elementId}-input`}
+                        className={classes.TextInput} 
+                        onDoubleClick={this.onTextFocus}
+                        onInput={e => this.props.onTextInput(e, this.props.elementId)}>
+                    </p>
+                )
+            case 'image': 
+                return(
+                    <img
+                        src={this.props.element.imgSrc}
+                        className={classes.Image}
+                        id={`${this.props.elementId}-image`}
+                    />
+                )
+            default: return null;
+        }
+
     }
+
 
     render() {  
         let styleClasses = [classes.Rectangle];
@@ -83,8 +96,9 @@ class Rectangle extends Component {
                     onMouseDown={e => this.props.rectangleMouseDown(e, this.props.elementId)}
                     style={this.getStyles()}
                 >
-                    {this.getTextInput()}
+                    {this.getContent()}
                     {this.getResizeHandlers()}
+                    <span>Ratio: {this.props.element.width / this.props.element.height}</span>
                 </div>
         )
     }
