@@ -120,7 +120,6 @@ class Creator extends Component {
           selectedVline = l;
         }
       })
-      console.log(jumpToHline(Hlines, newY));
       this.setState({
         selectedId: elementId, 
         selectedHline: selectedHline,
@@ -269,18 +268,6 @@ class Creator extends Component {
     window.addEventListener('mousemove', resizeMouseMouve);
     window.addEventListener('mouseup', mouseup);
 }
-
-  jumpToHline = (Hlines, newY) => {
-    Hlines.forEach(l => {
-      if(Math.abs(l-newY) < JUMP_TO_LINE_TOLERANZ 
-        ||Math.abs(l-(newY+element.height)) < JUMP_TO_LINE_TOLERANZ 
-        || Math.abs(l-(2*newY+element.height)/2) < JUMP_TO_LINE_TOLERANZ){
-          console.log('line found');
-        return l; 
-      }
-    });
-    return null; 
-  }
   
   /// RENDER /////////////////////////////////////////////////
 
