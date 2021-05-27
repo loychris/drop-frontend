@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import * as classes from './Rectangle.module.css';
+import ResizeHandler from './ResizeHandler/ResizeHandler';
 
 
 
@@ -38,16 +39,16 @@ class Rectangle extends Component {
     getResizeHandlers = () => {
         if(!this.props.selected) return null;
         let resizeHandlers = [
-            <div key={`${this.props.elementId}-NW`} className={`${classes.Corner} ${classes.NW}`} onMouseDown={(e) => this.props.resizeMouseDown(e, 'NW', this.props.elementId)}></div>,
-            <div key={`${this.props.elementId}-SW`} className={`${classes.Corner} ${classes.SW}`} onMouseDown={(e) => this.props.resizeMouseDown(e, 'SW', this.props.elementId)}></div>,
-            <div key={`${this.props.elementId}-NE`} className={`${classes.Corner} ${classes.NE}`} onMouseDown={(e) => this.props.resizeMouseDown(e, 'NE', this.props.elementId)}></div>,
-            <div key={`${this.props.elementId}-SE`} className={`${classes.Corner} ${classes.SE}`} onMouseDown={(e) => this.props.resizeMouseDown(e, 'SE', this.props.elementId)}></div>,
-            <div key={`${this.props.elementId}-E`} className={`${classes.Edge} ${classes.E}`} onMouseDown={(e) => this.props.resizeMouseDown(e, 'E', this.props.elementId)}></div>,
-            <div key={`${this.props.elementId}-W`} className={`${classes.Edge} ${classes.W}`} onMouseDown={(e) => this.props.resizeMouseDown(e, 'W', this.props.elementId)}></div>,
+            <ResizeHandler key={'NW'} dir={'NW'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'SW'} dir={'SW'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'NE'} dir={'NE'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'SE'} dir={'SE'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'W'}  dir={'W'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'E'}  dir={'E'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
         ]
         if(this.props.type !== 'text'){
-            resizeHandlers.push(<div key={`${this.props.elementId}-N`} className={`${classes.Edge} ${classes.N}`} onMouseDown={(e) => this.props.resizeMouseDown(e, 'N', this.props.elementId)}></div>);
-            resizeHandlers.push(<div key={`${this.props.elementId}-S`} className={`${classes.Edge} ${classes.S}`} onMouseDown={(e) => this.props.resizeMouseDown(e, 'S')}></div>);
+            resizeHandlers.push(<ResizeHandler key={'N'} dir={'N'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>)
+            resizeHandlers.push(<ResizeHandler key={'S'} dir={'S'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>)
         }
         return resizeHandlers
     }
@@ -87,10 +88,24 @@ class Rectangle extends Component {
 
     }
 
+    highlighed = () => {
+        if(this.props.selected) return false;
+        let Hlines = [];
+        let Vlines = [];
+        Hlines.push(this.props.element.posY)
+        Hlines.push((2* this.props.element.posY + this.props.element.height)/2)
+        Hlines.push(this.props.element.posY + this.props.element.height)
+        Vlines.push(this.props.element.posX)
+        Vlines.push((2* this.props.element.posX + this.props.element.width)/2)
+        Vlines.push(this.props.element.posX + this.props.element.width)
+        return Vlines.includes(this.props.selectedLines.v) || Hlines.includes(this.props.selectedLines.h);
+    }
+
 
     render() {  
         let styleClasses = [classes.Rectangle];
         if(this.props.selected) styleClasses.push(classes.Selected);
+        if(this.highlighed()) styleClasses.push(classes.highlight);
         return(
                 <div className={styleClasses.join(' ')}
                     onMouseDown={e => this.props.rectangleMouseDown(e, this.props.elementId)}
@@ -98,7 +113,6 @@ class Rectangle extends Component {
                 >
                     {this.getContent()}
                     {this.getResizeHandlers()}
-                    <span>Ratio: {this.props.element.width / this.props.element.height}</span>
                 </div>
         )
     }

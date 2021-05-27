@@ -4,30 +4,34 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import classes from "./Creator.module.css";
 import Rectangle from "./Rectangle/Rectangle";
+import Line from "./Line/Line";
+
+const JUMP_TO_LINE_TOLERANZ = 8;
 
 class Creator extends Component {
 
   state = {
     selectedId: '5',
     editingId: '5', 
-    strg: false,
+    selectedHline: null,
+    selectedVline: null,
     elements: [
       {
         type: 'text', 
         elementId: '5',
-        height: 200,
-        width: 200, 
-        posX: 200,
+        height: 59,
+        width: 270, 
+        posX: 100,
         posY: 200,
         text: 'Text Element 1',
       },
       {
         type: 'text', 
         elementId: '6',
-        height: 200,
-        width: 200, 
-        posX: 600,
-        posY: 600,
+        height: 59,
+        width: 270, 
+        posX: 400,
+        posY: 200,
         text: 'Text Element 2',
       },
       {
@@ -39,15 +43,14 @@ class Creator extends Component {
         height: 400,
         width: 400
       }
-    ]
+    ],
   }
 
-  componentDidMount
+  /// SELECT /////////////////////////////////////////////////
 
   select = (e, elementId) => {
     e.stopPropagation();
     e.preventDefault();
-    console.log('SELECTING', elementId);
     this.setState({
       selectedId: elementId, 
       editingId: ''
@@ -71,21 +74,57 @@ class Creator extends Component {
     }
   }
 
-  ////////////////////////////////////////////////////
+  /// REPOSITION /////////////////////////////////////////////////
 
   rectangleMouseDown = (e, elementId) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('rectangleMouseDown', elementId);
     const element = this.state.elements.find(e => e.elementId === elementId);
-    const prevX = element.posX - e.clientX;
-    const prevY = element.posY - e.clientY;
+    const prevX = element.posX;
+    const prevY = element.posY;
+    const prevMouseX = e.clientX;
+    const prevMouseY = e.clientY;
+    const { Hlines, Vlines } = this.getLines(elementId);
+
     const mousemove = (e) => {
       let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
-      const newX = prevX + e.clientX;
-      const newY = prevY + e.clientY;
+      let  newX = prevX - prevMouseX + e.clientX;
+      let newY = prevY - prevMouseY + e.clientY;
+      let selectedHline = null;
+      let selectedVline = null; 
+      Hlines.forEach(l => {
+        if(Math.abs(l-newY) < JUMP_TO_LINE_TOLERANZ){
+           newY = l;
+           selectedHline = l;
+        } 
+        if(Math.abs(l-(newY+element.height)) < JUMP_TO_LINE_TOLERANZ){
+          newY = l - element.height;
+          selectedHline = l;
+        }
+        if(Math.abs(l-(2*newY+element.height)/2) < JUMP_TO_LINE_TOLERANZ){
+          newY = l - 0.5 * element.height;
+          selectedHline = l;
+        }
+      })
+      Vlines.forEach(l => {
+        if(Math.abs(l-newX) < JUMP_TO_LINE_TOLERANZ){
+           newX = l;
+           selectedVline = l;
+        } 
+        if(Math.abs(l-(newX+element.width)) < JUMP_TO_LINE_TOLERANZ){
+          newX = l - element.width
+          selectedVline = l;
+        }
+        if(Math.abs(l-(2*newX+element.width)/2) < JUMP_TO_LINE_TOLERANZ){
+          newX = l - 0.5 * element.width
+          selectedVline = l;
+        }
+      })
+      console.log(jumpToHline(Hlines, newY));
       this.setState({
         selectedId: elementId, 
+        selectedHline: selectedHline,
+        selectedVline: selectedVline,
         elements: [
           ...elementsNew,
           {
@@ -100,12 +139,13 @@ class Creator extends Component {
     const mouseup = (e) => {
       e.preventDefault();
       e.stopPropagation();
-      console.log('rectangleMouseup');
       window.removeEventListener('mousemove', mousemove);
       window.removeEventListener('mouseup', mouseup);
+      this.setState({selectedHline: null, selectedVline: null})
     }
-      window.addEventListener('mousemove', mousemove);
-      window.addEventListener('mouseup', mouseup);
+
+    window.addEventListener('mousemove', mousemove);
+    window.addEventListener('mouseup', mouseup);
     this.setState({selectedId: elementId, editingId: ''})
   }
 
@@ -144,25 +184,19 @@ class Creator extends Component {
     });
   }
 
+  ///  RESIZE  /////////////////////////////////////////////////
 
   resizeMouseDown = (e, dir, elementId) => {
     e.preventDefault();
     e.stopPropagation(); 
-
     const element = this.state.elements.find(e => e.elementId === elementId);
-
-    const aspectRatioFix = element.type === 'image';
     const aspectRatio = element.width / element.height;
-
-
     const prevWidth = element.width;
     const prevHeight = element.height;
     const prevLeft = element.posX;
     const prevTop = element.posY;
-
     const mouseStartX = e.clientX;
     const mouseStartY = e.clientY;
-
     const resizeMouseMouve = (e) => {
         let newWidth = prevWidth;
         let newHeight = prevHeight;
@@ -229,20 +263,30 @@ class Creator extends Component {
     const mouseup = (e) => {
         e.preventDefault();
         e.stopPropagation(); 
-        console.log('removing Listener: ', dir);
         window.removeEventListener('mousemove', resizeMouseMouve);
         window.removeEventListener('mouseup', mouseup);
     }
-    console.log('adding   Listener: ', dir);
-
     window.addEventListener('mousemove', resizeMouseMouve);
     window.addEventListener('mouseup', mouseup);
 }
+
+  jumpToHline = (Hlines, newY) => {
+    Hlines.forEach(l => {
+      if(Math.abs(l-newY) < JUMP_TO_LINE_TOLERANZ 
+        ||Math.abs(l-(newY+element.height)) < JUMP_TO_LINE_TOLERANZ 
+        || Math.abs(l-(2*newY+element.height)/2) < JUMP_TO_LINE_TOLERANZ){
+          console.log('line found');
+        return l; 
+      }
+    });
+    return null; 
+  }
   
-  ////////////////////////////////////////////////////
+  /// RENDER /////////////////////////////////////////////////
 
   getElements = () => {
     return this.state.elements.map(e => {
+      // const highlight = this.state.dragging && this.state.
       switch(e.type){
         case 'text': 
           return(
@@ -259,6 +303,7 @@ class Creator extends Component {
               onTextInput={this.onTextInput}
               adjustTextElementHeight={this.adjustTextElementHeight}
               resizeMouseDown={this.resizeMouseDown}
+              selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
             />
           ) 
         case 'image': 
@@ -276,11 +321,71 @@ class Creator extends Component {
               onTextInput={this.onTextInput}
               adjustTextElementHeight={this.adjustTextElementHeight}
               resizeMouseDown={this.resizeMouseDown}
+              selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
             />
           )
-        default: console.log('Invalid Element Type!'); 
+        default: console.log('Invalid Element Type!'); return null; 
       }
     })
+  }
+
+  getLines = (excludeId) => {
+    let Hlines = [];
+    let Vlines = [];
+    this.state.elements.forEach(element => {
+      if(excludeId !== element.elementId){
+        Hlines.push(element.posY)
+        Hlines.push((2* element.posY + element.height)/2)
+        Hlines.push(element.posY + element.height)
+        Vlines.push(element.posX)
+        Vlines.push((2* element.posX + element.width)/2)
+        Vlines.push(element.posX + element.width)
+      } 
+    });
+    Hlines = [...new Set(Hlines)];
+    Vlines = [...new Set(Vlines)];
+    return {
+      Hlines, 
+      Vlines
+    }
+  }
+
+  shouldElementHighlight = (elementId) => {
+    if(!this.state.selectedHline && !this.state.selectedHline) return false;
+    if(elementId === this.state.selectedId) return false;
+    const element = this.state.elements.find(e => e.elementId === elementId);
+    let Hlines = [];
+    let Vlines = [];
+    Hlines.push(element.posY)
+    Hlines.push(element.posY + element.height)
+    Hlines.push((2* element.posY + element.height)/2)
+    Vlines.push(element.posX)
+    Vlines.push(element.posX + element.width)
+    Vlines.push((2* element.posX + element.width)/2)
+    console.log(element);
+    console.log(Hlines);
+    console.log(Vlines);
+    console.log(this.state.selectedVline);
+    console.log(Vlines.includes(this.state.selectedVline))
+    if(Hlines.includes(this.state.selectedHline)) return true; 
+    if(Vlines.includes(this.state.selectedVline)) return true; 
+    return false;
+  }
+
+  renderLines = () => {
+    // const lines = this.getLines(this.state.selectedId);
+    // return [
+    //   ...lines.Hlines.map(top => <Line key={`HL-${top}`} top={top} left={0}/>),
+    //   ...lines.Vlines.map(left => <Line key={`VL-${left}`} top={0} left={left}/>)
+    // ]
+    let lines = [];
+    if(this.state.selectedHline){
+      lines.push(<Line key={`HL-${this.state.selectedHline}`} top={this.state.selectedHline} left={0}/>)
+    }
+    if(this.state.selectedVline){
+      lines.push(<Line key={`VL-${this.state.selectedVline}`} top={0} left={this.state.selectedVline}/>)
+    }
+    return lines; 
   }
 
   render() {
@@ -292,6 +397,7 @@ class Creator extends Component {
         className={styleClasses.join(" ")}
         onClick={this.unSelect}>
         { this.getElements() }
+        { this.renderLines() }
       </div>
     );
   }

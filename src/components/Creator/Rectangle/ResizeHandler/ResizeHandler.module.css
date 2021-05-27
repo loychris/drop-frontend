@@ -1,0 +1,84 @@
+.Corner {
+    position: absolute; 
+    height: 15px;
+    width: 15px; 
+    border-radius: 50%;
+    background-color: #ffffff;
+    cursor: pointer;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+.Edge {
+    position: absolute;
+    border: 5px;
+    background-color: #ffffff;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+.NW {
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    cursor: nw-resize;
+}
+
+.SW {
+    left: 0;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+    cursor: sw-resize;
+}
+
+.SE {
+    right: 0;
+    bottom: 0;
+    transform: translate(50%, 50%);
+    cursor: se-resize;
+}
+
+.NE {
+    right: 0;
+    top: 0;
+    transform: translate(50%, -50%);
+    cursor: ne-resize;
+}
+
+.N {
+    left: 50%;
+    top: 0;
+    height: 7.5px;
+    width: 20px;
+    transform: translate(-50%, -50%);
+    cursor: n-resize;
+}
+
+.S {
+    left: 50%;
+    bottom: 0;
+    height: 7.5px;
+    width: 20px;
+    transform: translate(-50%, 50%);
+    cursor: s-resize;
+}
+
+.W {
+    left: 0;
+    top: 50%;
+    height: 20px;
+    width: 7.5px;
+    transform: translate(-50%, -50%);
+    cursor: w-resize;
+}
+
+.E {
+    right: 0;
+    top: 50%;
+    height: 20px;
+    width: 7.5px;
+    transform: translate(50%, -50%);
+    cursor: e-resize;
+}
