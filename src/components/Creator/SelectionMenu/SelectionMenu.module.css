@@ -1,0 +1,8 @@
+.SelectionMenu {
+    position: absolute;
+    width: 200px;
+    right: 0;
+    top: 40px;
+    bottom: 0;
+    background-color: #11192c;
+}

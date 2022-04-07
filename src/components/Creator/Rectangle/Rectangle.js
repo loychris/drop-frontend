@@ -83,6 +83,15 @@ class Rectangle extends Component {
                         id={`${this.props.elementId}-image`}
                     />
                 )
+            case 'rect':
+                return (
+                    <div 
+                        className={classes.Rect}
+                        style={{backgroundColor: this.props.element.color}}
+                    >
+
+                    </div>
+                )
             default: return null;
         }
 
@@ -108,6 +117,7 @@ class Rectangle extends Component {
         if(this.highlighed()) styleClasses.push(classes.highlight);
         return(
                 <div className={styleClasses.join(' ')}
+                    onDoubleClick={this.props.element.type === 'text' ? this.props.selectAndEdit : this.props.select }
                     onMouseDown={e => this.props.rectangleMouseDown(e, this.props.elementId)}
                     style={this.getStyles()}
                 >

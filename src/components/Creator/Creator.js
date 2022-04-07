@@ -5,6 +5,8 @@ import * as actions from '../../store/actions/index';
 import classes from "./Creator.module.css";
 import Rectangle from "./Rectangle/Rectangle";
 import Line from "./Line/Line";
+import TopMenu from "./TopMenu/TopMenu";
+import SelectionMenu from "./SelectionMenu/SelectionMenu";
 
 const JUMP_TO_LINE_TOLERANZ = 8;
 
@@ -19,24 +21,33 @@ class Creator extends Component {
       {
         type: 'text', 
         elementId: '5',
-        height: 59,
+        height: 60,
         width: 270, 
         posX: 100,
         posY: 200,
         text: 'Text Element 1',
       },
       {
-        type: 'text', 
+        type: 'rect',
         elementId: '6',
-        height: 59,
+        posX: 600,
+        posY: 600,
+        height: 400,
+        width: 400,
+        color: '#FF0000'
+      },
+      {
+        type: 'text', 
+        elementId: '7',
+        height: 60,
         width: 270, 
-        posX: 400,
-        posY: 200,
+        posX: 200,
+        posY: 300,
         text: 'Text Element 2',
       },
       {
         type: 'image',
-        elementId: '7',
+        elementId: '8',
         imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
         posX: 600,
         posY: 600,
@@ -51,6 +62,7 @@ class Creator extends Component {
   select = (e, elementId) => {
     e.stopPropagation();
     e.preventDefault();
+    console.log("SELECT")
     this.setState({
       selectedId: elementId, 
       editingId: ''
@@ -58,6 +70,7 @@ class Creator extends Component {
   }
 
   selectAndEdit = (e, elementId) => {
+    console.log("SELECT AND EDIT")
     e.stopPropagation();
     e.preventDefault();
     this.setState({
@@ -67,11 +80,11 @@ class Creator extends Component {
   }
 
   unSelect = (e) => {
-    if(this.state.editingId !== 0){
-      this.setState({editingId: ''});
-    } else {
-      this.setState({selectedId: ''});
-    }
+    console.log("UNSELECT");
+    this.setState({
+      editingId: '',
+      selectedId: ''
+    });
   }
 
   /// REPOSITION /////////////////////////////////////////////////
@@ -85,7 +98,6 @@ class Creator extends Component {
     const prevMouseX = e.clientX;
     const prevMouseY = e.clientY;
     const { Hlines, Vlines } = this.getLines(elementId);
-
     const mousemove = (e) => {
       let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
       let  newX = prevX - prevMouseX + e.clientX;
@@ -120,6 +132,7 @@ class Creator extends Component {
           selectedVline = l;
         }
       })
+      console.log("MOUSE MOVE");
       this.setState({
         selectedId: elementId, 
         selectedHline: selectedHline,
@@ -138,6 +151,7 @@ class Creator extends Component {
     const mouseup = (e) => {
       e.preventDefault();
       e.stopPropagation();
+      console.log("MOUES UP")
       window.removeEventListener('mousemove', mousemove);
       window.removeEventListener('mouseup', mouseup);
       this.setState({selectedHline: null, selectedVline: null})
@@ -181,6 +195,15 @@ class Creator extends Component {
         }
       ]
     });
+  }
+
+  /// ADD //////////////////////////////////////////////////
+
+  addElement = (element) => {
+    this.setState({
+      elements: [...this.state.elements, element],
+      selectedId: element.id
+    })
   }
 
   ///  RESIZE  /////////////////////////////////////////////////
@@ -293,6 +316,23 @@ class Creator extends Component {
               selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
             />
           ) 
+        case 'rect': 
+            return(
+              <Rectangle 
+                currentlyEditing={this.state.editingId === e.elementId}
+                type='rect'
+                key={e.elementId}
+                element={e}
+                elementId={e.elementId} 
+                selected={e.elementId === this.state.selectedId}
+                select={this.select}
+                rectangleMouseDown={this.rectangleMouseDown}
+                onTextInput={this.onTextInput}
+                adjustTextElementHeight={this.adjustTextElementHeight}
+                resizeMouseDown={this.resizeMouseDown}
+                selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
+              />
+            )
         case 'image': 
           return(
             <Rectangle 
@@ -303,7 +343,6 @@ class Creator extends Component {
               elementId={e.elementId} 
               selected={e.elementId === this.state.selectedId}
               select={this.select}
-              selectAndEdit={this.selectAndEdit}
               rectangleMouseDown={this.rectangleMouseDown}
               onTextInput={this.onTextInput}
               adjustTextElementHeight={this.adjustTextElementHeight}
@@ -317,6 +356,7 @@ class Creator extends Component {
   }
 
   getLines = (excludeId) => {
+    console.log("getLines");
     let Hlines = [];
     let Vlines = [];
     this.state.elements.forEach(element => {
@@ -329,12 +369,11 @@ class Creator extends Component {
         Vlines.push(element.posX + element.width)
       } 
     });
-    Hlines = [...new Set(Hlines)];
-    Vlines = [...new Set(Vlines)];
-    return {
-      Hlines, 
-      Vlines
+    const lines = {
+      Hlines: [...new Set(Hlines)],
+      Vlines: [...new Set(Vlines)]
     }
+    return lines; 
   }
 
   shouldElementHighlight = (elementId) => {
@@ -382,7 +421,14 @@ class Creator extends Component {
     return (
       <div 
         className={styleClasses.join(" ")}
-        onClick={this.unSelect}>
+        // onClick={this.unSelect}
+      >
+        <TopMenu
+          addElement={this.addElement}
+        />
+        <SelectionMenu
+          selected={this.state.elements.find(e => e.elementId === this.state.selectedId)}
+        /> 
         { this.getElements() }
         { this.renderLines() }
       </div>
