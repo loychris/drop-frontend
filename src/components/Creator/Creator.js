@@ -30,20 +30,11 @@ class Creator extends Component {
       {
         type: 'rect',
         elementId: '6',
-        posX: 600,
-        posY: 600,
+        posX: 100,
+        posY: 400,
         height: 400,
         width: 400,
         color: '#FF0000'
-      },
-      {
-        type: 'text', 
-        elementId: '7',
-        height: 60,
-        width: 270, 
-        posX: 200,
-        posY: 300,
-        text: 'Text Element 2',
       },
       {
         type: 'image',
@@ -421,7 +412,7 @@ class Creator extends Component {
     return (
       <div 
         className={styleClasses.join(" ")}
-        // onClick={this.unSelect}
+        onClick={this.unSelect}
       >
         <TopMenu
           addElement={this.addElement}

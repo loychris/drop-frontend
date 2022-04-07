@@ -16,7 +16,6 @@ class Rectangle extends Component {
         }
     }
 
-
     onTextFocus = () => {
         console.log('TEXT FOCUS END')
         const el = document.getElementById(`${this.props.elementId}-input`);
@@ -84,6 +83,7 @@ class Rectangle extends Component {
                     />
                 )
             case 'rect':
+                console.log(this.props.element.color);
                 return (
                     <div 
                         className={classes.Rect}
@@ -110,6 +110,18 @@ class Rectangle extends Component {
         return Vlines.includes(this.props.selectedLines.v) || Hlines.includes(this.props.selectedLines.h);
     }
 
+    mouseDown = (e) => {
+        e.preventDefault();
+        e.stopPropagation(); 
+        this.props.rectangleMouseDown(e, this.props.elementId);
+    }
+
+    normalCkick = (e) => {
+        e.preventDefault();
+        e.stopPropagation(); 
+        this.props.select(e, this.props.elementId);
+    }
+
 
     render() {  
         let styleClasses = [classes.Rectangle];
@@ -117,8 +129,9 @@ class Rectangle extends Component {
         if(this.highlighed()) styleClasses.push(classes.highlight);
         return(
                 <div className={styleClasses.join(' ')}
+                    onClick={this.normalCkick}
                     onDoubleClick={this.props.element.type === 'text' ? this.props.selectAndEdit : this.props.select }
-                    onMouseDown={e => this.props.rectangleMouseDown(e, this.props.elementId)}
+                    onMouseDown={this.mouseDown}
                     style={this.getStyles()}
                 >
                     {this.getContent()}
