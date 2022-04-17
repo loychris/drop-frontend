@@ -53,11 +53,13 @@ class Rectangle extends Component {
     }
 
     getStyles = () => {
+
         return {
             height: `${this.props.element.height}px`, 
             width: `${this.props.element.width}px`,
             left: `${this.props.element.posX}px`,
             top: `${this.props.element.posY}px`,
+            fontFamily: `${this.props.element.font},Oswald,Impact`,
         }
     }
 
@@ -71,6 +73,9 @@ class Rectangle extends Component {
                         id={`${this.props.elementId}-input`}
                         className={classes.TextInput} 
                         onDoubleClick={this.onTextFocus}
+                        style={{
+                            fontFamily: this.props.element.font
+                        }}
                         onInput={e => this.props.onTextInput(e, this.props.elementId)}>
                     </p>
                 )

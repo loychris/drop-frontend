@@ -4,5 +4,22 @@
     right: 0;
     top: 40px;
     bottom: 0;
+    padding: 8px; 
+    font-size: 10pt;
     background-color: #11192c;
+}
+
+.geometrics {
+    display: flex; 
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.inputWrapper {
+    width: 50%;
+}
+
+.input {
+    width: 40px; 
 }

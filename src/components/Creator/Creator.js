@@ -22,14 +22,25 @@ class Creator extends Component {
         type: 'text', 
         elementId: '5',
         height: 60,
+        width: 400, 
+        posX: 100,
+        posY: 100,
+        text: 'Text Element 1',
+        font: 'Oswald'
+      },
+      {
+        type: 'text', 
+        elementId: '6',
+        height: 60,
         width: 270, 
         posX: 100,
         posY: 200,
-        text: 'Text Element 1',
+        text: 'Text Element 2',
+        font: 'Arial'
       },
       {
         type: 'rect',
-        elementId: '6',
+        elementId: '7',
         posX: 100,
         posY: 400,
         height: 400,
@@ -40,8 +51,8 @@ class Creator extends Component {
         type: 'image',
         elementId: '8',
         imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
-        posX: 600,
-        posY: 600,
+        posX: 250,
+        posY: 250,
         height: 400,
         width: 400
       }
@@ -90,11 +101,21 @@ class Creator extends Component {
     const prevMouseY = e.clientY;
     const { Hlines, Vlines } = this.getLines(elementId);
     const mousemove = (e) => {
-      let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
       let  newX = prevX - prevMouseX + e.clientX;
       let newY = prevY - prevMouseY + e.clientY;
       let selectedHline = null;
       let selectedVline = null; 
+      let elementsNew = this.state.elements.map(e => {
+        if(e.elementId !== elementId){
+          return e;
+        }else{
+          return ({
+            ...element,
+            posX: newX,
+            posY: newY,
+          })
+        }
+      });
       Hlines.forEach(l => {
         if(Math.abs(l-newY) < JUMP_TO_LINE_TOLERANZ){
            newY = l;
@@ -123,26 +144,17 @@ class Creator extends Component {
           selectedVline = l;
         }
       })
-      console.log("MOUSE MOVE");
       this.setState({
         selectedId: elementId, 
         selectedHline: selectedHline,
         selectedVline: selectedVline,
-        elements: [
-          ...elementsNew,
-          {
-            ...element,
-            posX: newX,
-            posY: newY,
-          }
-        ]
+        elements: elementsNew,
       });
     } 
 
     const mouseup = (e) => {
       e.preventDefault();
       e.stopPropagation();
-      console.log("MOUES UP")
       window.removeEventListener('mousemove', mousemove);
       window.removeEventListener('mouseup', mouseup);
       this.setState({selectedHline: null, selectedVline: null})
@@ -281,7 +293,20 @@ class Creator extends Component {
     }
     window.addEventListener('mousemove', resizeMouseMouve);
     window.addEventListener('mouseup', mouseup);
-}
+  }
+
+  edit = (elementId, newElement) => {
+    console.log(newElement);
+    const newElements = this.state.elements.map(e => {
+      if(e.elementId === elementId){
+        console.log('Element found')
+        return newElement
+      }else{
+        return e;
+      }
+    })
+    this.setState({ elements: newElements})
+  }
   
   /// RENDER /////////////////////////////////////////////////
 
@@ -418,6 +443,7 @@ class Creator extends Component {
           addElement={this.addElement}
         />
         <SelectionMenu
+          edit={this.edit}
           selected={this.state.elements.find(e => e.elementId === this.state.selectedId)}
         /> 
         { this.getElements() }
