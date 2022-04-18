@@ -4,46 +4,49 @@
  class SelectionMenu extends Component {
 
     leftAlignIcon = () => {
+        const strokeColor = this.props.selected.textAlign === 'left' ? '#11192c' : '#ffffff';
         return(
             <svg 
                 className={this.props.selected.textAlign === 'left' ? classes.alignActive : classes.alignInactive} 
                 width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 {/* <rect x="1.5" y="1.5" width="37" height="37" rx="3.5" stroke="white" stroke-width="3"/> */}
-                <line x1="7" y1="8" x2="33" y2="8" stroke="white" stroke-width="2"/>
-                <line x1="7" y1="20" x2="30" y2="20" stroke="white" stroke-width="2"/>
-                <line x1="7" y1="32" x2="27" y2="32" stroke="white" stroke-width="2"/>
-                <line x1="7" y1="14" x2="22" y2="14" stroke="white" stroke-width="2"/>
-                <line x1="7" y1="26" x2="22" y2="26" stroke="white" stroke-width="2"/>
+                <line x1="7" y1="8" x2="33" y2="8" stroke={strokeColor} stroke-width="2"/>
+                <line x1="7" y1="20" x2="30" y2="20" stroke={strokeColor} stroke-width="2"/>
+                <line x1="7" y1="32" x2="27" y2="32" stroke={strokeColor} stroke-width="2"/>
+                <line x1="7" y1="14" x2="22" y2="14" stroke={strokeColor} stroke-width="2"/>
+                <line x1="7" y1="26" x2="22" y2="26" stroke={strokeColor} stroke-width="2"/>
             </svg>
         )
     }
 
     centerAlignIcon = () => {
+        const strokeColor = this.props.selected.textAlign === 'center' ? '#11192c' : '#ffffff';
         return (
             <svg 
                 className={this.props.selected.textAlign === 'center' ? classes.alignActive : classes.alignInactive} 
                 width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 {/* <rect x="1.5" y="1.5" width="37" height="37" rx="3.5" stroke="white" stroke-width="3"/> */}
-                <line x1="7" y1="8" x2="33" y2="8" stroke="white" stroke-width="2"/>
-                <line x1="9" y1="20" x2="32" y2="20" stroke="white" stroke-width="2"/>
-                <line x1="10" y1="32" x2="30" y2="32" stroke="white" stroke-width="2"/>
-                <line x1="13" y1="14" x2="28" y2="14" stroke="white" stroke-width="2"/>
-                <line x1="13" y1="26" x2="28" y2="26" stroke="white" stroke-width="2"/>
+                <line x1="7" y1="8" x2="33" y2="8" stroke={strokeColor} stroke-width="2"/>
+                <line x1="9" y1="20" x2="32" y2="20" stroke={strokeColor} stroke-width="2"/>
+                <line x1="10" y1="32" x2="30" y2="32" stroke={strokeColor} stroke-width="2"/>
+                <line x1="13" y1="14" x2="28" y2="14" stroke={strokeColor} stroke-width="2"/>
+                <line x1="13" y1="26" x2="28" y2="26" stroke={strokeColor} stroke-width="2"/>
             </svg>
         )
     }
 
     rightAlignIcon = () => {
+        const strokeColor = this.props.selected.textAlign === 'right' ? '#11192c' : '#ffffff';
         return (
             <svg 
                 className={this.props.selected.textAlign === 'right' ? classes.alignActive : classes.alignInactive}
                 width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 {/* <rect x="-1.5" y="1.5" width="37" height="37" rx="3.5" transform="matrix(-1 0 0 1 37 0)" stroke="white" stroke-width="3"/> */}
-                <line y1="-1" x2="26" y2="-1" transform="matrix(-1 0 0 1 33 9)" stroke="white" stroke-width="2"/>
-                <line y1="-1" x2="23" y2="-1" transform="matrix(-1 0 0 1 33 21)" stroke="white" stroke-width="2"/>
-                <line y1="-1" x2="20" y2="-1" transform="matrix(-1 0 0 1 33 33)" stroke="white" stroke-width="2"/>
-                <line y1="-1" x2="16" y2="-1" transform="matrix(-1 0 0 1 33 15)" stroke="white" stroke-width="2"/>
-                <line y1="-1" x2="16" y2="-1" transform="matrix(-1 0 0 1 33 27)" stroke="white" stroke-width="2"/>
+                <line y1="-1" x2="26" y2="-1" transform="matrix(-1 0 0 1 33 9)" stroke={strokeColor} stroke-width="2"/>
+                <line y1="-1" x2="23" y2="-1" transform="matrix(-1 0 0 1 33 21)" stroke={strokeColor} stroke-width="2"/>
+                <line y1="-1" x2="20" y2="-1" transform="matrix(-1 0 0 1 33 33)" stroke={strokeColor} stroke-width="2"/>
+                <line y1="-1" x2="16" y2="-1" transform="matrix(-1 0 0 1 33 15)" stroke={strokeColor} stroke-width="2"/>
+                <line y1="-1" x2="16" y2="-1" transform="matrix(-1 0 0 1 33 27)" stroke={strokeColor} stroke-width="2"/>
             </svg>
         )
     }
@@ -103,6 +106,13 @@
         });
     }
 
+    editFontWeight = (e) => {
+        this.props.edit(this.props.selected.elementId, {
+            ...this.props.selected, 
+            fontWeight: e.target.value,
+        });
+    }
+
 
 
     render(){
@@ -128,7 +138,6 @@
                             </select>
                         </div>
                         <div className={classes.inputWrapper}>
-                            Font Size: 
                             <input className={classes.input} onChange={this.editFontSize} type='number' value={fontSize}/>
                         </div>
                         <div className={classes.align}>
@@ -141,7 +150,20 @@
                             <div className={classes.alignIcon} onClick={() => this.editTextAlign("right")}>
                                 {this.rightAlignIcon()}
                             </div>
+                        </div>
+                        <div className={classes.fontWeight}>
+                            <select onChange={this.editFontWeight} value={fontWeight}>
+                                <option value="900">Black</option>
+                                <option value="800">ExtraBold</option>
+                                <option value="700">Bold</option>
+                                <option value="600">SemiBold</option>
+                                <option value="500">Medium</option>
+                                <option value="400">Regular</option>
+                                <option value="300">Light</option>
+                                <option value="200">ExtraLight</option>
+                                <option value="100">Thin</option>
 
+                            </select>
                         </div>
                     </div>
                 : null }

@@ -77,15 +77,17 @@ class Rectangle extends Component {
     }
 
     getStyles = () => {
-
+        const { height, width, posX, posY, font, fontSize, textAlign, fontWeight } = this.props.element;
+        console.log("FONT WEIGHT: ", fontWeight);
         return {
-            height: `${this.props.element.height}px`, 
-            width: `${this.props.element.width}px`,
-            left: `${this.props.element.posX}px`,
-            top: `${this.props.element.posY}px`,
-            fontFamily: `${this.props.element.font},Oswald,Impact`,
-            fontSize: `${this.props.element.fontSize}pt`,
-            textAlign: this.props.element.textAlign, 
+            height: `${height}px`, 
+            width: `${width}px`,
+            left: `${posX}px`,
+            top: `${posY}px`,
+            fontFamily: `${font},Oswald,Impact`,
+            fontSize: `${fontSize}pt`,
+            textAlign: textAlign, 
+            fontWeight: fontWeight
         }
     }
 
