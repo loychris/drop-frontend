@@ -24,9 +24,7 @@
     /* width: 100%;  */
     margin: 0; 
     color: #ffffff;
-    font-size: 30pt; 
-    font-weight: 700;
-    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-width: 0.08rem;
     -webkit-text-stroke-color: black;
     background: rgba(0,0,0,0);
     word-wrap: break-word;

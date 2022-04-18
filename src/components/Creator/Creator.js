@@ -26,7 +26,10 @@ class Creator extends Component {
         posX: 100,
         posY: 100,
         text: 'Text Element 1',
-        font: 'Oswald'
+        font: 'Oswald',
+        fontSize: '30',
+        fontWeight: '700',
+        textAlign: 'center',
       },
       {
         type: 'text', 
@@ -36,7 +39,10 @@ class Creator extends Component {
         posX: 100,
         posY: 200,
         text: 'Text Element 2',
-        font: 'Arial'
+        font: 'Arial',
+        fontSize: '30',
+        fontWeight: '700',
+        textAlign: 'center',
       },
       {
         type: 'rect',
@@ -45,7 +51,7 @@ class Creator extends Component {
         posY: 400,
         height: 400,
         width: 400,
-        color: '#FF0000'
+        color: '#FF0000',
       },
       {
         type: 'image',
@@ -54,7 +60,7 @@ class Creator extends Component {
         posX: 250,
         posY: 250,
         height: 400,
-        width: 400
+        width: 400,
       }
     ],
   }
@@ -64,7 +70,6 @@ class Creator extends Component {
   select = (e, elementId) => {
     e.stopPropagation();
     e.preventDefault();
-    console.log("SELECT")
     this.setState({
       selectedId: elementId, 
       editingId: ''
@@ -270,20 +275,20 @@ class Creator extends Component {
         }
         const elem = document.getElementById(`${elementId}-input`);
 
-        let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
-        
-        this.setState({
-          elements: [
-            ...elementsNew,
-            {
+        let elementsNew = this.state.elements.map(E => {
+          if(E.elementId === elementId){
+            return {
               ...element,
                 width: newWidth, 
                 height: element.type==='text' ? elem.offsetHeight : newHeight,
                 posX: newLeft,
                 posY: newTop,
             }
-          ]
+          }else{
+            return E
+          }
         });
+        this.setState({elements: elementsNew});
     }
     const mouseup = (e) => {
         e.preventDefault();
@@ -296,10 +301,8 @@ class Creator extends Component {
   }
 
   edit = (elementId, newElement) => {
-    console.log(newElement);
     const newElements = this.state.elements.map(e => {
       if(e.elementId === elementId){
-        console.log('Element found')
         return newElement
       }else{
         return e;
@@ -323,6 +326,7 @@ class Creator extends Component {
               element={e}
               elementId={e.elementId} 
               selected={e.elementId === this.state.selectedId}
+              edit={this.edit}
               select={this.select}
               selectAndEdit={this.selectAndEdit}
               rectangleMouseDown={this.rectangleMouseDown}

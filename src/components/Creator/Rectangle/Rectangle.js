@@ -9,9 +9,33 @@ class Rectangle extends Component {
 
     componentDidMount = () => {
         if(this.props.type === 'text'){
-            this.props.adjustTextElementHeight(this.props.elementId);
+            //this.props.adjustTextElementHeight(this.props.elementId);
+            const domElemement = document.getElementById(`${this.props.elementId}-input`);
+            if(this.props.element.height !== domElemement.offsetHeight){
+                console.log("Changing height from ", this.props.element.height, " to ", domElemement.offsetHeight, "in DidMount");
+                console.log("ojsrgniower", this.props.element);
+                this.props.edit(this.props.elementId, {
+                    ...this.props.element, 
+                    height: domElemement.offsetHeight
+                })
+            }
             if(this.props.currentlyEditing){
                 this.onTextFocus(); 
+            }
+        }
+    }
+
+    componentDidUpdate = () => {
+        if(this.props.type === 'text'){
+            const domElemement = document.getElementById(`${this.props.elementId}-input`);
+            if(this.props.element.height !== domElemement.offsetHeight){
+                this.props.adjustTextElementHeight(this.props.elementId);
+
+                // console.log("Changing height from ", this.props.element.height, " to ", domElemement.offsetHeight, "in DidUpdate");
+                // this.props.edit(this.props.elementId, {
+                //     ...this.props.element, 
+                //     height: domElemement.offsetHeight
+                // })
             }
         }
     }
@@ -60,6 +84,8 @@ class Rectangle extends Component {
             left: `${this.props.element.posX}px`,
             top: `${this.props.element.posY}px`,
             fontFamily: `${this.props.element.font},Oswald,Impact`,
+            fontSize: `${this.props.element.fontSize}pt`,
+            textAlign: this.props.element.textAlign, 
         }
     }
 
@@ -74,7 +100,9 @@ class Rectangle extends Component {
                         className={classes.TextInput} 
                         onDoubleClick={this.onTextFocus}
                         style={{
-                            fontFamily: this.props.element.font
+                            fontFamily: this.props.element.font,
+                            fontSize: this.props.element.fontSize,
+                            fontWeight: this.props.element.fontWeight
                         }}
                         onInput={e => this.props.onTextInput(e, this.props.elementId)}>
                     </p>
@@ -88,7 +116,6 @@ class Rectangle extends Component {
                     />
                 )
             case 'rect':
-                console.log(this.props.element.color);
                 return (
                     <div 
                         className={classes.Rect}
