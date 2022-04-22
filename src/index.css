@@ -66,7 +66,8 @@ html{
 }
 
 .Dark {
-  background: linear-gradient(90deg, #06070c 0%, #323952 50%, #06070c 100%);
+  background: radial-gradient(50% 150.26% at 50% 50%, #224360 0%, #1B1E23 100%);
+  /* background: linear-gradient(90deg, #06070c 0%, #323952 50%, #06070c 100%); */
 }
 
 .Light {
