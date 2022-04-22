@@ -218,15 +218,15 @@
                         <div className={classes.flex}>
                             <div className={classes.fontWeight}>
                                 <select onChange={this.editFontWeight} value={fontWeight}>
-                                    <option value="900">Black</option>
-                                    <option value="800">ExtraBold</option>
+                                    {/* <option value="900">Black</option>
+                                    <option value="800">ExtraBold</option> */}
                                     <option value="700">Bold</option>
-                                    <option value="600">SemiBold</option>
-                                    <option value="500">Medium</option>
+                                    {/* <option value="600">SemiBold</option>
+                                    <option value="500">Medium</option> */}
                                     <option value="400">Regular</option>
-                                    <option value="300">Light</option>
+                                    {/* <option value="300">Light</option>
                                     <option value="200">ExtraLight</option>
-                                    <option value="100">Thin</option>
+                                    <option value="100">Thin</option> */}
                                 </select>
                             </div>
                             <div className={classes.alignIcon} onClick={this.editItalic}>

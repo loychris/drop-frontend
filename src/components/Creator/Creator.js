@@ -38,7 +38,7 @@ class Creator extends Component {
         type: 'rect',
         elementId: '7',
         posX: 100,
-        posY: 400,
+        posY: 100,
         height: 400,
         width: 400,
         color: '#FF8592',
