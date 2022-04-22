@@ -13,7 +13,7 @@ const JUMP_TO_LINE_TOLERANZ = 8;
 class Creator extends Component {
 
   state = {
-    selectedId: '5',
+    selectedId: null,
     editingId: null, 
     selectedHline: null,
     selectedVline: null,
@@ -33,10 +33,45 @@ class Creator extends Component {
         fixedWidth: true,
         underline: false, 
         italic: false, 
+        textStroke: true,
+      },
+      {
+        type: 'text', 
+        elementId: '6',
+        height: 60,
+        width: 400, 
+        posX: 100,
+        posY: 200,
+        text: 'Text Element 2',
+        font: 'Oswald',
+        fontSize: '30',
+        fontWeight: '700',
+        textAlign: 'center',
+        fixedWidth: true,
+        underline: false, 
+        italic: false, 
+        textStroke: true,
+      },
+      {
+        type: 'text', 
+        elementId: '7',
+        height: 60,
+        width: 400, 
+        posX: 100,
+        posY: 300,
+        text: 'Text Element 3',
+        font: 'Oswald',
+        fontSize: '30',
+        fontWeight: '700',
+        textAlign: 'center',
+        fixedWidth: true,
+        underline: false, 
+        italic: false, 
+        textStroke: true,
       },
       {
         type: 'rect',
-        elementId: '7',
+        elementId: '8',
         posX: 100,
         posY: 100,
         height: 400,
@@ -45,7 +80,7 @@ class Creator extends Component {
       },
       {
         type: 'image',
-        elementId: '8',
+        elementId: '9',
         imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
         posX: 250,
         posY: 250,
@@ -320,7 +355,14 @@ class Creator extends Component {
   /// RENDER /////////////////////////////////////////////////
 
   getElements = () => {
-    return this.state.elements.map(e => {
+
+    // TODO: redo/replace this with real orders and z-index
+    const elements = [
+      ...this.state.elements.filter(e => e.type !== 'text'),
+      ...this.state.elements.filter(e => e.type === 'text')
+    ]
+
+    return elements.map(e => {
       // const highlight = this.state.dragging && this.state.
       switch(e.type){
         case 'text': 
