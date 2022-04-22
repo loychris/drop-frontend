@@ -41,7 +41,7 @@ class TopMenu extends Component {
                         posY: 600,
                         height: 400,
                         width: 400,
-                        color: 'FF0000'
+                        color: '#FF0000'
                     })}>
                 </div>
             </div>
