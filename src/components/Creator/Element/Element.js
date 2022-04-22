@@ -88,6 +88,7 @@ class Element extends Component {
             fontWeight: fontWeight,
             fontStyle: italic ? 'italic' : 'normal',
             backgroundColor: color,
+            textDecoration: underline ? 'underline' : 'none'
         }
     }
 

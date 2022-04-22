@@ -30,7 +30,7 @@ class Creator extends Component {
         fontSize: '30',
         fontWeight: '700',
         textAlign: 'center',
-        fixedWidth: false,
+        fixedWidth: true,
         underline: false, 
         italic: false, 
       },

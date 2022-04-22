@@ -51,6 +51,31 @@
         )
     }
 
+    italicIcon = () => {
+        const strokeColor = this.props.selected.italic ? '#11192c' : '#ffffff';
+        return(
+            <svg 
+                className={this.props.selected.italic ? classes.alignActive : classes.alignInactive}
+                width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 8C16 7.44772 16.4477 7 17 7H28C28.5523 7 29 7.44772 29 8V9C29 9.55228 28.5523 10 28 10H24.7899C24.3268 10 23.9243 10.3179 23.8171 10.7684L19.2932 29.7684C19.1436 30.3968 19.6201 31 20.266 31H23C23.5523 31 24 31.4477 24 32V33C24 33.5523 23.5523 34 23 34H12C11.4477 34 11 33.5523 11 33V32C11 31.4477 11.4477 31 12 31H15.2101C15.6732 31 16.0757 30.6821 16.1829 30.2316L20.7068 11.2316C20.8564 10.6032 20.3799 10 19.734 10H17C16.4477 10 16 9.55228 16 9V8Z" fill={strokeColor}/>
+            </svg>
+        )
+    }
+
+    underlineIcon = () => {
+        const strokeColor = this.props.selected.underline ? '#11192c' : '#ffffff';
+        return(
+            <svg 
+                className={this.props.selected.underline ? classes.alignActive : classes.alignInactive}
+                width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 32C11 31.4477 11.4477 31 12 31H28C28.5523 31 29 31.4477 29 32V33C29 33.5523 28.5523 34 28 34H12C11.4477 34 11 33.5523 11 33V32Z" fill={strokeColor}/>
+                <path d="M12 8C12 7.44772 12.4477 7 13 7H15C15.5523 7 16 7.44772 16 8V22C16 22.5523 15.5523 23 15 23H13C12.4477 23 12 22.5523 12 22V8Z" fill={strokeColor}/>
+                <path d="M24 8C24 7.44772 24.4477 7 25 7H27C27.5523 7 28 7.44772 28 8V22C28 22.5523 27.5523 23 27 23H25C24.4477 23 24 22.5523 24 22V8Z" fill={strokeColor}/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M16 17.7358C13.6088 18.6868 12 20.4643 12 22.5C12 26 15.5817 28 20 28C24.4183 28 28 26 28 22.5C28 20.4643 26.3912 18.6868 24 17.7358V21C24 25 20 25 20 25C20 25 16 25 16 21V17.7358Z" fill={strokeColor}/>
+            </svg>
+        )
+    }
+
     clicked = (e) => {
         e.stopPropagation();
     }
@@ -130,7 +155,7 @@
     editItalic = () => {
         this.props.edit(this.props.selected.elementId, {
             ...this.props.selected, 
-            underline: !this.props.selected.italic,
+            italic: !this.props.selected.italic,
         });
     }
 
@@ -205,10 +230,10 @@
                                 </select>
                             </div>
                             <div className={classes.alignIcon} onClick={this.editItalic}>
-                                {this.leftAlignIcon()}
+                                {this.italicIcon()}
                             </div>
                             <div className={classes.alignIcon} onClick={this.editUnderline}>
-                                {this.centerAlignIcon()}
+                                {this.underlineIcon()}
                             </div>
                         </div>
 
