@@ -60,19 +60,19 @@ class Element extends Component {
 
     getResizeHandlers = () => {
         if(!this.props.selected) return null;
-        let resizeHandlers = [
-            <ResizeHandler key={'NW'} dir={'NW'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
-            <ResizeHandler key={'SW'} dir={'SW'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
-            <ResizeHandler key={'NE'} dir={'NE'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
-            <ResizeHandler key={'SE'} dir={'SE'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
-            <ResizeHandler key={'W'}  dir={'W'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
-            <ResizeHandler key={'E'}  dir={'E'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
-        ]
-        if(this.props.type !== 'text' || !this.props.element.fixedWidth){
-            resizeHandlers.push(<ResizeHandler key={'N'} dir={'N'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>)
-            resizeHandlers.push(<ResizeHandler key={'S'} dir={'S'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>)
-        }
-        return resizeHandlers
+        let resizeHandlers = [];
+        if(this.props.type === 'text' && this.props.element.fixedWidth){
+                resizeHandlers.push('W','E');
+        } else {
+            resizeHandlers.push('NW','SW','NE','SE');
+            if(this.props.element.height > 30){
+                resizeHandlers.push('E','W');
+            }
+            if(this.props.element.width > 30){
+                resizeHandlers.push('N','S');
+            }
+        } 
+        return resizeHandlers.map(r => <ResizeHandler key={r} dir={r} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>)
     }
 
     getStyles = () => {
