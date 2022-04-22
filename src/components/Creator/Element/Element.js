@@ -76,7 +76,7 @@ class Element extends Component {
     }
 
     getStyles = () => {
-        const { height, width, posX, posY, font, fontSize, textAlign, fontWeight, underline, italic, color } = this.props.element;
+        const { height, width, posX, posY, font, fontSize, textAlign, fontWeight, underline, italic, color, textStroke } = this.props.element;
         return {
             height: `${height}px`, 
             width: `${width}px`,
@@ -88,7 +88,10 @@ class Element extends Component {
             fontWeight: fontWeight,
             fontStyle: italic ? 'italic' : 'normal',
             backgroundColor: color,
-            textDecoration: underline ? 'underline' : 'none'
+            textDecoration: underline ? 'underline' : 'none',
+            WebkitTextStrokeColor: textStroke ? "black" : null,
+            WebkitTextStrokeWidth: textStroke ? "0.06rem": null,
+            textShadow: textStroke ? "0px 0px 0.1rem  #000" : null,
         }
     }
 
