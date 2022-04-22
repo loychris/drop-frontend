@@ -11,7 +11,7 @@
 }
 
 .Selected {
-    border: 1px solid #555555;
+    border: 1px solid #919191;
     transform: translate(-1px, -1px)
 }
 
@@ -29,6 +29,7 @@
     background: rgba(0,0,0,0);
     word-wrap: break-word;
     overflow-x: visible;
+    caret-color: #555555;
 }
 
 .Image {

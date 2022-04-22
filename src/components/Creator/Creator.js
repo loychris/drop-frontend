@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../store/actions/index';
 import classes from "./Creator.module.css";
-import Rectangle from "./Rectangle/Rectangle";
+import Element from "./Element/Element";
 import Line from "./Line/Line";
 import TopMenu from "./TopMenu/TopMenu";
 import SelectionMenu from "./SelectionMenu/SelectionMenu";
@@ -14,7 +14,7 @@ class Creator extends Component {
 
   state = {
     selectedId: '5',
-    editingId: '5', 
+    editingId: null, 
     selectedHline: null,
     selectedVline: null,
     elements: [
@@ -30,19 +30,9 @@ class Creator extends Component {
         fontSize: '30',
         fontWeight: '700',
         textAlign: 'center',
-      },
-      {
-        type: 'text', 
-        elementId: '6',
-        height: 60,
-        width: 270, 
-        posX: 100,
-        posY: 200,
-        text: 'Text Element 2',
-        font: 'Arial',
-        fontSize: '30',
-        fontWeight: '700',
-        textAlign: 'center',
+        fixedWidth: false,
+        underline: false, 
+        italic: false, 
       },
       {
         type: 'rect',
@@ -51,7 +41,7 @@ class Creator extends Component {
         posY: 400,
         height: 400,
         width: 400,
-        color: '#FF0000',
+        color: '#FF8592',
       },
       {
         type: 'image',
@@ -65,19 +55,28 @@ class Creator extends Component {
     ],
   }
 
+  componentDidUpdate(prevProps, prevState){
+    if(this.state.editingId !== prevState.editingId){
+      console.log("Editing Id changed from ", prevState.editingId, "to ", this.state.editingId);
+    }
+  }
+
+
   /// SELECT /////////////////////////////////////////////////
 
   select = (e, elementId) => {
+    console.log("SELECT")
     e.stopPropagation();
     e.preventDefault();
     this.setState({
       selectedId: elementId, 
-      editingId: ''
+      editingId: null
     })
   }
 
   selectAndEdit = (e, elementId) => {
     console.log("SELECT AND EDIT")
+    console.log(elementId);
     e.stopPropagation();
     e.preventDefault();
     this.setState({
@@ -89,14 +88,15 @@ class Creator extends Component {
   unSelect = (e) => {
     console.log("UNSELECT");
     this.setState({
-      editingId: '',
-      selectedId: ''
+      editingId: null,
+      selectedId: null
     });
   }
 
   /// REPOSITION /////////////////////////////////////////////////
 
   rectangleMouseDown = (e, elementId) => {
+    console.log("RECTANGLE MOUSE DOWN")
     e.preventDefault();
     e.stopPropagation();
     const element = this.state.elements.find(e => e.elementId === elementId);
@@ -154,6 +154,7 @@ class Creator extends Component {
         selectedHline: selectedHline,
         selectedVline: selectedVline,
         elements: elementsNew,
+
       });
     } 
 
@@ -162,12 +163,17 @@ class Creator extends Component {
       e.stopPropagation();
       window.removeEventListener('mousemove', mousemove);
       window.removeEventListener('mouseup', mouseup);
-      this.setState({selectedHline: null, selectedVline: null})
+      this.setState({
+        selectedHline: null, 
+        selectedVline: null
+      })
     }
 
     window.addEventListener('mousemove', mousemove);
     window.addEventListener('mouseup', mouseup);
-    this.setState({selectedId: elementId, editingId: ''})
+    this.setState({
+      selectedId: elementId, 
+    })
   }
 
   onTextInput = (e, elementId) => {
@@ -319,12 +325,11 @@ class Creator extends Component {
       switch(e.type){
         case 'text': 
           return(
-            <Rectangle 
+            <Element 
               currentlyEditing={this.state.editingId === e.elementId}
               type='text'
               key={e.elementId}
               element={e}
-              elementId={e.elementId} 
               selected={e.elementId === this.state.selectedId}
               edit={this.edit}
               select={this.select}
@@ -338,29 +343,25 @@ class Creator extends Component {
           ) 
         case 'rect': 
             return(
-              <Rectangle 
+              <Element 
                 currentlyEditing={this.state.editingId === e.elementId}
                 type='rect'
                 key={e.elementId}
                 element={e}
-                elementId={e.elementId} 
                 selected={e.elementId === this.state.selectedId}
                 select={this.select}
                 rectangleMouseDown={this.rectangleMouseDown}
-                onTextInput={this.onTextInput}
-                adjustTextElementHeight={this.adjustTextElementHeight}
                 resizeMouseDown={this.resizeMouseDown}
                 selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
               />
             )
         case 'image': 
           return(
-            <Rectangle 
+            <Element 
               currentlyEditing={this.state.editingId === e.elementId}
               type='image'
               key={e.elementId}
               element={e}
-              elementId={e.elementId} 
               selected={e.elementId === this.state.selectedId}
               select={this.select}
               rectangleMouseDown={this.rectangleMouseDown}
@@ -376,7 +377,6 @@ class Creator extends Component {
   }
 
   getLines = (excludeId) => {
-    console.log("getLines");
     let Hlines = [];
     let Vlines = [];
     this.state.elements.forEach(element => {

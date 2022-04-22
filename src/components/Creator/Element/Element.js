@@ -1,38 +1,38 @@
 import React, { Component } from 'react';
 
-import * as classes from './Rectangle.module.css';
+import * as classes from './Element.module.css';
 import ResizeHandler from './ResizeHandler/ResizeHandler';
 
 
 
-class Rectangle extends Component {
+class Element extends Component {
 
     componentDidMount = () => {
         if(this.props.type === 'text'){
-            //this.props.adjustTextElementHeight(this.props.elementId);
-            const domElemement = document.getElementById(`${this.props.elementId}-input`);
+            //this.props.adjustTextElementHeight(this.props.element.elementId);
+            const domElemement = document.getElementById(`${this.props.element.elementId}-input`);
             if(this.props.element.height !== domElemement.offsetHeight){
-                console.log("Changing height from ", this.props.element.height, " to ", domElemement.offsetHeight, "in DidMount");
-                console.log("ojsrgniower", this.props.element);
-                this.props.edit(this.props.elementId, {
+                this.props.edit(this.props.element.elementId, {
                     ...this.props.element, 
                     height: domElemement.offsetHeight
                 })
             }
             if(this.props.currentlyEditing){
+                console.log("EDITING")
+                console.log(this.props.currentlyEditing);
                 this.onTextFocus(); 
             }
         }
     }
 
     componentDidUpdate = () => {
-        if(this.props.type === 'text'){
-            const domElemement = document.getElementById(`${this.props.elementId}-input`);
+        if(this.props.type === 'text' && this.props.element.fixedWidth){
+            const domElemement = document.getElementById(`${this.props.element.elementId}-input`);
             if(this.props.element.height !== domElemement.offsetHeight){
-                this.props.adjustTextElementHeight(this.props.elementId);
+                this.props.adjustTextElementHeight(this.props.element.elementId);
 
                 // console.log("Changing height from ", this.props.element.height, " to ", domElemement.offsetHeight, "in DidUpdate");
-                // this.props.edit(this.props.elementId, {
+                // this.props.edit(this.props.element.elementId, {
                 //     ...this.props.element, 
                 //     height: domElemement.offsetHeight
                 // })
@@ -41,8 +41,7 @@ class Rectangle extends Component {
     }
 
     onTextFocus = () => {
-        console.log('TEXT FOCUS END')
-        const el = document.getElementById(`${this.props.elementId}-input`);
+        const el = document.getElementById(`${this.props.element.elementId}-input`);
         if (typeof window.getSelection != "undefined"
             && typeof document.createRange != "undefined") {
             const range = document.createRange();
@@ -62,23 +61,22 @@ class Rectangle extends Component {
     getResizeHandlers = () => {
         if(!this.props.selected) return null;
         let resizeHandlers = [
-            <ResizeHandler key={'NW'} dir={'NW'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
-            <ResizeHandler key={'SW'} dir={'SW'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
-            <ResizeHandler key={'NE'} dir={'NE'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
-            <ResizeHandler key={'SE'} dir={'SE'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
-            <ResizeHandler key={'W'}  dir={'W'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
-            <ResizeHandler key={'E'}  dir={'E'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'NW'} dir={'NW'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'SW'} dir={'SW'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'NE'} dir={'NE'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'SE'} dir={'SE'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'W'}  dir={'W'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
+            <ResizeHandler key={'E'}  dir={'E'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>,
         ]
-        if(this.props.type !== 'text'){
-            resizeHandlers.push(<ResizeHandler key={'N'} dir={'N'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>)
-            resizeHandlers.push(<ResizeHandler key={'S'} dir={'S'} elementId={this.props.elementId} mouseDown={this.props.resizeMouseDown}/>)
+        if(this.props.type !== 'text' || !this.props.element.fixedWidth){
+            resizeHandlers.push(<ResizeHandler key={'N'} dir={'N'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>)
+            resizeHandlers.push(<ResizeHandler key={'S'} dir={'S'} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>)
         }
         return resizeHandlers
     }
 
     getStyles = () => {
-        const { height, width, posX, posY, font, fontSize, textAlign, fontWeight } = this.props.element;
-        console.log("FONT WEIGHT: ", fontWeight);
+        const { height, width, posX, posY, font, fontSize, textAlign, fontWeight, underline, italic, color } = this.props.element;
         return {
             height: `${height}px`, 
             width: `${width}px`,
@@ -87,7 +85,9 @@ class Rectangle extends Component {
             fontFamily: `${font},Oswald,Impact`,
             fontSize: `${fontSize}pt`,
             textAlign: textAlign, 
-            fontWeight: fontWeight
+            fontWeight: fontWeight,
+            fontStyle: italic ? 'italic' : 'normal',
+            backgroundColor: color,
         }
     }
 
@@ -98,7 +98,7 @@ class Rectangle extends Component {
                     <p
                         contentEditable={true}//this.props.currentlyEditing}
                         type='text' 
-                        id={`${this.props.elementId}-input`}
+                        id={`${this.props.element.elementId}-input`}
                         className={classes.TextInput} 
                         onDoubleClick={this.onTextFocus}
                         style={{
@@ -106,7 +106,7 @@ class Rectangle extends Component {
                             fontSize: this.props.element.fontSize,
                             fontWeight: this.props.element.fontWeight
                         }}
-                        onInput={e => this.props.onTextInput(e, this.props.elementId)}>
+                        onInput={e => this.props.onTextInput(e, this.props.element.elementId)}>
                     </p>
                 )
             case 'image': 
@@ -114,7 +114,7 @@ class Rectangle extends Component {
                     <img
                         src={this.props.element.imgSrc}
                         className={classes.Image}
-                        id={`${this.props.elementId}-image`}
+                        id={`${this.props.element.elementId}-image`}
                     />
                 )
             case 'rect':
@@ -147,13 +147,21 @@ class Rectangle extends Component {
     mouseDown = (e) => {
         e.preventDefault();
         e.stopPropagation(); 
-        this.props.rectangleMouseDown(e, this.props.elementId);
+        this.props.rectangleMouseDown(e, this.props.element.elementId);
     }
 
     normalCkick = (e) => {
         e.preventDefault();
         e.stopPropagation(); 
-        this.props.select(e, this.props.elementId);
+        this.props.select(e, this.props.element.elementId);
+    }
+
+    doubleClick = (e) => {
+        if(this.props.element.type === 'text'){
+            this.props.selectAndEdit(e, this.props.element.elementId);
+        } else {
+            this.props.select(e, this.props.element.elementId);
+        }
     }
 
 
@@ -164,7 +172,7 @@ class Rectangle extends Component {
         return(
                 <div className={styleClasses.join(' ')}
                     onClick={this.normalCkick}
-                    onDoubleClick={this.props.element.type === 'text' ? this.props.selectAndEdit : this.props.select }
+                    onDoubleClick={this.doubleClick}
                     onMouseDown={this.mouseDown}
                     style={this.getStyles()}
                 >
@@ -175,4 +183,4 @@ class Rectangle extends Component {
     }
 }
 
-export default Rectangle;
+export default Element;
