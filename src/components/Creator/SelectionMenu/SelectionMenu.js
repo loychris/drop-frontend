@@ -170,21 +170,21 @@
                 <div>
                     <div className={classes.flex}>
                         <div className={classes.inputWrapper}>
-                            Height:
+                            <span>Height:</span>
                             <input className={classes.input} onChange={this.editHeight} type='number' value={height}/>
                         </div>
                         <div className={classes.inputWrapper}>
-                            Width:
+                            <span>Width:</span>
                             <input className={classes.input} onChange={this.editWidth} type='number' value={width}/>
                         </div>
                     </div>
                     <div className={classes.flex}>
                         <div className={classes.inputWrapper}>
-                            <div>X: </div>
+                            <span>X:</span>
                             <input className={classes.input}  onChange={this.editX} type='number' value={posX}/>
                         </div>
                         <div className={classes.inputWrapper}>
-                            <div>Y: </div>
+                            <span>Y:</span>
                             <input className={classes.input} onChange={this.editY} type='number' value={posY}/>
                         </div>
                     </div>

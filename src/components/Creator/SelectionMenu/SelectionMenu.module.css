@@ -1,4 +1,5 @@
 .SelectionMenu {
+    z-index: 390;
     position: absolute;
     width: 200px;
     right: 0;
@@ -18,25 +19,25 @@
 .flex {
     display: flex; 
     flex-direction: row;
-}
-
-.geometrics {
-    display: flex; 
-    flex-direction: row;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .inputWrapper {
-    margin-right: 50px; 
-    font-size: 10pt;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    font-size: 8pt;
+    width: 50%; 
+    margin-bottom: 10px; 
+}
+
+.inputWrapper span {
+    margin-top: 4px; 
+    margin-right: 3px; 
 }
 
 .input {
-    width: 40px; 
-}
-
-.align {
-    display: flex; 
+    width: 40px;
 }
 
 .alignIcon {
@@ -54,10 +55,20 @@
 }
 
 .alignInactive:hover {
-    background-color: #595f6d;
+    background-color: #9d9ea1;
     border-radius: 3px;
 }
 
 .textBoxTypeOptions {
     text-align: left;
+}
+
+.fontSelector {
+    margin-right: 10px;
+    height: 21.5px; 
+}
+
+.fontSelector select {
+    width: 120px;
+    height: 21.5px; 
 }
