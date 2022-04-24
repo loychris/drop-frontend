@@ -14,6 +14,7 @@ const JUMP_TO_LINE_TOLERANZ = 4;
 class Creator extends Component {
 
   state = {
+    dragging: false, 
     selectedId: null,
     editingId: null, 
     selectedHline: null,
@@ -112,21 +113,27 @@ class Creator extends Component {
 
   selectAndEdit = (e, elementId) => {
     console.log("SELECT AND EDIT")
-    console.log(elementId);
     e.stopPropagation();
     e.preventDefault();
     this.setState({
       selectedId: elementId,
       editingId: elementId
     })
+    const element = document.getElementById(`${elementId}-input`);
+    element.focus();
   }
 
-  unSelect = (e) => {
-    console.log("UNSELECT");
-    this.setState({
-      editingId: null,
-      selectedId: null
-    });
+  backgroundMouseUp = (e) => {
+    console.log("CLICK BACKGROUND", this.state.dragging);
+    if(!this.state.dragging){
+      if(this.state.editingId){
+        this.setState({ editingId: null })
+      }else{
+        this.setState({
+          selectedId: null
+        });
+      }
+    }
   }
 
   /// REPOSITION /////////////////////////////////////////////////
@@ -189,7 +196,6 @@ class Creator extends Component {
         selectedHline: selectedHline,
         selectedVline: selectedVline,
         elements: elementsNew,
-
       });
     } 
 
@@ -200,14 +206,16 @@ class Creator extends Component {
       window.removeEventListener('mouseup', mouseup);
       this.setState({
         selectedHline: null, 
-        selectedVline: null
+        selectedVline: null,
+        dragging: false
       })
     }
 
     window.addEventListener('mousemove', mousemove);
     window.addEventListener('mouseup', mouseup);
     this.setState({
-      selectedId: elementId, 
+      selectedId: elementId,
+      dragging: true, 
     })
   }
 
@@ -399,13 +407,6 @@ class Creator extends Component {
             default: console.log('Invalid dir', dir)
         }
 
-        // check all vetical lines if one is in the toleranz to be highlighted
-        Vlines.forEach(l => {
-          if(['W', 'SW', 'NW'].includes(dir) && Math.abs(l-(newY+element.height)) < JUMP_TO_LINE_TOLERANZ){
-
-          }
-        })
-
         const elem = document.getElementById(`${elementId}-input`);
 
         let elementsNew = this.state.elements.map(E => {
@@ -422,6 +423,7 @@ class Creator extends Component {
           }
         });
         this.setState({
+          dragging: true,
           elements: elementsNew,
           selectedHline: selectedHline,
           selectedVline: selectedVline,
@@ -434,7 +436,8 @@ class Creator extends Component {
       window.removeEventListener('mouseup', mouseup);
       this.setState({
         selectedHline: null, 
-        selectedVline: null
+        selectedVline: null,
+        dragging: false
       })
     }
     window.addEventListener('mousemove', resizeMouseMouve);
@@ -475,7 +478,6 @@ class Creator extends Component {
               selected={e.elementId === this.state.selectedId}
               edit={this.edit}
               select={this.select}
-              selectAndEdit={this.selectAndEdit}
               elementMouseDown={this.elementMouseDown}
               onTextInput={this.onTextInput}
               adjustTextElementHeight={this.adjustTextElementHeight}
@@ -505,8 +507,6 @@ class Creator extends Component {
               selected={e.elementId === this.state.selectedId}
               select={this.select}
               elementMouseDown={this.elementMouseDown}
-              onTextInput={this.onTextInput}
-              adjustTextElementHeight={this.adjustTextElementHeight}
               selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
             />
           )
@@ -581,7 +581,7 @@ class Creator extends Component {
     return (
       <div 
         className={styleClasses.join(" ")}
-        // onClick={this.unSelect}
+        onMouseUp={this.backgroundMouseUp}
       >
         <SelectionMenu
           edit={this.edit}
@@ -590,8 +590,10 @@ class Creator extends Component {
         {selected 
           ? <SelectionFrame 
               element={selected}
+              editingId={this.state.editingId}
               resizeMouseDown={this.resizeMouseDown}
               elementMouseDown={this.elementMouseDown}
+              selectAndEdit={this.selectAndEdit}
             /> 
           : null}
         { this.getElements() }

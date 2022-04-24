@@ -79,36 +79,37 @@ class Element extends Component {
     }
 
     getContent = () => {
+        const {font, fontSize, fontWeight, color, elementId, imgSrc } = this.props.element;
         switch(this.props.type){
             case 'text': 
                 return(
                     <p
                         contentEditable={true}//this.props.currentlyEditing}
                         type='text' 
-                        id={`${this.props.element.elementId}-input`}
+                        id={`${elementId}-input`}
                         className={classes.TextInput} 
                         onDoubleClick={this.onTextFocus}
                         style={{
-                            fontFamily: this.props.element.font,
-                            fontSize: this.props.element.fontSize,
-                            fontWeight: this.props.element.fontWeight
+                            fontFamily: font,
+                            fontSize: fontSize,
+                            fontWeight: fontWeight
                         }}
-                        onInput={e => this.props.onTextInput(e, this.props.element.elementId)}>
+                        onInput={e => this.props.onTextInput(e, elementId)}>
                     </p>
                 )
             case 'image': 
                 return(
                     <img
-                        src={this.props.element.imgSrc}
+                        src={imgSrc}
                         className={classes.Image}
-                        id={`${this.props.element.elementId}-image`}
+                        id={`${elementId}-image`}
                     />
                 )
             case 'rect':
                 return (
                     <div 
                         className={classes.Rect}
-                        style={{backgroundColor: this.props.element.color}}
+                        style={{backgroundColor: color}}
                     >
 
                     </div>

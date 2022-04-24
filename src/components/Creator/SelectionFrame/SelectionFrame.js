@@ -7,6 +7,7 @@ class SelectionFrame extends Component {
 
     getResizeHandlers = () => {
         let resizeHandlers = [];
+        if(this.props.editingId) return null; 
         if(this.props.element.type === 'text' && this.props.element.fixedWidth){
                 resizeHandlers.push('W','E');
         } else {
@@ -30,14 +31,27 @@ class SelectionFrame extends Component {
         });
     }
 
+    doubleClick = e => {
+        console.log("DOUBLE CLICK REGISTERED")
+        if(this.props.element.type === 'text'){
+            this.props.selectAndEdit(e, this.props.element.elementId)
+        }
+    }
+
     getStyles = () => {
         const { height, width, posX, posY } = this.props.element;
-        return {
+        let styles = {
             height: `${height}px`, 
             width: `${width}px`,
             left: `${posX}px`,
             top: `${posY}px`,
         }
+        if(this.props.editingId){
+            styles.pointerEvents = 'none'; 
+        }else {
+            styles.cursor = 'grab';
+        }
+        return styles; 
     }
 
     render(){
@@ -45,7 +59,9 @@ class SelectionFrame extends Component {
             <div 
                 className={classes.SelectionFrame} 
                 style={this.getStyles()}
-                onMouseDown={(e) => this.props.elementMouseDown(e, this.props.element.elementId)}>
+                onMouseDown={(e) => this.props.elementMouseDown(e, this.props.element.elementId)}
+                onDoubleClick={this.doubleClick}
+                >
                 {this.getResizeHandlers()}
             </div>           
         );
