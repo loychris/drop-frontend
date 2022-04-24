@@ -327,22 +327,74 @@ class Creator extends Component {
             case 'SE':
                 newWidth += diffWidth; 
                 newHeight = e.shiftKey ? newHeight + diffHeight : newWidth / aspectRatio; 
+                Vlines.forEach(l => {
+                  if(Math.abs(newX + newWidth - l) < JUMP_TO_LINE_TOLERANZ){
+                    newWidth = l - prevX;
+                    selectedVline = l;
+                  }  
+                });
+                Hlines.forEach(l => {
+                  if(Math.abs(newY + newHeight - l) < JUMP_TO_LINE_TOLERANZ){
+                    newHeight = l - prevY;
+                    selectedHline = l;
+                  }  
+                });
                 break; 
             case 'NE':
                 newWidth += diffWidth; 
                 newHeight = e.shiftKey ? newHeight - diffHeight : newWidth / aspectRatio;
                 newY += prevHeight - newHeight; 
+                Hlines.forEach(l => {
+                  if(Math.abs(l-newY) < JUMP_TO_LINE_TOLERANZ){
+                    newHeight = prevY + prevHeight - l;
+                    newY = l;
+                    selectedHline = l;
+                  }  
+                });
+                Vlines.forEach(l => {
+                  if(Math.abs(newX + newWidth - l) < JUMP_TO_LINE_TOLERANZ){
+                    newWidth = l - prevX;
+                    selectedVline = l;
+                  }  
+                });
                 break; 
             case 'SW':
                 newWidth -= diffWidth; 
                 newHeight = e.shiftKey ? newHeight + diffHeight : newWidth / aspectRatio; 
                 newX += prevWidth - newWidth; 
+                Hlines.forEach(l => {
+                  if(Math.abs(newY + newHeight - l) < JUMP_TO_LINE_TOLERANZ){
+                    newHeight = l - prevY;
+                    selectedHline = l;
+                  }  
+                });
+                Vlines.forEach(l => {
+                  if(Math.abs(l-newX) < JUMP_TO_LINE_TOLERANZ){
+                    newWidth = prevX + prevWidth - l;
+                    newX = l;
+                    selectedVline = l;
+                  }  
+                });
                 break;
             case 'NW':
                 newWidth -= diffWidth; 
                 newHeight = e.shiftKey ? newHeight - diffHeight : newWidth / aspectRatio;
                 newX += prevWidth - newWidth; 
                 newY += prevHeight - newHeight; 
+                Hlines.forEach(l => {
+                  if(Math.abs(l-newY) < JUMP_TO_LINE_TOLERANZ){
+                    newHeight = prevY + prevHeight - l;
+                    newY = l;
+                    selectedHline = l;
+                  }  
+                });
+                Vlines.forEach(l => {
+                  if(Math.abs(l-newX) < JUMP_TO_LINE_TOLERANZ){
+                    newWidth = prevX + prevWidth - l;
+                    newX = l;
+                    selectedVline = l;
+                  }  
+                });
                 break; 
             default: console.log('Invalid dir', dir)
         }
@@ -376,10 +428,14 @@ class Creator extends Component {
         });
     }
     const mouseup = (e) => {
-        e.preventDefault();
-        e.stopPropagation(); 
-        window.removeEventListener('mousemove', resizeMouseMouve);
-        window.removeEventListener('mouseup', mouseup);
+      e.preventDefault();
+      e.stopPropagation(); 
+      window.removeEventListener('mousemove', resizeMouseMouve);
+      window.removeEventListener('mouseup', mouseup);
+      this.setState({
+        selectedHline: null, 
+        selectedVline: null
+      })
     }
     window.addEventListener('mousemove', resizeMouseMouve);
     window.addEventListener('mouseup', mouseup);
