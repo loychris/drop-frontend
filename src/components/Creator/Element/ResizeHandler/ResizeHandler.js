@@ -4,6 +4,23 @@ import classes from './ResizeHandler.module.css';
 
 class ResizeHandler extends Component {
 
+    componentDidMount = () => {
+        let element = document.getElementById(`rsh-${this.props.dir}`);
+        if(element){
+            element.addEventListener('onmousedown', this.handleResizeMouseDown);
+        }
+    }
+
+    componentWillUnmount = () => {
+        let element = document.getElementById(`rsh-${this.props.dir}`);
+        if(element){
+            element.removeEventListener('onmousedown', this.handleResizeMouseDown)
+        }
+    }
+
+    handleResizeMouseDown = e => {
+        this.props.resizeMouseDown(e, this.props.dir, this.props.elementId);
+    }
     getStyleClasses = () => {
         let styles = [this.props.dir.length > 1 ? classes.Corner : classes.Edge];
         switch(this.props.dir){ 
@@ -23,8 +40,9 @@ class ResizeHandler extends Component {
     render() {
         return(
             <div 
+                id={`rsh-${this.props.dir}`}
                 className={this.getStyleClasses().join(' ')} 
-                onMouseDown={e => this.props.mouseDown(e, this.props.dir, this.props.elementId)}>
+                onMouseDown={e => this.props.resizeMouseDown(e, this.props.dir, this.props.elementId)}>
             </div>
         )
     }

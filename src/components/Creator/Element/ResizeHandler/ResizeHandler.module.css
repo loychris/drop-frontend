@@ -3,6 +3,7 @@
     background-image: linear-gradient(#f7f7f7, #e7e7e7);
     box-shadow: 0 3px 4px rgb(179, 179, 179), inset 0 2px 3px #fff;
     color: #878787;
+    cursor: pointer;
 }
 
 .Corner {

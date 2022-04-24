@@ -1,0 +1,10 @@
+.SelectionFrame {
+    z-index: 301;
+    border: 1px solid #919191;
+    transform: translate(-1px, -1px);
+    position: absolute;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    /* pointer-events: none; */
+}

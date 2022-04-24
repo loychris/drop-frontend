@@ -4,15 +4,11 @@
     -khtml-user-select: none;
     user-select: none;
     color: #ffffff;
+    z-index: 200;
 }
 
 .Rectangle:hover {
     cursor: grab;
-}
-
-.Selected {
-    border: 1px solid #919191;
-    transform: translate(-1px, -1px)
 }
 
 .highlight {

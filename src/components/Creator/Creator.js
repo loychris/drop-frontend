@@ -53,32 +53,32 @@ class Creator extends Component {
       //   italic: false, 
       //   textStroke: true,
       // },
-      // {
-      //   type: 'text', 
-      //   elementId: '7',
-      //   height: 60,
-      //   width: 400, 
-      //   posX: 100,
-      //   posY: 300,
-      //   text: 'Text Element 3',
-      //   font: 'Oswald',
-      //   fontSize: '30',
-      //   fontWeight: '700',
-      //   textAlign: 'center',
-      //   fixedWidth: true,
-      //   underline: false, 
-      //   italic: false, 
-      //   textStroke: true,
-      // },
-      // {
-      //   type: 'rect',
-      //   elementId: '8',
-      //   posX: 100,
-      //   posY: 100,
-      //   height: 400,
-      //   width: 400,
-      //   color: '#FF8592',
-      // },
+      {
+        type: 'text', 
+        elementId: '7',
+        height: 60,
+        width: 400, 
+        posX: 100,
+        posY: 300,
+        text: 'Text Element 3',
+        font: 'Oswald',
+        fontSize: '30',
+        fontWeight: '700',
+        textAlign: 'center',
+        fixedWidth: true,
+        underline: false, 
+        italic: false, 
+        textStroke: true,
+      },
+      {
+        type: 'rect',
+        elementId: '8',
+        posX: 100,
+        posY: 100,
+        height: 400,
+        width: 400,
+        color: '#FF8592',
+      },
       {
         type: 'image',
         elementId: '9',
@@ -131,8 +131,7 @@ class Creator extends Component {
 
   /// REPOSITION /////////////////////////////////////////////////
 
-  rectangleMouseDown = (e, elementId) => {
-    console.log("RECTANGLE MOUSE DOWN")
+  elementMouseDown = (e, elementId) => {
     e.preventDefault();
     e.stopPropagation();
     const element = this.state.elements.find(e => e.elementId === elementId);
@@ -185,9 +184,6 @@ class Creator extends Component {
           })
         }
       });
-      if(selectedHline) console.log("Hline Selected", selectedHline);
-      if(selectedVline) console.log("Vline selected", selectedVline); 
-
       this.setState({
         selectedId: elementId, 
         selectedHline: selectedHline,
@@ -262,39 +258,71 @@ class Creator extends Component {
   ///  RESIZE  /////////////////////////////////////////////////
 
   resizeMouseDown = (e, dir, elementId) => {
+    console.log('RESIZE MOUSE DOWN');
     e.preventDefault();
     e.stopPropagation(); 
     const element = this.state.elements.find(e => e.elementId === elementId);
     const aspectRatio = element.width / element.height;
     const prevWidth = element.width;
     const prevHeight = element.height;
-    const prevLeft = element.posX;
-    const prevTop = element.posY;
+    const prevX = element.posX;
+    const prevY = element.posY;
     const mouseStartX = e.clientX;
     const mouseStartY = e.clientY;
+
     const resizeMouseMouve = (e) => {
         let newWidth = prevWidth;
         let newHeight = prevHeight;
-        let newLeft = prevLeft;
-        let newTop = prevTop;
+        let newX = prevX;
+        let newY = prevY;
 
         const diffWidth = e.clientX - mouseStartX;
         const diffHeight = e.clientY - mouseStartY;
 
+        const { Hlines, Vlines } = this.getLines(elementId);
+        let selectedHline = null;
+        let selectedVline = null; 
+
         switch(dir) {
             case 'E': 
                 newWidth += diffWidth;
+                Vlines.forEach(l => {
+                  if(Math.abs(newX + newWidth - l) < JUMP_TO_LINE_TOLERANZ){
+                    newWidth = l - prevX;
+                    selectedVline = l;
+                  }  
+                });
                 break;
             case 'S': 
                 newHeight += diffHeight; 
+                Hlines.forEach(l => {
+                  if(Math.abs(newY + newHeight - l) < JUMP_TO_LINE_TOLERANZ){
+                    newHeight = l - prevY;
+                    selectedHline = l;
+                  }  
+                });
                 break; 
             case 'W': 
                 newWidth -= diffWidth;
-                newLeft += diffWidth;
+                newX += diffWidth;
+                Vlines.forEach(l => {
+                  if(Math.abs(l-newX) < JUMP_TO_LINE_TOLERANZ){
+                    newWidth = prevX + prevWidth - l;
+                    newX = l;
+                    selectedVline = l;
+                  }  
+                });
                 break;    
             case 'N': 
                 newHeight -= diffHeight;
-                newTop += diffHeight;
+                newY += diffHeight;
+                Hlines.forEach(l => {
+                  if(Math.abs(l-newY) < JUMP_TO_LINE_TOLERANZ){
+                    newHeight = prevY + prevHeight - l;
+                    newY = l;
+                    selectedHline = l;
+                  }  
+                });
                 break;                 
             case 'SE':
                 newWidth += diffWidth; 
@@ -303,21 +331,29 @@ class Creator extends Component {
             case 'NE':
                 newWidth += diffWidth; 
                 newHeight = e.shiftKey ? newHeight - diffHeight : newWidth / aspectRatio;
-                newTop += prevHeight - newHeight; 
+                newY += prevHeight - newHeight; 
                 break; 
             case 'SW':
                 newWidth -= diffWidth; 
                 newHeight = e.shiftKey ? newHeight + diffHeight : newWidth / aspectRatio; 
-                newLeft += prevWidth - newWidth; 
+                newX += prevWidth - newWidth; 
                 break;
             case 'NW':
                 newWidth -= diffWidth; 
                 newHeight = e.shiftKey ? newHeight - diffHeight : newWidth / aspectRatio;
-                newLeft += prevWidth - newWidth; 
-                newTop += prevHeight - newHeight; 
+                newX += prevWidth - newWidth; 
+                newY += prevHeight - newHeight; 
                 break; 
             default: console.log('Invalid dir', dir)
         }
+
+        // check all vetical lines if one is in the toleranz to be highlighted
+        Vlines.forEach(l => {
+          if(['W', 'SW', 'NW'].includes(dir) && Math.abs(l-(newY+element.height)) < JUMP_TO_LINE_TOLERANZ){
+
+          }
+        })
+
         const elem = document.getElementById(`${elementId}-input`);
 
         let elementsNew = this.state.elements.map(E => {
@@ -326,14 +362,18 @@ class Creator extends Component {
               ...element,
                 width: newWidth, 
                 height: element.type==='text' ? elem.offsetHeight : newHeight,
-                posX: newLeft,
-                posY: newTop,
+                posX: newX,
+                posY: newY,
             }
           }else{
             return E
           }
         });
-        this.setState({elements: elementsNew});
+        this.setState({
+          elements: elementsNew,
+          selectedHline: selectedHline,
+          selectedVline: selectedVline,
+        });
     }
     const mouseup = (e) => {
         e.preventDefault();
@@ -380,10 +420,9 @@ class Creator extends Component {
               edit={this.edit}
               select={this.select}
               selectAndEdit={this.selectAndEdit}
-              rectangleMouseDown={this.rectangleMouseDown}
+              elementMouseDown={this.elementMouseDown}
               onTextInput={this.onTextInput}
               adjustTextElementHeight={this.adjustTextElementHeight}
-              resizeMouseDown={this.resizeMouseDown}
               selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
             />
           ) 
@@ -396,8 +435,7 @@ class Creator extends Component {
                 element={e}
                 selected={e.elementId === this.state.selectedId}
                 select={this.select}
-                rectangleMouseDown={this.rectangleMouseDown}
-                resizeMouseDown={this.resizeMouseDown}
+                elementMouseDown={this.elementMouseDown}
                 selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
               />
             )
@@ -410,10 +448,9 @@ class Creator extends Component {
               element={e}
               selected={e.elementId === this.state.selectedId}
               select={this.select}
-              rectangleMouseDown={this.rectangleMouseDown}
+              elementMouseDown={this.elementMouseDown}
               onTextInput={this.onTextInput}
               adjustTextElementHeight={this.adjustTextElementHeight}
-              resizeMouseDown={this.resizeMouseDown}
               selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
             />
           )
@@ -488,7 +525,7 @@ class Creator extends Component {
     return (
       <div 
         className={styleClasses.join(" ")}
-        onClick={this.unSelect}
+        // onClick={this.unSelect}
       >
         <SelectionMenu
           edit={this.edit}

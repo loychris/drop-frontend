@@ -58,23 +58,6 @@ class Element extends Component {
         }
     }
 
-    getResizeHandlers = () => {
-        if(!this.props.selected) return null;
-        let resizeHandlers = [];
-        if(this.props.type === 'text' && this.props.element.fixedWidth){
-                resizeHandlers.push('W','E');
-        } else {
-            resizeHandlers.push('NW','SW','NE','SE');
-            if(this.props.element.height > 30){
-                resizeHandlers.push('E','W');
-            }
-            if(this.props.element.width > 30){
-                resizeHandlers.push('N','S');
-            }
-        } 
-        return resizeHandlers.map(r => <ResizeHandler key={r} dir={r} elementId={this.props.element.elementId} mouseDown={this.props.resizeMouseDown}/>)
-    }
-
     getStyles = () => {
         const { height, width, posX, posY, font, fontSize, textAlign, fontWeight, underline, italic, color, textStroke } = this.props.element;
         return {
@@ -149,18 +132,21 @@ class Element extends Component {
     }
 
     mouseDown = (e) => {
+        console.log("ELEMENT MOUSE DOOWN");
         e.preventDefault();
         e.stopPropagation(); 
-        this.props.rectangleMouseDown(e, this.props.element.elementId);
+        this.props.elementMouseDown(e, this.props.element.elementId);
     }
 
     normalCkick = (e) => {
+        console.log("ELEMENT CLICK");
         e.preventDefault();
         e.stopPropagation(); 
         this.props.select(e, this.props.element.elementId);
     }
 
     doubleClick = (e) => {
+        console.log("ELEMENT DOUBLE CLICK")
         if(this.props.element.type === 'text'){
             this.props.selectAndEdit(e, this.props.element.elementId);
         } else {
@@ -171,7 +157,6 @@ class Element extends Component {
 
     render() {  
         let styleClasses = [classes.Rectangle];
-        if(this.props.selected) styleClasses.push(classes.Selected);
         if(this.highlighed()) styleClasses.push(classes.highlight);
         return(
                 <div className={styleClasses.join(' ')}
@@ -179,9 +164,10 @@ class Element extends Component {
                     onDoubleClick={this.doubleClick}
                     onMouseDown={this.mouseDown}
                     style={this.getStyles()}
+                    id={`element-${this.props.element.elementId}`}
                 >
                     {this.getContent()}
-                    {this.getResizeHandlers()}
+                    {/* {this.getResizeHandlers()} */}
                 </div>
         )
     }
