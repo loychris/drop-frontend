@@ -19,8 +19,10 @@ class ResizeHandler extends Component {
     }
 
     handleResizeMouseDown = e => {
+        e.stopPropagation();
         this.props.resizeMouseDown(e, this.props.dir, this.props.elementId);
     }
+
     getStyleClasses = () => {
         let styles = [this.props.dir.length > 1 ? classes.Corner : classes.Edge];
         switch(this.props.dir){ 

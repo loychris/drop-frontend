@@ -134,22 +134,15 @@ class Element extends Component {
     }
 
     mouseDown = (e) => {
-        e.preventDefault();
         e.stopPropagation(); 
-        if(this.props.editingId === this.props.element.elementId){
-            console.log("PREVENTING MOUSE DOWN IN ELEMENT");
-        }else{
-            console.log("ELEM MOUSE DOOWN      IN ELEMENT", this.props.editingId);
+        if(this.props.editingId !== this.props.element.elementId){
             this.props.elementMouseDown(e, this.props.element.elementId);
         }
     }
 
     mouseUp = (e) => {
-        e.preventDefault();
-        e.stopPropagation(); 
-        if(this.props.editingId === this.props.element.elementId){
-            console.log("PREVENDING SELECT IN MOUSE UP IN ELEMENT")
-        }else{
+        e.stopPropagation();
+        if(this.props.editingId !== this.props.element.elementId){
             this.props.select(e, this.props.element.elementId);
         }
     }
@@ -161,11 +154,6 @@ class Element extends Component {
             this.props.select(e, this.props.element.elementId);
         }
     }
-
-    click = () => {
-        
-    }
-
 
     render() {  
         let styleClasses = [classes.Rectangle];

@@ -102,7 +102,6 @@ class Creator extends Component {
   /// SELECT /////////////////////////////////////////////////
 
   select = (e, elementId) => {
-    console.log("SELECT");
     e.stopPropagation();
     e.preventDefault();
     const element = document.getElementById(`${this.state.editingId}-input`);

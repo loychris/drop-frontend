@@ -32,7 +32,6 @@ class SelectionFrame extends Component {
     }
 
     doubleClick = e => {
-        console.log("DOUBLE CLICK REGISTERED")
         if(this.props.element.type === 'text'){
             this.props.selectAndEdit(e, this.props.element.elementId)
         }
@@ -55,10 +54,9 @@ class SelectionFrame extends Component {
     }
 
     onMouseDown = (e) => {
-        if(this.props.editingId === this.props.element.elementId){
-            console.log("PREVENT MOUSE DONW FROM FRAME")
+        if(this.props.editingId !== this.props.element.elementId){
+            this.props.elementMouseDown(e, this.props.element.elementId)
         }
-        this.props.elementMouseDown(e, this.props.element.elementId)
     }
 
     render(){
@@ -67,6 +65,7 @@ class SelectionFrame extends Component {
                 className={classes.SelectionFrame} 
                 style={this.getStyles()}
                 onMouseDown={this.onMouseDown}
+                onMouseUp={this.mouseUp}
                 onDoubleClick={this.doubleClick}
                 >
                 {this.getResizeHandlers()}
