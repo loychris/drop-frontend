@@ -7,6 +7,7 @@ import Element from "./Element/Element";
 import Line from "./Line/Line";
 import TopMenu from "./TopMenu/TopMenu";
 import SelectionMenu from "./SelectionMenu/SelectionMenu";
+import SelectionFrame from "./SelectionFrame/SelectionFrame";
 
 const JUMP_TO_LINE_TOLERANZ = 8;
 
@@ -18,66 +19,66 @@ class Creator extends Component {
     selectedHline: null,
     selectedVline: null,
     elements: [
-      {
-        type: 'text', 
-        elementId: '5',
-        height: 60,
-        width: 400, 
-        posX: 100,
-        posY: 100,
-        text: 'Text Element 1',
-        font: 'Oswald',
-        fontSize: '30',
-        fontWeight: '700',
-        textAlign: 'center',
-        fixedWidth: true,
-        underline: false, 
-        italic: false, 
-        textStroke: true,
-      },
-      {
-        type: 'text', 
-        elementId: '6',
-        height: 60,
-        width: 400, 
-        posX: 100,
-        posY: 200,
-        text: 'Text Element 2',
-        font: 'Oswald',
-        fontSize: '30',
-        fontWeight: '700',
-        textAlign: 'center',
-        fixedWidth: true,
-        underline: false, 
-        italic: false, 
-        textStroke: true,
-      },
-      {
-        type: 'text', 
-        elementId: '7',
-        height: 60,
-        width: 400, 
-        posX: 100,
-        posY: 300,
-        text: 'Text Element 3',
-        font: 'Oswald',
-        fontSize: '30',
-        fontWeight: '700',
-        textAlign: 'center',
-        fixedWidth: true,
-        underline: false, 
-        italic: false, 
-        textStroke: true,
-      },
-      {
-        type: 'rect',
-        elementId: '8',
-        posX: 100,
-        posY: 100,
-        height: 400,
-        width: 400,
-        color: '#FF8592',
-      },
+      // {
+      //   type: 'text', 
+      //   elementId: '5',
+      //   height: 60,
+      //   width: 400, 
+      //   posX: 100,
+      //   posY: 100,
+      //   text: 'Text Element 1',
+      //   font: 'Oswald',
+      //   fontSize: '30',
+      //   fontWeight: '700',
+      //   textAlign: 'center',
+      //   fixedWidth: true,
+      //   underline: false, 
+      //   italic: false, 
+      //   textStroke: true,
+      // },
+      // {
+      //   type: 'text', 
+      //   elementId: '6',
+      //   height: 60,
+      //   width: 400, 
+      //   posX: 100,
+      //   posY: 200,
+      //   text: 'Text Element 2',
+      //   font: 'Oswald',
+      //   fontSize: '30',
+      //   fontWeight: '700',
+      //   textAlign: 'center',
+      //   fixedWidth: true,
+      //   underline: false, 
+      //   italic: false, 
+      //   textStroke: true,
+      // },
+      // {
+      //   type: 'text', 
+      //   elementId: '7',
+      //   height: 60,
+      //   width: 400, 
+      //   posX: 100,
+      //   posY: 300,
+      //   text: 'Text Element 3',
+      //   font: 'Oswald',
+      //   fontSize: '30',
+      //   fontWeight: '700',
+      //   textAlign: 'center',
+      //   fixedWidth: true,
+      //   underline: false, 
+      //   italic: false, 
+      //   textStroke: true,
+      // },
+      // {
+      //   type: 'rect',
+      //   elementId: '8',
+      //   posX: 100,
+      //   posY: 100,
+      //   height: 400,
+      //   width: 400,
+      //   color: '#FF8592',
+      // },
       {
         type: 'image',
         elementId: '9',
@@ -145,17 +146,6 @@ class Creator extends Component {
       let newY = prevY - prevMouseY + e.clientY;
       let selectedHline = null;
       let selectedVline = null; 
-      let elementsNew = this.state.elements.map(e => {
-        if(e.elementId !== elementId){
-          return e;
-        }else{
-          return ({
-            ...element,
-            posX: newX,
-            posY: newY,
-          })
-        }
-      });
       Hlines.forEach(l => {
         if(Math.abs(l-newY) < JUMP_TO_LINE_TOLERANZ){
            newY = l;
@@ -184,6 +174,20 @@ class Creator extends Component {
           selectedVline = l;
         }
       })
+      let elementsNew = this.state.elements.map(e => {
+        if(e.elementId !== elementId){
+          return e;
+        }else{
+          return ({
+            ...element,
+            posX: newX,
+            posY: newY,
+          })
+        }
+      });
+      if(selectedHline) console.log("Hline Selected", selectedHline);
+      if(selectedVline) console.log("Vline selected", selectedVline); 
+
       this.setState({
         selectedId: elementId, 
         selectedHline: selectedHline,
@@ -480,19 +484,24 @@ class Creator extends Component {
     const styleClasses = [classes.Creator];
     if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeftLeft);
     if (this.props.currentTab === 'chat') styleClasses.push(classes.OutLeft);
+    const selected = this.state.elements.find(e => e.elementId === this.state.selectedId);
     return (
       <div 
         className={styleClasses.join(" ")}
         onClick={this.unSelect}
       >
-        <TopMenu
-          addElement={this.addElement}
-        />
         <SelectionMenu
           edit={this.edit}
-          selected={this.state.elements.find(e => e.elementId === this.state.selectedId)}
+          selected={selected}
         /> 
+        {selected 
+          ? <SelectionFrame 
+              element={selected}
+              resizeMouseDown={this.resizeMouseDown}
+            /> 
+          : null}
         { this.getElements() }
+        <TopMenu addElement={this.addElement}/>
         { this.renderLines() }
       </div>
     );
