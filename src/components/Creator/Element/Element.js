@@ -7,57 +7,6 @@ import ResizeHandler from './ResizeHandler/ResizeHandler';
 
 class Element extends Component {
 
-    componentDidMount = () => {
-        if(this.props.type === 'text'){
-            //this.props.adjustTextElementHeight(this.props.element.elementId);
-            const domElemement = document.getElementById(`${this.props.element.elementId}-input`);
-            if(this.props.element.height !== domElemement.offsetHeight){
-                this.props.edit(this.props.element.elementId, {
-                    ...this.props.element, 
-                    height: domElemement.offsetHeight
-                })
-            }
-            if(this.props.currentlyEditing){
-                console.log("EDITING")
-                console.log(this.props.currentlyEditing);
-                this.onTextFocus(); 
-            }
-        }
-    }
-
-    componentDidUpdate = () => {
-        if(this.props.type === 'text' && this.props.element.fixedWidth){
-            const domElemement = document.getElementById(`${this.props.element.elementId}-input`);
-            if(this.props.element.height !== domElemement.offsetHeight){
-                this.props.adjustTextElementHeight(this.props.element.elementId);
-
-                // console.log("Changing height from ", this.props.element.height, " to ", domElemement.offsetHeight, "in DidUpdate");
-                // this.props.edit(this.props.element.elementId, {
-                //     ...this.props.element, 
-                //     height: domElemement.offsetHeight
-                // })
-            }
-        }
-    }
-
-    onTextFocus = () => {
-        const el = document.getElementById(`${this.props.element.elementId}-input`);
-        if (typeof window.getSelection != "undefined"
-            && typeof document.createRange != "undefined") {
-            const range = document.createRange();
-            range.selectNodeContents(el);
-            range.collapse(false);
-            const sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-        } else if (typeof document.body.createTextRange != "undefined") {
-            const textRange = document.body.createTextRange();
-            textRange.moveToElementText(el);
-            textRange.collapse(false);
-            textRange.select();
-        }
-    }
-
     getStyles = () => {
         const { height, width, posX, posY, font, fontSize, textAlign, fontWeight, underline, italic, color, textStroke, elementId } = this.props.element;
         return {
@@ -90,7 +39,7 @@ class Element extends Component {
                         type='text' 
                         id={`${elementId}-input`}
                         className={classes.TextInput} 
-                        onDoubleClick={this.onTextFocus}
+                        // onDoubleClick={this.onTextFocus}
                         style={{
                             fontFamily: font,
                             fontSize: fontSize,

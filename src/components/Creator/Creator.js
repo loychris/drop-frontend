@@ -218,13 +218,13 @@ class Creator extends Component {
     let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
     const element = this.state.elements.find(e => e.elementId === elementId);
     const elem = document.getElementById(`${elementId}-input`);
-
+    let newHeight = element.fixedWidth ? elem.offsetHeight : element.height; 
     this.setState({
       elements: [
         ...elementsNew,
         {
           ...element,
-          height: elem.offsetHeight,
+          height: newHeight,
           text: e.target.innerHTML
         }
       ]
@@ -278,6 +278,7 @@ class Creator extends Component {
         let newHeight = prevHeight;
         let newX = prevX;
         let newY = prevY;
+        let newFontSize = element.fontSize;
 
         const diffWidth = e.clientX - mouseStartX;
         const diffHeight = e.clientY - mouseStartY;
@@ -405,9 +406,15 @@ class Creator extends Component {
             default: console.log('Invalid dir', dir)
         }
 
-        if(element.type === 'text' && element.fixedWidth){
+        if(element.type === 'text'){
           const elem = document.getElementById(`${elementId}-input`);
-          newHeight = elem.offsetHeight;
+          if(element.fixedWidth){
+            newHeight = elem.offsetHeight;
+          } else {
+            if(elem.offsetHeight > newHeight){
+              newFontSize = element.fontSize - 2; 
+            }
+          }
         }
 
         let elementsNew = this.state.elements.map(E => {
@@ -418,6 +425,7 @@ class Creator extends Component {
                 height: newHeight,
                 posX: newX,
                 posY: newY,
+                fontSize: newFontSize
             }
           }else{
             return E
@@ -483,7 +491,6 @@ class Creator extends Component {
               selectAndEdit={this.selectAndEdit}
               elementMouseDown={this.elementMouseDown}
               onTextInput={this.onTextInput}
-              adjustTextElementHeight={this.adjustTextElementHeight}
               selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
             />
           ) 
