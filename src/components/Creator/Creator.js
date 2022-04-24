@@ -9,7 +9,7 @@ import TopMenu from "./TopMenu/TopMenu";
 import SelectionMenu from "./SelectionMenu/SelectionMenu";
 import SelectionFrame from "./SelectionFrame/SelectionFrame";
 
-const JUMP_TO_LINE_TOLERANZ = 8;
+const JUMP_TO_LINE_TOLERANZ = 4;
 
 class Creator extends Component {
 
@@ -591,6 +591,7 @@ class Creator extends Component {
           ? <SelectionFrame 
               element={selected}
               resizeMouseDown={this.resizeMouseDown}
+              elementMouseDown={this.elementMouseDown}
             /> 
           : null}
         { this.getElements() }

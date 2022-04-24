@@ -4,6 +4,7 @@ import classes from './SelectionFrame.module.css';
 
 class SelectionFrame extends Component {
 
+
     getResizeHandlers = () => {
         let resizeHandlers = [];
         if(this.props.element.type === 'text' && this.props.element.fixedWidth){
@@ -41,7 +42,10 @@ class SelectionFrame extends Component {
 
     render(){
         return(
-            <div className={classes.SelectionFrame} style={this.getStyles()}>
+            <div 
+                className={classes.SelectionFrame} 
+                style={this.getStyles()}
+                onMouseDown={(e) => this.props.elementMouseDown(e, this.props.element.elementId)}>
                 {this.getResizeHandlers()}
             </div>           
         );
