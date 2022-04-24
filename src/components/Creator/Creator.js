@@ -92,12 +92,6 @@ class Creator extends Component {
     ],
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(this.state.editingId !== prevState.editingId){
-      console.log("Editing Id changed from ", prevState.editingId, "to ", this.state.editingId);
-    }
-  }
-
 
   /// SELECT /////////////////////////////////////////////////
 
@@ -292,6 +286,9 @@ class Creator extends Component {
         let selectedHline = null;
         let selectedVline = null; 
 
+        let fixedAspectRatio = element.type === 'image'; 
+        if(e.shiftKey) fixedAspectRatio = !fixedAspectRatio; 
+
         switch(dir) {
             case 'E': 
                 newWidth += diffWidth;
@@ -335,7 +332,7 @@ class Creator extends Component {
                 break;                 
             case 'SE':
                 newWidth += diffWidth; 
-                newHeight = e.shiftKey ? newHeight + diffHeight : newWidth / aspectRatio; 
+                newHeight = fixedAspectRatio ? newWidth / aspectRatio : newHeight + diffHeight; 
                 Vlines.forEach(l => {
                   if(Math.abs(newX + newWidth - l) < JUMP_TO_LINE_TOLERANZ){
                     newWidth = l - prevX;
@@ -351,7 +348,7 @@ class Creator extends Component {
                 break; 
             case 'NE':
                 newWidth += diffWidth; 
-                newHeight = e.shiftKey ? newHeight - diffHeight : newWidth / aspectRatio;
+                newHeight = fixedAspectRatio ? newWidth / aspectRatio : newHeight - diffHeight;
                 newY += prevHeight - newHeight; 
                 Hlines.forEach(l => {
                   if(Math.abs(l-newY) < JUMP_TO_LINE_TOLERANZ){
@@ -369,7 +366,7 @@ class Creator extends Component {
                 break; 
             case 'SW':
                 newWidth -= diffWidth; 
-                newHeight = e.shiftKey ? newHeight + diffHeight : newWidth / aspectRatio; 
+                newHeight = fixedAspectRatio ? newWidth / aspectRatio : newHeight + diffHeight; 
                 newX += prevWidth - newWidth; 
                 Hlines.forEach(l => {
                   if(Math.abs(newY + newHeight - l) < JUMP_TO_LINE_TOLERANZ){
@@ -387,7 +384,7 @@ class Creator extends Component {
                 break;
             case 'NW':
                 newWidth -= diffWidth; 
-                newHeight = e.shiftKey ? newHeight - diffHeight : newWidth / aspectRatio;
+                newHeight = fixedAspectRatio ? newWidth / aspectRatio : newHeight - diffHeight;
                 newX += prevWidth - newWidth; 
                 newY += prevHeight - newHeight; 
                 Hlines.forEach(l => {
@@ -408,14 +405,17 @@ class Creator extends Component {
             default: console.log('Invalid dir', dir)
         }
 
-        const elem = document.getElementById(`${elementId}-input`);
+        if(element.type === 'text' && element.fixedWidth){
+          const elem = document.getElementById(`${elementId}-input`);
+          newHeight = elem.offsetHeight;
+        }
 
         let elementsNew = this.state.elements.map(E => {
           if(E.elementId === elementId){
             return {
               ...element,
                 width: newWidth, 
-                height: element.type==='text' ? elem.offsetHeight : newHeight,
+                height: newHeight,
                 posX: newX,
                 posY: newY,
             }
