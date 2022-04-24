@@ -54,12 +54,19 @@ class SelectionFrame extends Component {
         return styles; 
     }
 
+    onMouseDown = (e) => {
+        if(this.props.editingId === this.props.element.elementId){
+            console.log("PREVENT MOUSE DONW FROM FRAME")
+        }
+        this.props.elementMouseDown(e, this.props.element.elementId)
+    }
+
     render(){
         return(
             <div 
                 className={classes.SelectionFrame} 
                 style={this.getStyles()}
-                onMouseDown={(e) => this.props.elementMouseDown(e, this.props.element.elementId)}
+                onMouseDown={this.onMouseDown}
                 onDoubleClick={this.doubleClick}
                 >
                 {this.getResizeHandlers()}

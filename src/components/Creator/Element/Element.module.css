@@ -7,10 +7,6 @@
     z-index: 200;
 }
 
-.Rectangle:hover {
-    cursor: grab;
-}
-
 .highlight {
     border: 1px solid red;
     transform: translate(-1px, -1px)

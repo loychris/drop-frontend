@@ -102,9 +102,11 @@ class Creator extends Component {
   /// SELECT /////////////////////////////////////////////////
 
   select = (e, elementId) => {
-    console.log("SELECT")
+    console.log("SELECT");
     e.stopPropagation();
     e.preventDefault();
+    const element = document.getElementById(`${this.state.editingId}-input`);
+    element.blur();
     this.setState({
       selectedId: elementId, 
       editingId: null
@@ -112,7 +114,6 @@ class Creator extends Component {
   }
 
   selectAndEdit = (e, elementId) => {
-    console.log("SELECT AND EDIT")
     e.stopPropagation();
     e.preventDefault();
     this.setState({
@@ -124,9 +125,10 @@ class Creator extends Component {
   }
 
   backgroundMouseUp = (e) => {
-    console.log("CLICK BACKGROUND", this.state.dragging);
     if(!this.state.dragging){
       if(this.state.editingId){
+        const element = document.getElementById(`${this.state.editingId}-input`);
+        element.blur();
         this.setState({ editingId: null })
       }else{
         this.setState({
@@ -475,9 +477,11 @@ class Creator extends Component {
               type='text'
               key={e.elementId}
               element={e}
+              editingId={this.state.editingId}
               selected={e.elementId === this.state.selectedId}
               edit={this.edit}
               select={this.select}
+              selectAndEdit={this.selectAndEdit}
               elementMouseDown={this.elementMouseDown}
               onTextInput={this.onTextInput}
               adjustTextElementHeight={this.adjustTextElementHeight}

@@ -76,7 +76,7 @@
         )
     }
 
-    clicked = (e) => {
+    stopPropagation = (e) => {
         e.stopPropagation();
     }
 
@@ -166,7 +166,7 @@
         const { type, elementId, posX, posY, height, width, fontSize, font, fontWeight, fixedWidth } = this.props.selected;
 
         return (
-            <div className={classes.SelectionMenu} onClick={this.clicked}>
+            <div className={classes.SelectionMenu} onClick={this.stopPropagation} onMouseUp={this.stopPropagation}>
                 <div>
                     <div className={classes.flex}>
                         <div className={classes.inputWrapper}>

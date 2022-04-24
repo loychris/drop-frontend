@@ -59,7 +59,7 @@ class Element extends Component {
     }
 
     getStyles = () => {
-        const { height, width, posX, posY, font, fontSize, textAlign, fontWeight, underline, italic, color, textStroke } = this.props.element;
+        const { height, width, posX, posY, font, fontSize, textAlign, fontWeight, underline, italic, color, textStroke, elementId } = this.props.element;
         return {
             height: `${height}px`, 
             width: `${width}px`,
@@ -75,6 +75,8 @@ class Element extends Component {
             WebkitTextStrokeColor: textStroke ? "black" : null,
             WebkitTextStrokeWidth: textStroke ? "0.06rem": null,
             textShadow: textStroke ? "0px 0px 0.1rem  #000" : null,
+            cursor: this.props.editingId === elementId ? null : 'grab'
+
         }
     }
 
@@ -111,7 +113,6 @@ class Element extends Component {
                         className={classes.Rect}
                         style={{backgroundColor: color}}
                     >
-
                     </div>
                 )
             default: return null;
@@ -133,26 +134,36 @@ class Element extends Component {
     }
 
     mouseDown = (e) => {
-        console.log("ELEMENT MOUSE DOOWN");
         e.preventDefault();
         e.stopPropagation(); 
-        this.props.elementMouseDown(e, this.props.element.elementId);
+        if(this.props.editingId === this.props.element.elementId){
+            console.log("PREVENTING MOUSE DOWN IN ELEMENT");
+        }else{
+            console.log("ELEM MOUSE DOOWN      IN ELEMENT", this.props.editingId);
+            this.props.elementMouseDown(e, this.props.element.elementId);
+        }
     }
 
-    normalCkick = (e) => {
-        console.log("ELEMENT CLICK");
+    mouseUp = (e) => {
         e.preventDefault();
         e.stopPropagation(); 
-        this.props.select(e, this.props.element.elementId);
+        if(this.props.editingId === this.props.element.elementId){
+            console.log("PREVENDING SELECT IN MOUSE UP IN ELEMENT")
+        }else{
+            this.props.select(e, this.props.element.elementId);
+        }
     }
 
     doubleClick = (e) => {
-        console.log("ELEMENT DOUBLE CLICK")
         if(this.props.element.type === 'text'){
             this.props.selectAndEdit(e, this.props.element.elementId);
         } else {
             this.props.select(e, this.props.element.elementId);
         }
+    }
+
+    click = () => {
+        
     }
 
 
@@ -161,9 +172,9 @@ class Element extends Component {
         if(this.highlighed()) styleClasses.push(classes.highlight);
         return(
                 <div className={styleClasses.join(' ')}
-                    onClick={this.normalCkick}
                     onDoubleClick={this.doubleClick}
                     onMouseDown={this.mouseDown}
+                    onMouseUp={this.mouseUp}
                     style={this.getStyles()}
                     id={`element-${this.props.element.elementId}`}
                 >
