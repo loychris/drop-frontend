@@ -35,7 +35,8 @@ class Element extends Component {
             case 'text': 
                 return(
                     <p
-                        contentEditable="true" //this.props.currentlyEditing}
+                        contentEditable="true"
+                        suppressContentEditableWarning
                         type='text' 
                         id={`${elementId}-input`}
                         className={classes.TextInput} 
