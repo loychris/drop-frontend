@@ -1,4 +1,4 @@
-.Rectangle {
+.Element {
     position: absolute;
     -moz-user-select: none;
     -khtml-user-select: none;
@@ -20,6 +20,7 @@
     word-wrap: break-word;
     overflow-x: visible;
     caret-color: #555555;
+    position: relative;
 }
 
 .Image {
@@ -29,4 +30,23 @@
 
 .Rect {
     background-color: #555555;
+}
+
+.text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.topAlign {
+    vertical-align: top;
+}
+
+.middleAlign {
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.bottomAlign {
+    top: 100%;
+    transform: translate(0, -100%);
 }

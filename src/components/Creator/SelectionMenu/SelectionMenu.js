@@ -42,14 +42,54 @@
                 className={this.props.selected.textAlign === 'right' ? classes.alignActive : classes.alignInactive}
                 width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 {/* <rect x="-1.5" y="1.5" width="37" height="37" rx="3.5" transform="matrix(-1 0 0 1 37 0)" stroke="white" stroke-width="3"/> */}
-                <line y1="-1" x2="26" y2="-1" transform="matrix(-1 0 0 1 33 9)" stroke={strokeColor} strokeWidth="2"/>
-                <line y1="-1" x2="23" y2="-1" transform="matrix(-1 0 0 1 33 21)" stroke={strokeColor} strokeWidth="2"/>
-                <line y1="-1" x2="20" y2="-1" transform="matrix(-1 0 0 1 33 33)" stroke={strokeColor} strokeWidth="2"/>
-                <line y1="-1" x2="16" y2="-1" transform="matrix(-1 0 0 1 33 15)" stroke={strokeColor} strokeWidth="2"/>
-                <line y1="-1" x2="16" y2="-1" transform="matrix(-1 0 0 1 33 27)" stroke={strokeColor} strokeWidth="2"/>
+                <line stroke={strokeColor} y1="-1" x2="26" y2="-1" transform="matrix(-1 0 0 1 33 9)" strokeWidth="2"/>
+                <line stroke={strokeColor} y1="-1" x2="23" y2="-1" transform="matrix(-1 0 0 1 33 21)" strokeWidth="2"/>
+                <line stroke={strokeColor} y1="-1" x2="20" y2="-1" transform="matrix(-1 0 0 1 33 33)" strokeWidth="2"/>
+                <line stroke={strokeColor} y1="-1" x2="16" y2="-1" transform="matrix(-1 0 0 1 33 15)" strokeWidth="2"/>
+                <line stroke={strokeColor} y1="-1" x2="16" y2="-1" transform="matrix(-1 0 0 1 33 27)" strokeWidth="2"/>
             </svg>
         )
     }
+
+    topAlignIcon = () => {
+        const strokeColor = this.props.selected.verticalAlign === 'top' ? '#11192c' : '#ffffff';
+        console.log(strokeColor)
+        return(
+            <svg 
+                className={this.props.selected.verticalAlign === 'top' ? classes.alignActive : classes.alignInactive}
+                width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line stroke={strokeColor} x1="6" y1="7" x2="34" y2="7" strokeWidth="2"/>
+                <path fill={strokeColor} d="M20.7071 10.2929C20.3166 9.90237 19.6834 9.90237 19.2929 10.2929L12.9289 16.6569C12.5384 17.0474 12.5384 17.6805 12.9289 18.0711C13.3195 18.4616 13.9526 18.4616 14.3431 18.0711L20 12.4142L25.6569 18.0711C26.0474 18.4616 26.6805 18.4616 27.0711 18.0711C27.4616 17.6805 27.4616 17.0474 27.0711 16.6569L20.7071 10.2929ZM21 33V11H19V33H21Z"/>
+            </svg>
+        )
+    }
+
+    middleAlignIcon = () => {
+        const strokeColor = this.props.selected.verticalAlign === 'middle' ? '#11192c' : '#ffffff';
+        return(
+            <svg 
+                className={this.props.selected.verticalAlign === 'middle' ? classes.alignActive : classes.alignInactive}
+                width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line stroke={strokeColor} x1="6" y1="20" x2="34" y2="20" strokeWidth="2"/>
+                <path fill={strokeColor} d="M20.7071 23.2929C20.3166 22.9024 19.6834 22.9024 19.2929 23.2929L12.9289 29.6569C12.5384 30.0474 12.5384 30.6805 12.9289 31.0711C13.3195 31.4616 13.9526 31.4616 14.3431 31.0711L20 25.4142L25.6569 31.0711C26.0474 31.4616 26.6805 31.4616 27.0711 31.0711C27.4616 30.6805 27.4616 30.0474 27.0711 29.6569L20.7071 23.2929ZM21 34L21 24H19V34H21Z"/>
+                <path fill={strokeColor} d="M19.2929 16.7071C19.6834 17.0976 20.3166 17.0976 20.7071 16.7071L27.0711 10.3431C27.4616 9.95262 27.4616 9.31946 27.0711 8.92893C26.6805 8.53841 26.0474 8.53841 25.6569 8.92893L20 14.5858L14.3431 8.92893C13.9526 8.53841 13.3195 8.53841 12.9289 8.92893C12.5384 9.31946 12.5384 9.95262 12.9289 10.3431L19.2929 16.7071ZM19 6V16H21V6H19Z"/>
+                </svg>
+        )
+    }
+
+    bottomAlignIcon = () => {
+        const strokeColor = this.props.selected.verticalAlign === 'bottom' ? '#11192c' : '#ffffff';
+        return(
+            <svg 
+                className={this.props.selected.verticalAlign === 'bottom' ? classes.alignActive : classes.alignInactive}
+                width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line stroke={strokeColor} x1="34" y1="33" x2="6" y2="33" strokeWidth="2"/>
+                <path fill={strokeColor} d="M19.2929 29.7071C19.6834 30.0976 20.3166 30.0976 20.7071 29.7071L27.0711 23.3431C27.4616 22.9526 27.4616 22.3195 27.0711 21.9289C26.6805 21.5384 26.0474 21.5384 25.6569 21.9289L20 27.5858L14.3431 21.9289C13.9526 21.5384 13.3195 21.5384 12.9289 21.9289C12.5384 22.3195 12.5384 22.9526 12.9289 23.3431L19.2929 29.7071ZM19 7V29H21V7H19Z" fill={strokeColor}/>
+            </svg>
+        )
+    }
+
+
 
     italicIcon = () => {
         const strokeColor = this.props.selected.italic ? '#11192c' : '#ffffff';
@@ -159,7 +199,12 @@
         });
     }
 
-
+    editVerticalAlign = (value) => {
+        this.props.edit(this.props.selected.elementId, {
+            ...this.props.selected, 
+            verticalAlign: value
+        });
+    }
 
     render(){
         if(!this.props.selected) return null;
@@ -204,15 +249,28 @@
                                 <input className={classes.input} onChange={this.editFontSize} type='number' value={fontSize}/>
                             </div>
                         </div>
-                        <div className={classes.align}>
-                            <div className={classes.alignIcon} onClick={() => this.editTextAlign("left")}>
-                                {this.leftAlignIcon()}
+                        <div className={classes.flexSpaceBetween}>
+                            <div className={classes.flex}>
+                                <div className={classes.alignIcon} onClick={() => this.editTextAlign("left")}>
+                                    {this.leftAlignIcon()}
+                                </div>
+                                <div className={classes.alignIcon} onClick={() => this.editTextAlign("center")}>
+                                    {this.centerAlignIcon()}
+                                </div>
+                                <div className={classes.alignIcon} onClick={() => this.editTextAlign("right")}>
+                                    {this.rightAlignIcon()}
+                                </div>
                             </div>
-                            <div className={classes.alignIcon} onClick={() => this.editTextAlign("center")}>
-                                {this.centerAlignIcon()}
-                            </div>
-                            <div className={classes.alignIcon} onClick={() => this.editTextAlign("right")}>
-                                {this.rightAlignIcon()}
+                            <div className={classes.flex}>
+                                <div className={classes.alignIcon} onClick={() => this.editVerticalAlign("top")}>
+                                {this.topAlignIcon()}
+                                </div>
+                                <div className={classes.alignIcon} onClick={() => this.editVerticalAlign("middle")}>
+                                {this.middleAlignIcon()}
+                                </div>
+                                <div className={classes.alignIcon} onClick={() => this.editVerticalAlign("bottom")}>
+                                {this.bottomAlignIcon()}
+                                </div>
                             </div>
                         </div>
                         <div className={classes.flex}>

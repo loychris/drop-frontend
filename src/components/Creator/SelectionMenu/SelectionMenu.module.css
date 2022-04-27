@@ -20,6 +20,13 @@
     display: flex; 
     flex-direction: row;
     justify-content: flex-end;
+    margin-bottom: 5px;
+}
+
+.flexSpaceBetween {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .inputWrapper {
@@ -33,15 +40,23 @@
 
 .inputWrapper span {
     margin-top: 4px; 
-    margin-right: 3px; 
+    margin-right: 4px; 
 }
 
 .input {
     width: 40px;
 }
 
+.alignIcons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .alignIcon {
     cursor: pointer;
+    margin-bottom: 5px; 
+    margin-right: 2px; 
 }
 
 .alignIcon svg {
@@ -64,7 +79,7 @@
 }
 
 .fontSelector {
-    margin-right: 10px;
+    margin-right: 9px;
     height: 21.5px; 
 }
 

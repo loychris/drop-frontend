@@ -24,22 +24,25 @@ class Element extends Component {
             WebkitTextStrokeColor: textStroke ? "black" : null,
             WebkitTextStrokeWidth: textStroke ? "0.06rem": null,
             textShadow: textStroke ? "0px 0px 0.1rem  #000" : null,
-            cursor: this.props.editingId === elementId ? null : 'grab'
-
+            cursor: this.props.editingId === elementId ? null : 'grab', 
         }
     }
 
     getContent = () => {
-        const {font, fontSize, fontWeight, color, elementId, imgSrc } = this.props.element;
+        const {font, fontSize, fontWeight, color, elementId, imgSrc, verticalAlign, text } = this.props.element;
         switch(this.props.type){
             case 'text': 
+                const verticalAlignClass = verticalAlign === 'top'    ? classes.topAlign 
+                                        :  verticalAlign === 'bottom' ? classes.bottomAlign 
+                                                                      : classes.middleAlign;
+                console.log(verticalAlignClass);
                 return(
                     <p
                         contentEditable="true"
                         suppressContentEditableWarning
                         type='text' 
                         id={`${elementId}-input`}
-                        className={classes.TextInput} 
+                        className={`${classes.TextInput} ${verticalAlignClass}`} 
                         // onDoubleClick={this.onTextFocus}
                         style={{
                             fontFamily: font,
@@ -47,7 +50,7 @@ class Element extends Component {
                             fontWeight: fontWeight
                         }}
                         onInput={e => this.props.onTextInput(e, elementId)}>
-                            {this.props.element.text}
+                            <span>{text}</span>
                     </p>
                 )
             case 'image': 
@@ -68,7 +71,6 @@ class Element extends Component {
                 )
             default: return null;
         }
-
     }
 
     highlighed = () => {
@@ -107,7 +109,7 @@ class Element extends Component {
     }
 
     render() {  
-        let styleClasses = [classes.Rectangle];
+        let styleClasses = [classes.Element];
         if(this.highlighed()) styleClasses.push(classes.highlight);
         return(
                 <div className={styleClasses.join(' ')}
