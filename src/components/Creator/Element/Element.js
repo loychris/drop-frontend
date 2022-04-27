@@ -35,7 +35,7 @@ class Element extends Component {
             case 'text': 
                 return(
                     <p
-                        contentEditable={true}//this.props.currentlyEditing}
+                        contentEditable="true" //this.props.currentlyEditing}
                         type='text' 
                         id={`${elementId}-input`}
                         className={classes.TextInput} 
@@ -46,6 +46,7 @@ class Element extends Component {
                             fontWeight: fontWeight
                         }}
                         onInput={e => this.props.onTextInput(e, elementId)}>
+                            {this.props.element.text}
                     </p>
                 )
             case 'image': 

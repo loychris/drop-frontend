@@ -20,40 +20,40 @@ class Creator extends Component {
     selectedHline: null,
     selectedVline: null,
     elements: [
-      // {
-      //   type: 'text', 
-      //   elementId: '5',
-      //   height: 60,
-      //   width: 400, 
-      //   posX: 100,
-      //   posY: 100,
-      //   text: 'Text Element 1',
-      //   font: 'Oswald',
-      //   fontSize: '30',
-      //   fontWeight: '700',
-      //   textAlign: 'center',
-      //   fixedWidth: true,
-      //   underline: false, 
-      //   italic: false, 
-      //   textStroke: true,
-      // },
-      // {
-      //   type: 'text', 
-      //   elementId: '6',
-      //   height: 60,
-      //   width: 400, 
-      //   posX: 100,
-      //   posY: 200,
-      //   text: 'Text Element 2',
-      //   font: 'Oswald',
-      //   fontSize: '30',
-      //   fontWeight: '700',
-      //   textAlign: 'center',
-      //   fixedWidth: true,
-      //   underline: false, 
-      //   italic: false, 
-      //   textStroke: true,
-      // },
+      {
+        type: 'text', 
+        elementId: '5',
+        height: 60,
+        width: 400, 
+        posX: 100,
+        posY: 100,
+        text: 'Text Element 1',
+        font: 'Oswald',
+        fontSize: '30',
+        fontWeight: '700',
+        textAlign: 'center',
+        fixedWidth: true,
+        underline: false, 
+        italic: false, 
+        textStroke: true,
+      },
+      {
+        type: 'text', 
+        elementId: '6',
+        height: 60,
+        width: 400, 
+        posX: 100,
+        posY: 200,
+        text: 'Text Element 2',
+        font: 'Oswald',
+        fontSize: '30',
+        fontWeight: '700',
+        textAlign: 'center',
+        fixedWidth: true,
+        underline: false, 
+        italic: false, 
+        textStroke: true,
+      },
       {
         type: 'text', 
         elementId: '7',
@@ -98,8 +98,10 @@ class Creator extends Component {
   select = (e, elementId) => {
     e.stopPropagation();
     e.preventDefault();
-    const element = document.getElementById(`${this.state.editingId}-input`);
-    element.blur();
+    if(this.state.editingId){
+      const element = document.getElementById(`${this.state.editingId}-input`);
+      element.blur();
+    }
     this.setState({
       selectedId: elementId, 
       editingId: null
