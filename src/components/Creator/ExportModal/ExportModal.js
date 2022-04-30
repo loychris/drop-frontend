@@ -8,16 +8,31 @@ class ExportModal extends Component {
 
     state={
         pngUrl: null, 
+        jpgUrl: null,
         rendered: false,
     }
 
     componentDidMount = () => {
+
         const node = document.getElementById('preview');
         console.log("COMPONENT DID MOUNT ")
+
+
         htmlToImage.toPng(node)
         .then(dataUrl => {
             console.log("SETTING URL")
             this.setState({pngUrl: dataUrl}) 
+        }).catch(err => {
+            console.log("SETTING URL ERROR")
+
+            console.log(err);
+        })
+
+        // png
+        htmlToImage.toJpeg(node)
+        .then(dataUrl => {
+            console.log("SETTING URL")
+            this.setState({jpgUrl: dataUrl}) 
         }).catch(err => {
             console.log("SETTING URL ERROR")
 
@@ -97,7 +112,8 @@ class ExportModal extends Component {
                         </div>
                     </div>
                     <div className={classes.DownloadOptions}>
-                        <a href={this.state.pngUrl} download>download png</a>
+                        <a href={this.state.pngUrl} download>download png</a><br/>
+                        <a href={this.state.jpgUrl} download>download jpg</a>
                         <p>left { leftBorder }</p>
                         <p>right { rightBorder }</p>
                         <p>top { topBorder }</p>
