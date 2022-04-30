@@ -89,8 +89,6 @@
         )
     }
 
-
-
     italicIcon = () => {
         const strokeColor = this.props.selected.italic ? '#11192c' : '#ffffff';
         return(

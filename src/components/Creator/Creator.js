@@ -8,6 +8,7 @@ import Line from "./Line/Line";
 import TopMenu from "./TopMenu/TopMenu";
 import SelectionMenu from "./SelectionMenu/SelectionMenu";
 import SelectionFrame from "./SelectionFrame/SelectionFrame";
+import ExportModal from "./ExportModal/ExportModal";
 
 const JUMP_TO_LINE_TOLERANZ = 4;
 
@@ -19,6 +20,7 @@ class Creator extends Component {
     editingId: null, 
     selectedHline: null,
     selectedVline: null,
+    exportModalOpen: true,
     elements: [
       {
         type: 'text', 
@@ -86,7 +88,7 @@ class Creator extends Component {
       },
       {
         type: 'rect',
-        elementId: '8',
+        elementId: '9',
         height: 100,
         width: 400, 
         posX: 100,
@@ -95,7 +97,7 @@ class Creator extends Component {
       },
       {
         type: 'rect',
-        elementId: '8',
+        elementId: '10',
         height: 100,
         width: 400, 
         posX: 100,
@@ -104,7 +106,7 @@ class Creator extends Component {
       },
       {
         type: 'image',
-        elementId: '9',
+        elementId: '11',
         imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
         posX: 550,
         posY: 250,
@@ -487,6 +489,16 @@ class Creator extends Component {
     })
     this.setState({ elements: newElements})
   }
+
+  /// EXPORT /////////////////////////////////////// 
+
+  closeExportModal = () => {
+    this.setState({exportModalOpen: false})
+  }
+
+  openExportModal = () => {
+    this.setState({exportModalOpen: true})
+  }
   
   /// RENDER /////////////////////////////////////////////////
 
@@ -631,8 +643,20 @@ class Creator extends Component {
             /> 
           : null}
         { this.getElements() }
-        <TopMenu addElement={this.addElement}/>
+        <TopMenu 
+          addElement={this.addElement}
+          openExportModal={this.openExportModal}
+        />
         { this.renderLines() }
+        { 
+          this.state.exportModalOpen 
+          ? <ExportModal 
+              closeExportModal={this.closeExportModal}
+              jpgDownload={this.jpgDownload}
+              
+              /> 
+          : null
+        };
       </div>
     );
   }

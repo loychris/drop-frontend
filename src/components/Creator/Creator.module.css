@@ -1,6 +1,6 @@
 .Creator {
     z-index: 100;
-    position: fixed;
+    position: absolute;
     margin-left: auto;
     margin-right: auto;
     background-color: #F1F1F1;
@@ -8,8 +8,9 @@
     /* border-bottom: 1px solid #000000;
     border-top: 1px solid #ffffff;  */
     border-radius: 10px;
-    top: 10vh;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     right: 0;
     width: 75vw;
     height: 80vh;
@@ -45,6 +46,8 @@
 }
   
   .OutLeft {
+    transform: translate(-50%, -50%);
+
     transform: translateX(-100vw);
   }
   

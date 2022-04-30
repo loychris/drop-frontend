@@ -46,57 +46,95 @@ class TopMenu extends Component {
         )
     }
 
+    getShareIcon = () => {
+        return(
+            <svg 
+                className={classes.shareIcon}
+                width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="10.4472" y1="17.1056" x2="20.4472" y2="22.1056" stroke="#fff" stroke-width="2"/>
+                <line x1="9.55279" y1="13.1056" x2="19.5528" y2="8.10557" stroke="#fff" stroke-width="2"/>
+                <circle cx="6" cy="15" r="5" stroke="#fff" stroke-width="2"/>
+                <circle cx="24" cy="24" r="5" stroke="#fff" stroke-width="2"/>
+                <circle cx="24" cy="6" r="5" stroke="#fff" stroke-width="2"/>
+            </svg>
+
+        )
+    }
+
+    getDownLoadIcon = () => {
+        return(
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 26H6V33H34V26H39V35C39 36.6569 37.6569 38 36 38H4C2.34315 38 1 36.6569 1 35V26Z" fill="#ffffff"/>
+                <path d="M16 1C16 0.447716 16.4477 0 17 0H23C23.5523 0 24 0.447715 24 1V18H28.8439C29.6953 18 30.1572 18.996 29.6073 19.6459L20.7634 30.0978C20.3639 30.5699 19.6361 30.5699 19.2366 30.0978L10.3927 19.6459C9.84279 18.996 10.3047 18 11.1561 18H16V1Z" fill="#ffffff"/>
+            </svg>
+        )
+    }
+
     render(){
         return(
             <div className={classes.TopMenu}>
-                <div 
-                    className={classes.MenuItem}
-                    onClick={() => this.props.addElement({
-                        type: 'rect', 
-                        elementId: `${Date.now()}`,
-                        posX: 100,
-                        posY: 100,
-                        height: 400,
-                        width: 400,
-                        color: '#FF8592',
+                <div className={classes.LeftAlign}>
+                    <div 
+                        className={classes.MenuItem}
+                        onClick={() => this.props.addElement({
+                            type: 'rect', 
+                            elementId: `${Date.now()}`,
+                            posX: 100,
+                            posY: 100,
+                            height: 400,
+                            width: 400,
+                            color: '#FF8592',
 
-                    })}
-                >
-                    {this.getRectangleIcon()}
-                </div>
-                <div 
-                    className={classes.MenuItem}
-                    onClick={() => this.props.addElement({
-                        type: 'text', 
-                        elementId: `${Date.now()}`,
-                        height: 60,
-                        width: 400, 
-                        posX: 100,
-                        posY: 300,
-                        text: 'Text Element 3',
-                        font: 'Oswald',
-                        fontSize: '30',
-                        fontWeight: '700',
-                        textAlign: 'center',
-                        fixedWidth: true,
-                        underline: false, 
-                        italic: false, 
-                        textStroke: true
-                })}>
-                    {this.getNewTextElementIcon()}
-                </div>
-                <div 
-                    className={classes.MenuItem}
-                    onClick={() => this.props.addElement({
-                        type: 'image',
-                        elementId: `${Date.now()}`,
-                        imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
-                        posX: 600,
-                        posY: 600,
-                        height: 400,
-                        width: 400
+                        })}
+                    >
+                        {this.getRectangleIcon()}
+                    </div>
+                    <div 
+                        className={classes.MenuItem}
+                        onClick={() => this.props.addElement({
+                            type: 'text', 
+                            elementId: `${Date.now()}`,
+                            height: 60,
+                            width: 400, 
+                            posX: 100,
+                            posY: 300,
+                            text: 'Text Element 3',
+                            font: 'Oswald',
+                            fontSize: '30',
+                            fontWeight: '700',
+                            textAlign: 'center',
+                            fixedWidth: true,
+                            underline: false, 
+                            italic: false, 
+                            textStroke: true
                     })}>
-                    {this.getNewImageIcon()}
+                        {this.getNewTextElementIcon()}
+                    </div>
+                    <div 
+                        className={classes.MenuItem}
+                        onClick={() => this.props.addElement({
+                            type: 'image',
+                            elementId: `${Date.now()}`,
+                            imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
+                            posX: 600,
+                            posY: 600,
+                            height: 400,
+                            width: 400
+                        })}>
+                        {this.getNewImageIcon()}
+                    </div>
+                </div>
+                <div className={classes.RightAlign}>
+                    <div 
+                        className={classes.MenuItem}
+                        onClick={this.props.openExportModal}>
+                        {this.getShareIcon()}
+                    </div>
+                    <div 
+                        className={classes.MenuItem}
+                        onClick={this.props.openExportModal}>
+                        {this.getDownLoadIcon()}
+                    </div>
                 </div>
             </div>
         )
