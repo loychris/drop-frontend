@@ -24,7 +24,7 @@ class Element extends Component {
             WebkitTextStrokeColor: textStroke ? "black" : null,
             WebkitTextStrokeWidth: textStroke ? "0.06rem": null,
             textShadow: textStroke ? "0px 0px 0.1rem  #000" : null,
-            cursor: this.props.editingId === elementId ? null : 'grab', 
+            cursor: this.props.editingId === elementId || this.props.inPreview ? null : 'grab', 
         }
     }
 
@@ -35,10 +35,9 @@ class Element extends Component {
                 const verticalAlignClass = verticalAlign === 'top'    ? classes.topAlign 
                                         :  verticalAlign === 'bottom' ? classes.bottomAlign 
                                                                       : classes.middleAlign;
-                console.log(verticalAlignClass);
                 return(
                     <p
-                        contentEditable="true"
+                        contentEditable={!this.props.inPreview}
                         suppressContentEditableWarning
                         type='text' 
                         id={`${elementId}-input`}
@@ -88,23 +87,25 @@ class Element extends Component {
 
     mouseDown = (e) => {
         e.stopPropagation(); 
-        if(this.props.editingId !== this.props.element.elementId){
+        if(this.props.editingId !== this.props.element.elementId && !this.props.inPreview){
             this.props.elementMouseDown(e, this.props.element.elementId);
         }
     }
 
     mouseUp = (e) => {
         e.stopPropagation();
-        if(this.props.editingId !== this.props.element.elementId){
+        if(this.props.editingId !== this.props.element.elementId && !this.props.inPreview){
             this.props.select(e, this.props.element.elementId);
         }
     }
 
     doubleClick = (e) => {
-        if(this.props.element.type === 'text'){
-            this.props.selectAndEdit(e, this.props.element.elementId);
-        } else {
-            this.props.select(e, this.props.element.elementId);
+        if(!this.props.inPreview){
+            if(this.props.element.type === 'text'){
+                this.props.selectAndEdit(e, this.props.element.elementId);
+            } else {
+                this.props.select(e, this.props.element.elementId);
+            }
         }
     }
 
@@ -112,16 +113,16 @@ class Element extends Component {
         let styleClasses = [classes.Element];
         if(this.highlighed()) styleClasses.push(classes.highlight);
         return(
-                <div className={styleClasses.join(' ')}
-                    onDoubleClick={this.doubleClick}
-                    onMouseDown={this.mouseDown}
-                    onMouseUp={this.mouseUp}
-                    style={this.getStyles()}
-                    id={`element-${this.props.element.elementId}`}
-                >
-                    {this.getContent()}
-                    {/* {this.getResizeHandlers()} */}
-                </div>
+            <div className={styleClasses.join(' ')}
+                onDoubleClick={this.doubleClick}
+                onMouseDown={this.mouseDown}
+                onMouseUp={this.mouseUp}
+                style={this.getStyles()}
+                id={`element-${this.props.element.elementId}`}
+            >
+                {this.getContent()}
+                {/* {this.getResizeHandlers()} */}
+            </div>
         )
     }
 }

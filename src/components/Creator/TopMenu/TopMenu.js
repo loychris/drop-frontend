@@ -51,11 +51,11 @@ class TopMenu extends Component {
             <svg 
                 className={classes.shareIcon}
                 width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="10.4472" y1="17.1056" x2="20.4472" y2="22.1056" stroke="#fff" stroke-width="2"/>
-                <line x1="9.55279" y1="13.1056" x2="19.5528" y2="8.10557" stroke="#fff" stroke-width="2"/>
-                <circle cx="6" cy="15" r="5" stroke="#fff" stroke-width="2"/>
-                <circle cx="24" cy="24" r="5" stroke="#fff" stroke-width="2"/>
-                <circle cx="24" cy="6" r="5" stroke="#fff" stroke-width="2"/>
+                <line x1="10.4472" y1="17.1056" x2="20.4472" y2="22.1056" stroke="#fff" strokeWidth="2"/>
+                <line x1="9.55279" y1="13.1056" x2="19.5528" y2="8.10557" stroke="#fff" strokeWidth="2"/>
+                <circle cx="6" cy="15" r="5" stroke="#fff" strokeWidth="2"/>
+                <circle cx="24" cy="24" r="5" stroke="#fff" strokeWidth="2"/>
+                <circle cx="24" cy="6" r="5" stroke="#fff" strokeWidth="2"/>
             </svg>
 
         )

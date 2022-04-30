@@ -46,9 +46,8 @@
 }
   
   .OutLeft {
-    transform: translate(-50%, -50%);
 
-    transform: translateX(-100vw);
+    transform: translate(-150vw,-50%);
   }
   
   .OutLeftLeft {

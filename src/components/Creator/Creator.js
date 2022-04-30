@@ -104,15 +104,15 @@ class Creator extends Component {
         posY: 400,
         color: '#FF8592',
       },
-      {
-        type: 'image',
-        elementId: '11',
-        imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
-        posX: 550,
-        posY: 250,
-        height: 400,
-        width: 400,
-      }
+      // {
+      //   type: 'image',
+      //   elementId: '11',
+      //   imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
+      //   posX: 550,
+      //   posY: 250,
+      //   height: 400,
+      //   width: 400,
+      // }
     ],
   }
 
@@ -502,20 +502,21 @@ class Creator extends Component {
   
   /// RENDER /////////////////////////////////////////////////
 
-  getElements = () => {
+  getElements = (elements, inPreview) => {
 
     // TODO: redo/replace this with real orders and z-index
-    const elements = [
-      ...this.state.elements.filter(e => e.type !== 'text'),
-      ...this.state.elements.filter(e => e.type === 'text')
+    const orderedElements = [
+      ...elements.filter(e => e.type !== 'text'),
+      ...elements.filter(e => e.type === 'text')
     ]
 
-    return elements.map(e => {
+    return orderedElements.map(e => {
       // const highlight = this.state.dragging && this.state.
       switch(e.type){
         case 'text': 
           return(
             <Element 
+              inPreview={inPreview}
               currentlyEditing={this.state.editingId === e.elementId}
               type='text'
               key={e.elementId}
@@ -533,6 +534,7 @@ class Creator extends Component {
         case 'rect': 
             return(
               <Element 
+                inPreview={inPreview}
                 currentlyEditing={this.state.editingId === e.elementId}
                 type='rect'
                 key={e.elementId}
@@ -546,6 +548,7 @@ class Creator extends Component {
         case 'image': 
           return(
             <Element 
+              inPreview={inPreview}
               currentlyEditing={this.state.editingId === e.elementId}
               type='image'
               key={e.elementId}
@@ -642,7 +645,7 @@ class Creator extends Component {
               selectAndEdit={this.selectAndEdit}
             /> 
           : null}
-        { this.getElements() }
+        { this.getElements(this.state.elements) }
         <TopMenu 
           addElement={this.addElement}
           openExportModal={this.openExportModal}
@@ -653,7 +656,8 @@ class Creator extends Component {
           ? <ExportModal 
               closeExportModal={this.closeExportModal}
               jpgDownload={this.jpgDownload}
-              
+              getElements={this.getElements}
+              elements={this.state.elements}
               /> 
           : null
         };
