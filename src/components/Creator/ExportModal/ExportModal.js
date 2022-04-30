@@ -62,7 +62,7 @@ class ExportModal extends Component {
         } = this.calcContentMetrics();
 
         const scaleFactor = 600 / contentWidth 
-        const previewStyles = contentHeight > 600 ? {
+        const previewStyles = contentWidth > 600 ? {
             zoom: scaleFactor,
             height: contentHeight
             // transform: `translate(${-leftBorder}px,${-topBorder}px)`,
@@ -89,7 +89,7 @@ class ExportModal extends Component {
                             className={classes.Preveiw} 
                             style={previewStyles}
                             >
-                                <div id="preview">
+                                <div id="preview" className={classes.DownloadWrapper}>
                                     {
                                         this.props.getElements(transformedElements, true)
                                     }

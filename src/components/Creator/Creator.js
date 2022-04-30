@@ -660,7 +660,7 @@ class Creator extends Component {
               elements={this.state.elements}
               /> 
           : null
-        };
+        }
       </div>
     );
   }

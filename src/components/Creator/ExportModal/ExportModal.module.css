@@ -21,7 +21,7 @@
     transform: translate(-50%, -50%);
     background-color: #11192c;
     border-radius: 10px;
-    box-shadow: 0px 0px 20px 0px #00000080 ;
+    box-shadow: 0px 0px 100px 100px rgb(173, 173, 173) ;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -44,7 +44,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 5px solid red; 
 }
 
 .DownloadOptions {
@@ -52,5 +51,6 @@
 }
 
 .DownloadWrapper {
-    border: 3px solid green; 
+    height: inherit;
+    background-color: #ffffff;
 }
