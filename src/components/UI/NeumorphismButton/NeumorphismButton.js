@@ -9,7 +9,7 @@ class NeumorphismButton extends Component {
         if(this.props.buttonType){
             switch(this.props.buttonType) {
                 case 'SubmitComment': styleClasses.push(classes.SubmitComment); break;
-                // case 'DropButton': styleClasses.push(classes.DropButton); break;
+                // case 'PrimaryButton': styleClasses.push(classes.PrimaryButton); break;
                 default: console.log('no type given');
             }
         }

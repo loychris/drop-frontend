@@ -6,7 +6,7 @@ import * as actions from '../../store/actions/index';
 import classes from "./Chat.module.css";
 import ChatPrevs from './ChatPreviews/ChatPreviews';
 import ChatWindow from './ChatWindow/ChatWindow';
-import DropButton from '../UI/DropButton/DropButton';
+import PrimaryButton from '../UI/PrimaryButton/PrimaryButton';
 
 class Chat extends Component {
 
@@ -42,9 +42,9 @@ class Chat extends Component {
       <div className={classes.NotLoggedInContainer}>
         <div className={classes.NotLoggedInMessage}>
           <div className={classes.InnerContainer}>
-            <DropButton clicked={this.props.onOpenMenu}><h3>Log in</h3></DropButton>
+            <PrimaryButton clicked={this.props.onOpenMenu}><h3>Log in</h3></PrimaryButton>
             or
-            <DropButton clicked={this.props.onOpenMenu}><h3>Create Account</h3></DropButton> 
+            <PrimaryButton clicked={this.props.onOpenMenu}><h3>Create Account</h3></PrimaryButton> 
             to use the Dropchat!
             <p>Chat with friends and share memes!</p>
           </div>

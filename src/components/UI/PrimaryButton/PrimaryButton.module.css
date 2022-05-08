@@ -1,4 +1,4 @@
-.DropButton {
+.PrimaryButton {
     width: 100%;
     height: 40px;
     border-radius: 25px;
@@ -11,7 +11,7 @@
     font-size: 1.5em;
 }
 
-.DropButton h3 {
+.PrimaryButton h3 {
     font-size: 20pt;
     margin: 0px;
     padding: 0px 10px;
@@ -22,11 +22,11 @@
     white-space: nowrap;
 }
 
-.DropButtonFlat {
+.PrimaryButtonFlat {
     background: linear-gradient(120.66deg, #007991 -9.61%, #78ffd6 105.07%);
 }
 
-.DropButtonNeumorphism {
+.PrimaryButtonNeumorphism {
     background: #11192C;
     box-shadow: -6px -6px 5px rgba(255, 255, 255, 0.04),
         6px 6px 5px rgba(0, 0, 0, 0.25);

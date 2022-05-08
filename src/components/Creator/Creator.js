@@ -104,15 +104,15 @@ class Creator extends Component {
         posY: 400,
         color: '#FF8592',
       },
-      // {
-      //   type: 'image',
-      //   elementId: '11',
-      //   imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
-      //   posX: 550,
-      //   posY: 250,
-      //   height: 400,
-      //   width: 400,
-      // }
+      {
+        type: 'image',
+        elementId: '11',
+        imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
+        posX: 550,
+        posY: 250,
+        height: 400,
+        width: 400,
+      }
     ],
   }
 

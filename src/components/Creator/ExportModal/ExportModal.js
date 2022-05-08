@@ -4,12 +4,19 @@ import classes from './ExportModal.module.css';
 
 import * as htmlToImage from 'html-to-image';
 
+import PrimaryButton from '../../UI/PrimaryButton/PrimaryButton';
+import { Link } from 'react-router-dom';
+
+
 class ExportModal extends Component {
 
     state={
         pngUrl: null, 
         jpgUrl: null,
+        svgUrl: null,
         rendered: false,
+        downloadFormat: 'jpg',
+        linkRef: React.createRef(), 
     }
 
     componentDidMount = () => {
@@ -18,9 +25,9 @@ class ExportModal extends Component {
         console.log("COMPONENT DID MOUNT ")
 
 
+        //png
         htmlToImage.toPng(node)
         .then(dataUrl => {
-            console.log("SETTING URL")
             this.setState({pngUrl: dataUrl}) 
         }).catch(err => {
             console.log("SETTING URL ERROR")
@@ -28,21 +35,24 @@ class ExportModal extends Component {
             console.log(err);
         })
 
-        // png
+        // jpg
         htmlToImage.toJpeg(node)
         .then(dataUrl => {
-            console.log("SETTING URL")
             this.setState({jpgUrl: dataUrl}) 
         }).catch(err => {
             console.log("SETTING URL ERROR")
 
             console.log(err);
         })
-    }
 
-    componentDidUpdate = () => {
+        // svg
+        htmlToImage.toSvg(node)
+        .then(dataUrl => {
+            this.setState({svgUrl: dataUrl}) 
+        }).catch(err => {
+            console.log("SETTING URL ERROR")
+        })
     }
-
 
     calcContentMetrics = () => {
         let leftBorder = 10000000000;
@@ -64,6 +74,51 @@ class ExportModal extends Component {
             contentWidth: rightBorder-leftBorder,
             contentHeight: bottomBorder-topBorder,
         };
+    }
+
+    setDownloadFormat = (e) => {
+        console.log(e.target.value);
+        this.setState({downloadFormat: e.target.value});
+    }
+
+    getDownloadLink = () => {
+        const downloadUrl = 
+            this.state.downloadFormat === 'jpg' ? this.state.jpgUrl : 
+            this.state.downloadFormat === 'png' ? this.state.pngUrl : 
+            this.state.downloadFormat === 'svg' ? this.state.svgUrl : null
+        return (
+            <a 
+                href={downloadUrl} 
+                download 
+                id="downloadLink" 
+                style={{display: "none"}} 
+                ref={this.state.linkRef}
+            />
+        )
+    }
+
+    download = () => {
+        const link = document.createElement('a');
+        console.log(this.state.downloadFormat)
+        link.setAttribute('download',`FileName.${this.state.downloadFormat}`);
+        if(this.state.downloadFormat === 'jpg' && this.state.jpgUrl){
+            link.href = this.state.jpgUrl;
+        }
+        if(this.state.downloadFormat === 'png' && this.state.pngUrl){
+            link.href = this.state.pngUrl;
+        }
+        if(this.state.downloadFormat === 'svg' && this.state.svgUrl){
+            link.href = this.state.svgUrl;
+        }
+        if(link.href){
+            document.body.appendChild(link);
+            link.click();
+        }
+        if(link && link.parentNode){
+            link.parentNode.removeChild(link);
+        }else{
+            console.log(link);
+        }
     }
 
     render(){
@@ -94,11 +149,14 @@ class ExportModal extends Component {
             }
         })
 
+        const modalStyles = {
+            
+        }
 
         return(
             <div className={classes.ExportModal}>
                 <div className={classes.Background} onClick={this.props.closeExportModal}></div>
-                <div className={classes.Modal}>
+                <div className={classes.Modal} style={modalStyles}>
                     <div className={classes.PreviewContainer}>
                         <div 
                             className={classes.Preveiw} 
@@ -112,12 +170,14 @@ class ExportModal extends Component {
                         </div>
                     </div>
                     <div className={classes.DownloadOptions}>
-                        <a href={this.state.pngUrl} download>download png</a><br/>
-                        <a href={this.state.jpgUrl} download>download jpg</a>
-                        <p>left { leftBorder }</p>
-                        <p>right { rightBorder }</p>
-                        <p>top { topBorder }</p>
-                        <p>bottom { bottomBorder }</p>
+                        <select onChange={this.setDownloadFormat} value={this.state.downloadFormat}>
+                            <option value="png" label="png"/>
+                            <option value="jpg" label="jpg"/>
+                            <option value="svg" label="svg"/>
+                        </select>
+                        <PrimaryButton clicked={this.download}>
+                            <h2>Download</h2> 
+                        </PrimaryButton>
                     </div>
                 </div>
             </div>

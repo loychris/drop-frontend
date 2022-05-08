@@ -6,14 +6,18 @@
     margin-top: -40px;
 }
 
+.downloadButton {
+    
+}
+
 .Background {
-    background-color: #00000050;
+    background-color: #b5d1ffd0;
     height: 100%;
     width: 100%;
 }
 
 .Modal {
-    height: 600px;
+    /* height: 600px; */
     width: 800px;
     position: absolute;
     left: 50%;
@@ -21,7 +25,6 @@
     transform: translate(-50%, -50%);
     background-color: #11192c;
     border-radius: 10px;
-    box-shadow: 0px 0px 100px 100px rgb(173, 173, 173) ;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

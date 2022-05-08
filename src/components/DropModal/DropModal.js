@@ -6,7 +6,7 @@ import * as actions from '../../store/actions/index';
 import classes from './DropModal.module.css';
 import Backdrop from '../UI/Backdrop/Backdrop';
 import ChatPrev from './ChatPrev/ChatPrev';
-import DropButton from '../UI/DropButton/DropButton';
+import PrimaryButton from '../UI/PrimaryButton/PrimaryButton';
 
 class DropModal extends Component {
 
@@ -95,7 +95,7 @@ class DropModal extends Component {
                 <div className={classes.ScrollContainer}>
                   {this.getChats()}
                 </div>
-                <DropButton 
+                <PrimaryButton 
                   theme={false} 
                   clicked={() => this.send(this.props.streamElements[0].id)} 
                   disabled={this.props.dropTargets.length === 0}>
@@ -104,7 +104,7 @@ class DropModal extends Component {
                     ? <h3>Drop to {targetNames.join(', ')}</h3>
                     : <h3>Drop</h3>
                   }
-                </DropButton>
+                </PrimaryButton>
               </div>
             </div>
 

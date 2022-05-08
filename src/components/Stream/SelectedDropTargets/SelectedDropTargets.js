@@ -5,7 +5,7 @@ import * as streamActions from '../../../store/actions/index';
 
 import FriendsListItem from "../FriendsListItem/FriendsListItem";
 import classes from "./SelectedDropTargets.Module.css";
-import DropButton from "../../UI/DropButton/DropButton";
+import PrimaryButton from "../../UI/PrimaryButton/PrimaryButton";
 
 class SelectedDropTargets extends Component {
   render() {
@@ -40,7 +40,7 @@ class SelectedDropTargets extends Component {
         <h2>Drop to: </h2>
         <div className={classes.SelectedTargetsList}>
           {selectedTargets}
-          <DropButton
+          <PrimaryButton
             clicked={() => {
               this.props.sendMessage({
                 type: "drop",
@@ -50,7 +50,7 @@ class SelectedDropTargets extends Component {
             }}
           >
             <h2>{`Drop to: ${buttonString}`}</h2>
-          </DropButton>
+          </PrimaryButton>
         </div>
       </div>
     );

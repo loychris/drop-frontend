@@ -6,7 +6,7 @@ import classes from "./StreamElement.module.css";
 
 import Content from "./Content/Content";
 import CommentSection from "./CommentSection/CommentSection";
-import DropButton from "../../UI/DropButton/DropButton";
+import PrimaryButton from "../../UI/PrimaryButton/PrimaryButton";
 
 // import LogoForButton from '../../../media/LogoForButton.png';
 
@@ -44,7 +44,7 @@ class StreamElement extends Component {
     return styles;
   }
 
-  dropButtonClicked = () => {
+  PrimaryButtonClicked = () => {
     if(!this.props.token){
       this.props.onOpenMenu('Create an Account and directly share Memes with friends here!');
     } else {
@@ -80,9 +80,9 @@ class StreamElement extends Component {
           status={this.props.status} 
           source={this.props.source}
           memeStatus={this.props.memeStatus}/>
-        <DropButton theme={NEUMORPHISM} clicked={this.dropButtonClicked} disabled={this.props.id.length < 4 || this.props.id.startsWith('no more')}>
+        <PrimaryButton theme={NEUMORPHISM} clicked={this.PrimaryButtonClicked} disabled={this.props.id.length < 4 || this.props.id.startsWith('no more')}>
           <h3 className={classes.DROP}>Drop</h3>
-        </DropButton>
+        </PrimaryButton>
         <CommentSection 
           position={this.props.position}
           dropId={this.props.id} 

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import classes from "./DropButton.module.css";
+import classes from "./PrimaryButton.module.css";
 
-class DropButton extends Component {
+class PrimaryButton extends Component {
   render() {
-    let buttonClasses = [classes.DropButton];
+    let buttonClasses = [classes.PrimaryButton];
     if (this.props.theme) {
-      buttonClasses.push(classes.DropButtonNeumorphism);
+      buttonClasses.push(classes.PrimaryButtonNeumorphism);
     } else {
-      buttonClasses.push(classes.DropButtonFlat);
+      buttonClasses.push(classes.PrimaryButtonFlat);
     }
     if(this.props.disabled){
       buttonClasses.push(classes.Disabled);
@@ -20,4 +20,4 @@ class DropButton extends Component {
     );
   }
 }
-export default DropButton;
+export default PrimaryButton;

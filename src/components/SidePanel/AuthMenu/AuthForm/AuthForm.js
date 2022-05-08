@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import MenuItem from '../MenuScreen/MenuItem/MenuItem';
 import Loader from 'react-loader-spinner';
-import DropButton from '../../../UI/DropButton/DropButton';
+import PrimaryButton from '../../../UI/PrimaryButton/PrimaryButton';
 
 import * as actions from '../../../../store/actions/index';
 import classes from './AuthForm.module.css';
@@ -336,7 +336,7 @@ class AuthForm extends Component {
                         }
                     </MenuItem>
                     <p className={classes.CreateAccount} onClick={this.props.openSignup}>Don't have an account? <b><u>Sign up free!</u></b></p>
-                    <DropButton clicked={this.submitHandler}>
+                    <PrimaryButton clicked={this.submitHandler}>
                         {
                             this.props.loading 
                             ? <Loader className={classes.Spinner} 
@@ -346,7 +346,7 @@ class AuthForm extends Component {
                                 width={30}/>
                             : <h3>Login</h3>
                         }
-                    </DropButton>
+                    </PrimaryButton>
                 </form>
             )
         }
@@ -478,7 +478,7 @@ class AuthForm extends Component {
                         </p>
                     </div>
                 </MenuItem>
-                <DropButton clicked={this.submitHandler}>
+                <PrimaryButton clicked={this.submitHandler}>
                     {
                         this.props.loading 
                         ? <Loader className={classes.Spinner} 
@@ -488,7 +488,7 @@ class AuthForm extends Component {
                             width={30}/>
                         : <h3>Create Account</h3>
                     }
-                </DropButton>
+                </PrimaryButton>
             </div>
         )
     }

@@ -6,7 +6,7 @@ import * as actions from '../../../store/actions/index';
 
 
 import MenuScreen from '../MenuScreen/MenuScreen';
-import DropButton from '../../UI/DropButton/DropButton'; 
+import PrimaryButton from '../../UI/PrimaryButton/PrimaryButton'; 
 import MenuItem from "../MenuItem/MenuItem";
 import Loader from "react-loader-spinner";
 
@@ -407,7 +407,7 @@ onChangeNewsletter = (event) => {
                                 :null
                             }
 
-                            <DropButton clicked={this.login}>
+                            <PrimaryButton clicked={this.login}>
                                 { this.props.loginLoading 
                                 ? <Loader 
                                     className={classes.Spinner} 
@@ -416,7 +416,7 @@ onChangeNewsletter = (event) => {
                                     height={30} 
                                     width={30}/> 
                                 : <h3>Login</h3> }
-                            </DropButton>
+                            </PrimaryButton>
                         </form>
                     </MenuItem>)
                 content.push(
@@ -500,7 +500,7 @@ onChangeNewsletter = (event) => {
                                     Receive an email for every big new feature
                                 </p>
                             </div>
-                            <DropButton type="submit" clicked={(event) => this.signup(event)}>
+                            <PrimaryButton type="submit" clicked={(event) => this.signup(event)}>
                                 { 
                                     this.props.checkEmailLoading 
                                     ? <Loader 
@@ -511,7 +511,7 @@ onChangeNewsletter = (event) => {
                                         width={30}/> 
                                     : <h3>Create Account</h3>
                                 }
-                            </DropButton>
+                            </PrimaryButton>
                         </form>
                     </MenuItem>
                 );
@@ -541,7 +541,7 @@ onChangeNewsletter = (event) => {
                                     {handleErrorMessage}
                                 </div>:null
                             }
-                            <DropButton type="submit" clicked={(event) => this.chooseHandle(event)}>
+                            <PrimaryButton type="submit" clicked={(event) => this.chooseHandle(event)}>
                             { 
                                 this.props.checkHandleLoading 
                                 ? <Loader 
@@ -552,7 +552,7 @@ onChangeNewsletter = (event) => {
                                     width={30}/> 
                                 : <h3>Choose {this.state.handle.value}</h3>
                             }
-                            </DropButton>
+                            </PrimaryButton>
                         </form>
                     </MenuItem>
                 ); 
@@ -585,7 +585,7 @@ onChangeNewsletter = (event) => {
                                 </section>
                             )}
                         </Dropzone>
-                        <DropButton clicked={this.createAccount}>
+                        <PrimaryButton clicked={this.createAccount}>
                         { 
                                 this.props.signupLoading 
                                 ? <Loader 
@@ -596,7 +596,7 @@ onChangeNewsletter = (event) => {
                                     width={30}/> 
                                 : <h3>Finish</h3>
                             }
-                        </DropButton>
+                        </PrimaryButton>
                     </MenuItem>
                 );
                 break; 

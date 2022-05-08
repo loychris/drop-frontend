@@ -13,7 +13,7 @@
     transform: translate(-50%, -50%);
     right: 0;
     width: 75vw;
-    height: 80vh;
+    height: 83vh;
     transition: 0.3s ease;
     text-align: center;
     padding-top: 0%; 
@@ -51,7 +51,7 @@
   }
   
   .OutLeftLeft {
-    transform: translateX(-200vw);
+    transform: translate(-200vw, -50%);
   }
 
 
