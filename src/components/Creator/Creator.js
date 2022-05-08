@@ -280,7 +280,7 @@ class Creator extends Component {
   addElement = (element) => {
     this.setState({
       elements: [...this.state.elements, element],
-      selectedId: element.id
+      selectedId: element.elementId,
     })
   }
 
