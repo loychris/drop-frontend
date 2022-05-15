@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 class ExportModal extends Component {
 
     state={
+        height: 0,
+        width: 0, 
         pngUrl: null, 
         jpgUrl: null,
         svgUrl: null,
@@ -52,6 +54,22 @@ class ExportModal extends Component {
         }).catch(err => {
             console.log("SETTING URL ERROR")
         })
+
+        const height = this.divElement.clientHeight;
+        const width = this.divElement.clientWidth;
+
+        console.log(height, width);
+        this.setState({ height, width });
+    }
+
+    componentDidUpdate = () => {
+        const height = this.divElement.clientHeight;
+        const width = this.divElement.clientWidth;
+
+        if(height !== this.state.height || width !== this.state.width){
+            console.log("UPDATING STATE PrOPORTIONS")
+            this.setState({ height, width });
+        }
     }
 
     calcContentMetrics = () => {
@@ -131,14 +149,26 @@ class ExportModal extends Component {
             contentHeight
         } = this.calcContentMetrics();
 
-        const scaleFactor = 600 / contentWidth 
-        const previewStyles = contentWidth > 600 ? {
-            zoom: scaleFactor,
-            height: contentHeight
-            // transform: `translate(${-leftBorder}px,${-topBorder}px)`,
-        } : {
-            width: contentWidth,
-            height: contentHeight
+        const aspectRatioContainer = this.state.width/this.state.height;
+        const aspectRatioContent = contentWidth/contentHeight; 
+        console.log("ratio container", aspectRatioContainer);
+        console.log("ratio content  ", aspectRatioContent)
+
+        let previewStyles = {
+            height: contentHeight,
+            width: contentWidth
+        };
+        
+        if(aspectRatioContent < aspectRatioContainer) {
+            const scaleFactorY = this.state.height / contentHeight; 
+            if(contentHeight > this.state.height){
+                previewStyles.zoom = scaleFactorY; 
+            }
+        } else {
+            const scaleFactorX =  this.state.width / contentWidth 
+            if(contentWidth > this.state.width){
+                previewStyles.zoom = scaleFactorX; 
+            }
         }
 
         const transformedElements = this.props.elements.map(element => {
@@ -149,15 +179,11 @@ class ExportModal extends Component {
             }
         })
 
-        const modalStyles = {
-            
-        }
-
         return(
             <div className={classes.ExportModal}>
                 <div className={classes.Background} onClick={this.props.closeExportModal}></div>
-                <div className={classes.Modal} style={modalStyles}>
-                    <div className={classes.PreviewContainer}>
+                <div className={classes.Modal}>
+                    <div id="previewContainer" className={classes.PreviewContainer} ref={ (divElement) => { this.divElement = divElement } }>
                         <div 
                             className={classes.Preveiw} 
                             style={previewStyles}
@@ -170,14 +196,16 @@ class ExportModal extends Component {
                         </div>
                     </div>
                     <div className={classes.DownloadOptions}>
-                        <select onChange={this.setDownloadFormat} value={this.state.downloadFormat}>
-                            <option value="png" label="png"/>
-                            <option value="jpg" label="jpg"/>
-                            <option value="svg" label="svg"/>
-                        </select>
-                        <PrimaryButton clicked={this.download}>
-                            <h2>Download</h2> 
-                        </PrimaryButton>
+                        <div className={classes.DownloadContainer}>
+                            <select onChange={this.setDownloadFormat} value={this.state.downloadFormat}>
+                                <option value="png" label="png"/>
+                                <option value="jpg" label="jpg"/>
+                                <option value="svg" label="svg"/>
+                            </select>
+                            <PrimaryButton clicked={this.download}>
+                                <h3>Download</h3> 
+                            </PrimaryButton>
+                        </div>
                     </div>
                 </div>
             </div>

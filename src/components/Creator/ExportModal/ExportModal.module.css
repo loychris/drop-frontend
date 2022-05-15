@@ -6,10 +6,6 @@
     margin-top: -40px;
 }
 
-.downloadButton {
-    
-}
-
 .Background {
     background-color: #b5d1ffd0;
     height: 100%;
@@ -17,8 +13,10 @@
 }
 
 .Modal {
+    height: 80%;
+    width: 80%;
     /* height: 600px; */
-    width: 800px;
+    /* width: 800px; */
     position: absolute;
     left: 50%;
     top: 50%; 
@@ -27,14 +25,14 @@
     border-radius: 10px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 20px;
 
 }
 
 .PreviewContainer {
-    height: 600px;
-    width: 600px;
+    height: 100%;
+    width: 80%;
     background-color: #474747;
     position: relative;
 }
@@ -50,7 +48,7 @@
 }
 
 .DownloadOptions {
-    width: 200px;
+    width: 20%;
 }
 
 .DownloadWrapper {
