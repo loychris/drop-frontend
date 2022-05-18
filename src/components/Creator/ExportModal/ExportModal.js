@@ -4,6 +4,7 @@ import classes from './ExportModal.module.css';
 
 import * as htmlToImage from 'html-to-image';
 
+import Element from '../Element/Element';
 import PrimaryButton from '../../UI/PrimaryButton/PrimaryButton';
 import { Link } from 'react-router-dom';
 
@@ -19,45 +20,14 @@ class ExportModal extends Component {
         rendered: false,
         downloadFormat: 'jpg',
         linkRef: React.createRef(), 
+        imagesLoaded: 0, 
     }
 
     componentDidMount = () => {
-
-        const node = document.getElementById('preview');
-        console.log("COMPONENT DID MOUNT ")
-
-
-        //png
-        htmlToImage.toPng(node)
-        .then(dataUrl => {
-            this.setState({pngUrl: dataUrl}) 
-        }).catch(err => {
-            console.log("SETTING URL ERROR")
-
-            console.log(err);
-        })
-
-        // jpg
-        htmlToImage.toJpeg(node)
-        .then(dataUrl => {
-            this.setState({jpgUrl: dataUrl}) 
-        }).catch(err => {
-            console.log("SETTING URL ERROR")
-
-            console.log(err);
-        })
-
-        // svg
-        htmlToImage.toSvg(node)
-        .then(dataUrl => {
-            this.setState({svgUrl: dataUrl}) 
-        }).catch(err => {
-            console.log("SETTING URL ERROR")
-        })
-
+        const imagesToLoad = this.props.elements.filter(e => e.type = "image").length;
+        console.log("TO LOAD ", imagesToLoad, "LOADED", this.state.imagesLoaded);
         const height = this.divElement.clientHeight;
         const width = this.divElement.clientWidth;
-
         console.log(height, width);
         this.setState({ height, width });
     }
@@ -65,10 +35,53 @@ class ExportModal extends Component {
     componentDidUpdate = () => {
         const height = this.divElement.clientHeight;
         const width = this.divElement.clientWidth;
-
         if(height !== this.state.height || width !== this.state.width){
             console.log("UPDATING STATE PrOPORTIONS")
             this.setState({ height, width });
+        }
+        
+        const imagesToLoad = this.props.elements.filter(e => e.type = "image").length;
+        console.log("TO LOAD ", imagesToLoad, "LOADED", this.state.imagesLoaded);
+        console.log(this.props.elements);
+
+        if(this.state.imagesLoaded === imagesToLoad){
+
+            console.log("All images loaded"); 
+            const node = document.getElementById('preview');
+
+            //png
+            if(!this.state.pngUrl){
+                htmlToImage.toPng(node)
+                .then(dataUrl => {
+                    this.setState({pngUrl: dataUrl}) 
+                }).catch(err => {
+                    console.log("SETTING URL ERROR")
+        
+                    console.log(err);
+                })
+            }
+    
+            // jpg
+            if(!this.state.jpgUrl){
+                htmlToImage.toJpeg(node)
+                .then(dataUrl => {
+                    this.setState({jpgUrl: dataUrl}) 
+                }).catch(err => {
+                    console.log("SETTING URL ERROR")
+        
+                    console.log(err);
+                })
+            }
+    
+            // svg
+            if(!this.state.svgUrl){
+                htmlToImage.toSvg(node)
+                .then(dataUrl => {
+                    this.setState({svgUrl: dataUrl}) 
+                }).catch(err => {
+                    console.log("SETTING URL ERROR")
+                })
+            }
         }
     }
 
@@ -139,6 +152,54 @@ class ExportModal extends Component {
         }
     }
 
+    onImageLoad = () => {
+        this.setState({ imagesLoaded: this.state.imagesLoaded + 1 })
+    }
+
+    getElements = (elements) => {
+
+        // TODO: redo/replace this with real orders and z-index
+        const orderedElements = [
+          ...elements.filter(e => e.type !== 'text'),
+          ...elements.filter(e => e.type === 'text')
+        ]
+    
+        return orderedElements.map(e => {
+          // const highlight = this.state.dragging && this.state.
+          switch(e.type){
+            case 'text': 
+              return(
+                <Element 
+                  inPreview
+                  type='text'
+                  key={`prev-${e.elementId}`}
+                  element={e}
+                />
+              ) 
+            case 'rect': 
+                return(
+                  <Element 
+                    inPreview
+                    type='rect'
+                    key={`prev-${e.elementId}`}
+                    element={e}
+                  />
+                )
+            case 'image': 
+              return(
+                <Element 
+                  inPreview
+                  type='image'
+                  key={`prev-${e.elementId}`}
+                  element={e}
+                  onImageLoad={this.onImageLoad}
+                />
+              )
+            default: console.log('Invalid Element Type!'); return null; 
+          }
+        })
+    }
+
     render(){
         const {
             leftBorder,
@@ -151,8 +212,6 @@ class ExportModal extends Component {
 
         const aspectRatioContainer = this.state.width/this.state.height;
         const aspectRatioContent = contentWidth/contentHeight; 
-        console.log("ratio container", aspectRatioContainer);
-        console.log("ratio content  ", aspectRatioContent)
 
         let previewStyles = {
             height: contentHeight,
@@ -179,6 +238,8 @@ class ExportModal extends Component {
             }
         })
 
+        const numberOfImages = this.props.elements.filter(e => e.type === 'image').length;
+
         return(
             <div className={classes.ExportModal}>
                 <div className={classes.Background} onClick={this.props.closeExportModal}></div>
@@ -190,7 +251,7 @@ class ExportModal extends Component {
                             >
                                 <div id="preview" className={classes.DownloadWrapper}>
                                     {
-                                        this.props.getElements(transformedElements, true)
+                                        this.getElements(transformedElements)
                                     }
                                 </div>
                         </div>

@@ -58,6 +58,7 @@ class Element extends Component {
                         src={imgSrc}
                         className={classes.Image}
                         id={`${elementId}-image`}
+                        onLoad={this.props.onImgeLoad}
                     />
                 )
             case 'rect':
@@ -73,7 +74,7 @@ class Element extends Component {
     }
 
     highlighed = () => {
-        if(this.props.selected) return false;
+        if(this.props.selected || !this.props.selectedLines) return false;
         let Hlines = [];
         let Vlines = [];
         Hlines.push(this.props.element.posY)

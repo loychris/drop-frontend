@@ -20,7 +20,7 @@ class Creator extends Component {
     editingId: null, 
     selectedHline: null,
     selectedVline: null,
-    exportModalOpen: true,
+    exportModalOpen: false,
     elements: [
       {
         type: 'text', 
@@ -502,7 +502,7 @@ class Creator extends Component {
   
   /// RENDER /////////////////////////////////////////////////
 
-  getElements = (elements, inPreview) => {
+  getElements = (elements, inPreview, onImgeLoad) => {
 
     // TODO: redo/replace this with real orders and z-index
     const orderedElements = [
@@ -519,7 +519,7 @@ class Creator extends Component {
               inPreview={inPreview}
               currentlyEditing={this.state.editingId === e.elementId}
               type='text'
-              key={e.elementId}
+              key={`${inPreview ? 'prev' : ''}-${e.elementId}`}
               element={e}
               editingId={this.state.editingId}
               selected={e.elementId === this.state.selectedId}
@@ -537,7 +537,7 @@ class Creator extends Component {
                 inPreview={inPreview}
                 currentlyEditing={this.state.editingId === e.elementId}
                 type='rect'
-                key={e.elementId}
+                key={`${inPreview ? 'prev' : ''}-${e.elementId}`}
                 element={e}
                 selected={e.elementId === this.state.selectedId}
                 select={this.select}
@@ -551,11 +551,12 @@ class Creator extends Component {
               inPreview={inPreview}
               currentlyEditing={this.state.editingId === e.elementId}
               type='image'
-              key={e.elementId}
+              key={`${inPreview ? 'prev' : ''}-${e.elementId}`}
               element={e}
               selected={e.elementId === this.state.selectedId}
               select={this.select}
               elementMouseDown={this.elementMouseDown}
+              onImageLoad={onImgeLoad}
               selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
             />
           )
@@ -655,7 +656,6 @@ class Creator extends Component {
           this.state.exportModalOpen 
           ? <ExportModal 
               closeExportModal={this.closeExportModal}
-              jpgDownload={this.jpgDownload}
               getElements={this.getElements}
               elements={this.state.elements}
               /> 
