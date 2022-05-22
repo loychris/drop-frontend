@@ -64,11 +64,6 @@ class ExportModal extends Component {
         this.setState({downloadFormat: e.target.value});
     }
 
-    onImageLoad = () => {
-        console.log("onlodImage")
-        this.setState({ imagesLoaded: this.state.imagesLoaded + 1 })
-    }
-
     onDownLoad = () => {
             const node = document.getElementById('preview');
             this.setState({downloadStarted: true}); 
@@ -165,7 +160,6 @@ class ExportModal extends Component {
                         type='image'
                         key={`prev-${e.elementId}`}
                         element={e}
-                        onImageLoad={this.onImageLoad}
                         />
                     )
                 default: console.log('Invalid Element Type!'); return null; 

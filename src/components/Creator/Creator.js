@@ -20,7 +20,7 @@ class Creator extends Component {
     editingId: null, 
     selectedHline: null,
     selectedVline: null,
-    exportModalOpen: true,
+    exportModalOpen: false,
     elements: [
       {
         type: 'text', 
@@ -140,7 +140,9 @@ class Creator extends Component {
       editingId: elementId
     })
     const element = document.getElementById(`${elementId}-input`);
-    element.focus();
+    setTimeout(() => {
+      element.focus();
+    }, 0); 
   }
 
   backgroundMouseUp = (e) => {
@@ -251,7 +253,7 @@ class Creator extends Component {
         {
           ...element,
           height: newHeight,
-          text: e.target.innerHTML
+          text: e.target.textContent
         }
       ]
     });

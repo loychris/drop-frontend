@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import * as classes from './Element.module.css';
 import ResizeHandler from './ResizeHandler/ResizeHandler';
+import TextElement from './TextElement/TextElement';
 
 
 
@@ -29,28 +30,17 @@ class Element extends Component {
     }
 
     getContent = () => {
-        const {font, fontSize, fontWeight, color, elementId, imgSrc, verticalAlign, text } = this.props.element;
+        const {color, elementId, imgSrc, text } = this.props.element;
         switch(this.props.type){
             case 'text': 
-                const verticalAlignClass = verticalAlign === 'top'    ? classes.topAlign 
-                                        :  verticalAlign === 'bottom' ? classes.bottomAlign 
-                                                                      : classes.middleAlign;
                 return(
-                    <p
-                        contentEditable={!this.props.inPreview}
-                        suppressContentEditableWarning
-                        type='text' 
-                        id={`${elementId}-input`}
-                        className={`${classes.TextInput} ${verticalAlignClass}`} 
-                        // onDoubleClick={this.onTextFocus}
-                        style={{
-                            fontFamily: font,
-                            fontSize: fontSize,
-                            fontWeight: fontWeight
-                        }}
-                        onInput={e => this.props.onTextInput(e, elementId)}>
-                            <span>{text}</span>
-                    </p>
+                    <TextElement
+                        element={this.props.element}
+                        onInput={this.props.onTextInput}
+                        text={text}
+                        editing={this.props.editingId == elementId}
+
+                    />
                 )
             case 'image': 
                 return(

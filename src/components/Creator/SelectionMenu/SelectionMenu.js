@@ -53,7 +53,6 @@
 
     topAlignIcon = () => {
         const strokeColor = this.props.selected.verticalAlign === 'top' ? '#11192c' : '#ffffff';
-        console.log(strokeColor)
         return(
             <svg 
                 className={this.props.selected.verticalAlign === 'top' ? classes.alignActive : classes.alignInactive}
