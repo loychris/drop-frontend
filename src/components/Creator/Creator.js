@@ -244,14 +244,16 @@ class Creator extends Component {
   }
 
   onTextInput = (e, elementId, callback) => {
-    const selectionOffset = window.getSelection().focusOffset;
-    console.log("SLECTIONOFFSET", selectionOffset); 
-
-
+    const selectionOffsetBefore = window.getSelection().focusOffset;
     let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
     const element = this.state.elements.find(e => e.elementId === elementId);
     let elem = document.getElementById(`${elementId}-input`);
     let newHeight = element.fixedWidth ? elem.offsetHeight : element.height; 
+
+    console.log("SLECTIONOFFSET", selectionOffsetBefore); 
+    console.log("Length before: ", element.text.length)
+    console.log("Length after: ", e.target.textContent.length)
+
     this.setState({
       elements: [
         ...elementsNew,
@@ -264,14 +266,13 @@ class Creator extends Component {
     }, () => {
       let range = document.createRange(); 
       let selection = window.getSelection();
-
-      console.log(elem.childNodes)
-
-      range.setStart(elem.childNodes[0], selectionOffset); 
-      range.collapse(true); 
-      selection.removeAllRanges(); 
-      selection.addRange(range); 
-      elem.focus(); 
+      if(elem.childNodes.length > 0){
+        range.setStart(elem.childNodes[0], selectionOffsetBefore); 
+        range.collapse(true); 
+        selection.removeAllRanges(); 
+        selection.addRange(range); 
+        elem.focus(); 
+      }
     });
   }
 
