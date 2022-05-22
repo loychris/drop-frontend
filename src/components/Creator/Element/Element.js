@@ -39,7 +39,7 @@ class Element extends Component {
                         onInput={this.props.onTextInput}
                         text={text}
                         editing={this.props.editingId == elementId}
-
+                        onTextInput={this.props.onTextInput}
                     />
                 )
             case 'image': 

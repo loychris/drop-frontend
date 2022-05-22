@@ -141,6 +141,7 @@ class Creator extends Component {
     })
     const element = document.getElementById(`${elementId}-input`);
     setTimeout(() => {
+      console.log("focusing")
       element.focus();
     }, 0); 
   }
@@ -242,10 +243,14 @@ class Creator extends Component {
     })
   }
 
-  onTextInput = (e, elementId) => {
+  onTextInput = (e, elementId, callback) => {
+    const selectionOffset = window.getSelection().focusOffset;
+    console.log("SLECTIONOFFSET", selectionOffset); 
+
+
     let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
     const element = this.state.elements.find(e => e.elementId === elementId);
-    const elem = document.getElementById(`${elementId}-input`);
+    let elem = document.getElementById(`${elementId}-input`);
     let newHeight = element.fixedWidth ? elem.offsetHeight : element.height; 
     this.setState({
       elements: [
@@ -256,6 +261,17 @@ class Creator extends Component {
           text: e.target.textContent
         }
       ]
+    }, () => {
+      let range = document.createRange(); 
+      let selection = window.getSelection();
+
+      console.log(elem.childNodes)
+
+      range.setStart(elem.childNodes[0], selectionOffset); 
+      range.collapse(true); 
+      selection.removeAllRanges(); 
+      selection.addRange(range); 
+      elem.focus(); 
     });
   }
 

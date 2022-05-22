@@ -7,6 +7,7 @@
     overflow-x: visible;
     caret-color: #555555;
     position: relative;
+    display: inline-block; 
 }
 
 .topAlign {

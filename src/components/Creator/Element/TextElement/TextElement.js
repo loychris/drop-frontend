@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import classes from './TextElement.module.css'; 
 
 const TextElement = (props) => {
+
+    const inputEl = useRef(null);
 
     const {font, fontSize, fontWeight, verticalAlign, elementId } = props.element;
 
@@ -11,22 +13,33 @@ const TextElement = (props) => {
     : verticalAlign === 'bottom' ? classes.bottomAlign 
     : classes.middleAlign;
 
+    const onTextInput = (e) => {
+        props.onTextInput(e, elementId, () => {
+            console.log("Callback called")
+        }); 
+    }
+
+
+
     return(
-        <p
+        <div
+            ref={inputEl}
             contentEditable={props.editing}
             suppressContentEditableWarning
             type='text' 
             id={`${elementId}-input`}
             className={`${classes.TextInput} ${verticalAlignClass}`} 
+            selectionStart={3}
+            selectionEnd={5}
             // onDoubleClick={this.onTextFocus}
             style={{
                 fontFamily: font,
                 fontSize: fontSize,
                 fontWeight: fontWeight
             }}
-            onInput={e => this.props.onTextInput(e, elementId)}>
-                <span>{props.text}</span>
-        </p>
+            onInput={onTextInput}>
+                {props.text}
+        </div>
     )
 }
 
