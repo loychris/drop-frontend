@@ -25,7 +25,8 @@
     "react-textarea-autosize": "^7.1.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.3.0",
-    "style-loader": "^1.1.2"
+    "style-loader": "^1.1.2",
+    "use-fit-text": "^2.4.0"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",

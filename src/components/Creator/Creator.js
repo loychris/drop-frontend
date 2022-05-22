@@ -243,7 +243,7 @@ class Creator extends Component {
     })
   }
 
-  onTextInput = (e, elementId, callback) => {
+  onTextInput = (e, elementId) => {
     const selectionOffsetBefore = window.getSelection().focusOffset;
     let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
     const element = this.state.elements.find(e => e.elementId === elementId);
@@ -266,8 +266,8 @@ class Creator extends Component {
     }, () => {
       let range = document.createRange(); 
       let selection = window.getSelection();
-      if(elem.childNodes.length > 0){
-        range.setStart(elem.childNodes[0], selectionOffsetBefore); 
+      if(elem.childNodes.length > 0 && elem.childNodes[0].childNodes.length > 0){
+        range.setStart(elem.childNodes[0].childNodes[0], selectionOffsetBefore); 
         range.collapse(true); 
         selection.removeAllRanges(); 
         selection.addRange(range); 
@@ -506,7 +506,7 @@ class Creator extends Component {
         return e;
       }
     })
-    this.setState({ elements: newElements})
+    this.setState({ elements: newElements, editingId: null })
   }
 
   /// EXPORT /////////////////////////////////////// 
