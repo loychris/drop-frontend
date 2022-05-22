@@ -20,7 +20,7 @@ class Creator extends Component {
     editingId: null, 
     selectedHline: null,
     selectedVline: null,
-    exportModalOpen: false,
+    exportModalOpen: true,
     elements: [
       {
         type: 'text', 

@@ -58,7 +58,7 @@ class Element extends Component {
                         src={imgSrc}
                         className={classes.Image}
                         id={`${elementId}-image`}
-                        onLoad={this.props.onImgeLoad}
+                        onLoad={this.props.onImageLoad}
                     />
                 )
             case 'rect':

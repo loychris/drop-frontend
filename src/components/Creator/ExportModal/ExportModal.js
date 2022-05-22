@@ -6,6 +6,7 @@ import * as htmlToImage from 'html-to-image';
 
 import Element from '../Element/Element';
 import PrimaryButton from '../../UI/PrimaryButton/PrimaryButton';
+import Loader from 'react-loader-spinner'; 
 import { Link } from 'react-router-dom';
 
 
@@ -18,14 +19,13 @@ class ExportModal extends Component {
         jpgUrl: null,
         svgUrl: null,
         rendered: false,
-        downloadFormat: 'jpg',
+        downloadFormat: 'jpg', // jpg, png, svg
         linkRef: React.createRef(), 
         imagesLoaded: 0, 
+        imageCreationStarted: false, 
     }
 
     componentDidMount = () => {
-        const imagesToLoad = this.props.elements.filter(e => e.type = "image").length;
-        console.log("TO LOAD ", imagesToLoad, "LOADED", this.state.imagesLoaded);
         const height = this.divElement.clientHeight;
         const width = this.divElement.clientWidth;
         console.log(height, width);
@@ -40,23 +40,21 @@ class ExportModal extends Component {
             this.setState({ height, width });
         }
         
-        const imagesToLoad = this.props.elements.filter(e => e.type = "image").length;
-        console.log("TO LOAD ", imagesToLoad, "LOADED", this.state.imagesLoaded);
-        console.log(this.props.elements);
+        const imagesToLoad = this.props.elements.filter(e => e.type === 'image').length; 
 
-        if(this.state.imagesLoaded === imagesToLoad){
+        if(this.state.imagesLoaded === imagesToLoad && !this.state.imageCreationStarted){
 
-            console.log("All images loaded"); 
+            console.log("starting image loading"); 
             const node = document.getElementById('preview');
 
             //png
             if(!this.state.pngUrl){
                 htmlToImage.toPng(node)
                 .then(dataUrl => {
+                    console.log("png loaded")
                     this.setState({pngUrl: dataUrl}) 
                 }).catch(err => {
                     console.log("SETTING URL ERROR")
-        
                     console.log(err);
                 })
             }
@@ -65,6 +63,7 @@ class ExportModal extends Component {
             if(!this.state.jpgUrl){
                 htmlToImage.toJpeg(node)
                 .then(dataUrl => {
+                    console.log("jpg loaded")
                     this.setState({jpgUrl: dataUrl}) 
                 }).catch(err => {
                     console.log("SETTING URL ERROR")
@@ -77,11 +76,14 @@ class ExportModal extends Component {
             if(!this.state.svgUrl){
                 htmlToImage.toSvg(node)
                 .then(dataUrl => {
+                    console.log("svg loaded")
                     this.setState({svgUrl: dataUrl}) 
                 }).catch(err => {
                     console.log("SETTING URL ERROR")
                 })
             }
+
+            this.setState({ imageCreationStarted: true})
         }
     }
 
@@ -153,6 +155,7 @@ class ExportModal extends Component {
     }
 
     onImageLoad = () => {
+        console.log("onlodImage")
         this.setState({ imagesLoaded: this.state.imagesLoaded + 1 })
     }
 
@@ -238,7 +241,8 @@ class ExportModal extends Component {
             }
         })
 
-        const numberOfImages = this.props.elements.filter(e => e.type === 'image').length;
+        const imagesReady = this.state.jpgUrl && this.state.pngUrl && this.state.svgUrl
+
 
         return(
             <div className={classes.ExportModal}>
@@ -264,7 +268,16 @@ class ExportModal extends Component {
                                 <option value="svg" label="svg"/>
                             </select>
                             <PrimaryButton clicked={this.download}>
-                                <h3>Download</h3> 
+                                {
+                                    imagesReady 
+                                    ? <h3>Download</h3> 
+                                    :  <Loader 
+                                        className={classes.Spinner} 
+                                        type="ThreeDots" 
+                                        color="#FFFFFF" 
+                                        height={30} 
+                                        width={30}/>
+                                }
                             </PrimaryButton>
                         </div>
                     </div>
