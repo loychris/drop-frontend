@@ -15,14 +15,11 @@ class ExportModal extends Component {
     state={
         height: 0,
         width: 0, 
-        pngUrl: null, 
-        jpgUrl: null,
-        svgUrl: null,
-        rendered: false,
         downloadFormat: 'jpg', // jpg, png, svg
         linkRef: React.createRef(), 
         imagesLoaded: 0, 
         imageCreationStarted: false, 
+        downloadLoading: false,
     }
 
     componentDidMount = () => {
@@ -36,54 +33,7 @@ class ExportModal extends Component {
         const height = this.divElement.clientHeight;
         const width = this.divElement.clientWidth;
         if(height !== this.state.height || width !== this.state.width){
-            console.log("UPDATING STATE PrOPORTIONS")
             this.setState({ height, width });
-        }
-        
-        const imagesToLoad = this.props.elements.filter(e => e.type === 'image').length; 
-
-        if(this.state.imagesLoaded === imagesToLoad && !this.state.imageCreationStarted){
-
-            console.log("starting image loading"); 
-            const node = document.getElementById('preview');
-
-            //png
-            if(!this.state.pngUrl){
-                htmlToImage.toPng(node)
-                .then(dataUrl => {
-                    console.log("png loaded")
-                    this.setState({pngUrl: dataUrl}) 
-                }).catch(err => {
-                    console.log("SETTING URL ERROR")
-                    console.log(err);
-                })
-            }
-    
-            // jpg
-            if(!this.state.jpgUrl){
-                htmlToImage.toJpeg(node)
-                .then(dataUrl => {
-                    console.log("jpg loaded")
-                    this.setState({jpgUrl: dataUrl}) 
-                }).catch(err => {
-                    console.log("SETTING URL ERROR")
-        
-                    console.log(err);
-                })
-            }
-    
-            // svg
-            if(!this.state.svgUrl){
-                htmlToImage.toSvg(node)
-                .then(dataUrl => {
-                    console.log("svg loaded")
-                    this.setState({svgUrl: dataUrl}) 
-                }).catch(err => {
-                    console.log("SETTING URL ERROR")
-                })
-            }
-
-            this.setState({ imageCreationStarted: true})
         }
     }
 
@@ -114,49 +64,69 @@ class ExportModal extends Component {
         this.setState({downloadFormat: e.target.value});
     }
 
-    getDownloadLink = () => {
-        const downloadUrl = 
-            this.state.downloadFormat === 'jpg' ? this.state.jpgUrl : 
-            this.state.downloadFormat === 'png' ? this.state.pngUrl : 
-            this.state.downloadFormat === 'svg' ? this.state.svgUrl : null
-        return (
-            <a 
-                href={downloadUrl} 
-                download 
-                id="downloadLink" 
-                style={{display: "none"}} 
-                ref={this.state.linkRef}
-            />
-        )
-    }
-
-    download = () => {
-        const link = document.createElement('a');
-        console.log(this.state.downloadFormat)
-        link.setAttribute('download',`FileName.${this.state.downloadFormat}`);
-        if(this.state.downloadFormat === 'jpg' && this.state.jpgUrl){
-            link.href = this.state.jpgUrl;
-        }
-        if(this.state.downloadFormat === 'png' && this.state.pngUrl){
-            link.href = this.state.pngUrl;
-        }
-        if(this.state.downloadFormat === 'svg' && this.state.svgUrl){
-            link.href = this.state.svgUrl;
-        }
-        if(link.href){
-            document.body.appendChild(link);
-            link.click();
-        }
-        if(link && link.parentNode){
-            link.parentNode.removeChild(link);
-        }else{
-            console.log(link);
-        }
-    }
-
     onImageLoad = () => {
         console.log("onlodImage")
         this.setState({ imagesLoaded: this.state.imagesLoaded + 1 })
+    }
+
+    onDownLoad = () => {
+            const node = document.getElementById('preview');
+            this.setState({downloadStarted: true}); 
+            //png
+            if(this.state.downloadFormat === "png"){
+                htmlToImage.toPng(node)
+                .then(dataUrl => {
+                    const link = document.createElement('a');
+                    link.setAttribute('download',`FileName.${this.state.downloadFormat}`);
+                    link.href = dataUrl;
+                    document.body.appendChild(link);
+                    link.click();
+                    if(link && link.parentNode){
+                        link.parentNode.removeChild(link);
+                    }
+                    this.props.closeExportModal(); 
+                }).catch(err => {
+                    console.log("png downloadError")
+                    console.log(err);
+                })
+            }
+    
+            // jpg
+            if(this.state.downloadFormat === "jpg"){
+                htmlToImage.toJpeg(node)
+                .then(dataUrl => {
+                    const link = document.createElement('a');
+                    link.setAttribute('download',`FileName.${this.state.downloadFormat}`);
+                    link.href = dataUrl;
+                    document.body.appendChild(link);
+                    link.click();
+                    if(link && link.parentNode){
+                        link.parentNode.removeChild(link);
+                    }
+                    this.props.closeExportModal(); 
+                }).catch(err => {
+                    console.log("SETTING URL ERROR")
+                    console.log(err);
+                })
+            }
+    
+            // svg
+            if(this.state.downloadFormat === "png"){
+                htmlToImage.toSvg(node)
+                .then(dataUrl => {
+                    const link = document.createElement('a');
+                    link.setAttribute('download',`FileName.${this.state.downloadFormat}`);
+                    link.href = dataUrl;
+                    document.body.appendChild(link);
+                    link.click();
+                    if(link && link.parentNode){
+                        link.parentNode.removeChild(link);
+                    }
+                    this.props.closeExportModal(); 
+                }).catch(err => {
+                    console.log("SETTING URL ERROR")
+                })
+            }
     }
 
     getElements = (elements) => {
@@ -169,37 +139,37 @@ class ExportModal extends Component {
     
         return orderedElements.map(e => {
           // const highlight = this.state.dragging && this.state.
-          switch(e.type){
-            case 'text': 
-              return(
-                <Element 
-                  inPreview
-                  type='text'
-                  key={`prev-${e.elementId}`}
-                  element={e}
-                />
-              ) 
-            case 'rect': 
-                return(
-                  <Element 
-                    inPreview
-                    type='rect'
-                    key={`prev-${e.elementId}`}
-                    element={e}
-                  />
-                )
-            case 'image': 
-              return(
-                <Element 
-                  inPreview
-                  type='image'
-                  key={`prev-${e.elementId}`}
-                  element={e}
-                  onImageLoad={this.onImageLoad}
-                />
-              )
-            default: console.log('Invalid Element Type!'); return null; 
-          }
+            switch(e.type){
+                case 'text': 
+                    return(
+                        <Element 
+                        inPreview
+                        type='text'
+                        key={`prev-${e.elementId}`}
+                        element={e}
+                        />
+                    ) 
+                case 'rect': 
+                    return(
+                        <Element 
+                            inPreview
+                            type='rect'
+                            key={`prev-${e.elementId}`}
+                            element={e}
+                        />
+                    )
+                case 'image': 
+                    return(
+                        <Element 
+                        inPreview
+                        type='image'
+                        key={`prev-${e.elementId}`}
+                        element={e}
+                        onImageLoad={this.onImageLoad}
+                        />
+                    )
+                default: console.log('Invalid Element Type!'); return null; 
+            }
         })
     }
 
@@ -241,8 +211,6 @@ class ExportModal extends Component {
             }
         })
 
-        const imagesReady = this.state.jpgUrl && this.state.pngUrl && this.state.svgUrl
-
 
         return(
             <div className={classes.ExportModal}>
@@ -267,9 +235,9 @@ class ExportModal extends Component {
                                 <option value="jpg" label="jpg"/>
                                 <option value="svg" label="svg"/>
                             </select>
-                            <PrimaryButton clicked={this.download}>
+                            <PrimaryButton clicked={this.onDownLoad} disabled={this.state.downloadLoading}>
                                 {
-                                    imagesReady 
+                                    !this.state.downloadLoading
                                     ? <h3>Download</h3> 
                                     :  <Loader 
                                         className={classes.Spinner} 
