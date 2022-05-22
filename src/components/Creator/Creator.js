@@ -9,6 +9,7 @@ import TopMenu from "./TopMenu/TopMenu";
 import SelectionMenu from "./SelectionMenu/SelectionMenu";
 import SelectionFrame from "./SelectionFrame/SelectionFrame";
 import ExportModal from "./ExportModal/ExportModal";
+import ImageDragNDrop from "./ImageDragNDrop/ImageDragNDrop";
 
 const JUMP_TO_LINE_TOLERANZ = 4;
 
@@ -16,11 +17,13 @@ class Creator extends Component {
 
   state = {
     dragging: false, 
+    draggingFile: false, 
     selectedId: null,
     editingId: null, 
     selectedHline: null,
     selectedVline: null,
     exportModalOpen: false,
+    files: [], 
     elements: [
       {
         type: 'text', 
@@ -116,6 +119,22 @@ class Creator extends Component {
     ],
   }
 
+  // dropRef = React.createRef();
+
+  // componentDidMount = () => {
+  //   let div = this.dropRef.current
+  //   div.addEventListener('drop', this.handleDropFiles);
+  //   div.addEventListener('dragenter', this.handleDragIn);
+  //   div.addEventListener('dragleave', this.handleDragOut)
+  // }
+
+  // componentWillUnmount() {
+  //   let div = this.dropRef.current
+  //   div.removeEventListener('drop', this.handleDropFiles)
+  //   div.removeEventListener('dragenter', this.handleDragIn)
+  //   div.removeEventListener('dragleave', this.handleDragOut)
+  // }
+
 
   /// SELECT /////////////////////////////////////////////////
 
@@ -151,10 +170,10 @@ class Creator extends Component {
       if(this.state.editingId){
         const element = document.getElementById(`${this.state.editingId}-input`);
         element.blur();
-        this.setState({ editingId: null })
+        this.setState({ editingId: null, draggingFile: false })
       }else{
         this.setState({
-          selectedId: null
+          selectedId: null, draggingFile: false 
         });
       }
     }
@@ -249,11 +268,6 @@ class Creator extends Component {
     const element = this.state.elements.find(e => e.elementId === elementId);
     let elem = document.getElementById(`${elementId}-input`);
     let newHeight = element.fixedWidth ? elem.offsetHeight : element.height; 
-
-    console.log("SLECTIONOFFSET", selectionOffsetBefore); 
-    console.log("Length before: ", element.text.length)
-    console.log("Length after: ", e.target.textContent.length)
-
     this.setState({
       elements: [
         ...elementsNew,
@@ -302,6 +316,44 @@ class Creator extends Component {
       selectedId: element.elementId,
     })
   }
+
+  // dragOver = (event) => {
+  //   event.preventDefault(); 
+  // }
+
+  // handleDragIn = (e) => {
+  //   e.preventDefault()
+  //   e.stopPropagation()
+  //   console.log("drag in");
+  //   if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+  //     this.setState({draggingFile: true}); 
+  //   }
+  // }
+
+  // handleDragOut = (e) => {
+  //   e.preventDefault()
+  //   e.stopPropagation()
+  //   console.log("drag out");
+  //   this.setState({draggingFile: false}); 
+  // }
+
+  // handleDropFiles = (e) => {
+  //   e.preventDefault()
+  //   e.stopPropagation()
+  //   console.log("drop file");
+  //   if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+  //     this.props.handleDrop(e.dataTransfer.files)
+  //     e.dataTransfer.clearData()
+  //     this.dragCounter = 0
+  //   }
+  //   if (e.dataTransfer) {
+  //     console.log(e.dataTransfer)
+  //     e.dataTransfer.items.foreach((item, i) => {
+  //       let file = item.getAsFile();
+  //       console.log('... file[' + i + '].name = ' + file.name);
+  //     })
+  //   }
+  // }
 
   ///  RESIZE  /////////////////////////////////////////////////
 
@@ -627,11 +679,6 @@ class Creator extends Component {
   }
 
   renderLines = () => {
-    // const lines = this.getLines(this.state.selectedId);
-    // return [
-    //   ...lines.Hlines.map(top => <Line key={`HL-${top}`} top={top} left={0}/>),
-    //   ...lines.Vlines.map(left => <Line key={`VL-${left}`} top={0} left={left}/>)
-    // ]
     let lines = [];
     if(this.state.selectedHline){
       lines.push(<Line key={`HL-${this.state.selectedHline}`} top={this.state.selectedHline} left={0}/>)
@@ -641,6 +688,16 @@ class Creator extends Component {
     }
     return lines; 
   }
+
+  handleDrop = (files) => {
+    let fileList = this.state.files
+    for (var i = 0; i < files.length; i++) {
+      if (!files[i].name) return
+      fileList.push(files[i].name)
+    }
+    this.setState({files: fileList})
+  }
+
 
   render() {
     const styleClasses = [classes.Creator];
@@ -652,34 +709,40 @@ class Creator extends Component {
         className={styleClasses.join(" ")}
         onMouseUp={this.backgroundMouseUp}
       >
-        <SelectionMenu
-          edit={this.edit}
-          selected={selected}
-        /> 
-        {selected 
-          ? <SelectionFrame 
-              element={selected}
-              editingId={this.state.editingId}
-              resizeMouseDown={this.resizeMouseDown}
-              elementMouseDown={this.elementMouseDown}
-              selectAndEdit={this.selectAndEdit}
-            /> 
-          : null}
-        { this.getElements(this.state.elements) }
-        <TopMenu 
-          addElement={this.addElement}
-          openExportModal={this.openExportModal}
-        />
-        { this.renderLines() }
-        { 
-          this.state.exportModalOpen 
-          ? <ExportModal 
-              closeExportModal={this.closeExportModal}
-              getElements={this.getElements}
-              elements={this.state.elements}
+        <ImageDragNDrop handleDrop={this.handleDrop}>
+          <SelectionMenu
+            edit={this.edit}
+            selected={selected}
+          /> 
+          {
+            selected && 
+              <SelectionFrame 
+                element={selected}
+                editingId={this.state.editingId}
+                resizeMouseDown={this.resizeMouseDown}
+                elementMouseDown={this.elementMouseDown}
+                selectAndEdit={this.selectAndEdit}
               /> 
-          : null
-        }
+          }
+          { this.getElements(this.state.elements) }
+          <TopMenu 
+            addElement={this.addElement}
+            openExportModal={this.openExportModal}
+          />
+          { this.renderLines() }
+          {/* {
+            this.state.draggingFile && 
+            <div className={classes.draggingOverlay}>Drop Images Here</div>
+          } */}
+          { 
+            this.state.exportModalOpen && 
+              <ExportModal 
+                closeExportModal={this.closeExportModal}
+                getElements={this.getElements}
+                elements={this.state.elements}
+              /> 
+          }
+        </ImageDragNDrop>
       </div>
     );
   }
