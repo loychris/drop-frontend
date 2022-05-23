@@ -72,8 +72,26 @@ const TopMenu = props => {
         )
     }
 
-    const onFileInput = (event) => {
+    const onFileInput =  (event) => {
         console.log("FILE INPUT")
+        let posX = 100;
+        let posY = 100; 
+        let elements = []; 
+        for(let i=0; i<event.target.files.length;i++){
+            console.log(event.target.files[i]); 
+            elements.push({
+                type: 'image', 
+                elementId: `${Date.now()}${i}`, 
+                height: 100,
+                width: 100,
+                posX, 
+                posY,
+                file: event.target.files[i]
+            })
+            posX += 20; 
+            posY += 20; 
+        }
+        props.addElements(elements)
     }
 
     const addImageClickHandler = () => {
@@ -85,7 +103,7 @@ const TopMenu = props => {
             <div className={classes.LeftAlign}>
                 <div 
                     className={classes.MenuItem}
-                    onClick={() => props.addElement({
+                    onClick={() => props.addElements([{
                         type: 'rect', 
                         elementId: `${Date.now()}`,
                         posX: 100,
@@ -93,14 +111,13 @@ const TopMenu = props => {
                         height: 400,
                         width: 400,
                         color: '#FF8592',
-
-                    })}
+                    }])}
                 >
                     {getRectangleIcon()}
                 </div>
                 <div 
                     className={classes.MenuItem}
-                    onClick={() => props.addElement({
+                    onClick={() => props.addElements([{
                         type: 'text', 
                         elementId: `${Date.now()}`,
                         height: 60,
@@ -116,13 +133,12 @@ const TopMenu = props => {
                         underline: false, 
                         italic: false, 
                         textStroke: true
-                })}>
+                }])}>
                     {getNewTextElementIcon()}
                 </div>
                 <div 
                     className={classes.MenuItem}
                     onClick={addImageClickHandler}>
-                    <input type='file' id='file' ref={inputFile} style={{display: 'none'}} onInput={onFileInput}/>
                     {getNewImageIcon()}
                 </div>
             </div>
@@ -138,6 +154,7 @@ const TopMenu = props => {
                     {getDownLoadIcon()}
                 </div>
             </div>
+            <input type='file' id='file' multiple ref={inputFile} style={{display: 'none'}} onInput={onFileInput}/>
         </div>
     )
 }

@@ -294,10 +294,10 @@ class Creator extends Component {
 
   /// ADD //////////////////////////////////////////////////
 
-  addElement = (element) => {
+  addElements = (elements) => {
     this.setState({
-      elements: [...this.state.elements, element],
-      selectedId: element.elementId,
+      elements: [...this.state.elements, ...elements],
+      selectedId: elements[elements.length-1].elementId,
     })
   }
 
@@ -673,7 +673,7 @@ class Creator extends Component {
           }
           { this.getElements(this.state.elements) }
           <TopMenu 
-            addElement={this.addElement}
+            addElements={this.addElements}
             openExportModal={this.openExportModal}
           />
           { this.renderLines() }
