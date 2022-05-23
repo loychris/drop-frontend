@@ -119,22 +119,6 @@ class Creator extends Component {
     ],
   }
 
-  // dropRef = React.createRef();
-
-  // componentDidMount = () => {
-  //   let div = this.dropRef.current
-  //   div.addEventListener('drop', this.handleDropFiles);
-  //   div.addEventListener('dragenter', this.handleDragIn);
-  //   div.addEventListener('dragleave', this.handleDragOut)
-  // }
-
-  // componentWillUnmount() {
-  //   let div = this.dropRef.current
-  //   div.removeEventListener('drop', this.handleDropFiles)
-  //   div.removeEventListener('dragenter', this.handleDragIn)
-  //   div.removeEventListener('dragleave', this.handleDragOut)
-  // }
-
 
   /// SELECT /////////////////////////////////////////////////
 
@@ -317,43 +301,15 @@ class Creator extends Component {
     })
   }
 
-  // dragOver = (event) => {
-  //   event.preventDefault(); 
-  // }
-
-  // handleDragIn = (e) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  //   console.log("drag in");
-  //   if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
-  //     this.setState({draggingFile: true}); 
-  //   }
-  // }
-
-  // handleDragOut = (e) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  //   console.log("drag out");
-  //   this.setState({draggingFile: false}); 
-  // }
-
-  // handleDropFiles = (e) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  //   console.log("drop file");
-  //   if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-  //     this.props.handleDrop(e.dataTransfer.files)
-  //     e.dataTransfer.clearData()
-  //     this.dragCounter = 0
-  //   }
-  //   if (e.dataTransfer) {
-  //     console.log(e.dataTransfer)
-  //     e.dataTransfer.items.foreach((item, i) => {
-  //       let file = item.getAsFile();
-  //       console.log('... file[' + i + '].name = ' + file.name);
-  //     })
-  //   }
-  // }
+  handleImageDrop = (files) => {
+    let fileList = this.state.files
+    for (var i = 0; i < files.length; i++) {
+      if (!files[i].name) return
+      fileList.push(files[i].name)
+      console.log(files[i]); 
+    }
+    this.setState({files: fileList})
+  }
 
   ///  RESIZE  /////////////////////////////////////////////////
 
@@ -689,15 +645,6 @@ class Creator extends Component {
     return lines; 
   }
 
-  handleDrop = (files) => {
-    let fileList = this.state.files
-    for (var i = 0; i < files.length; i++) {
-      if (!files[i].name) return
-      fileList.push(files[i].name)
-    }
-    this.setState({files: fileList})
-  }
-
 
   render() {
     const styleClasses = [classes.Creator];
@@ -709,7 +656,7 @@ class Creator extends Component {
         className={styleClasses.join(" ")}
         onMouseUp={this.backgroundMouseUp}
       >
-        <ImageDragNDrop handleDrop={this.handleDrop}>
+        <ImageDragNDrop handleDrop={this.handleImageDrop}>
           <SelectionMenu
             edit={this.edit}
             selected={selected}

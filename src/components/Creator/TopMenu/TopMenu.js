@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { useRef } from 'react';
 import classes from './TopMenu.module.css';
 
-class TopMenu extends Component {
+const TopMenu = props => {
 
-    getRectangleIcon = () => {
+    const inputFile = useRef(null) 
+
+    const getRectangleIcon = () => {
         return(
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="26" height="26" rx="3" fill="white"/>
@@ -12,7 +14,7 @@ class TopMenu extends Component {
         )
     }
 
-    getNewCircleIcon = () => {
+    const getNewCircleIcon = () => {
         return(
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M26 13C26 20.1797 20.1797 26 13 26C5.8203 26 0 20.1797 0 13C0 5.8203 5.8203 0 13 0C20.1797 0 26 5.8203 26 13Z" fill="white"/>
@@ -20,7 +22,7 @@ class TopMenu extends Component {
         )
     }
 
-    getNewTextElementIcon = () => {
+    const getNewTextElementIcon = () => {
         return(
             <svg width="23" height="26" viewBox="0 0 23 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0H22.5V3H0V0Z" fill="white"/>
@@ -32,7 +34,7 @@ class TopMenu extends Component {
         )
     }
 
-    getNewImageIcon = () => {
+    const getNewImageIcon = () => {
         return(
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.411133 20.9529L7.36393 14.0001L8.77815 15.4143L1.82535 22.3671L0.411133 20.9529Z" fill="white"/>
@@ -46,7 +48,7 @@ class TopMenu extends Component {
         )
     }
 
-    getShareIcon = () => {
+    const getShareIcon = () => {
         return(
             <svg 
                 className={classes.shareIcon}
@@ -61,7 +63,7 @@ class TopMenu extends Component {
         )
     }
 
-    getDownLoadIcon = () => {
+    const getDownLoadIcon = () => {
         return(
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 26H6V33H34V26H39V35C39 36.6569 37.6569 38 36 38H4C2.34315 38 1 36.6569 1 35V26Z" fill="#ffffff"/>
@@ -70,75 +72,74 @@ class TopMenu extends Component {
         )
     }
 
-    render(){
-        return(
-            <div className={classes.TopMenu}>
-                <div className={classes.LeftAlign}>
-                    <div 
-                        className={classes.MenuItem}
-                        onClick={() => this.props.addElement({
-                            type: 'rect', 
-                            elementId: `${Date.now()}`,
-                            posX: 100,
-                            posY: 100,
-                            height: 400,
-                            width: 400,
-                            color: '#FF8592',
+    const onFileInput = (event) => {
+        console.log("FILE INPUT")
+    }
 
-                        })}
-                    >
-                        {this.getRectangleIcon()}
-                    </div>
-                    <div 
-                        className={classes.MenuItem}
-                        onClick={() => this.props.addElement({
-                            type: 'text', 
-                            elementId: `${Date.now()}`,
-                            height: 60,
-                            width: 400, 
-                            posX: 100,
-                            posY: 300,
-                            text: 'Text Element 3',
-                            font: 'Oswald',
-                            fontSize: '30',
-                            fontWeight: '700',
-                            textAlign: 'center',
-                            fixedWidth: true,
-                            underline: false, 
-                            italic: false, 
-                            textStroke: true
-                    })}>
-                        {this.getNewTextElementIcon()}
-                    </div>
-                    <div 
-                        className={classes.MenuItem}
-                        onClick={() => this.props.addElement({
-                            type: 'image',
-                            elementId: `${Date.now()}`,
-                            imgSrc: 'https://storage.googleapis.com/drop-meme-bucket/meme-6022470ff97f5a363a80b387',
-                            posX: 600,
-                            posY: 600,
-                            height: 400,
-                            width: 400
-                        })}>
-                        {this.getNewImageIcon()}
-                    </div>
+    const addImageClickHandler = () => {
+        inputFile.current.click();
+    }
+
+    return(
+        <div className={classes.TopMenu}>
+            <div className={classes.LeftAlign}>
+                <div 
+                    className={classes.MenuItem}
+                    onClick={() => props.addElement({
+                        type: 'rect', 
+                        elementId: `${Date.now()}`,
+                        posX: 100,
+                        posY: 100,
+                        height: 400,
+                        width: 400,
+                        color: '#FF8592',
+
+                    })}
+                >
+                    {getRectangleIcon()}
                 </div>
-                <div className={classes.RightAlign}>
-                    <div 
-                        className={classes.MenuItem}
-                        onClick={this.props.openExportModal}>
-                        {this.getShareIcon()}
-                    </div>
-                    <div 
-                        className={classes.MenuItem}
-                        onClick={this.props.openExportModal}>
-                        {this.getDownLoadIcon()}
-                    </div>
+                <div 
+                    className={classes.MenuItem}
+                    onClick={() => props.addElement({
+                        type: 'text', 
+                        elementId: `${Date.now()}`,
+                        height: 60,
+                        width: 400, 
+                        posX: 100,
+                        posY: 300,
+                        text: 'Text Element 3',
+                        font: 'Oswald',
+                        fontSize: '30',
+                        fontWeight: '700',
+                        textAlign: 'center',
+                        fixedWidth: true,
+                        underline: false, 
+                        italic: false, 
+                        textStroke: true
+                })}>
+                    {getNewTextElementIcon()}
+                </div>
+                <div 
+                    className={classes.MenuItem}
+                    onClick={addImageClickHandler}>
+                    <input type='file' id='file' ref={inputFile} style={{display: 'none'}} onInput={onFileInput}/>
+                    {getNewImageIcon()}
                 </div>
             </div>
-        )
-    }
+            <div className={classes.RightAlign}>
+                <div 
+                    className={classes.MenuItem}
+                    onClick={props.openExportModal}>
+                    {getShareIcon()}
+                </div>
+                <div 
+                    className={classes.MenuItem}
+                    onClick={props.openExportModal}>
+                    {getDownLoadIcon()}
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default TopMenu;

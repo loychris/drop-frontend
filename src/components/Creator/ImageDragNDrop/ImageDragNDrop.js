@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
+import classes from './ImageDragNDrop.module.css'; 
+
 class ImageDragNDrop extends Component {
   state = {
     drag: false
   }
   dropRef = React.createRef()
-  handleDrag = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-  }
+
   handleDragIn = (e) => {
     e.preventDefault()
     e.stopPropagation()
+    console.log("drag in"); 
     this.dragCounter++
     if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
       this.setState({drag: true})
@@ -19,6 +19,7 @@ class ImageDragNDrop extends Component {
   handleDragOut = (e) => {
     e.preventDefault()
     e.stopPropagation()
+    console.log("drag out"); 
     this.dragCounter--
     if (this.dragCounter === 0) {
       this.setState({drag: false})
@@ -31,21 +32,19 @@ class ImageDragNDrop extends Component {
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       this.props.handleDrop(e.dataTransfer.files)
       e.dataTransfer.clearData()
-      this.dragCounter = 0    
+      this.dragCounter = 0;     
     }
   }
   componentDidMount() {
     let div = this.dropRef.current
     div.addEventListener('dragenter', this.handleDragIn)
     div.addEventListener('dragleave', this.handleDragOut)
-    div.addEventListener('dragover', this.handleDrag)
     div.addEventListener('drop', this.handleDrop)
   }
   componentWillUnmount() {
     let div = this.dropRef.current
     div.removeEventListener('dragenter', this.handleDragIn)
     div.removeEventListener('dragleave', this.handleDragOut)
-    div.removeEventListener('dragover', this.handleDrag)
     div.removeEventListener('drop', this.handleDrop)
   }
   render() {
@@ -59,12 +58,9 @@ class ImageDragNDrop extends Component {
             style={{
               border: 'dashed grey 4px',
               backgroundColor: 'rgba(255,255,255,.8)',
-              position: 'absolute',
-              top: 0,
-              bottom: 0,
-              left: 0, 
-              right: 0,
-              zIndex: 9999
+              zIndex: 9999, 
+              height: "100%", 
+              width: "100%",
             }}
           >
             <div 
