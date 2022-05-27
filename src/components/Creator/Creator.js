@@ -699,7 +699,6 @@ const mapStateToProps = state => {
   return {
     currentTab: state.ui.currentTab,
     darkmode: state.ui.currentTab,
-
     sending: state.user.sendingSubscribeEmailList, 
     sent: state.user.sentSubscribeEmailList, 
     emailListError: state.user.emailListError,

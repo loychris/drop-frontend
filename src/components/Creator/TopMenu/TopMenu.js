@@ -75,23 +75,28 @@ const TopMenu = props => {
     const onFileInput =  (event) => {
         console.log("FILE INPUT")
         let posX = 100;
-        let posY = 100; 
-        let elements = []; 
+        let posY = 100;  
         for(let i=0; i<event.target.files.length;i++){
-            console.log(event.target.files[i]); 
-            elements.push({
-                type: 'image', 
-                elementId: `${Date.now()}${i}`, 
-                height: 100,
-                width: 100,
-                posX, 
-                posY,
-                file: event.target.files[i]
-            })
+            let fr = new FileReader; 
+            fr.onload = () => {
+                let image = new Image; 
+                image.src = fr.result; 
+                image.onload = () => {
+                    props.addElements([{
+                        type: 'image', 
+                        elementId: `${Date.now()}${i}`, 
+                        height: image.height,
+                        width: image.width,
+                        posX, 
+                        posY,
+                        imgSrc: image.src
+                    }])
+                }
+            }
+            fr.readAsDataURL(event.target.files[i]); 
             posX += 20; 
             posY += 20; 
         }
-        props.addElements(elements)
     }
 
     const addImageClickHandler = () => {
