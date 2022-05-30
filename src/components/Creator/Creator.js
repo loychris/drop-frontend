@@ -38,7 +38,7 @@ class Creator extends Component {
         fontWeight: '700',
         textAlign: 'center',
         verticalAlign: 'top', 
-        fixedWidth: false,
+        fixedDimensions: false,
         underline: false, 
         italic: false, 
         textStroke: true,
@@ -57,7 +57,7 @@ class Creator extends Component {
         fontWeight: '700',
         textAlign: 'center',
         verticalAlign: 'middle',
-        fixedWidth: false,
+        fixedDimensions: false,
         underline: false, 
         italic: false, 
         textStroke: true,
@@ -75,7 +75,7 @@ class Creator extends Component {
         fontWeight: '700',
         textAlign: 'center',
         verticalAlign: 'bottom',
-        fixedWidth: false,
+        fixedDimensions: false,
         underline: false, 
         italic: false, 
         textStroke: true,
@@ -251,7 +251,8 @@ class Creator extends Component {
     let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
     const element = this.state.elements.find(e => e.elementId === elementId);
     let elem = document.getElementById(`${elementId}-input`);
-    let newHeight = element.fixedWidth ? elem.offsetHeight : element.height; 
+    console.log(elem.offsetHeight, element.height)
+    let newHeight = element.fixedDimensions ? element.height : elem.offsetHeight; 
     this.setState({
       elements: [
         ...elementsNew,
@@ -264,12 +265,22 @@ class Creator extends Component {
     }, () => {
       let range = document.createRange(); 
       let selection = window.getSelection();
-      if(elem.childNodes.length > 0 && elem.childNodes[0].childNodes.length > 0){
-        range.setStart(elem.childNodes[0].childNodes[0], selectionOffsetBefore); 
-        range.collapse(true); 
-        selection.removeAllRanges(); 
-        selection.addRange(range); 
-        elem.focus(); 
+      if(!element.fixedDimensions){
+        if(elem.childNodes.length > 0){
+          range.setStart(elem.childNodes[0], selectionOffsetBefore); 
+          range.collapse(true); 
+          selection.removeAllRanges(); 
+          selection.addRange(range); 
+          elem.focus(); 
+        }
+      } else {
+        if(elem.childNodes.length > 0 && elem.childNodes[0].childNodes.length > 0){
+          range.setStart(elem.childNodes[0].childNodes[0], selectionOffsetBefore); 
+          range.collapse(true); 
+          selection.removeAllRanges(); 
+          selection.addRange(range); 
+          elem.focus(); 
+        }
       }
     });
   }
@@ -461,7 +472,7 @@ class Creator extends Component {
 
         if(element.type === 'text'){
           const elem = document.getElementById(`${elementId}-input`);
-          if(element.fixedWidth){
+          if(!element.fixedDimensions){
             newHeight = elem.offsetHeight;
           } else {
             if(elem.offsetHeight > newHeight){

@@ -8,7 +8,7 @@ class SelectionFrame extends Component {
     getResizeHandlers = () => {
         let resizeHandlers = [];
         if(this.props.editingId) return null; 
-        if(this.props.element.type === 'text' && this.props.element.fixedWidth){
+        if(this.props.element.type === 'text' && !this.props.element.fixedDimensions){
                 resizeHandlers.push('W','E');
         } else {
             resizeHandlers.push('NW','SW','NE','SE');

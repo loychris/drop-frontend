@@ -6,7 +6,7 @@ import * as streamActions from '../../store/actions/index';
 import StreamElement from "./StreamElement/StreamElement";
 import classes from "./Stream.module.css";
 import RiverWhite from "../../SVGs/RiverWhite.svg";
-import River from "../../SVGs/River.svg"
+import River from "../../SVGs/river.svg"
 import RiverGlow from "../../SVGs/RiverGlow.svg";
 import Boat from "../../media/Boat.png";
 

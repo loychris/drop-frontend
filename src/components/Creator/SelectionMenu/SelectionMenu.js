@@ -175,10 +175,10 @@
         });
     }
 
-    editFixedWidth = (value) => {
+    editFixedDimensions = (value) => {
         this.props.edit(this.props.selected.elementId, {
             ...this.props.selected, 
-            fixedWidth: value,
+            fixedDimensions: value,
         });
     }
 
@@ -205,7 +205,7 @@
 
     render(){
         if(!this.props.selected) return null;
-        const { type, elementId, posX, posY, height, width, fontSize, font, fontWeight, fixedWidth } = this.props.selected;
+        const { type, elementId, posX, posY, height, width, fontSize, font, fontWeight, fixedDimensions } = this.props.selected;
 
         return (
             <div className={classes.SelectionMenu} onClick={this.stopPropagation} onMouseUp={this.stopPropagation}>
@@ -294,11 +294,11 @@
 
 
                         <div className={classes.textBoxTypeOptions}>
-                            <div onClick={() => this.editFixedWidth(true)}>
-                                <input type="checkbox" onChange={() => this.editFixedWidth(true)} checked={fixedWidth}/> fixed width & font size
+                            <div onClick={() => this.editFixedDimensions(false)}>
+                                <input type="checkbox" onChange={() => this.editFixedDimensions(false)} checked={!fixedDimensions}/> fixed width & font size
                             </div>
-                            <div onClick={() => this.editFixedWidth(false)}>
-                                <input type="checkbox" onChange={() => this.editFixedWidth(false)} checked={!fixedWidth}/> fixed textbox size
+                            <div onClick={() => this.editFixedDimensions(true)}>
+                                <input type="checkbox" onChange={() => this.editFixedDimensions(true)} checked={fixedDimensions}/> fixed textbox size
                             </div>
                         </div>
                     </div>
