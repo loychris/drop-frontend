@@ -11,6 +11,8 @@ import SelectionFrame from "./SelectionFrame/SelectionFrame";
 import ExportModal from "./ExportModal/ExportModal";
 import ImageDragNDrop from "./ImageDragNDrop/ImageDragNDrop";
 import ChrisDrunk from './ChrisDrunk.jpg'; 
+import Washington from './Washington.jpeg';
+import Monument from './Washington_Monument.jpeg';
 
 const JUMP_TO_LINE_TOLERANZ = 4;
 
@@ -29,31 +31,13 @@ class Creator extends Component {
       {
         type: 'text', 
         elementId: '5',
-        height: 200,
-        width: 600, 
-        posX: 100,
-        posY: 100,
-        text: 'Solange die Woscht dicker wies\' Brot ist...',
+        height: 170,
+        width: 570, 
+        posX: 115,
+        posY: 65,
+        text: 'Y\'all ever notice that the Washington monument looks absolutely NOTHING like George Washington?',
         font: 'Oswald',
-        fontSize: '47',
-        fontWeight: '700',
-        textAlign: 'center',
-        verticalAlign: 'top', 
-        fixedDimensions: true,
-        underline: false, 
-        italic: false, 
-        textStroke: true,
-      },
-      {
-        type: 'text', 
-        elementId: '6',
-        height: 200,
-        width: 600, 
-        posX: 100,
-        posY: 700,
-        text: '...ists\' woscht wie dicks\' Brot ist.',
-        font: 'Oswald',
-        fontSize: '47',
+        fontSize: '28.5',
         fontWeight: '700',
         textAlign: 'center',
         verticalAlign: 'top', 
@@ -66,19 +50,28 @@ class Creator extends Component {
         type: 'rect',
         elementId: '8',
         posX: 100,
-        posY: 100,
-        height: 100,
-        width: 400,
-        color: '#FF8592',
+        posY: 50,
+        height: 555,
+        width: 600,
+        color: '#000000',
       },
       {
         type: 'image',
         elementId: '11',
-        imgSrc: ChrisDrunk,
+        imgSrc: Washington,
         posX: 100,
-        posY: 100,
-        height: 800,
-        width: 600,
+        posY: 250,
+        height: 365,
+        width: 300,
+      },
+      {
+        type: 'image',
+        elementId: '12',
+        imgSrc: Monument,
+        posX: 400,
+        posY: 250,
+        height: 365,
+        width: 300,
       }
     ],
   }
