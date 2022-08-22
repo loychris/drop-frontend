@@ -20,7 +20,7 @@
 }
 
 .MenuItem {
-    height: calc(height-4px); 
+    height: height - 4px; 
     width: 60px; 
     margin: 4px 2px 4px 2px; 
     border-radius: 5px;
