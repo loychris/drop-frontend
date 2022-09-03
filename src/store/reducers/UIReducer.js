@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     darkmode: true,
     dropModalOpen: false,
-    currentTab: 'creator',
+    currentTab: 'stream',
     menu: {
         open: false,
         menuStack: ['AUTH'],

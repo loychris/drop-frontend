@@ -45,8 +45,7 @@ class Chat extends Component {
             <PrimaryButton clicked={this.props.onOpenMenu}><h3>Log in</h3></PrimaryButton>
             or
             <PrimaryButton clicked={this.props.onOpenMenu}><h3>Create Account</h3></PrimaryButton> 
-            to use the Dropchat!
-            <p>Chat with friends and share memes!</p>
+            to chat with friends!
           </div>
         </div>
       </div>
