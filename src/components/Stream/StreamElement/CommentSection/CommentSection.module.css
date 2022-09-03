@@ -1,11 +1,16 @@
 .CommentSection {
     margin-top: 20px; 
+    position: absolute;
+    left: 550px; 
+    height: 500px; 
+    width: 200px;
+    top: 0; 
+    overflow-y: scroll;
 }
 
 .comments{
     position: relative;
     /* min-height: 50px; */
-
 }
 
 .ShowMoreComments {

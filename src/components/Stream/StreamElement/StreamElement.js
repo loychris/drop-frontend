@@ -67,16 +67,18 @@ class StreamElement extends Component {
         style={this.calcStyles2(this.props.position)}>
         {droppedToYouBy}
         {this.props.title ? <h3 className={classes.title}>{this.props.title}</h3>: null }
-        <Content 
-          data={this.props.data}
-          position={this.props.position} 
-          dropId={this.props.id} 
-          status={this.props.status} 
-          source={this.props.source}
-          memeStatus={this.props.memeStatus}/>
-        <PrimaryButton theme={NEUMORPHISM} clicked={this.PrimaryButtonClicked} disabled={this.props.id.length < 4 || this.props.id.startsWith('no more')}>
-          <h3 className={classes.DROP}>Drop</h3>
-        </PrimaryButton>
+        <div className={classes.contentContainer}>
+          <Content 
+            data={this.props.data}
+            position={this.props.position} 
+            dropId={this.props.id} 
+            status={this.props.status} 
+            source={this.props.source}
+            memeStatus={this.props.memeStatus}/>
+          <PrimaryButton theme={NEUMORPHISM} clicked={this.PrimaryButtonClicked} disabled={this.props.id.length < 4 || this.props.id.startsWith('no more')}>
+            <h3 className={classes.DROP}>Drop</h3>
+          </PrimaryButton>
+        </div>
         <CommentSection 
           position={this.props.position}
           dropId={this.props.id} 

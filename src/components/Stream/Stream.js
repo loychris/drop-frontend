@@ -13,7 +13,6 @@ import Boat from "../../media/Boat.png";
 class Stream extends Component {
 
   state = {
-    timeStampLastWheelEvent: 0,
     deltaYLastWheelEvent: 0,
     wtfOpen: false,
     
@@ -61,16 +60,19 @@ class Stream extends Component {
   // };
 
   scrollHandler = (event) => {
-    if(  //this.props.streamElements[1].memeStatus === 'loaded' 
-      //&& this.props.streamElements[1].status === 'id loaded' && 
-      !this.props.menuOpen){
-      if(this.state.deltaYLastWheelEvent + 20 < event.deltaY && Date.now() - this.props.timeStampLastScroll > 200){
-          console.log("New scroll detected", Date.now() - this.state.timeStampLastWheelEvent)
-          this.props.onScroll(this.props.streamElements[1].id, this.props.anonymousId);
-      }else{
-        console.log("Still the same scroll", event.deltaY)
-      }
-      this.setState({timeStampLastWheelEvent: Date.now(), deltaYLastWheelEvent: event.deltaY});
+    if(// this.props.streamElements[1].memeStatus === 'loaded' &&
+       // this.props.streamElements[1].status === 'id loaded' && 
+       !this.props.menuOpen){
+        if(event.deltaY < 0){ 
+          // detect if user actually scrolled again or just scroll acceleration 
+          // deltaY gets closer to 0 while decelerating (but with small hickups here and there -> tolerance of 20)
+          // when the last scroll event was longer than 0.2s ago and the delta is bigger, a new scroll must have happened
+          if(this.state.deltaYLastWheelEvent - 20 > event.deltaY 
+             && Date.now() - this.props.timeStampLastScroll > 200){
+            this.props.onScroll(this.props.streamElements[1].id, this.props.anonymousId);
+          }
+        }
+      this.setState({deltaYLastWheelEvent: event.deltaY});
     }
   }
 

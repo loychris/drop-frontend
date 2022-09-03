@@ -5,10 +5,36 @@ const initialState = {
     dropTargets: [],
     selectedTargets: [],
     dropIds: [],
-    streamStatus: 'nothing loaded',
+    streamStatus: 'drops loaded',
     streamElements: [
-        { position: 0, show: "hidden", id: "0", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
-        { position: 1, show: "show", id: "1", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 0, show: "hidden", id: "0", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded' },
+        { position: 1, show: "show", id: "1", dropStatus: 'loaded', 
+            comments: [
+                {"id":"6299e12bbe4e51241f85b9ac","comment":"fipw efojpw e","author":{"userId":"602627eac021720012a01948"},"posted":"2022-06-03T10:23:39.669Z","points":0,"subComments":[
+                    {"id":"629a004ebb58d226aba80031","path":"6299e12bbe4e51241f85b9ac/0","points":0,"comment":"grw","subComments":[
+                        {"id":"629a0051bb58d226aba80033","path":"6299e12bbe4e51241f85b9ac/0/0","points":0,"comment":"reg","subComments":[]},
+                        {"id":"629a0054bb58d226aba80035","path":"6299e12bbe4e51241f85b9ac/0/1","points":0,"comment":"erger","subComments":[
+                            {"id":"629a0058bb58d226aba80037","path":"6299e12bbe4e51241f85b9ac/0/1/0","points":0,"comment":"gerger","subComments":[
+                                {"id":"629a005cbb58d226aba80039","path":"6299e12bbe4e51241f85b9ac/0/1/0/0","points":0,"comment":"gregerger","subComments":[
+                                    {"id":"629a005fbb58d226aba8003b","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0","points":0,"comment":"ergergerg","subComments":[
+                                        {"id":"629a0062bb58d226aba8003d","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0","points":0,"comment":"egrergerg","subComments":[
+                                            {"id":"629a0065bb58d226aba8003f","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0","points":0,"comment":"gegerg","subComments":[
+                                                {"id":"629a0067bb58d226aba80041","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0","points":0,"comment":"ergerge","subComments":[
+                                                    {"id":"629a006bbb58d226aba80043","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0","points":0,"comment":"gergeger","subComments":[
+                                                        {"id":"629a006ebb58d226aba80045","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0/0","points":0,"comment":"gerger","subComments":[
+                                                            {"id":"629a0071bb58d226aba80047","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0/0/0","points":0,"comment":"ergergerg","subComments":[
+                                                                {"id":"629a0074bb58d226aba80049","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0/0/0/0","points":0,"comment":"ergerg","subComments":[
+                                                                    {"id":"629a0077bb58d226aba8004b","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0/0/0/0/0","points":0,"comment":"rgerg","subComments":[
+                                                                        {"id":"629a007abb58d226aba8004d","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0/0/0/0/0/0","points":0,"comment":"greger","subComments":[
+                                                                            {"id":"629a007ebb58d226aba8004f","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0/0/0/0/0/0/0","points":0,"comment":"ererg","subComments":[
+                                                                                {"id":"629a0081bb58d226aba80051","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0/0/0/0/0/0/0/0","points":0,"comment":"gre","subComments":[
+                                                                                    {"id":"629a0084bb58d226aba80053","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0","points":0,"comment":"erergerg","subComments":[
+                                                                                        {"id":"629a0089bb58d226aba80055","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0","points":0,"comment":"regerg","subComments":[
+                                                                                            {"id":"629a008fbb58d226aba80057","path":"6299e12bbe4e51241f85b9ac/0/1/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0","points":0,"comment":"ergerg","subComments":[]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]},
+        {"id":"6299e12fbe4e51241f85b9ad","comment":" fwlejkn f","author":{"userId":"602627eac021720012a01948"},"posted":"2022-06-03T10:23:43.861Z","points":0,"subComments":[]},
+        {"id":"629a0f82bb58d226aba8010c","comment":"qd qiwo ","author":{"userId":"602627eac021720012a01948"},"posted":"2022-06-03T13:41:22.145Z","points":0,"subComments":[]},
+        {"id":"629a1495bb58d226aba8010d","comment":"oiwef eiowjfoi wje","author":{"userId":"602627eac021720012a01948"},"posted":"2022-06-03T14:03:01.953Z","points":0,"subComments":[]}
+            ], memeStatus: 'not loaded'},
         { position: 2, show: "show", id: "2", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 3, show: "show", id: "3", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 4, show: "show", id: "4", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
