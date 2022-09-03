@@ -29,14 +29,8 @@ class StreamElement extends Component {
     const transY = (pos - 1) * -2;
     const transZ = (pos - 1) * -4;
     const styles = {};
-    if (this.props.show === "left") {
-      styles.transform = `translate3d(-100vw,0,0)`;
-    } else if (this.props.show === "right") {
-      styles.transform = `translate3d(+100vw,0,0)`;
-    }else if (this.props.position === 1 && this.props.halfLeft){
-      styles.transform = `translate3d(-5vw,0,0)`;
-    }else if(this.props.position === 1 && this.props.halfRight){
-      styles.transform = `translate3d(5vw,0,0)`;
+    if (this.props.show === "hidden") {
+      styles.transform = `translate3d(0,100vh,0)`;
     } else {
       styles.transform = `translate3d( 0, ${transY}px, ${transZ}px)`;
       styles.WebkitTransform = `translate3d( 0, ${transY}px, ${transZ}px)`;

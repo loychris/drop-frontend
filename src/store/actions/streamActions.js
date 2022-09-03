@@ -7,47 +7,43 @@ import * as actionTypes from './actionTypes';
 
 //-------- SWIPE  -----------------------------------------------------------------
 
-export const swipe = (dir, dropId, anonymousId ) => {
-    console.log('dir' , dir);
-    console.log('anonymousId', anonymousId);
+export const scroll = (dropId, anonymousId ) => {
     return dispatch => {
-        dispatch(swipeStart(dir)); 
+        dispatch(scrollStart()); 
         if(!dropId.startsWith('no more')){
             const url = `/api/drop/${dropId}/swipe`;
             const token = localStorage.getItem('token');
-            const body = { like: dir === 'right', anonymousId };
+            const body = { like: true, anonymousId };
             const headers = token ? { headers: { authorisation : `Bearer ${token}` } } : null;
-            console.log(headers);
             axios.post(url, body, headers )
             .then(res => {
                 console.log(res);
-                dispatch(swipeSuccess()); 
+                dispatch(scrollSuccess()); 
             })
             .catch(err => {
                 console.log(err);
-                dispatch(swipeFailed());
+                dispatch(scrollFailed());
             })
         }
 
     }
 }
 
-export const swipeStart = (dir) => {
+export const scrollStart = () => {
     return {
-        type: actionTypes.SWIPE_START,
-        dir: dir
+        type: actionTypes.SCROLL_START,
     }
 }
 
-export const swipeSuccess = () => {
+export const scrollSuccess = () => {
     return {
-        type: actionTypes.SWIPE_SUCCESS
+        type: actionTypes.SCROLL_SUCCESS
     }
 }
 
-export const swipeFailed = () => {
+export const scrollFailed = () => {
     return {
-        type: actionTypes.SWIPE_FAILED
+        type: actionTypes.SCROLL_FAILED
     }
 }
 

@@ -7,7 +7,7 @@ const initialState = {
     dropIds: [],
     streamStatus: 'nothing loaded',
     streamElements: [
-        { position: 0, show: "left", id: "0", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
+        { position: 0, show: "hidden", id: "0", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 1, show: "show", id: "1", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 2, show: "show", id: "2", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 3, show: "show", id: "3", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
@@ -30,10 +30,11 @@ const initialState = {
         { position: 20, show: "show", id: "20", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 21, show: "show", id: "21", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
     ],
-    timeStampLastSwipe: 0,
+    timeStampLastScroll: 0,
     currentlyLoadingMemeId: '', 
     selectedComment: null,
     sending: [],
+    timeStampLastScroll: 0,
 }
 
 // ----- UTIL --------------------------------------------------------------------
@@ -122,7 +123,7 @@ const fetchDropsStart = (state, action) => {
 const setDrops = (state, action) => {
     const streamElementsNew = state.streamElements.map(s => {
         if(s.position === 0){
-            return { position: 0, show: "left", id: "0", dropStatus: 'loaded', comments: [], memeStatus: 'loading'}
+            return { position: 0, show: "hidden", id: "0", dropStatus: 'loaded', comments: [], memeStatus: 'loading'}
         }
         const drop = action.drops.find(d => d.dropId === s.id); 
         if(drop){
@@ -331,10 +332,10 @@ const resetDropTargets = (state, action) => {
     }
 }
 
-// ----- SWIPE -----------------------------------------------------------------------
+// ----- SCROLL -----------------------------------------------------------------------
 
-const swipeStart = (state, action) => {
-    scrollToTop();
+const scrollStart = (state, action) => {
+    //scrollToTop();
     if(state.selectedComment){
         return {
             ...state,
@@ -349,7 +350,7 @@ const swipeStart = (state, action) => {
                 return {
                     ...s, 
                     position: s.position - 1,
-                    show: s.position-1 === 0 ? action.dir : 'show'
+                    show: s.position-1 === 0 ? 'hidden' : 'show'
                 }
             })
             .filter(s => {
@@ -369,17 +370,18 @@ const swipeStart = (state, action) => {
             streamElements: streamElementsNew,
             dropIds: dropIdsNew, 
             dropTargets: [],
+            timeStampLastScroll: Date.now()
         }
     }
 }
 
-const swipeSuccess = (state, action) => {
+const scrollSuccess = (state, action) => {
     return {
         ...state,
     }
 }
 
-const swipeFailed = (state, action) => {
+const scrollFailed = (state, action) => {
     return {
         ...state,
     }
@@ -519,9 +521,9 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.UNSELECT_DROPTARGET: return unselectDropTarget(state, action);
         case actionTypes.RESET_DROP_TARGETS: return resetDropTargets(state, action);
 
-        case actionTypes.SWIPE_START: return swipeStart(state, action);
-        case actionTypes.SWIPE_SUCCESS: return swipeSuccess(state, action);
-        case actionTypes.SWIPE_FAILED: return swipeFailed(state, action);
+        case actionTypes.SCROLL_START: return scrollStart(state, action);
+        case actionTypes.SCROLL_SUCCESS: return scrollSuccess(state, action);
+        case actionTypes.SCROLL_FAILED: return scrollFailed(state, action);
 
         case actionTypes.FETCH_IDS_START: return fetchIdsStart(state, action);
         case actionTypes.SET_IDS: return setIds(state, action);

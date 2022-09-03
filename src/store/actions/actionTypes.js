@@ -82,9 +82,9 @@
 
 
 // STREAM
-    export const SWIPE_START = 'SWIPE_START';
-    export const SWIPE_SUCCESS = 'SWIPE_SUCCESS';
-    export const SWIPE_FAILED = 'SWIPE_FAILED';
+    export const SCROLL_START = 'SCROLL_START';
+    export const SCROLL_SUCCESS = 'SCROLL_SUCCESS';
+    export const SCROLL_FAILED = 'SCROLL_FAILED';
     
     export const SELECT_DROPTARGET = 'SELECT_DROPTARGET';
     export const UNSELECT_DROPTARGET = 'UNSELECT_DROPTARGET';

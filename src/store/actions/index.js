@@ -18,7 +18,7 @@ export {
 
 export {
     fetchIds,
-    swipe,
+    scroll,
     selectDropTarget,
     unSelectDropTarget,
     resetDropTargets,
