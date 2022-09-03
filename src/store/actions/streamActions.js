@@ -411,3 +411,10 @@ export const resetDropTargets = () => {
         type: actionTypes.RESET_DROP_TARGETS, 
     }
 }
+
+export const setMouseOverComments = (value) => {
+    return {
+        type: actionTypes.SET_MOUSE_OVER_COMMENTS, 
+        value
+    }
+}

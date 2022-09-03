@@ -33,6 +33,7 @@ export {
     fetchDrop,
     fetchMemeSuccess,
     sendDrop, 
+    setMouseOverComments, 
 } from './streamActions';
 
 export {

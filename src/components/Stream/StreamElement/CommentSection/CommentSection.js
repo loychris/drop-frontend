@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
 
+import * as actions from '../../../../store/actions/index';
+
 import classes from './CommentSection.module.css';
 import Comment from './Comment/Comment';
 import CommentForm from './CommentForm/CommentForm';
+
 
 
 
@@ -43,7 +46,11 @@ class CommentSection extends Component {
     render(){
         if(this.props.position > 1) return null
         return(
-            <div className={classes.CommentSection} tabIndex='0'>
+            <div 
+                className={classes.CommentSection} 
+                onMouseEnter={() => this.props.onSetMouseOverComments(true)} 
+                onMouseLeave={() => this.props.onSetMouseOverComments(false)}
+                tabIndex='0'>
                 <CommentForm dropId={this.props.dropId} />
                 <div className={classes.comments}>
                     { this.props.commentStatus === 'not loaded' ? this.getLoader() : this.getComments()}
@@ -55,6 +62,7 @@ class CommentSection extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onSetMouseOverComments: (overComments) => dispatch(actions.setMouseOverComments(overComments)),
     }
 }
 

@@ -61,6 +61,7 @@ const initialState = {
     selectedComment: null,
     sending: [],
     timeStampLastScroll: 0,
+    mouseOverComments: false,
 }
 
 // ----- UTIL --------------------------------------------------------------------
@@ -541,6 +542,13 @@ const deleteCommentFailed = (state, action) => {
     return state
 }
 
+const setMouseOverComments = (state, action) => {
+    return {
+        ...state,
+        mouseOverComments: action.value
+    }
+}
+
 const reducer = (state = initialState, action ) => {
     switch( action.type ) {
         case actionTypes.SELECT_DROPTARGET: return selectDropTarget(state, action);
@@ -585,7 +593,7 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.SEND_SUBCOMMENT_SUCCESS: return sendSubCommentSuccess(state, action);
         case actionTypes.SEND_SUBCOMMENT_FAILED: return sendSubCommentFailed(state, action);
 
-
+        case actionTypes.SET_MOUSE_OVER_COMMENTS: return setMouseOverComments(state, action);
     
         default: return state;
     }

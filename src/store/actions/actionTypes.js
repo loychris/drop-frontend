@@ -133,6 +133,8 @@
     export const FETCH_MEME_SUCCESS = 'FETCH_MEME_SUCCESS';
     export const FETCH_MEME_FAILED = 'FETCH_MEME_FAILED';
 
+    export const SET_MOUSE_OVER_COMMENTS = 'MOUSE_OVER_COMMENTS';
+
 
 // CHAT
     export const ADD_NEW_USERS = 'ADD_NEW_USERS';
