@@ -203,9 +203,17 @@
         });
     }
 
+    editColor = (e) => {
+        console.log("Editing color: ", e.target.value)
+        this.props.edit(this.props.selected.elementId, {
+            ...this.props.selected, 
+            color: e.target.value
+        })
+    }
+
     render(){
         if(!this.props.selected) return null;
-        const { type, elementId, posX, posY, height, width, fontSize, font, fontWeight, fixedDimensions } = this.props.selected;
+        const { type, color, elementId, posX, posY, height, width, fontSize, font, fontWeight, fixedDimensions } = this.props.selected;
 
         return (
             <div className={classes.SelectionMenu} onClick={this.stopPropagation} onMouseUp={this.stopPropagation}>
@@ -301,6 +309,12 @@
                                 <input type="checkbox" onChange={() => this.editFixedDimensions(true)} checked={fixedDimensions}/> fixed textbox size
                             </div>
                         </div>
+                    </div>
+                : null }
+                { type === "rect" ? 
+                    <div className={classes.textOptions}>
+                        <input type='color' onChange={this.editColor} value={color}/>
+                        
                     </div>
                 : null }
             </div>
