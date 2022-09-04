@@ -44,9 +44,10 @@ class CommentSection extends Component {
     }
 
     render(){
-        if(this.props.position > 1) return null
+        if(this.props.position !== 1) return null
         return(
             <div 
+                style={{width: this.props.windowWidth/2 - 400}}
                 className={classes.CommentSection} 
                 onMouseEnter={() => this.props.onSetMouseOverComments(true)} 
                 onMouseLeave={() => this.props.onSetMouseOverComments(false)}
@@ -69,6 +70,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
       darkmode: state.ui.darkmode, 
+      windowWidth: state.ui.windowWidth,
     }
 }
   

@@ -63,6 +63,7 @@ class Stream extends Component {
     if(// this.props.streamElements[1].memeStatus === 'loaded' &&
        // this.props.streamElements[1].status === 'id loaded' && 
        !this.props.mouseOverComments &&
+       this.props.currentTab === 'stream' &&
        !this.props.menuOpen){
         if(event.deltaY < 0){ 
           // detect if user actually scrolled again or just scroll acceleration 

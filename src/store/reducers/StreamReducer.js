@@ -7,6 +7,10 @@ const initialState = {
     dropIds: [],
     streamStatus: 'drops loaded',
     streamElements: [
+        { position: -4, show: "hidden", id: "-4", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded' },
+        { position: -3, show: "hidden", id: "-3", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded' },
+        { position: -2, show: "hidden", id: "-2", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded' },
+        { position: -1, show: "hidden", id: "-1", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded' },
         { position: 0, show: "hidden", id: "0", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded' },
         { position: 1, show: "show", id: "1", dropStatus: 'loaded', 
             comments: [
@@ -377,11 +381,11 @@ const scrollStart = (state, action) => {
                 return {
                     ...s, 
                     position: s.position - 1,
-                    show: s.position-1 === 0 ? 'hidden' : 'show'
+                    show: s.position-1 < 1 ? 'hidden' : 'show'
                 }
             })
             .filter(s => {
-                return s.position >= 0
+                return s.position >= -4
             }),
             {
                 position: 21,
