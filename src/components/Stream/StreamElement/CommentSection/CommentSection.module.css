@@ -5,11 +5,13 @@
     max-width: 600px;
     height: 500px; 
     top: 0; 
-    overflow-y: scroll;
 }
 
 .comments{
     position: relative;
+    mask-image: linear-gradient(to bottom, black calc(100% - 48px), transparent 100%);
+    overflow-y: scroll;
+    height: 500px; 
     /* min-height: 50px; */
 }
 
@@ -31,7 +33,7 @@
 .Spinner{
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 10%;
     margin-left: -25px;
     margin-top: -15px;
 }
