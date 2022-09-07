@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "css-loader": "^3.4.2",
     "html-to-image": "^1.9.0",
     "node-sass": "^4.14.1",
