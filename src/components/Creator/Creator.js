@@ -615,8 +615,13 @@ class Creator extends Component {
   }
 
   wheel = (e) => {
-    console.log("DELTA X", e.deltaX, "DELTA Y", e.deltaY,"DELTA Z", e.deltaZ)
     e.stopPropagation()
+    e.preventDefault()
+    if(e.ctrlKey && e.deltaY !== 0){
+      console.log("ZOOM", e.deltaY < 0 ? "IN":"OUT", "DETECTED", e.deltaY)
+    } else {
+      console.log("MOVE DETECTED X:", e.deltaX, "Y:", e.deltaY)
+    }
   }
 
 
