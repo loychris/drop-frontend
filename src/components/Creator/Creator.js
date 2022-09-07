@@ -460,6 +460,7 @@ class Creator extends Component {
         });
     }
     const mouseup = (e) => {
+      console.log("RESIZE MOUSE UP");
       e.preventDefault();
       e.stopPropagation(); 
       window.removeEventListener('mousemove', resizeMouseMouve);
@@ -613,6 +614,11 @@ class Creator extends Component {
     return lines; 
   }
 
+  wheel = (e) => {
+    console.log("DELTA X", e.deltaX, "DELTA Y", e.deltaY,"DELTA Z", e.deltaZ)
+    e.stopPropagation()
+  }
+
 
   render() {
     const styleClasses = [classes.Creator];
@@ -623,6 +629,10 @@ class Creator extends Component {
       <div 
         className={styleClasses.join(" ")}
         onMouseUp={this.backgroundMouseUp}
+        onTouchStart={e => console.log("TOUCH START")}
+        onTouchEnd={e => console.log("TOUCH END")}
+        
+        onWheel={this.wheel}
       >
         <ImageDragNDrop handleDrop={this.handleImageDrop}>
           <SelectionMenu

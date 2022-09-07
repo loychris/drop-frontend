@@ -114,7 +114,7 @@
     }
 
     stopPropagation = (e) => {
-        e.stopPropagation();
+        //e.stopPropagation();
     }
 
     editHeight = (e) => {

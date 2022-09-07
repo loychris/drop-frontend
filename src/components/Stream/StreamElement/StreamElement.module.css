@@ -6,10 +6,11 @@
     left: 0;
     right: 0;
     border-radius: 20px;
-    transition: all 0.6s ease-in;
+    transition: all 0.4s ease;
     -webkit-appearance: none;
     transform-style: preserve-3d;
     margin-bottom: 200px;
+
     /*//////////////////// Styles Pos1 ////////////////////////*/
     margin-top: 36.75px;
     width: 500px;

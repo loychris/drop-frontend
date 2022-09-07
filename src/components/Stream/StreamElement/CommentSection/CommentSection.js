@@ -11,7 +11,6 @@ import CommentForm from './CommentForm/CommentForm';
 
 
 
-
 class CommentSection extends Component {
 
 
@@ -44,10 +43,10 @@ class CommentSection extends Component {
     }
 
     render(){
-        if(this.props.position !== 1) return null
+        if(this.props.position !== 1) return <div className={classes.hidden}></div>
         return(
             <div 
-                style={{width: this.props.windowWidth/2 - 400}}
+                style={{width: this.props.windowWidth/2 - 350}}
                 className={classes.CommentSection} 
                 onMouseEnter={() => this.props.onSetMouseOverComments(true)} 
                 onMouseLeave={() => this.props.onSetMouseOverComments(false)}
@@ -56,7 +55,7 @@ class CommentSection extends Component {
                 <div className={classes.comments}>
                     { this.props.commentStatus === 'not loaded' ? this.getLoader() : this.getComments()}
                 </div>
-            </div>
+            </div>    
         )
     }
 }

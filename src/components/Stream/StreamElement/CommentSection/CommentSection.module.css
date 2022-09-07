@@ -3,8 +3,17 @@
     position: absolute;
     left: 550px; 
     max-width: 600px;
-    height: 500px; 
     top: 0; 
+    transition: 0.3s cubic-bezier(0.8,0.2,0.8,0.2);
+    transition-delay: 600;
+}
+
+.hidden {
+    opacity: 0;
+    position: absolute;
+    left: 550px; 
+    margin-top: 20px; 
+    top: 0;
 }
 
 .comments{

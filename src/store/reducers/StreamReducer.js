@@ -5,7 +5,7 @@ const initialState = {
     dropTargets: [],
     selectedTargets: [],
     dropIds: [],
-    streamStatus: 'drops loaded',
+    streamStatus: 'nothing loaded',
     streamElements: [
         { position: -4, show: "hidden", id: "-4", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded' },
         { position: -3, show: "hidden", id: "-3", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded' },
@@ -38,7 +38,9 @@ const initialState = {
         {"id":"6299e12fbe4e51241f85b9ad","comment":" fwlejkn f","author":{"userId":"602627eac021720012a01948"},"posted":"2022-06-03T10:23:43.861Z","points":0,"subComments":[]},
         {"id":"629a0f82bb58d226aba8010c","comment":"qd qiwo ","author":{"userId":"602627eac021720012a01948"},"posted":"2022-06-03T13:41:22.145Z","points":0,"subComments":[]},
         {"id":"629a1495bb58d226aba8010d","comment":"oiwef eiowjfoi wje","author":{"userId":"602627eac021720012a01948"},"posted":"2022-06-03T14:03:01.953Z","points":0,"subComments":[]}
-            ], memeStatus: 'not loaded'},
+            ], 
+            memeStatus: 'not loaded'
+        },
         { position: 2, show: "show", id: "2", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 3, show: "show", id: "3", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 4, show: "show", id: "4", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
@@ -101,7 +103,15 @@ const scrollToTop = () => {
 
 const setDropsNotLoaded = (state, action) => {
     const streamElementsNew = state.streamElements.map((s,i) => {
-        return {...s, show: i === 0 ? 'left' : 'show', id: `${i}`, status: 'not loaded', dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'}
+        return {
+            ...s, 
+            // show: i === 0 ? 'hidden' : 'show', 
+            id: `${i}-${Date.now()}`, 
+            status: 'not loaded', 
+            dropStatus: 'not loaded', 
+            comments: [], 
+            memeStatus: 'not loaded'
+        }
     })
     return {
         ...state, 
@@ -123,7 +133,7 @@ const setIds = (state, action) => {
     let activeIds = action.ids.slice(0, 21);
     const ids = action.ids.slice(21, action.ids.length)
     const streamElementsNew = state.streamElements.map((s, i) => {
-        if(s.position === 0){
+        if(s.position < 1){
             return s
         }else if(activeIds.length === 0){
             return {...s, id: 'no more' + Math.random(), status: 'no more', memeStatus: 'not loaded'} 
@@ -134,7 +144,7 @@ const setIds = (state, action) => {
     return {
         ...state,
         dropIds: ids,
-        currentlyLoadingMemeId: streamElementsNew[1].id,
+        currentlyLoadingMemeId: streamElementsNew[5].id,
         streamElements: streamElementsNew,
         streamStatus: 'ids loaded'
     }
@@ -370,7 +380,7 @@ const scrollStart = (state, action) => {
     if(state.selectedComment){
         return {
             ...state,
-            selectedComment: null
+        selectedComment: null
         }
     } else {
         if(state.dropIds.length > 0) console.log('##################');
