@@ -19,7 +19,7 @@ class Stream extends Component {
   }
 
   componentDidMount() {
-    //document.addEventListener("keyup", this.keyboardSwipeHandler, false);
+    document.addEventListener("keyup", this.keyboardSwipeHandler, false);
     document.addEventListener("keydown", this.keypressHandler, false);
     document.addEventListener("wheel", this.scrollHandler)
   }
@@ -49,15 +49,15 @@ class Stream extends Component {
     }
   }
 
-  // onKeyUp
-  // keyboardSwipeHandler = (event) => {
-  //   if (event.keyCode === 37) {
-  //       this.scrollHandler(true);
-  //   } 
-  //   if (event.keyCode === 39) {
-  //     this.scrollHandler(true);
-  //   }
-  // };
+  //onKeyUp
+  keyboardSwipeHandler = (event) => {
+    if (event.keyCode === 38) {
+      this.props.onScrollUp(this.props.streamElements[1].id, this.props.anonymousId)
+    } 
+    if (event.keyCode === 40) {
+      this.props.onScrollDown(this.props.streamElements[1].id, this.props.anonymousId);
+    }
+  };
 
   scrollHandler = (event) => {
     if(// this.props.streamElements[1].memeStatus === 'loaded' &&
