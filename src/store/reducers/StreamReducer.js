@@ -373,9 +373,9 @@ const resetDropTargets = (state, action) => {
     }
 }
 
-// ----- SCROLL -----------------------------------------------------------------------
+// ----- SCROLL UP -----------------------------------------------------------------------
 
-const scrollStart = (state, action) => {
+const scrollUpStart = (state, action) => {
     //scrollToTop();
     if(state.selectedComment){
         return {
@@ -416,13 +416,68 @@ const scrollStart = (state, action) => {
     }
 }
 
-const scrollSuccess = (state, action) => {
+const scrollUpSuccess = (state, action) => {
     return {
         ...state,
     }
 }
 
-const scrollFailed = (state, action) => {
+const scrollUpFailed = (state, action) => {
+    return {
+        ...state,
+    }
+}
+
+// ----- SCROLL UP -----------------------------------------------------------------------
+
+const scrollDownStart = (state, action) => {
+    //scrollToTop();
+    if(state.selectedComment){
+        return {
+            ...state,
+        selectedComment: null
+        }
+    } else {
+        if(state.dropIds.length > 0) console.log('##################');
+        const nextId = state.dropIds.length !== 0 ? state.dropIds[0] : 'no more' + Date.now();
+        const dropIdsNew = state.dropIds.slice(1, state.dropIds.length); 
+        const streamElementsNew = [
+            ...state.streamElements.map(s => {
+                return {
+                    ...s, 
+                    position: s.position - 1,
+                    show: s.position-1 < 1 ? 'hidden' : 'show'
+                }
+            })
+            .filter(s => {
+                return s.position >= -4
+            }),
+            {
+                position: 21,
+                show: 'show',
+                id: nextId,
+                status: 'id loaded',
+                dropStatus: 'not loaded',
+                comments: []
+            }
+        ]
+        return {
+            ...state,
+            streamElements: streamElementsNew,
+            dropIds: dropIdsNew, 
+            dropTargets: [],
+            timeStampLastScroll: Date.now()
+        }
+    }
+}
+
+const scrollDownSuccess = (state, action) => {
+    return {
+        ...state,
+    }
+}
+
+const scrollDownFailed = (state, action) => {
     return {
         ...state,
     }
@@ -569,9 +624,13 @@ const reducer = (state = initialState, action ) => {
         case actionTypes.UNSELECT_DROPTARGET: return unselectDropTarget(state, action);
         case actionTypes.RESET_DROP_TARGETS: return resetDropTargets(state, action);
 
-        case actionTypes.SCROLL_START: return scrollStart(state, action);
-        case actionTypes.SCROLL_SUCCESS: return scrollSuccess(state, action);
-        case actionTypes.SCROLL_FAILED: return scrollFailed(state, action);
+        case actionTypes.SCROLL_UP_START: return scrollUpStart(state, action);
+        case actionTypes.SCROLL_UP_SUCCESS: return scrollUpSuccess(state, action);
+        case actionTypes.SCROLL_UP_FAILED: return scrollUpFailed(state, action);
+
+        case actionTypes.SCROLL_DOWN_START: return scrollDownStart(state, action);
+        case actionTypes.SCROLL_DOWN_SUCCESS: return scrollDownSuccess(state, action);
+        case actionTypes.SCROLL_DOWN_FAILED: return scrollDownFailed(state, action);
 
         case actionTypes.FETCH_IDS_START: return fetchIdsStart(state, action);
         case actionTypes.SET_IDS: return setIds(state, action);

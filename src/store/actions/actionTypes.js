@@ -82,9 +82,13 @@
 
 
 // STREAM
-    export const SCROLL_START = 'SCROLL_START';
-    export const SCROLL_SUCCESS = 'SCROLL_SUCCESS';
-    export const SCROLL_FAILED = 'SCROLL_FAILED';
+    export const SCROLL_DOWN_START = 'SCROLL_DOWN_START';
+    export const SCROLL_DOWN_SUCCESS = 'SCROLL_DOWN_SUCCESS';
+    export const SCROLL_DOWN_FAILED = 'SCROLL_DOWN_FAILED';
+
+    export const SCROLL_UP_START = 'SCROLL_UP_START';
+    export const SCROLL_UP_SUCCESS = 'SCROLL_UP_SUCCESS';
+    export const SCROLL_UP_FAILED = 'SCROLL_UP_FAILED';
     
     export const SELECT_DROPTARGET = 'SELECT_DROPTARGET';
     export const UNSELECT_DROPTARGET = 'UNSELECT_DROPTARGET';

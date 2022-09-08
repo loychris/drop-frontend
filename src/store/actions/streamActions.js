@@ -7,9 +7,9 @@ import * as actionTypes from './actionTypes';
 
 //-------- SWIPE  -----------------------------------------------------------------
 
-export const scroll = (dropId, anonymousId ) => {
+export const scrollDown = (dropId, anonymousId ) => {
     return dispatch => {
-        dispatch(scrollStart()); 
+        dispatch(scrollDownStart()); 
         if(!dropId.startsWith('no more')){
             const url = `/api/drop/${dropId}/swipe`;
             const token = localStorage.getItem('token');
@@ -18,32 +18,75 @@ export const scroll = (dropId, anonymousId ) => {
             axios.post(url, body, headers )
             .then(res => {
                 console.log(res);
-                dispatch(scrollSuccess()); 
+                dispatch(scrollDownSuccess()); 
             })
             .catch(err => {
                 console.log(err);
-                dispatch(scrollFailed());
+                dispatch(scrollDownFailed());
             })
         }
 
     }
 }
 
-export const scrollStart = () => {
+export const scrollDownStart = () => {
     return {
-        type: actionTypes.SCROLL_START,
+        type: actionTypes.SCROLL_DOWN_START,
     }
 }
 
-export const scrollSuccess = () => {
+export const scrollDownSuccess = () => {
     return {
-        type: actionTypes.SCROLL_SUCCESS
+        type: actionTypes.SCROLL_DOWN_SUCCESS
     }
 }
 
-export const scrollFailed = () => {
+export const scrollDownFailed = () => {
     return {
-        type: actionTypes.SCROLL_FAILED
+        type: actionTypes.SCROLL_DOWN_FAILED
+    }
+}
+
+//-------- SCROLL UP  -----------------------------------------------------------------
+
+
+export const scrollUp = (dropId, anonymousId ) => {
+    return dispatch => {
+        dispatch(scrollUpStart()); 
+        if(!dropId.startsWith('no more')){
+            const url = `/api/drop/${dropId}/swipe`;
+            const token = localStorage.getItem('token');
+            const body = { like: true, anonymousId };
+            const headers = token ? { headers: { authorisation : `Bearer ${token}` } } : null;
+            axios.post(url, body, headers )
+            .then(res => {
+                console.log(res);
+                dispatch(scrollUpSuccess()); 
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch(scrollUpFailed());
+            })
+        }
+
+    }
+}
+
+export const scrollUpStart = () => {
+    return {
+        type: actionTypes.SCROLL_UP_START,
+    }
+}
+
+export const scrollUpSuccess = () => {
+    return {
+        type: actionTypes.SCROLL_UP_SUCCESS
+    }
+}
+
+export const scrollUpFailed = () => {
+    return {
+        type: actionTypes.SCROLL_UP_FAILED
     }
 }
 

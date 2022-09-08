@@ -65,13 +65,16 @@ class Stream extends Component {
        !this.props.mouseOverComments &&
        this.props.currentTab === 'stream' &&
        !this.props.menuOpen){
-        if(event.deltaY < 0){ 
-          // detect if user actually scrolled again or just scroll acceleration 
-          // deltaY gets closer to 0 while decelerating (but with small hickups here and there -> tolerance of 20)
-          // when the last scroll event was longer than 0.2s ago and the delta is bigger, a new scroll must have happened
-          if(this.state.deltaYLastWheelEvent - 20 > event.deltaY 
-             && Date.now() - this.props.timeStampLastScroll > 200){
-            this.props.onScroll(this.props.streamElements[1].id, this.props.anonymousId);
+        // detect if user actually scrolled again or just scroll acceleration 
+        // deltaY gets closer to 0 while decelerating (but with small hickups here and there -> tolerance of 20)
+        // when the last scroll event was longer than 0.2s ago and the delta is bigger, a new scroll must have happened
+        if(Math.abs(this.state.deltaYLastWheelEvent) - 20 > Math.abs(event.deltaY) 
+           && Date.now() - this.props.timeStampLastScroll > 250){
+          // scroll up or down? 
+          if(event.deltaY < 0){ 
+            this.props.onScrollDown(this.props.streamElements[1].id, this.props.anonymousId);
+          }else{
+            this.props.onScrollUp(this.props.streamElements[1].id, this.props.anonymousId)
           }
         }
       this.setState({deltaYLastWheelEvent: event.deltaY});
@@ -145,7 +148,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onFetchIds: () => dispatch(streamActions.fetchIds()),
-    onScroll: (dropId, anonymousId) => dispatch(streamActions.scroll(dropId, anonymousId)),
+    onScrollUp: (dropId, anonymousId) => dispatch(streamActions.scrollUp(dropId, anonymousId)),
+    onScrollDown: (dropId, anonymousId) => dispatch(streamActions.scrollDown(dropId, anonymousId)),
   }
 }
 
