@@ -383,23 +383,21 @@ const scrollPrevStart = (state, action) => {
         selectedComment: null
         }
     } else {
-        const nextId = state.dropIds.length !== 0 ? state.dropIds[0] : 'no more' + Date.now();
-        const dropIdsNew = state.dropIds.slice(1, state.dropIds.length); 
         const streamElementsNew = [
             ...state.streamElements.map(s => {
                 return {
                     ...s, 
-                    position: s.position - 1,
-                    show: s.position-1 < 1 ? 'hidden' : 'show'
+                    position: s.position + 1,
+                    show: s.position + 1 < 1 ? 'hidden' : 'show'
                 }
             })
             .filter(s => {
-                return s.position >= -4
+                return s.position + 1 <= 21 
             }),
             {
-                position: 21,
-                show: 'show',
-                id: nextId,
+                position: -4,
+                show: 'hidden',
+                id: `wrongDir-${Date.now()}`,
                 status: 'id loaded',
                 dropStatus: 'not loaded',
                 comments: []
@@ -408,7 +406,6 @@ const scrollPrevStart = (state, action) => {
         return {
             ...state,
             streamElements: streamElementsNew,
-            dropIds: dropIdsNew, 
             dropTargets: [],
             timeStampLastScroll: Date.now()
         }

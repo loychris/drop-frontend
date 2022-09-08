@@ -39,7 +39,7 @@ class Stream extends Component {
   //onKeyPrev
   keyboardSwipeHandler = (event) => {
     if (event.keyCode === 38) {
-      this.props.onScrollPrev(this.props.streamElements[1].id, this.props.anonymousId)
+      this.props.onScrollNext(this.props.streamElements[1].id, this.props.anonymousId)
     } 
     if (event.keyCode === 40) {
       this.props.onScrollNext(this.props.streamElements[1].id, this.props.anonymousId);
@@ -62,7 +62,7 @@ class Stream extends Component {
           if(event.deltaY < 0){ 
             this.props.onScrollNext(this.props.streamElements[1].id, this.props.anonymousId);
           }else{
-            this.props.onScrollPrev(this.props.streamElements[1].id, this.props.anonymousId)
+            this.props.onScrollNext(this.props.streamElements[1].id, this.props.anonymousId);
           }
         }
       this.setState({deltaYLastWheelEvent: event.deltaY});
