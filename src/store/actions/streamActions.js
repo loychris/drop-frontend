@@ -7,9 +7,9 @@ import * as actionTypes from './actionTypes';
 
 //-------- SWIPE  -----------------------------------------------------------------
 
-export const scrollDown = (dropId, anonymousId ) => {
+export const scrollNext = (dropId, anonymousId ) => {
     return dispatch => {
-        dispatch(scrollDownStart()); 
+        dispatch(scrollNextStart()); 
         if(!dropId.startsWith('no more')){
             const url = `/api/drop/${dropId}/swipe`;
             const token = localStorage.getItem('token');
@@ -18,41 +18,41 @@ export const scrollDown = (dropId, anonymousId ) => {
             axios.post(url, body, headers )
             .then(res => {
                 console.log(res);
-                dispatch(scrollDownSuccess()); 
+                dispatch(scrollNextSuccess()); 
             })
             .catch(err => {
                 console.log(err);
-                dispatch(scrollDownFailed());
+                dispatch(scrollNextFailed());
             })
         }
 
     }
 }
 
-export const scrollDownStart = () => {
+export const scrollNextStart = () => {
     return {
-        type: actionTypes.SCROLL_DOWN_START,
+        type: actionTypes.SCROLL_NEXT_START,
     }
 }
 
-export const scrollDownSuccess = () => {
+export const scrollNextSuccess = () => {
     return {
-        type: actionTypes.SCROLL_DOWN_SUCCESS
+        type: actionTypes.SCROLL_NEXT_SUCCESS
     }
 }
 
-export const scrollDownFailed = () => {
+export const scrollNextFailed = () => {
     return {
-        type: actionTypes.SCROLL_DOWN_FAILED
+        type: actionTypes.SCROLL_NEXT_FAILED
     }
 }
 
 //-------- SCROLL UP  -----------------------------------------------------------------
 
 
-export const scrollUp = (dropId, anonymousId ) => {
+export const scrollPrev = (dropId, anonymousId ) => {
     return dispatch => {
-        dispatch(scrollUpStart()); 
+        dispatch(scrollPrevStart()); 
         if(!dropId.startsWith('no more')){
             const url = `/api/drop/${dropId}/swipe`;
             const token = localStorage.getItem('token');
@@ -61,32 +61,32 @@ export const scrollUp = (dropId, anonymousId ) => {
             axios.post(url, body, headers )
             .then(res => {
                 console.log(res);
-                dispatch(scrollUpSuccess()); 
+                dispatch(scrollPrevSuccess()); 
             })
             .catch(err => {
                 console.log(err);
-                dispatch(scrollUpFailed());
+                dispatch(scrollPrevFailed());
             })
         }
 
     }
 }
 
-export const scrollUpStart = () => {
+export const scrollPrevStart = () => {
     return {
-        type: actionTypes.SCROLL_UP_START,
+        type: actionTypes.SCROLL_PREV_START,
     }
 }
 
-export const scrollUpSuccess = () => {
+export const scrollPrevSuccess = () => {
     return {
-        type: actionTypes.SCROLL_UP_SUCCESS
+        type: actionTypes.SCROLL_PREV_SUCCESS
     }
 }
 
-export const scrollUpFailed = () => {
+export const scrollPrevFailed = () => {
     return {
-        type: actionTypes.SCROLL_UP_FAILED
+        type: actionTypes.SCROLL_PREV_FAILED
     }
 }
 

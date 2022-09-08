@@ -20,7 +20,6 @@ class Stream extends Component {
 
   componentDidMount() {
     document.addEventListener("keyup", this.keyboardSwipeHandler, false);
-    document.addEventListener("keydown", this.keypressHandler, false);
     document.addEventListener("wheel", this.scrollHandler)
   }
 
@@ -37,25 +36,13 @@ class Stream extends Component {
     });
   };
 
-
-  // onKeyDown
-  keypressHandler = (event) => {
-    if(!this.props.menuOpen && this.props.currentTab === 'stream'){
-      // if (event.keyCode === 37) {
-      //   this.onLightUp(true, false);
-      // } else if (event.keyCode === 39) {
-      //   this.onLightUp(false, true);
-      // }
-    }
-  }
-
-  //onKeyUp
+  //onKeyPrev
   keyboardSwipeHandler = (event) => {
     if (event.keyCode === 38) {
-      this.props.onScrollUp(this.props.streamElements[1].id, this.props.anonymousId)
+      this.props.onScrollPrev(this.props.streamElements[1].id, this.props.anonymousId)
     } 
     if (event.keyCode === 40) {
-      this.props.onScrollDown(this.props.streamElements[1].id, this.props.anonymousId);
+      this.props.onScrollNext(this.props.streamElements[1].id, this.props.anonymousId);
     }
   };
 
@@ -70,11 +57,12 @@ class Stream extends Component {
         // when the last scroll event was longer than 0.2s ago and the delta is bigger, a new scroll must have happened
         if(Math.abs(this.state.deltaYLastWheelEvent) - 20 > Math.abs(event.deltaY) 
            && Date.now() - this.props.timeStampLastScroll > 250){
+            console.log("DETECT SCROLL")
           // scroll up or down? 
           if(event.deltaY < 0){ 
-            this.props.onScrollDown(this.props.streamElements[1].id, this.props.anonymousId);
+            this.props.onScrollNext(this.props.streamElements[1].id, this.props.anonymousId);
           }else{
-            this.props.onScrollUp(this.props.streamElements[1].id, this.props.anonymousId)
+            this.props.onScrollPrev(this.props.streamElements[1].id, this.props.anonymousId)
           }
         }
       this.setState({deltaYLastWheelEvent: event.deltaY});
@@ -148,8 +136,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onFetchIds: () => dispatch(streamActions.fetchIds()),
-    onScrollUp: (dropId, anonymousId) => dispatch(streamActions.scrollUp(dropId, anonymousId)),
-    onScrollDown: (dropId, anonymousId) => dispatch(streamActions.scrollDown(dropId, anonymousId)),
+    onScrollPrev: (dropId, anonymousId) => dispatch(streamActions.scrollPrev(dropId, anonymousId)),
+    onScrollNext: (dropId, anonymousId) => dispatch(streamActions.scrollNext(dropId, anonymousId)),
   }
 }
 

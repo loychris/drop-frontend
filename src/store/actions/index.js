@@ -18,8 +18,8 @@ export {
 
 export {
     fetchIds,
-    scrollUp,
-    scrollDown,
+    scrollNext,
+    scrollPrev,
     selectDropTarget,
     unSelectDropTarget,
     resetDropTargets,
