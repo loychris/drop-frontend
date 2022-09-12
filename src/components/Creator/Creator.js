@@ -74,6 +74,10 @@ class Creator extends Component {
         width: 300,
       }
     ],
+    perspective: {
+      offsetX: 0,
+      offsetY: 0
+    }
   }
 
 
@@ -519,6 +523,7 @@ class Creator extends Component {
               element={e}
               editingId={this.state.editingId}
               selected={e.elementId === this.state.selectedId}
+              perspective={this.state.perspective}
               edit={this.edit}
               select={this.select}
               selectAndEdit={this.selectAndEdit}
@@ -536,6 +541,7 @@ class Creator extends Component {
                 key={`${inPreview ? 'prev' : ''}-${e.elementId}`}
                 element={e}
                 selected={e.elementId === this.state.selectedId}
+                perspective={this.state.perspective}
                 select={this.select}
                 elementMouseDown={this.elementMouseDown}
                 selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
@@ -550,6 +556,7 @@ class Creator extends Component {
               key={`${inPreview ? 'prev' : ''}-${e.elementId}`}
               element={e}
               selected={e.elementId === this.state.selectedId}
+              perspective={this.state.perspective}
               select={this.select}
               elementMouseDown={this.elementMouseDown}
               onImageLoad={onImgeLoad}
@@ -562,16 +569,17 @@ class Creator extends Component {
   }
 
   getLines = (excludeId) => {
+    const { offsetX, offsetY } = this.state.perspective;
     let Hlines = [];
     let Vlines = [];
     this.state.elements.forEach(element => {
       if(excludeId !== element.elementId){
-        Hlines.push(element.posY)
-        Hlines.push((2* element.posY + element.height)/2)
-        Hlines.push(element.posY + element.height)
-        Vlines.push(element.posX)
-        Vlines.push((2* element.posX + element.width)/2)
-        Vlines.push(element.posX + element.width)
+        Hlines.push(element.posY + offsetY)
+        Hlines.push(((2 * element.posY + element.height)/2)+ offsetY)
+        Hlines.push(element.posY + element.height + offsetY)
+        Vlines.push(element.posX + offsetX)
+        Vlines.push(((2* element.posX + element.width)/2)+offsetX)
+        Vlines.push(element.posX + element.width + offsetX)
       } 
     });
     const lines = {
@@ -621,11 +629,45 @@ class Creator extends Component {
       console.log("ZOOM", e.deltaY < 0 ? "IN":"OUT", "DETECTED", e.deltaY)
     } else {
       console.log("MOVE DETECTED X:", e.deltaX, "Y:", e.deltaY)
+      console.log("X: ", this.state.perspective.offsetX + e.deltaX, "Y:", this.state.perspective.offsetY + e.deltaY)
+      this.setState({
+        perspective: {
+          offsetX: this.state.perspective.offsetX - e.deltaX,
+          offsetY: this.state.perspective.offsetY - e.deltaY
+        }
+      })
     }
+  }
+
+  calcOriginStyles = () => {
+    let styles = {
+      left: `${this.state.perspective.offsetX}px`, 
+      top: `${this.state.perspective.offsetY}px`,
+      position: "absolute",
+      height: "5px",
+      width: "5px",
+      backgroundColor: "red",
+      zIndex: 10000
+    }
+    return styles
+  }
+
+  calcGridStyles = () => {
+    const { offsetX, offsetY } = this.state.perspective;
+    let styles = {
+      position: "absolute",
+      left: `${-50000 + offsetX}px`,
+      top: `${-50000 + offsetY}px`,
+      height: `${100000}px`,
+      width: `${100000}px`,
+    }
+    console.log(styles)
+    return styles
   }
 
 
   render() {
+    console.log(this.calcGridStyles())
     const styleClasses = [classes.Creator];
     if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeftLeft);
     if (this.props.currentTab === 'chat') styleClasses.push(classes.OutLeft);
@@ -638,30 +680,39 @@ class Creator extends Component {
         onWheel={this.wheel}
       >
         <ImageDragNDrop handleDrop={this.handleImageDrop}>
-          <SelectionMenu
-            edit={this.edit}
-            selected={selected}
-          /> 
-          {
-            selected && 
-              <SelectionFrame 
-                element={selected}
-                editingId={this.state.editingId}
-                resizeMouseDown={this.resizeMouseDown}
-                elementMouseDown={this.elementMouseDown}
-                selectAndEdit={this.selectAndEdit}
-              /> 
-          }
-          { this.getElements(this.state.elements) }
           <TopMenu 
             addElements={this.addElements}
             openExportModal={this.openExportModal}
           />
-          { this.renderLines() }
-          {/* {
-            this.state.draggingFile && 
-            <div className={classes.draggingOverlay}>Drop Images Here</div>
-          } */}
+          <div className={classes.canvas}>
+            {
+              selected && 
+                <SelectionFrame 
+                  element={selected}
+                  editingId={this.state.editingId}
+                  perspective={this.state.perspective}
+                  resizeMouseDown={this.resizeMouseDown}
+                  elementMouseDown={this.elementMouseDown}
+                  selectAndEdit={this.selectAndEdit}
+                /> 
+            }
+            { this.getElements(this.state.elements) }
+            { this.renderLines() }
+            {/* {
+              this.state.draggingFile && 
+              <div className={classes.draggingOverlay}>Drop Images Here</div>
+            } */}
+            <div 
+              onMouseUp={this.backgroundMouseUp}
+              className={classes.grid} 
+              style={this.calcGridStyles()}>
+            </div>
+          </div>
+          <div className={classes.origin} style={this.calcOriginStyles()}></div>
+          <SelectionMenu
+            edit={this.edit}
+            selected={selected}
+          /> 
           { 
             this.state.exportModalOpen && 
               <ExportModal 
@@ -670,9 +721,6 @@ class Creator extends Component {
                 elements={this.state.elements}
               /> 
           }
-          <div className={classes.background} onMouseUp={this.backgroundMouseUp}>
-            <div className={classes.grid}></div>
-          </div>
         </ImageDragNDrop>
       </div>
     );

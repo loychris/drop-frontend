@@ -39,11 +39,12 @@ class SelectionFrame extends Component {
 
     getStyles = () => {
         const { height, width, posX, posY } = this.props.element;
+        const { offsetX, offsetY } = this.props.perspective;
         let styles = {
             height: `${height}px`, 
             width: `${width}px`,
-            left: `${posX}px`,
-            top: `${posY}px`,
+            left: `${posX + offsetX}px`,
+            top: `${posY + offsetY}px`,
         }
         if(this.props.editingId){
             styles.pointerEvents = 'none'; 

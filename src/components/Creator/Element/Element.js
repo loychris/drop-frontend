@@ -9,12 +9,19 @@ import TextElement from './TextElement/TextElement';
 class Element extends Component {
 
     getStyles = () => {
-        const { height, width, posX, posY, font, fontSize, textAlign, fontWeight, underline, italic, color, textStroke, elementId } = this.props.element;
+        let { height, width, posX, posY, font, fontSize, textAlign, fontWeight, underline, italic, color, textStroke, elementId } = this.props.element;
+        let left = posX;
+        let top = posY;
+        if(!this.props.inPreview){
+            const { offsetX, offsetY } = this.props.perspective;
+            left += offsetX
+            top += offsetY
+        }
         return {
             height: `${height}px`, 
             width: `${width}px`,
-            left: `${posX}px`,
-            top: `${posY}px`,
+            left: `${left}px`,
+            top: `${top}px`,
             fontFamily: `${font},Oswald,Impact`,
             fontSize: `${fontSize}pt`,
             textAlign: textAlign, 
