@@ -3,7 +3,9 @@
     position: absolute;
     margin-left: auto;
     margin-right: auto;
-    background-color: #F1F1F1;
+    /* background-color: #F1F1F1; */
+    /* background: -webkit-linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255, 1)); */
+
     color: #ffffff;
     /* border-bottom: 1px solid #000000;
     border-top: 1px solid #ffffff;  */
@@ -19,6 +21,35 @@
     padding-top: 0%; 
     overflow-x: hidden;
     overflow-y: hidden;
+  }
+
+  .background{
+    height: 100%;
+    width: 100%; 
+
+    background-position: 0px 20px; 
+    -webkit-mask: 
+    linear-gradient(to top,  transparent 50%, #fff 15% 90%),
+    linear-gradient(to left, transparent 10%, #fff 15% 90%, transparent 95%);
+    /* linear-gradient(to left, transparent 10%, #fff 15% 90%, transparent 100%); */
+    /* -webkit-mask-size:110% 110%; */
+    /* -webkit-mask-position:center; */
+    -webkit-mask-repeat:no-repeat;
+    -webkit-mask-composite: source-in;
+    
+    
+    mask: 
+    linear-gradient(to top,  transparent 15%, #fff 15% 90%),
+    linear-gradient(to left, transparent 10%, #fff 15% 90%, transparent 95%);
+      /* linear-gradient(to left, transparent 10%, #fff 15% 90%, transparent 100%); */
+    mask-size: 110% 110%;
+    /* mask-position: center; */
+    mask-repeat:no-repeat;
+    mask-composite: intersect;
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, grey 1px, transparent 1px),
+      linear-gradient(to bottom, grey 1px, transparent 1px);
   }
 
   .Content {

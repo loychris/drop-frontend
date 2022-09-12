@@ -633,10 +633,8 @@ class Creator extends Component {
     return (
       <div 
         className={styleClasses.join(" ")}
-        onMouseUp={this.backgroundMouseUp}
         onTouchStart={e => console.log("TOUCH START")}
         onTouchEnd={e => console.log("TOUCH END")}
-        
         onWheel={this.wheel}
       >
         <ImageDragNDrop handleDrop={this.handleImageDrop}>
@@ -672,6 +670,9 @@ class Creator extends Component {
                 elements={this.state.elements}
               /> 
           }
+          <div className={classes.background} onMouseUp={this.backgroundMouseUp}>
+            <div className={classes.grid}></div>
+          </div>
         </ImageDragNDrop>
       </div>
     );
