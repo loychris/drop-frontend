@@ -39,10 +39,10 @@
     
     
     mask: 
-    linear-gradient(to top,  transparent 15%, #fff 15% 90%),
+    linear-gradient(to top,  transparent 10%, #fff 15% 90%),
     linear-gradient(to left, transparent 10%, #fff 15% 90%, transparent 95%);
       /* linear-gradient(to left, transparent 10%, #fff 15% 90%, transparent 100%); */
-    mask-size: 110% 110%;
+    mask-size: 110% 105%;
     /* mask-position: center; */
     mask-repeat:no-repeat;
     mask-composite: intersect;
