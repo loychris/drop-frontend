@@ -33,8 +33,8 @@ class Creator extends Component {
         elementId: '5',
         height: 170,
         width: 570, 
-        posX: 115,
-        posY: 65,
+        posX: 15,
+        posY: 15,
         text: 'Y\'all ever notice that the Washington monument looks absolutely NOTHING like George Washington?',
         font: 'Oswald',
         fontSize: '28.5',
@@ -49,9 +49,9 @@ class Creator extends Component {
       {
         type: 'rect',
         elementId: '8',
-        posX: 100,
-        posY: 50,
-        height: 555,
+        posX: 0,
+        posY: 0,
+        height: 200,
         width: 600,
         color: '#000000',
       },
@@ -59,8 +59,8 @@ class Creator extends Component {
         type: 'image',
         elementId: '11',
         imgSrc: Washington,
-        posX: 100,
-        posY: 250,
+        posX: 0,
+        posY: 200,
         height: 365,
         width: 300,
       },
@@ -68,15 +68,15 @@ class Creator extends Component {
         type: 'image',
         elementId: '12',
         imgSrc: Monument,
-        posX: 400,
-        posY: 250,
+        posX: 300,
+        posY: 200,
         height: 365,
         width: 300,
       }
     ],
     perspective: {
-      offsetX: 0,
-      offsetY: 0
+      offsetX: 200,
+      offsetY: 200
     }
   }
 
@@ -622,18 +622,22 @@ class Creator extends Component {
     return lines; 
   }
 
+  // two finger touch on trackpad 
   wheel = (e) => {
     e.stopPropagation()
     e.preventDefault()
     if(e.ctrlKey && e.deltaY !== 0){
       console.log("ZOOM", e.deltaY < 0 ? "IN":"OUT", "DETECTED", e.deltaY)
     } else {
-      console.log("MOVE DETECTED X:", e.deltaX, "Y:", e.deltaY)
-      console.log("X: ", this.state.perspective.offsetX + e.deltaX, "Y:", this.state.perspective.offsetY + e.deltaY)
+      // move the entire canvas in any direction 
+      let offsetXNew = this.state.perspective.offsetX - e.deltaX;
+      let offsetYNew = this.state.perspective.offsetY - e.deltaY;
+      if(offsetXNew > 50000 || offsetXNew < -50000) offsetXNew = this.state.perspective.offsetX;
+      if(offsetYNew > 50000 || offsetYNew < -50000) offsetYNew = this.state.perspective.offsetY;
       this.setState({
         perspective: {
-          offsetX: this.state.perspective.offsetX - e.deltaX,
-          offsetY: this.state.perspective.offsetY - e.deltaY
+          offsetX: offsetXNew,
+          offsetY: offsetYNew
         }
       })
     }
@@ -658,8 +662,8 @@ class Creator extends Component {
       position: "absolute",
       left: `${-50000 + offsetX}px`,
       top: `${-50000 + offsetY}px`,
-      height: `${100000}px`,
-      width: `${100000}px`,
+      height: `${104000}px`,
+      width: `${104000}px`,
     }
     console.log(styles)
     return styles
