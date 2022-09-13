@@ -639,7 +639,6 @@ class Creator extends Component {
   // two finger touch on trackpad 
   wheel = (e) => {
     e.stopPropagation()
-    e.preventDefault()
     if(e.ctrlKey && e.deltaY !== 0){
       console.log("ZOOM", e.deltaY < 0 ? "IN":"OUT", "DETECTED", e.deltaY)
     } else {
@@ -700,6 +699,14 @@ class Creator extends Component {
             addElements={this.addElements}
             openExportModal={this.openExportModal}
           />
+          { 
+            this.state.exportModalOpen && 
+              <ExportModal 
+                closeExportModal={this.closeExportModal}
+                getElements={this.getElements}
+                elements={this.state.elements}
+              /> 
+          }
           <div className={classes.canvas}>
             {
               selected && 
@@ -720,23 +727,15 @@ class Creator extends Component {
             <div 
               onMouseUp={this.backgroundMouseUp}
               className={classes.grid} 
-              style={this.calcGridStyles()}>
-            </div>
+              style={this.calcGridStyles()}
+            ></div>
             { this.renderLines() }
           </div>
-          <div className={classes.origin} style={this.calcOriginStyles()}></div>
+          {/* <div className={classes.origin} style={this.calcOriginStyles()}></div> */}
           <SelectionMenu
             edit={this.edit}
             selected={selected}
           /> 
-          { 
-            this.state.exportModalOpen && 
-              <ExportModal 
-                closeExportModal={this.closeExportModal}
-                getElements={this.getElements}
-                elements={this.state.elements}
-              /> 
-          }
         </ImageDragNDrop>
       </div>
     );

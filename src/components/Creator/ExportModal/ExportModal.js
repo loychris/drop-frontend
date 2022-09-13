@@ -25,7 +25,6 @@ class ExportModal extends Component {
     componentDidMount = () => {
         const height = this.divElement.clientHeight;
         const width = this.divElement.clientWidth;
-        console.log(height, width);
         this.setState({ height, width });
     }
 

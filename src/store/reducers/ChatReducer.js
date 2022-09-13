@@ -215,7 +215,6 @@ const reducer = (state = initialState, action) => {
 //----- LOG IN / OUT -----------------------------------------------------
 
 const setChatStateOnLogin = (state, action) => {
-    console.log(action.userdata.receivedFriendRequests);
     const newTextMessagesNotifications = action.userdata.notifications.filter(n => n.type.startsWith('NEW_MESSAGE'));
     const dummyChatsFromRequests = action.userdata.receivedFriendRequests
     .filter(user => !action.userdata.chats.some(c => c.members.some(m => m.userId === user.userId)))
@@ -237,7 +236,6 @@ const setChatStateOnLogin = (state, action) => {
             lastInteraction: Date.now(),
         }
     })
-    console.log(dummyChatsFromRequests);
     const chatsNew = [
         ...action.userdata.chats.map(chat => {
             const messages = chat.messages.map(message => {
