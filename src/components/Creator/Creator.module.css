@@ -1,5 +1,4 @@
 .Creator {
-    z-index: 100;
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -48,7 +47,8 @@
     height: 1000px;
     width: 1000px;
     border: 1px solid yellow;
-    background-size: 40px 40px;
+    background-size: 50px 50px;
+    background-position: -1px -1px;
     background-image: 
       linear-gradient(to right, grey 1px, transparent 1px),
       linear-gradient(to bottom, grey 1px, transparent 1px);

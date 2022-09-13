@@ -9,5 +9,6 @@
     position: absolute;
     height: 100%;
     width: 1px;
-    background-color: red;
+    top: 0;
+    background-color: yellow;
 }

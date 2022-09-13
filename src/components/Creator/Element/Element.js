@@ -17,6 +17,7 @@ class Element extends Component {
             left += offsetX
             top += offsetY
         }
+        console.log("left", left, "top", top)
         return {
             height: `${height}px`, 
             width: `${width}px`,

@@ -136,7 +136,7 @@ class Creator extends Component {
     const prevMouseY = e.clientY;
     const { Hlines, Vlines } = this.getLines(elementId);
     const mousemove = (e) => {
-      let  newX = prevX - prevMouseX + e.clientX;
+      let newX = prevX - prevMouseX + e.clientX;
       let newY = prevY - prevMouseY + e.clientY;
       let selectedHline = null;
       let selectedVline = null; 
@@ -569,17 +569,17 @@ class Creator extends Component {
   }
 
   getLines = (excludeId) => {
-    const { offsetX, offsetY } = this.state.perspective;
     let Hlines = [];
     let Vlines = [];
     this.state.elements.forEach(element => {
       if(excludeId !== element.elementId){
-        Hlines.push(element.posY + offsetY)
-        Hlines.push(((2 * element.posY + element.height)/2)+ offsetY)
-        Hlines.push(element.posY + element.height + offsetY)
-        Vlines.push(element.posX + offsetX)
-        Vlines.push(((2* element.posX + element.width)/2)+offsetX)
-        Vlines.push(element.posX + element.width + offsetX)
+        Hlines.push(element.posY)
+        Hlines.push((2 * (element.posY) + element.height)/2)
+        Hlines.push(element.posY + element.height)
+
+        Vlines.push(element.posX)
+        Vlines.push((2* (element.posX + element.width))/2)
+        Vlines.push(element.posX + element.width)
       } 
     });
     const lines = {
@@ -614,10 +614,24 @@ class Creator extends Component {
   renderLines = () => {
     let lines = [];
     if(this.state.selectedHline){
-      lines.push(<Line key={`HL-${this.state.selectedHline}`} top={this.state.selectedHline} left={0}/>)
+      lines.push(
+        <Line 
+          key={`HL-${this.state.selectedHline}`} 
+          top={this.state.selectedHline} 
+          left={0}
+          perspective={this.state.perspective}
+        />
+      )
     }
     if(this.state.selectedVline){
-      lines.push(<Line key={`VL-${this.state.selectedVline}`} top={0} left={this.state.selectedVline}/>)
+      lines.push(
+        <Line 
+          key={`VL-${this.state.selectedVline}`} 
+          top={0} 
+          left={this.state.selectedVline}
+          perspective={this.state.perspective}
+        />
+      )
     }
     return lines; 
   }
@@ -665,13 +679,11 @@ class Creator extends Component {
       height: `${104000}px`,
       width: `${104000}px`,
     }
-    console.log(styles)
     return styles
   }
 
 
   render() {
-    console.log(this.calcGridStyles())
     const styleClasses = [classes.Creator];
     if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeftLeft);
     if (this.props.currentTab === 'chat') styleClasses.push(classes.OutLeft);
@@ -701,7 +713,6 @@ class Creator extends Component {
                 /> 
             }
             { this.getElements(this.state.elements) }
-            { this.renderLines() }
             {/* {
               this.state.draggingFile && 
               <div className={classes.draggingOverlay}>Drop Images Here</div>
@@ -711,6 +722,7 @@ class Creator extends Component {
               className={classes.grid} 
               style={this.calcGridStyles()}>
             </div>
+            { this.renderLines() }
           </div>
           <div className={classes.origin} style={this.calcOriginStyles()}></div>
           <SelectionMenu

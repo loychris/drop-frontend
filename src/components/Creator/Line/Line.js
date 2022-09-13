@@ -6,12 +6,14 @@ class Line extends Component {
 
 
     render() {
+        const { offsetX, offsetY } = this.props.perspective; 
+        const horizontal = this.props.left === 0;
         return(
             <div 
-                className={this.props.left === 0 ? classes.HL : classes.VL}
+                className={horizontal ? classes.HL : classes.VL}
                 style={{
-                    top: `${this.props.top}px`,
-                    left: `${this.props.left}px`
+                    top: horizontal ? `${this.props.top + offsetY}px` : '0',
+                    left: !horizontal ? `${this.props.left + offsetX}px` : '0'
                 }}>    
             </div>
         )
