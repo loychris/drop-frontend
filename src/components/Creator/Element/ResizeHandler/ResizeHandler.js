@@ -34,6 +34,7 @@ class ResizeHandler extends Component {
             case 'W': styles.push(classes.W);break;
             case 'S': styles.push(classes.S);break;
             case 'E': styles.push(classes.E);break;
+            default: console.log("Invalid direction for resize hanlder");
         }
         return styles;
     } 

@@ -83,7 +83,7 @@
                 className={this.props.selected.verticalAlign === 'bottom' ? classes.alignActive : classes.alignInactive}
                 width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <line stroke={strokeColor} x1="34" y1="33" x2="6" y2="33" strokeWidth="2"/>
-                <path fill={strokeColor} d="M19.2929 29.7071C19.6834 30.0976 20.3166 30.0976 20.7071 29.7071L27.0711 23.3431C27.4616 22.9526 27.4616 22.3195 27.0711 21.9289C26.6805 21.5384 26.0474 21.5384 25.6569 21.9289L20 27.5858L14.3431 21.9289C13.9526 21.5384 13.3195 21.5384 12.9289 21.9289C12.5384 22.3195 12.5384 22.9526 12.9289 23.3431L19.2929 29.7071ZM19 7V29H21V7H19Z" fill={strokeColor}/>
+                <path fill={strokeColor} d="M19.2929 29.7071C19.6834 30.0976 20.3166 30.0976 20.7071 29.7071L27.0711 23.3431C27.4616 22.9526 27.4616 22.3195 27.0711 21.9289C26.6805 21.5384 26.0474 21.5384 25.6569 21.9289L20 27.5858L14.3431 21.9289C13.9526 21.5384 13.3195 21.5384 12.9289 21.9289C12.5384 22.3195 12.5384 22.9526 12.9289 23.3431L19.2929 29.7071ZM19 7V29H21V7H19Z"/>
             </svg>
         )
     }
@@ -213,7 +213,7 @@
 
     render(){
         if(!this.props.selected) return null;
-        const { type, color, elementId, posX, posY, height, width, fontSize, font, fontWeight, fixedDimensions } = this.props.selected;
+        const { type, color, posX, posY, height, width, fontSize, font, fontWeight, fixedDimensions } = this.props.selected;
 
         return (
             <div className={classes.SelectionMenu} onClick={this.stopPropagation} onMouseUp={this.stopPropagation}>
@@ -312,9 +312,17 @@
                     </div>
                 : null }
                 { type === "rect" ? 
-                    <div className={classes.textOptions}>
-                        <input type='color' onChange={this.editColor} value={color}/>
-                        
+                    <div className={classes.colorOptions}>
+                        <div className={classes.colorInputContainer}>
+                            <div className={classes.colorInputBackground} style={{background: color}}></div>
+                            <input 
+                                type='color' 
+                                onChange={this.editColor} 
+                                value={color} 
+                                className={classes.colorInput}
+                            />
+                        </div>
+                        <p>background</p>
                     </div>
                 : null }
             </div>

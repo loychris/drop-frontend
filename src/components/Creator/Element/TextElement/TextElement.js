@@ -1,14 +1,17 @@
 import React from 'react';
-import useFitText from 'use-fit-text'; 
 import AutoResizeTextElement from './AutoResizeTextElement';
 
 import classes from './TextElement.module.css'; 
 
 const TextElement = (props) => {
 
-    const { fontSize, ref } = useFitText(); 
-
-    const {font, height, width, fixedDimensions, fontWeight, verticalAlign, elementId } = props.element;
+    const {
+        font, 
+        fixedDimensions, 
+        fontWeight, 
+        verticalAlign, 
+        elementId 
+    } = props.element;
 
     const verticalAlignClass = 
     verticalAlign === 'top' ? classes.topAlign 
@@ -30,8 +33,7 @@ const TextElement = (props) => {
                 fontWeight: fontWeight
             }}
             onInput={(e) => props.onTextInput(e, elementId)}>
-
-                    {props.text}
+            {props.text}
         </div>
     )
 }

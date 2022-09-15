@@ -10,7 +10,7 @@ import SelectionMenu from "./SelectionMenu/SelectionMenu";
 import SelectionFrame from "./SelectionFrame/SelectionFrame";
 import ExportModal from "./ExportModal/ExportModal";
 import ImageDragNDrop from "./ImageDragNDrop/ImageDragNDrop";
-import ChrisDrunk from './ChrisDrunk.jpg'; 
+// import ChrisDrunk from './ChrisDrunk.jpg'; 
 import Washington from './Washington.jpeg';
 import Monument from './Washington_Monument.jpeg';
 

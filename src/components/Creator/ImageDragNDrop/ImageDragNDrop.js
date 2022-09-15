@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import classes from './ImageDragNDrop.module.css'; 
+// import classes from './ImageDragNDrop.module.css'; 
 
 class ImageDragNDrop extends Component {
   state = {

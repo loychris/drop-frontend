@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import * as classes from './Element.module.css';
-import ResizeHandler from './ResizeHandler/ResizeHandler';
 import TextElement from './TextElement/TextElement';
 
 
@@ -45,7 +44,7 @@ class Element extends Component {
                         element={this.props.element}
                         onInput={this.props.onTextInput}
                         text={text}
-                        editing={this.props.editingId == elementId}
+                        editing={this.props.editingId === elementId}
                         onTextInput={this.props.onTextInput}
                     />
                 )
@@ -56,6 +55,7 @@ class Element extends Component {
                         className={classes.Image}
                         id={`${elementId}-image`}
                         onLoad={this.props.onImageLoad}
+                        alt=''
                     />
                 )
             case 'rect':
@@ -119,7 +119,6 @@ class Element extends Component {
                 id={`element-${this.props.element.elementId}`}
             >
                 {this.getContent()}
-                {/* {this.getResizeHandlers()} */}
             </div>
         )
     }

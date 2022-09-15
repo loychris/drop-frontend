@@ -62,7 +62,6 @@ const initialState = {
         { position: 20, show: "show", id: "20", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
         { position: 21, show: "show", id: "21", dropStatus: 'not loaded', comments: [], memeStatus: 'not loaded'},
     ],
-    timeStampLastScroll: 0,
     currentlyLoadingMemeId: '', 
     selectedComment: null,
     sending: [],
@@ -93,13 +92,13 @@ const replaceSubCommentId = (subComments, randPath, subComment) => {
     })
 }
 
-const scrollToTop = () => {
-    const c = document.documentElement.scrollTop || document.body.scrollTop;
-    if (c > 0) {
-      window.requestAnimationFrame(scrollToTop);
-      window.scrollTo(0, c - c / 10);
-    }
-};
+// const scrollToTop = () => {
+//     const c = document.documentElement.scrollTop || document.body.scrollTop;
+//     if (c > 0) {
+//       window.requestAnimationFrame(scrollToTop);
+//       window.scrollTo(0, c - c / 10);
+//     }
+// };
 
 const setDropsNotLoaded = (state, action) => {
     const streamElementsNew = state.streamElements.map((s,i) => {
