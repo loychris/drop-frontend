@@ -145,6 +145,13 @@
         });
     }
 
+    editRotation = (e) => {
+        this.props.edit(this.props.selected.elementId, {
+            ...this.props.selected, 
+            rotation: e.target.value,
+        });
+    }
+
     editFont = (e) => {
         console.log(e.target.value);
         this.props.edit(this.props.selected.elementId, {
@@ -213,7 +220,7 @@
 
     render(){
         if(!this.props.selected) return null;
-        const { type, color, posX, posY, height, width, fontSize, font, fontWeight, fixedDimensions } = this.props.selected;
+        const { type, color, posX, posY, height, width, rotation, fontSize, font, fontWeight, fixedDimensions } = this.props.selected;
 
         return (
             <div className={classes.SelectionMenu} onClick={this.stopPropagation} onMouseUp={this.stopPropagation}>
@@ -236,6 +243,12 @@
                         <div className={classes.inputWrapper}>
                             <span>Y:</span>
                             <input className={classes.input} onChange={this.editY} type='number' value={posY}/>
+                        </div>
+                    </div>
+                    <div className={classes.flex}>
+                        <div className={classes.inputWrapper}>
+                            <span>deg:</span>
+                            <input className={classes.input}  onChange={this.editRotation} type='number' value={rotation}/>
                         </div>
                     </div>
                 </div>

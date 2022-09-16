@@ -27,6 +27,10 @@ class Creator extends Component {
     selectedVline: null,
     exportModalOpen: false,
     files: [], 
+    perspective: {
+      offsetX: 200,
+      offsetY: 200
+    },
     elements: [
       {
         type: 'text', 
@@ -45,6 +49,7 @@ class Creator extends Component {
         underline: false, 
         italic: false, 
         textStroke: true,
+        rotation: 0,
       },
       {
         type: 'rect',
@@ -54,6 +59,7 @@ class Creator extends Component {
         height: 200,
         width: 600,
         color: '#000000',
+        rotation: 0,
       },
       {
         type: 'image',
@@ -63,6 +69,7 @@ class Creator extends Component {
         posY: 200,
         height: 365,
         width: 300,
+        rotation: 0,
       },
       {
         type: 'image',
@@ -72,12 +79,9 @@ class Creator extends Component {
         posY: 200,
         height: 365,
         width: 300,
+        rotation: 0,
       }
     ],
-    perspective: {
-      offsetX: 200,
-      offsetY: 200
-    }
   }
 
 

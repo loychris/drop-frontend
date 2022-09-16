@@ -8,7 +8,7 @@ import TextElement from './TextElement/TextElement';
 class Element extends Component {
 
     getStyles = () => {
-        let { height, width, posX, posY, font, fontSize, textAlign, fontWeight, underline, italic, color, textStroke, elementId } = this.props.element;
+        let { height, width, posX, posY, rotation, font, fontSize, textAlign, fontWeight, underline, italic, color, textStroke, elementId } = this.props.element;
         let left = posX;
         let top = posY;
         if(!this.props.inPreview){
@@ -21,6 +21,7 @@ class Element extends Component {
             width: `${width}px`,
             left: `${left}px`,
             top: `${top}px`,
+            transform: `rotate(${rotation}deg)`,
             fontFamily: `${font},Oswald,Impact`,
             fontSize: `${fontSize}pt`,
             textAlign: textAlign, 
