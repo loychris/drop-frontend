@@ -148,7 +148,7 @@
     editRotation = (e) => {
         this.props.edit(this.props.selected.elementId, {
             ...this.props.selected, 
-            rotation: e.target.value,
+            rotation: e.target.value % 360,
         });
     }
 

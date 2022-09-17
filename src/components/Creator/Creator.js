@@ -32,24 +32,65 @@ class Creator extends Component {
       offsetY: 200
     },
     elements: [
+      // {
+      //   type: 'text', 
+      //   elementId: '5',
+      //   height: 170,
+      //   width: 570, 
+      //   posX: 15,
+      //   posY: 15,
+      //   text: 'Y\'all ever notice that the Washington monument looks absolutely NOTHING like George Washington?',
+      //   font: 'Oswald',
+      //   fontSize: '28.5',
+      //   fontWeight: '700',
+      //   textAlign: 'center',
+      //   verticalAlign: 'top', 
+      //   fixedDimensions: true,
+      //   underline: false, 
+      //   italic: false, 
+      //   textStroke: true,
+      //   rotation: 0,
+      // },
+      // {
+      //   type: 'rect',
+      //   elementId: '8',
+      //   posX: 0,
+      //   posY: 0,
+      //   height: 200,
+      //   width: 600,
+      //   color: '#000000',
+      //   rotation: 0,
+      // },
+      // {
+      //   type: 'image',
+      //   elementId: '11',
+      //   imgSrc: Washington,
+      //   posX: 0,
+      //   posY: 200,
+      //   height: 365,
+      //   width: 300,
+      //   rotation: 0,
+      // },
+      // {
+      //   type: 'image',
+      //   elementId: '12',
+      //   imgSrc: Monument,
+      //   posX: 300,
+      //   posY: 200,
+      //   height: 365,
+      //   width: 300,
+      //   rotation: 0,
+      // }
+
       {
-        type: 'text', 
-        elementId: '5',
-        height: 170,
-        width: 570, 
-        posX: 15,
-        posY: 15,
-        text: 'Y\'all ever notice that the Washington monument looks absolutely NOTHING like George Washington?',
-        font: 'Oswald',
-        fontSize: '28.5',
-        fontWeight: '700',
-        textAlign: 'center',
-        verticalAlign: 'top', 
-        fixedDimensions: true,
-        underline: false, 
-        italic: false, 
-        textStroke: true,
-        rotation: 0,
+        type: 'rect',
+        elementId: '9',
+        posX: 0,
+        posY: 0,
+        height: 200,
+        width: 200,
+        color: '#000234',
+        rotation: 90,
       },
       {
         type: 'rect',
@@ -57,30 +98,10 @@ class Creator extends Component {
         posX: 0,
         posY: 0,
         height: 200,
-        width: 600,
+        width: 200,
         color: '#000000',
         rotation: 0,
       },
-      {
-        type: 'image',
-        elementId: '11',
-        imgSrc: Washington,
-        posX: 0,
-        posY: 200,
-        height: 365,
-        width: 300,
-        rotation: 0,
-      },
-      {
-        type: 'image',
-        elementId: '12',
-        imgSrc: Monument,
-        posX: 300,
-        posY: 200,
-        height: 365,
-        width: 300,
-        rotation: 0,
-      }
     ],
   }
 
@@ -577,13 +598,42 @@ class Creator extends Component {
     let Vlines = [];
     this.state.elements.forEach(element => {
       if(excludeId !== element.elementId){
-        Hlines.push(element.posY)
-        Hlines.push((2 * (element.posY) + element.height)/2)
-        Hlines.push(element.posY + element.height)
+        const { posY, posX, height, width, rotation } = element;
+        const centerX = posX + 0.5 * width;
+        const centerY = posY + 0.5 * height;
 
-        Vlines.push(element.posX)
-        Vlines.push((2* (element.posX + element.width))/2)
-        Vlines.push(element.posX + element.width)
+        const distanceCenterCorner = Math.sqrt((height/2) ** 2 + (width/2) ** 2);
+
+        console.log("DISTANCE CENTER CORNER", distanceCenterCorner);
+
+        const degAtRotZero = Math.atan(height / width) * 180 / Math.PI;
+        
+
+        const cos = Math.cos((rotation+degAtRotZero) * (Math.PI / 180));
+        const sin = Math.sin((rotation+degAtRotZero) * (Math.PI / 180));
+
+        const round = num => Math.floor(num * 1000) / 1000;
+
+        // Hlines.push(round(centerX + distanceCenterCorner * cos));
+        // Hlines.push(round(centerX - distanceCenterCorner * cos));
+        // Hlines.push(round(centerX));
+
+        Vlines.push(round(centerY + distanceCenterCorner * sin));
+        Vlines.push(round(centerY - distanceCenterCorner * sin));
+        Vlines.push(round(centerY));
+
+        console.log("CENTER: ", centerX, centerY)
+        console.log("HLINES: ", Hlines.map(line => line - centerX));
+        console.log("VLINES: ", Vlines.map(line => line - centerY));
+
+
+        // Hlines.push(element.posY)
+        // Hlines.push((2 * (element.posY) + element.height)/2)
+        // Hlines.push(element.posY + element.height)
+
+        // Vlines.push(element.posX)
+        // Vlines.push((2* (element.posX + element.width))/2)
+        // Vlines.push(element.posX + element.width)
       } 
     });
     const lines = {

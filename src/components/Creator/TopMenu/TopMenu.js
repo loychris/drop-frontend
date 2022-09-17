@@ -89,7 +89,8 @@ const TopMenu = props => {
                         width: image.width,
                         posX, 
                         posY,
-                        imgSrc: image.src
+                        imgSrc: image.src,
+                        rotation: 0,
                     }])
                 }
             }
@@ -116,6 +117,7 @@ const TopMenu = props => {
                         height: 400,
                         width: 400,
                         color: '#FF8592',
+                        rotation: 0,
                     }])}
                 >
                     {getRectangleIcon()}
@@ -137,7 +139,8 @@ const TopMenu = props => {
                         fixedWidth: true,
                         underline: false, 
                         italic: false, 
-                        textStroke: true
+                        textStroke: true,
+                        rotation: 0,
                 }])}>
                     {getNewTextElementIcon()}
                 </div>
