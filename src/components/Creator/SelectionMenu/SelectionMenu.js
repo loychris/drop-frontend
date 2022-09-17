@@ -134,21 +134,21 @@
     editX = (e) => {
         this.props.edit(this.props.selected.elementId, {
             ...this.props.selected, 
-            posX: e.target.value,
+            posX: Number(e.target.value),
         });
     }
 
     editY = (e) => {
         this.props.edit(this.props.selected.elementId, {
             ...this.props.selected, 
-            posY: e.target.value,
+            posY: Number(e.target.value),
         });
     }
 
     editRotation = (e) => {
         this.props.edit(this.props.selected.elementId, {
             ...this.props.selected, 
-            rotation: e.target.value % 360,
+            rotation: Number(e.target.value) % 360,
         });
     }
 

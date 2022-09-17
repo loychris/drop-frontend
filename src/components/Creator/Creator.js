@@ -81,16 +81,15 @@ class Creator extends Component {
       //   width: 300,
       //   rotation: 0,
       // }
-
       {
         type: 'rect',
         elementId: '9',
         posX: 0,
         posY: 0,
         height: 200,
-        width: 200,
+        width: 400,
         color: '#000234',
-        rotation: 90,
+        rotation: 5,
       },
       {
         type: 'rect',
@@ -593,47 +592,63 @@ class Creator extends Component {
     })
   }
 
+  calcCorners = (element) => {
+    console.log("CALC CORNERS");
+    let corners = [];
+    const { posY, posX, height, width, rotation } = element;
+    const centerX = posX + 0.5 * width;
+    const centerY = posY + 0.5 * height;
+    const hyp = Math.sqrt((height/2) ** 2 + (width/2) ** 2);
+
+    // corner 1 & 3
+    const degAtRotZero1 = Math.atan(width / height) * 180 / Math.PI;
+    const deg1 =  degAtRotZero1 + rotation; 
+    const deltaX1 = hyp * Math.sin(Math.PI * 2 * deg1 / 360);
+    const deltaY1 = hyp * Math.cos(Math.PI * 2 * deg1 / 360);
+    corners.push({ x: centerX + deltaX1, y: centerY - deltaY1 })
+    corners.push({ x: centerX - deltaX1, y: centerY + deltaY1 })
+
+    // corner 2 & 4
+    const degAtRotZero2 = Math.atan(- width / height) * 180 / Math.PI;
+    const deg2 =  degAtRotZero2 + rotation; 
+    const deltaX2 = hyp * Math.sin(Math.PI * 2 * deg2 / 360);
+    const deltaY2 = hyp * Math.cos(Math.PI * 2 * deg2 / 360);
+    corners.push({ x: centerX - deltaX2, y: centerY + deltaY2 })
+    corners.push({ x: centerX + deltaX2, y: centerY - deltaY2 })
+    return corners;
+  }
+
   getLines = (excludeId) => {
     let Hlines = [];
     let Vlines = [];
     this.state.elements.forEach(element => {
       if(excludeId !== element.elementId){
-        const { posY, posX, height, width, rotation } = element;
+        const { posY, posX, height, width } = element;
         const centerX = posX + 0.5 * width;
         const centerY = posY + 0.5 * height;
+        const corners = this.calcCorners(element); 
+        console.log(corners)
+        let left = 1000000;
+        let top = 1000000;
+        let right = -1000000;
+        let bottom = -1000000;
+        corners.forEach( corner => {
+          const { x, y } = corner;
+          if(x < left) left = x;
+          if(x > right) right = x;
+          if(y < top) top = y;
+          if(y > bottom) bottom = y;
+        }) 
 
-        const distanceCenterCorner = Math.sqrt((height/2) ** 2 + (width/2) ** 2);
+        Hlines.push(top);      
+        Hlines.push(centerY);
+        Hlines.push(bottom);
 
-        console.log("DISTANCE CENTER CORNER", distanceCenterCorner);
+        Vlines.push(left);      
+        Vlines.push(centerX);
+        Vlines.push(right);
 
-        const degAtRotZero = Math.atan(height / width) * 180 / Math.PI;
-        
-
-        const cos = Math.cos((rotation+degAtRotZero) * (Math.PI / 180));
-        const sin = Math.sin((rotation+degAtRotZero) * (Math.PI / 180));
-
-        const round = num => Math.floor(num * 1000) / 1000;
-
-        // Hlines.push(round(centerX + distanceCenterCorner * cos));
-        // Hlines.push(round(centerX - distanceCenterCorner * cos));
-        // Hlines.push(round(centerX));
-
-        Vlines.push(round(centerY + distanceCenterCorner * sin));
-        Vlines.push(round(centerY - distanceCenterCorner * sin));
-        Vlines.push(round(centerY));
-
-        console.log("CENTER: ", centerX, centerY)
-        console.log("HLINES: ", Hlines.map(line => line - centerX));
-        console.log("VLINES: ", Vlines.map(line => line - centerY));
-
-
-        // Hlines.push(element.posY)
-        // Hlines.push((2 * (element.posY) + element.height)/2)
-        // Hlines.push(element.posY + element.height)
-
-        // Vlines.push(element.posX)
-        // Vlines.push((2* (element.posX + element.width))/2)
-        // Vlines.push(element.posX + element.width)
+        console.log(Hlines); 
       } 
     });
     const lines = {
@@ -772,7 +787,7 @@ class Creator extends Component {
                   elementMouseDown={this.elementMouseDown}
                   selectAndEdit={this.selectAndEdit}
                 /> 
-            }
+            } 
             { this.getElements(this.state.elements) }
             {/* {
               this.state.draggingFile && 
