@@ -45,12 +45,12 @@
 
 .input {
     width: 35px;
-    background-color: #283557;
     border: none; 
     color: #ffffff;
     text-align: right;
     height: 20px; 
-    /* box-shadow:  -3px -3px 10px #1F2C3F,  3px 3px 5px #000000; */
+    background-color: #283557;
+    box-shadow:  3px 3px 10px #00000080; 
     border-radius: 8px;
     padding: 2px 6px; 
 } 
@@ -142,4 +142,18 @@
 .fontSelector select {
     width: 120px;
     height: 21.5px; 
+} 
+
+.previewContainer {
+    height: 190px; 
+    width: 190px;
+    position: relative; 
+    margin-bottom: 20px; 
+    background-color: #283557;
+    box-shadow:  3px 3px 10px #00000080; 
+    border-radius: 8px;}
+
+.preview {
+    height: 100%;
+    width: 100%;
 }

@@ -32,64 +32,24 @@ class Creator extends Component {
       offsetY: 200
     },
     elements: [
-      // {
-      //   type: 'text', 
-      //   elementId: '5',
-      //   height: 170,
-      //   width: 570, 
-      //   posX: 15,
-      //   posY: 15,
-      //   text: 'Y\'all ever notice that the Washington monument looks absolutely NOTHING like George Washington?',
-      //   font: 'Oswald',
-      //   fontSize: '28.5',
-      //   fontWeight: '700',
-      //   textAlign: 'center',
-      //   verticalAlign: 'top', 
-      //   fixedDimensions: true,
-      //   underline: false, 
-      //   italic: false, 
-      //   textStroke: true,
-      //   rotation: 0,
-      // },
-      // {
-      //   type: 'rect',
-      //   elementId: '8',
-      //   posX: 0,
-      //   posY: 0,
-      //   height: 200,
-      //   width: 600,
-      //   color: '#000000',
-      //   rotation: 0,
-      // },
-      // {
-      //   type: 'image',
-      //   elementId: '11',
-      //   imgSrc: Washington,
-      //   posX: 0,
-      //   posY: 200,
-      //   height: 365,
-      //   width: 300,
-      //   rotation: 0,
-      // },
-      // {
-      //   type: 'image',
-      //   elementId: '12',
-      //   imgSrc: Monument,
-      //   posX: 300,
-      //   posY: 200,
-      //   height: 365,
-      //   width: 300,
-      //   rotation: 0,
-      // }
       {
-        type: 'rect',
-        elementId: '9',
-        posX: 0,
-        posY: 0,
-        height: 300,
-        width: 300,
-        color: '#000234',
-        rotation: 5,
+        type: 'text', 
+        elementId: '5',
+        height: 170,
+        width: 570, 
+        posX: 15,
+        posY: 15,
+        text: 'Y\'all ever notice that the Washington monument looks absolutely NOTHING like George Washington?',
+        font: 'Oswald',
+        fontSize: '28.5',
+        fontWeight: '700',
+        textAlign: 'center',
+        verticalAlign: 'top', 
+        fixedDimensions: true,
+        underline: false, 
+        italic: false, 
+        textStroke: true,
+        rotation: 0,
       },
       {
         type: 'rect',
@@ -97,10 +57,30 @@ class Creator extends Component {
         posX: 0,
         posY: 0,
         height: 200,
-        width: 200,
+        width: 600,
         color: '#000000',
         rotation: 0,
       },
+      {
+        type: 'image',
+        elementId: '11',
+        imgSrc: Washington,
+        posX: 0,
+        posY: 200,
+        height: 365,
+        width: 300,
+        rotation: 0,
+      },
+      {
+        type: 'image',
+        elementId: '12',
+        imgSrc: Monument,
+        posX: 300,
+        posY: 200,
+        height: 365,
+        width: 300,
+        rotation: 0,
+      }
     ],
   }
 
@@ -618,6 +598,21 @@ class Creator extends Component {
     return corners;
   }
 
+  getEdges = (corners) => {
+    let left = 1000000;
+    let top = 1000000;
+    let right = -1000000;
+    let bottom = -1000000;
+    corners.forEach( corner => {
+      const { x, y } = corner;
+      if(x < left) left = x;
+      if(x > right) right = x;
+      if(y < top) top = y;
+      if(y > bottom) bottom = y;
+    })
+    return { top, bottom, left, right };
+  }
+
   getLines = (excludeId) => {
     let Hlines = [];
     let Vlines = [];
@@ -627,18 +622,7 @@ class Creator extends Component {
         const centerX = posX + 0.5 * width;
         const centerY = posY + 0.5 * height;
         const corners = this.calcCorners(element); 
-        console.log(corners)
-        let left = 1000000;
-        let top = 1000000;
-        let right = -1000000;
-        let bottom = -1000000;
-        corners.forEach( corner => {
-          const { x, y } = corner;
-          if(x < left) left = x;
-          if(x > right) right = x;
-          if(y < top) top = y;
-          if(y > bottom) bottom = y;
-        }) 
+        const { top, bottom, left, right } = this.getEdges(corners);
 
         Hlines.push(top);      
         Hlines.push(centerY);
@@ -647,8 +631,6 @@ class Creator extends Component {
         Vlines.push(left);      
         Vlines.push(centerX);
         Vlines.push(right);
-
-        console.log(Hlines); 
       } 
     });
     const lines = {
@@ -803,7 +785,7 @@ class Creator extends Component {
           {/* <div className={classes.origin} style={this.calcOriginStyles()}></div> */}
           <SelectionMenu
             edit={this.edit}
-            selected={selected}
+            element={selected}
           /> 
         </ImageDragNDrop>
       </div>

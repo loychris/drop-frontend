@@ -138,7 +138,7 @@ class ExportModal extends Component {
                         <Element 
                         inPreview
                         type='text'
-                        key={`prev-${e.elementId}`}
+                        key={`exp-${e.elementId}`}
                         element={e}
                         />
                     ) 
@@ -147,7 +147,7 @@ class ExportModal extends Component {
                         <Element 
                             inPreview
                             type='rect'
-                            key={`prev-${e.elementId}`}
+                            key={`exp-${e.elementId}`}
                             element={e}
                         />
                     )
@@ -156,7 +156,7 @@ class ExportModal extends Component {
                         <Element 
                         inPreview
                         type='image'
-                        key={`prev-${e.elementId}`}
+                        key={`exp-${e.elementId}`}
                         element={e}
                         />
                     )
