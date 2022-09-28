@@ -133,7 +133,7 @@ const setIds = (state, action) => {
     const ids = action.ids.slice(21, action.ids.length)
     const streamElementsNew = state.streamElements.map((s, i) => {
         if(s.position < 1){
-            return s
+            return {...s, id: 'wrong dir' + Math.random(), status: 'no more', memeStatus: 'not loaded'} 
         }else if(activeIds.length === 0){
             return {...s, id: 'no more' + Math.random(), status: 'no more', memeStatus: 'not loaded'} 
         } else {
@@ -396,7 +396,7 @@ const scrollPrevStart = (state, action) => {
             {
                 position: -4,
                 show: 'hidden',
-                id: `wrongDir-${Date.now()}`,
+                id: `wrong dir ${Date.now()}`,
                 status: 'id loaded',
                 dropStatus: 'not loaded',
                 comments: []

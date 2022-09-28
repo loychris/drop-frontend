@@ -39,7 +39,7 @@ class Stream extends Component {
   //onKeyPrev
   keyboardSwipeHandler = (event) => {
     if (event.keyCode === 38) {
-      this.props.onScrollNext(this.props.streamElements[1].id, this.props.anonymousId)
+      this.props.onScrollPrev(this.props.streamElements[1].id, this.props.anonymousId)
     } 
     if (event.keyCode === 40) {
       this.props.onScrollNext(this.props.streamElements[1].id, this.props.anonymousId);

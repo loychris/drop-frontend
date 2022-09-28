@@ -21,7 +21,9 @@ class CommentForm extends Component {
 
     inputChangedHandler = (event) => {
         const newValue = event.target.value; 
-        const disabled = newValue.trim() === '' || this.props.streamElements[0].id.startsWith("no more");
+        const disabled = newValue.trim() === '' 
+                         || this.props.streamElements[0].id.startsWith("no more") 
+                         || this.props.streamElements[0].id.startsWith("wrong dir");
         this.setState({textareaValue: newValue, disabled: disabled});
     }
 

@@ -10,7 +10,7 @@ import * as actionTypes from './actionTypes';
 export const scrollNext = (dropId, anonymousId ) => {
     return dispatch => {
         dispatch(scrollNextStart()); 
-        if(!dropId.startsWith('no more')){
+        if(!dropId.startsWith('no more') && !dropId.startsWith('wrong dir')){
             const url = `/api/drop/${dropId}/swipe`;
             const token = localStorage.getItem('token');
             const body = { like: true, anonymousId };
@@ -53,7 +53,7 @@ export const scrollNextFailed = () => {
 export const scrollPrev = (dropId, anonymousId ) => {
     return dispatch => {
         dispatch(scrollPrevStart()); 
-        if(!dropId.startsWith('no more')){
+        if(!dropId.startsWith('no more') && !dropId.startsWith('wrong dir')){
             const url = `/api/drop/${dropId}/swipe`;
             const token = localStorage.getItem('token');
             const body = { like: true, anonymousId };
@@ -344,7 +344,10 @@ export const fetchDrop = (dropId, token) => {
         if(dropId.startsWith('no')){
             dispatch(fetchDropSuccess(dropId, { dropId, title: "", creatorId: "6022396f28d69d22509a5d46", comments: []}))
         }else{
-            const url = dropId.startsWith('no more') ? 'apidrop/nomore' : `/api/drop/${dropId}`;
+            const url = 
+                dropId.startsWith('no more') ? 'apidrop/nomore' :
+                dropId.startsWith('wrong dir') ? 'apidrop/wrongdir' : 
+                `/api/drop/${dropId}`;
             const headers = token ? { headers: { authorization: `Bearer ${token}` } } : null 
             axios.get(url, headers)
             .then(res => {
