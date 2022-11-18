@@ -7,6 +7,7 @@ import Element from "./Element/Element";
 import Line from "./Line/Line";
 import TopMenu from "./TopMenu/TopMenu";
 import SelectionMenu from "./SelectionMenu/SelectionMenu";
+import MemeMenu from './MemeMenu/MemeMenu';
 import SelectionFrame from "./SelectionFrame/SelectionFrame";
 import ExportModal from "./ExportModal/ExportModal";
 import ImageDragNDrop from "./ImageDragNDrop/ImageDragNDrop";
@@ -26,6 +27,7 @@ class Creator extends Component {
     selectedHline: null,
     selectedVline: null,
     exportModalOpen: false,
+    memeMenuOpen: false,
     files: [], 
     perspective: {
       offsetX: 200,
@@ -54,16 +56,6 @@ class Creator extends Component {
       {
         type: 'rect',
         elementId: '8',
-        posX: 400,
-        posY: 400,
-        height: 50,
-        width: 600,
-        color: '#000000',
-        rotation: 40,
-      },
-      {
-        type: 'rect',
-        elementId: '8g',
         posX: 0,
         posY: 0,
         height: 200,
@@ -523,6 +515,10 @@ class Creator extends Component {
   openExportModal = () => {
     this.setState({exportModalOpen: true})
   }
+
+  toggleMemeMenu = () => {
+    this.setState({memeMenuOpen: !this.state.memeMenuOpen})
+  }
   
   /// RENDER /////////////////////////////////////////////////
 
@@ -780,6 +776,7 @@ class Creator extends Component {
           <TopMenu 
             addElements={this.addElements}
             openExportModal={this.openExportModal}
+            toggleMemeMenu={this.toggleMemeMenu}
           />
           { 
             this.state.exportModalOpen && 
@@ -819,6 +816,9 @@ class Creator extends Component {
             element={selected}
             deleteElement={this.deleteElement}
           /> 
+          {
+            this.state.memeMenuOpen ? <MemeMenu/> : null
+          }
         </ImageDragNDrop>
       </div>
     );

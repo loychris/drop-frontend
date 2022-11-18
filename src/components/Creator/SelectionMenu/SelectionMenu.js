@@ -115,10 +115,6 @@
         )
     }
 
-    stopPropagation = (e) => {
-        //e.stopPropagation();
-    }
-
     editHeight = (e) => {
         this.props.edit(this.props.element.elementId, {
             ...this.props.element, 
