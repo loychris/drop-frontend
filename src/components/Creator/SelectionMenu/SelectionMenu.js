@@ -456,6 +456,9 @@
                         <p>background</p>
                     </div>
                 : null }
+                <div className={classes.deleteOption}>
+                    <div onClick={() => this.props.deleteElement(this.props.element.elementId)}>Delete</div>
+                </div>
             </div>
         )
     }

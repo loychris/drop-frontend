@@ -54,6 +54,16 @@ class Creator extends Component {
       {
         type: 'rect',
         elementId: '8',
+        posX: 400,
+        posY: 400,
+        height: 50,
+        width: 600,
+        color: '#000000',
+        rotation: 40,
+      },
+      {
+        type: 'rect',
+        elementId: '8g',
         posX: 0,
         posY: 0,
         height: 200,
@@ -82,6 +92,10 @@ class Creator extends Component {
         rotation: 0,
       }
     ],
+  }
+
+  componentDidMount(){
+    this.centerContent()
   }
 
 
@@ -268,7 +282,7 @@ class Creator extends Component {
     });
   }
 
-  /// ADD //////////////////////////////////////////////////
+  /// ADD / DELETE //////////////////////////////////////////////////
 
   addElements = (elements) => {
     this.setState({
@@ -285,6 +299,12 @@ class Creator extends Component {
       console.log(files[i]); 
     }
     this.setState({files: fileList})
+  }
+
+  deleteElement = (elementId) => {
+    console.log("Deleting Element ", elementId)
+    const elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
+    this.setState({elements: elementsNew})
   }
 
   ///  RESIZE  /////////////////////////////////////////////////
@@ -732,6 +752,16 @@ class Creator extends Component {
     return styles
   }
 
+  centerContent = () => {
+    const { clientHeight, clientWidth } = document.getElementById('creator');
+    const centerY = clientHeight / 2 
+    const centerX = clientWidth / 2
+    const edges = this.getEdges(this.state.elements.map(e => this.calcCorners(e)).flat())
+    const offsetX = centerX - (edges.right+edges.left)/2
+    const offsetY = centerY - (edges.top+edges.bottom)/2
+    this.setState({perspective: { offsetX, offsetY}})
+  }
+
 
   render() {
     const styleClasses = [classes.Creator];
@@ -744,6 +774,7 @@ class Creator extends Component {
         onTouchStart={e => console.log("TOUCH START")}
         onTouchEnd={e => console.log("TOUCH END")}
         onWheel={this.wheel}
+        id='creator'
       >
         <ImageDragNDrop handleDrop={this.handleImageDrop}>
           <TopMenu 
@@ -786,6 +817,7 @@ class Creator extends Component {
           <SelectionMenu
             edit={this.edit}
             element={selected}
+            deleteElement={this.deleteElement}
           /> 
         </ImageDragNDrop>
       </div>
