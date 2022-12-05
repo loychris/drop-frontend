@@ -1,7 +1,7 @@
-.MemeMenu {
+.ComponentMenu {
     z-index: 390;
     position: absolute;
-    width: 200px;
+    width: 238px;
     left: 0;
     top: 40px;
     bottom: 0;
@@ -12,4 +12,12 @@
 
 .Previews {
     overflow: scroll;
+}
+
+.X {
+    position: absolute; 
+    right: 15px;
+    top: 0px; 
+    font-size: 20pt;
+    cursor: pointer;
 }

@@ -7,13 +7,14 @@ import Element from "./Element/Element";
 import Line from "./Line/Line";
 import TopMenu from "./TopMenu/TopMenu";
 import SelectionMenu from "./SelectionMenu/SelectionMenu";
-import MemeMenu from './MemeMenu/MemeMenu';
+import ComponentMenu from './ComponentMenu/ComponentMenu';
 import SelectionFrame from "./SelectionFrame/SelectionFrame";
 import ExportModal from "./ExportModal/ExportModal";
 import ImageDragNDrop from "./ImageDragNDrop/ImageDragNDrop";
 // import ChrisDrunk from './ChrisDrunk.jpg'; 
 import Washington from './Washington.jpeg';
 import Monument from './Washington_Monument.jpeg';
+import DragInPreview from "./DragInPreview/DragInPreview";
 
 const JUMP_TO_LINE_TOLERANZ = 4;
 
@@ -27,11 +28,13 @@ class Creator extends Component {
     selectedHline: null,
     selectedVline: null,
     exportModalOpen: false,
-    memeMenuOpen: false,
+    ComponentMenu: null,
+    dragInElement: null, // <--- here
     files: [], 
     perspective: {
-      offsetX: 200,
-      offsetY: 200
+      offsetX: 0,
+      offsetY: 0,
+      // zoom: 100%  // not implemented yet. Coming at some point 
     },
     elements: [
       {
@@ -276,6 +279,72 @@ class Creator extends Component {
 
   /// ADD / DELETE //////////////////////////////////////////////////
 
+  grabNewElement = (elements, preview, event) => {
+    console.log("Dragging new Element", preview)
+    const corners = elements.map(this.calcCorners).flat()
+    const { top, bottom, left, right } = this.getEdges(corners)
+    const { clientX, clientY } = event; 
+    const height = Math.abs(bottom - top);
+    const width = Math.abs(right - left); 
+    document.addEventListener('mouseup', this.dropNewElement)
+    document.addEventListener('mousemove', this.dragNewElement)
+    this.setState({
+      dragInElement: {
+        x: 100,
+        y: 100,
+        preview, 
+        elements, 
+      }, 
+      dragStartPosition: {left: clientX, top: clientY},
+      editingId: null
+    })
+  }
+
+  dragNewElement = (event) => {
+    console.log(event.clientX, event.clientY, this.state.dragStartPosition)
+    const diffX = event.clientX - this.state.dragStartPosition.left;
+    const diffY = event.clientY - this.state.dragStartPosition.top;  
+    console.log(diffX, diffY)
+    this.setState({
+      dragInElement: {
+        x: 100 + diffX,
+        y: 100 + diffY,
+        preview: this.state.dragInElement.preview,
+        elements: this.state.dragInElement.elements, 
+      }, 
+    })
+  }
+
+  dropNewElement = () => {
+    console.log("Dropping meme")
+    document.removeEventListener('mouseup', this.dropNewElement)
+    document.removeEventListener('mousemove', this.dragNewElement)
+    const { x, y, elements } = this.state.dragInElement; 
+    const { perspective } = this.state;
+    const addedAt = Date.now();
+    const newElements = elements.map(element => {
+      const xNew = element.posX + x - perspective.offsetX;
+      const yNew = element.posY + y - perspective.offsetY; 
+      console.log(xNew, element.posX, x, perspective.offsetX)
+      console.log(yNew, element.posY, y, perspective.offsetY)
+      return {
+        ...element, 
+        elementId: addedAt + "-" + element.elementId,
+        posX: xNew,
+        posY: yNew, 
+      }
+    })
+    this.setState({
+      elements: [
+        ...this.state.elements, 
+        ...newElements
+
+      ],
+      dragInElement: null, 
+      editingId: null
+    })
+  }
+
   addElements = (elements) => {
     this.setState({
       elements: [...this.state.elements, ...elements],
@@ -516,8 +585,8 @@ class Creator extends Component {
     this.setState({exportModalOpen: true})
   }
 
-  toggleMemeMenu = () => {
-    this.setState({memeMenuOpen: !this.state.memeMenuOpen})
+  openComponentMenu = (type) => {
+    this.setState({ComponentMenu: type})
   }
   
   /// RENDER /////////////////////////////////////////////////
@@ -776,7 +845,7 @@ class Creator extends Component {
           <TopMenu 
             addElements={this.addElements}
             openExportModal={this.openExportModal}
-            toggleMemeMenu={this.toggleMemeMenu}
+            openComponentMenu={this.openComponentMenu}
           />
           { 
             this.state.exportModalOpen && 
@@ -787,28 +856,30 @@ class Creator extends Component {
               /> 
           }
           <div className={classes.canvas}>
-            {
-              selected && 
-                <SelectionFrame 
-                  element={selected}
-                  editingId={this.state.editingId}
-                  perspective={this.state.perspective}
-                  resizeMouseDown={this.resizeMouseDown}
-                  elementMouseDown={this.elementMouseDown}
-                  selectAndEdit={this.selectAndEdit}
-                /> 
-            } 
-            { this.getElements(this.state.elements) }
-            {/* {
-              this.state.draggingFile && 
-              <div className={classes.draggingOverlay}>Drop Images Here</div>
-            } */}
-            <div 
-              onMouseUp={this.backgroundMouseUp}
-              className={classes.grid} 
-              style={this.calcGridStyles()}
-            ></div>
-            { this.renderLines() }
+          {
+            selected && 
+              <SelectionFrame 
+                element={selected}
+                editingId={this.state.editingId}
+                perspective={this.state.perspective}
+                resizeMouseDown={this.resizeMouseDown}
+                elementMouseDown={this.elementMouseDown}
+                selectAndEdit={this.selectAndEdit}
+              /> 
+          } 
+          { this.getElements(this.state.elements) }
+          {this.state.dragInElement ? <div className={classes.DropHereOverlay}></div> : null }
+          {this.state.dragInElement ? <DragInPreview dragInElement={this.state.dragInElement}/> : null }
+          {/* {
+            this.state.draggingFile && 
+            <div className={classes.draggingOverlay}>Drop Images Here</div>
+          } */}
+          <div 
+            onMouseUp={this.backgroundMouseUp}
+            className={classes.grid} 
+            style={this.calcGridStyles()}
+          ></div>
+          { this.renderLines() }
           </div>
           {/* <div className={classes.origin} style={this.calcOriginStyles()}></div> */}
           <SelectionMenu
@@ -816,9 +887,12 @@ class Creator extends Component {
             element={selected}
             deleteElement={this.deleteElement}
           /> 
-          {
-            this.state.memeMenuOpen ? <MemeMenu/> : null
-          }
+          <ComponentMenu 
+            menu={this.state.ComponentMenu}
+            addElements={this.addElements}
+            grabNewElement={this.grabNewElement}
+            openComponentMenu={this.openComponentMenu}
+          />
         </ImageDragNDrop>
       </div>
     );

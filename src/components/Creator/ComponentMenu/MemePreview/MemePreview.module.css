@@ -1,0 +1,16 @@
+.MemePreview {
+    margin-bottom: 5px;
+    padding: 10px; 
+    cursor: grab;
+}
+
+.MemePreview:hover {
+    border-radius: 5px;
+    background-color: #384a7e;
+}
+
+
+
+.Preview {
+    width: 100%;
+}

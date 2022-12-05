@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 
 class ImageDragNDrop extends Component {
   state = {
-    drag: false
+    drag: false,
+    dragging: false
   }
   dropRef = React.createRef()
 
@@ -29,6 +30,7 @@ class ImageDragNDrop extends Component {
     e.preventDefault()
     e.stopPropagation()
     this.setState({drag: false})
+    console.log(e)
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       this.props.handleDrop(e.dataTransfer.files)
       e.dataTransfer.clearData()
@@ -61,6 +63,7 @@ class ImageDragNDrop extends Component {
               zIndex: 9999, 
               height: "100%", 
               width: "100%",
+              opacity: 0.5,
             }}
           >
             <div 
@@ -74,7 +77,7 @@ class ImageDragNDrop extends Component {
                 fontSize: 36
               }}
             >
-              <div>drop here :)</div>
+              <div>drop here</div>
             </div>
           </div>
         }

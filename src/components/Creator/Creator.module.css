@@ -164,3 +164,13 @@
   margin-bottom: 15px;
   margin-top: 30px; 
 }
+
+.DropHereOverlay {
+  z-index: 1000;
+  height: 100%;
+  width: 100%;
+  position: absolute; 
+  left: 0;
+  top: 0;
+  background-color: #2f2f2f80;
+}

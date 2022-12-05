@@ -115,7 +115,7 @@ const TopMenu = props => {
     return(
         <div className={classes.TopMenu}>
             <div className={classes.LeftAlign}>
-                <div className={classes.MenuItem} onClick={props.toggleMemeMenu}>
+                <div className={classes.MenuItem} onClick={() => props.openComponentMenu('meme')}>
                     {getMemeIcon()}
                 </div>
                 <div 

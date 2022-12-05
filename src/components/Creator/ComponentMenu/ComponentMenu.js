@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; 
-import classes from './MemeMenu.module.css';
+import classes from './ComponentMenu.module.css';
 import Washington from '../Washington.jpeg';
 import Monument from '../Washington_Monument.jpeg';
 import WashingtonMonumentMeme from '../WashingtonMonumentMeme.jpeg';
@@ -10,7 +10,7 @@ import TuYouyou from './memes/TuYouyou.jpg'
 import Fallschirmjaegergewehr from './memes/Fallschirmjaegergewehr.jpg'
 
 
-class MemeMenu extends Component {
+class ComponentMenu extends Component {
 
     state = {
         searchInput: '', 
@@ -319,12 +319,14 @@ class MemeMenu extends Component {
     }
 
     render(){
+        if(!this.props.menu) return null; 
         return(
             <div 
-                id="MemeMenu"
-                className={classes.MemeMenu} 
+                id="ComponentMenu"
+                className={classes.ComponentMenu} 
                 onWheel={this.wheel}
-            >
+            >  
+                <div className={classes.X} onClick={() => this.props.openComponentMenu(null)}>x</div>
                 <div className={classes.Search}>
                     <input 
                         type="text"
@@ -339,7 +341,12 @@ class MemeMenu extends Component {
                     {
                         this.state.memes.map(meme => {
                             return(
-                                <MemePreview meme={meme} key={meme.id}/>
+                                <MemePreview 
+                                    meme={meme} 
+                                    key={meme.id}
+                                    grabNewElement={this.props.grabNewElement}
+                                    addElements={this.props.addElements}
+                                />
                             )
                         })
                     }
@@ -349,4 +356,4 @@ class MemeMenu extends Component {
     }
 }
 
-export default MemeMenu;
+export default ComponentMenu;
