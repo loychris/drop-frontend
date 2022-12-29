@@ -91,6 +91,28 @@ class Creator extends Component {
 
   componentDidMount(){
     this.centerContent()
+    document.addEventListener('keydown', this.keydownHandler)
+  }
+
+  keydownHandler = (event) => {
+    var name = event.key;
+    var code = event.code;
+    console.log(`Key pressed ${name} | ${code}`);
+    switch(code){
+      case 'Backspace':
+      case 'Delete': 
+        if(this.state.selectedId){
+          this.deleteElement(this.state.selectedId); 
+        }
+        break;
+      case 'Escape':
+        if(this.state.editingId){
+          this.setState({ editingId: null })
+        }else{
+          this.setState({ selectedId: null });
+        }
+        break;
+    }
   }
 
 
@@ -103,6 +125,7 @@ class Creator extends Component {
       const element = document.getElementById(`${this.state.editingId}-input`);
       element.blur();
     }
+    document.addEventListener('keyup', e => console.log(e))
     this.setState({
       selectedId: elementId, 
       editingId: null
@@ -225,7 +248,6 @@ class Creator extends Component {
     let elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
     const element = this.state.elements.find(e => e.elementId === elementId);
     let elem = document.getElementById(`${elementId}-input`);
-    console.log(elem.offsetHeight, element.height)
     let newHeight = element.fixedDimensions ? element.height : elem.offsetHeight; 
     this.setState({
       elements: [
@@ -301,10 +323,8 @@ class Creator extends Component {
   }
 
   dragNewElement = (event) => {
-    console.log(event.clientX, event.clientY, this.state.dragStartPosition)
     const diffX = event.clientX - this.state.dragStartPosition.left;
     const diffY = event.clientY - this.state.dragStartPosition.top;  
-    console.log(diffX, diffY)
     this.setState({
       dragInElement: {
         x: 100 + diffX,
@@ -325,8 +345,6 @@ class Creator extends Component {
     const newElements = elements.map(element => {
       const xNew = element.posX + x - perspective.offsetX;
       const yNew = element.posY + y - perspective.offsetY; 
-      console.log(xNew, element.posX, x, perspective.offsetX)
-      console.log(yNew, element.posY, y, perspective.offsetY)
       return {
         ...element, 
         elementId: addedAt + "-" + element.elementId,
