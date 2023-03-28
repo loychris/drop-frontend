@@ -300,7 +300,26 @@ class ComponentMenu extends Component {
                     }
                 ]
             },    
-        ]
+        ],
+        shapes: [
+            {
+                id: '1', 
+                name: 'Rectangle',
+                preview: WashingtonMonumentMeme,  
+                elements: [
+                    {
+                        type: 'rect', 
+                        elementId: `${Date.now()}`,
+                        posX: 100,
+                        posY: 100,
+                        height: 400,
+                        width: 400,
+                        color: '#FF8592',
+                        rotation: 0,
+                    }
+                ]
+            }
+        ],
     }
 
     wheel = (e) => {

@@ -115,21 +115,26 @@ const TopMenu = props => {
     return(
         <div className={classes.TopMenu}>
             <div className={classes.LeftAlign}>
-                <div className={classes.MenuItem} onClick={() => props.openComponentMenu('meme')}>
+                <div 
+                    className={[classes.MenuItem, ].join(' ')} 
+                    onClick={() => props.openComponentMenu('meme')}
+    
+                    >
                     {getMemeIcon()}
                 </div>
                 <div 
                     className={classes.MenuItem}
-                    onClick={() => props.addElements([{
-                        type: 'rect', 
-                        elementId: `${Date.now()}`,
-                        posX: 100,
-                        posY: 100,
-                        height: 400,
-                        width: 400,
-                        color: '#FF8592',
-                        rotation: 0,
-                    }])}
+                    onClick={() => props.openComponentMenu('shape')}
+                    // onClick={() => props.addElements([{
+                    //     type: 'rect', 
+                    //     elementId: `${Date.now()}`,
+                    //     posX: 100,
+                    //     posY: 100,
+                    //     height: 400,
+                    //     width: 400,
+                    //     color: '#FF8592',
+                    //     rotation: 0,
+                    // }])}
                 >
                     {getRectangleIcon()}
                 </div>
