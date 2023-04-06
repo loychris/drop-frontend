@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import * as classes from './Element.module.css';
 import Ellipse from './Ellipse/Ellipse';
 import Rectangle from './Rectangle/Rectangle';
+import ImageElement from './ImageElement/ImageElement';
 import TextElement from './TextElement/TextElement';
 
 
@@ -16,14 +17,6 @@ class Element extends Component {
             posX, 
             posY, 
             rotation, 
-            font, 
-            fontSize, 
-            textAlign, 
-            fontWeight, 
-            underline, 
-            italic, 
-            color, 
-            textStroke, 
             elementId 
         } = this.props.element;
 
@@ -41,15 +34,6 @@ class Element extends Component {
             left: `${left}px`,
             top: `${top}px`,
             transform: `rotate(${rotation}deg)`,
-            fontFamily: `${font},Oswald,Impact`,
-            fontSize: `${fontSize}pt`,
-            textAlign: textAlign, 
-            fontWeight: fontWeight,
-            fontStyle: italic ? 'italic' : 'normal',
-            textDecoration: underline ? 'underline' : 'none',
-            WebkitTextStrokeColor: textStroke ? "black" : null,
-            WebkitTextStrokeWidth: textStroke ? "0.06rem": null,
-            textShadow: textStroke ? "0px 0px 0.1rem  #000" : null,
             cursor: this.props.editingId === elementId || this.props.inPreview ? null : 'grab', 
         }
     }
@@ -69,12 +53,9 @@ class Element extends Component {
                 )
             case 'image': 
                 return(
-                    <img
-                        src={imgSrc}
-                        className={classes.Image}
-                        id={`${elementId}-image`}
-                        onLoad={this.props.onImageLoad}
-                        alt=''
+                    <ImageElement 
+                        element={this.props.element}
+                        onImageLoad={this.props.onImageLoad}
                     />
                 )
             case 'rect':
