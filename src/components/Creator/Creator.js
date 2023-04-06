@@ -38,54 +38,66 @@ class Creator extends Component {
     },
     elements: [
       {
-        type: 'text', 
-        elementId: '5',
-        height: 170,
-        width: 570, 
-        posX: 15,
-        posY: 15,
-        text: 'Y\'all ever notice that the Washington monument looks absolutely NOTHING like George Washington?',
-        font: 'Oswald',
-        fontSize: '28.5',
-        fontWeight: '700',
-        textAlign: 'center',
-        verticalAlign: 'top', 
-        fixedDimensions: true,
-        underline: false, 
-        italic: false, 
-        textStroke: true,
-        rotation: 0,
-      },
-      {
-        type: 'rect',
+        type: 'ellipse',
         elementId: '8',
         posX: 0,
         posY: 0,
         height: 200,
-        width: 600,
-        color: '#000000',
-        rotation: 0,
-      },
-      {
-        type: 'image',
-        elementId: '11',
-        imgSrc: Washington,
-        posX: 0,
-        posY: 200,
-        height: 365,
-        width: 300,
-        rotation: 0,
-      },
-      {
-        type: 'image',
-        elementId: '12',
-        imgSrc: Monument,
-        posX: 300,
-        posY: 200,
-        height: 365,
-        width: 300,
+        width: 200,
+        rad1: 100,
+        rad2: 100,
+        color: '#020451',
         rotation: 0,
       }
+      // {
+      //   type: 'rect',
+      //   elementId: '8',
+      //   posX: 0,
+      //   posY: 0,
+      //   height: 200,
+      //   width: 600,
+      //   color: '#000000',
+      //   rotation: 0,
+      // },
+      // {
+      //   type: 'image',
+      //   elementId: '11',
+      //   imgSrc: Washington,
+      //   posX: 0,
+      //   posY: 200,
+      //   height: 365,
+      //   width: 300,
+      //   rotation: 0,
+      // },
+      // {
+      //   type: 'image',
+      //   elementId: '12',
+      //   imgSrc: Monument,
+      //   posX: 300,
+      //   posY: 200,
+      //   height: 365,
+      //   width: 300,
+      //   rotation: 0,
+      // },
+      // {
+      //   type: 'text', 
+      //   elementId: '5',
+      //   height: 170,
+      //   width: 570, 
+      //   posX: 15,
+      //   posY: 15,
+      //   text: 'Y\'all ever notice that the Washington monument looks absolutely NOTHING like George Washington?',
+      //   font: 'Oswald',
+      //   fontSize: '28.5',
+      //   fontWeight: '700',
+      //   textAlign: 'center',
+      //   verticalAlign: 'top', 
+      //   fixedDimensions: true,
+      //   underline: false, 
+      //   italic: false, 
+      //   textStroke: true,
+      //   rotation: 0,
+      // }
     ],
   }
 
@@ -667,6 +679,21 @@ class Creator extends Component {
               select={this.select}
               elementMouseDown={this.elementMouseDown}
               onImageLoad={onImgeLoad}
+              selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
+            />
+          )
+        case 'ellipse': 
+          return(
+            <Element
+              inPreview={inPreview}
+              currentlyEditing={this.state.editingId === e.elementId}
+              type='ellipse'
+              key={`${inPreview ? 'prev' : ''}-${e.elementId}`}
+              element={e}
+              selected={e.elementId === this.state.selectedId}
+              perspective={this.state.perspective}
+              select={this.select}
+              elementMouseDown={this.elementMouseDown}
               selectedLines={{h: this.state.selectedHline, v: this.state.selectedVline}}
             />
           )

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import * as classes from './Element.module.css';
+import Ellipse from './Ellipse/Ellipse';
 import TextElement from './TextElement/TextElement';
 
 
@@ -8,9 +9,26 @@ import TextElement from './TextElement/TextElement';
 class Element extends Component {
 
     getStyles = () => {
-        let { height, width, posX, posY, rotation, font, fontSize, textAlign, fontWeight, underline, italic, color, textStroke, elementId } = this.props.element;
+        let { 
+            height, 
+            width, 
+            posX, 
+            posY, 
+            rotation, 
+            font, 
+            fontSize, 
+            textAlign, 
+            fontWeight, 
+            underline, 
+            italic, 
+            color, 
+            textStroke, 
+            elementId 
+        } = this.props.element;
+
         let left = posX;
         let top = posY;
+
         if(!this.props.inPreview){
             const { offsetX, offsetY } = this.props.perspective;
             left += offsetX
@@ -66,6 +84,12 @@ class Element extends Component {
                         style={{backgroundColor: color}}
                     >
                     </div>
+                )
+            case 'ellipse':
+                return (
+                    <Ellipse
+                        element={this.props.element}
+                    />
                 )
             default: return null;
         }
