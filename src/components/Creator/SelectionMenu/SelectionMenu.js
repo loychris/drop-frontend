@@ -318,6 +318,17 @@
                         />
                     </div>
                 break;
+            case 'ellipse': 
+                element = 
+                    <div style={styles}>
+                        <Element 
+                            inPreview
+                            type='ellipse'
+                            key={`prev-${elementId}`}
+                            element={modifiedElement}
+                        />
+                    </div>
+                break;
             default: console.log('Invalid Element Type!'); 
         }
         return(
@@ -438,7 +449,7 @@
                         </div>
                     </div>
                 : null }
-                { type === "rect" ? 
+                { type === "rect" || type==="ellipse" ? 
                     <div className={classes.colorOptions}>
                         <div className={classes.colorInputContainer}>
                             <div className={classes.colorInputBackground} style={{background: color}}></div>
