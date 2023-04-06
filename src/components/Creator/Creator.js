@@ -39,7 +39,7 @@ class Creator extends Component {
     elements: [
       {
         type: 'ellipse',
-        elementId: '8',
+        elementId: '9',
         posX: 0,
         posY: 0,
         height: 200,
@@ -48,17 +48,17 @@ class Creator extends Component {
         rad2: 100,
         color: '#020451',
         rotation: 0,
-      }
-      // {
-      //   type: 'rect',
-      //   elementId: '8',
-      //   posX: 0,
-      //   posY: 0,
-      //   height: 200,
-      //   width: 600,
-      //   color: '#000000',
-      //   rotation: 0,
-      // },
+      },
+      {
+        type: 'rect',
+        elementId: '8',
+        posX: 0,
+        posY: 0,
+        height: 200,
+        width: 600,
+        color: '#000000',
+        rotation: 0,
+      },
       // {
       //   type: 'image',
       //   elementId: '11',

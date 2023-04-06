@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import * as classes from './Element.module.css';
 import Ellipse from './Ellipse/Ellipse';
+import Rectangle from './Rectangle/Rectangle';
 import TextElement from './TextElement/TextElement';
 
 
@@ -45,7 +46,6 @@ class Element extends Component {
             textAlign: textAlign, 
             fontWeight: fontWeight,
             fontStyle: italic ? 'italic' : 'normal',
-            backgroundColor: color,
             textDecoration: underline ? 'underline' : 'none',
             WebkitTextStrokeColor: textStroke ? "black" : null,
             WebkitTextStrokeWidth: textStroke ? "0.06rem": null,
@@ -79,17 +79,11 @@ class Element extends Component {
                 )
             case 'rect':
                 return (
-                    <div 
-                        className={classes.Rect}
-                        style={{backgroundColor: color}}
-                    >
-                    </div>
+                    <Rectangle element={this.props.element}/>
                 )
             case 'ellipse':
                 return (
-                    <Ellipse
-                        element={this.props.element}
-                    />
+                    <Ellipse element={this.props.element}/>
                 )
             default: return null;
         }
