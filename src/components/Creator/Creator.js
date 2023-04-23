@@ -23,10 +23,12 @@ class Creator extends Component {
   state = {
     dragging: false, 
     draggingFile: false, 
+
     selectedId: '9',
     editingId: null, 
     selectedHline: null,
     selectedVline: null,
+    
     exportModalOpen: false,
     ComponentMenu: null,
     dragInElement: null, // <--- here

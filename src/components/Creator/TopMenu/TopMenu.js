@@ -117,14 +117,14 @@ const TopMenu = props => {
             <div className={classes.LeftAlign}>
                 <div 
                     className={[classes.MenuItem, ].join(' ')} 
-                    onClick={() => props.openComponentMenu('meme')}
+                    onClick={() => props.openComponentMenu('memes')}
     
                     >
                     {getMemeIcon()}
                 </div>
                 <div 
                     className={classes.MenuItem}
-                    onClick={() => props.openComponentMenu('shape')}
+                    onClick={() => props.openComponentMenu('shapes')}
                     // onClick={() => props.addElements([{
                     //     type: 'rect', 
                     //     elementId: `${Date.now()}`,

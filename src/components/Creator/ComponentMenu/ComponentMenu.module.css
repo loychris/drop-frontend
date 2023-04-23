@@ -12,6 +12,10 @@
 
 .Previews {
     overflow: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
 }
 
 .X {

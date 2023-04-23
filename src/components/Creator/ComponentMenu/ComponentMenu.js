@@ -3,11 +3,13 @@ import classes from './ComponentMenu.module.css';
 import Washington from '../Washington.jpeg';
 import Monument from '../Washington_Monument.jpeg';
 import WashingtonMonumentMeme from '../WashingtonMonumentMeme.jpeg';
-import MemePreview from './MemePreview/MemePreview';
-import Hillary from './memes/Hillary.jpg';
-import Blink from './memes/Blink.jpg';
-import TuYouyou from './memes/TuYouyou.jpg'
-import Fallschirmjaegergewehr from './memes/Fallschirmjaegergewehr.jpg'
+import MemePreview from './ElementPreview/ElementPreview';
+import Hillary from './previews/Hillary.jpg';
+import Blink from './previews/Blink.jpg';
+import TuYouyou from './previews/TuYouyou.jpg';
+import Circle from './previews/Ellipse.png';
+import Fallschirmjaegergewehr from './previews/Fallschirmjaegergewehr.jpg'
+import ElementPreview from './ElementPreview/ElementPreview';
 
 
 class ComponentMenu extends Component {
@@ -16,6 +18,7 @@ class ComponentMenu extends Component {
         searchInput: '', 
         memes: [
             {
+                type: 'meme',
                 id: "1",
                 title: "George Washington Monument",
                 tags: ["George", "Washington", "Monument"],
@@ -73,6 +76,7 @@ class ComponentMenu extends Component {
                 ]
             },
             {
+                type: 'meme',
                 id: "2",
                 title: "George Washington Monument",
                 tags: ["George", "Washington", "Monument"],
@@ -130,6 +134,7 @@ class ComponentMenu extends Component {
                 ]
             },
             {
+                type: 'meme',
                 id: "3",
                 title: "George Washington Monument",
                 tags: ["George", "Washington", "Monument"],
@@ -187,6 +192,7 @@ class ComponentMenu extends Component {
                 ]
             },
             {
+                type: 'meme',
                 id: 4, 
                 title: "George Washington Monument",
                 tags: ["George", "Washington", "Monument"],
@@ -303,13 +309,36 @@ class ComponentMenu extends Component {
         ],
         shapes: [
             {
+                type: 'shape',
                 id: '1', 
                 name: 'Rectangle',
-                preview: WashingtonMonumentMeme,  
+                preview: <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="50" height="50" fill="#ABCDEA"/>
+                        </svg>, 
                 elements: [
                     {
                         type: 'rect', 
-                        elementId: `${Date.now()}`,
+                        elementId: `rect-${Date.now()}`,
+                        posX: 100,
+                        posY: 100,
+                        height: 400,
+                        width: 400,
+                        color: '#FF8592',
+                        rotation: 0,
+                    },
+                ]
+            },
+            {
+                type: 'shape',
+                id: '2',
+                name: 'Ellipse',
+                preview: <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="25" cy="25" r="25" fill="#ABCDEA"/>
+                         </svg>,  
+                elements: [
+                    {
+                        type: 'ellipse',
+                        elementId: `ellipse-${Date.now()}`,
                         posX: 100,
                         posY: 100,
                         height: 400,
@@ -337,8 +366,17 @@ class ComponentMenu extends Component {
         }
     }
 
+    getEllipse = () => {
+        return(
+            <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="25" cy="25" r="25" fill="#ABCDEA"/>
+            </svg>
+        )
+    }
+
     render(){
         if(!this.props.menu) return null; 
+        const previews = this.props.menu === 'memes' ? this.state.memes : this.state.shapes;
         return(
             <div 
                 id="ComponentMenu"
@@ -346,22 +384,25 @@ class ComponentMenu extends Component {
                 onWheel={this.wheel}
             >  
                 <div className={classes.X} onClick={() => this.props.openComponentMenu(null)}>x</div>
-                <div className={classes.Search}>
-                    <input 
-                        type="text"
-                        onInput={this.onSearchInput}
-                        value={this.state.search}
-                        placeholder="...search for memes"/>
-                </div>
-                <div
+                {
+                    this.props.menu === 'memes' ? 
+                    <div className={classes.Search}>
+                        <input 
+                            type="text"
+                            onInput={this.onSearchInput}
+                            value={this.state.search}
+                            placeholder="...search for memes"/>
+                    </div> : null
+                }
+               <div
                     className={classes.Previews} 
                     style={this.getPreviewsStyles()}
                     >
                     {
-                        this.state.memes.map(meme => {
+                        previews.map(meme => {
                             return(
-                                <MemePreview 
-                                    meme={meme} 
+                                <ElementPreview 
+                                    element={meme} 
                                     key={meme.id}
                                     grabNewElement={this.props.grabNewElement}
                                     addElements={this.props.addElements}

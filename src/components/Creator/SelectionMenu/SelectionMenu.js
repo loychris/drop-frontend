@@ -469,6 +469,6 @@
             </div>
         )
     }
- }
+}
 
  export default SelectionMenu;
