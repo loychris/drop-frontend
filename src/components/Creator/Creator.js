@@ -28,7 +28,7 @@ class Creator extends Component {
     editingId: null, 
     selectedHline: null,
     selectedVline: null,
-    
+
     exportModalOpen: false,
     ComponentMenu: null,
     dragInElement: null, // <--- here

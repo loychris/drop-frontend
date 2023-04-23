@@ -20,7 +20,7 @@ class ElementPreview extends Component {
             case 'meme': 
                 return <img draggable="false" className={classes.Preview} src={this.props.element.preview}/>
             case 'shape':
-                return <div className={classes.SmallPreview}>{this.props.element.preview}</div>
+                return this.props.element.preview
             default:
                 return null;
         }

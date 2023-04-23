@@ -7,9 +7,10 @@ import MemePreview from './ElementPreview/ElementPreview';
 import Hillary from './previews/Hillary.jpg';
 import Blink from './previews/Blink.jpg';
 import TuYouyou from './previews/TuYouyou.jpg';
-import Circle from './previews/Ellipse.png';
 import Fallschirmjaegergewehr from './previews/Fallschirmjaegergewehr.jpg'
 import ElementPreview from './ElementPreview/ElementPreview';
+import { ReactComponent as Rectangle } from './previews/Rectangle.svg';
+import { ReactComponent as Ellipse } from './previews/Ellipse.svg';
 
 
 class ComponentMenu extends Component {
@@ -312,9 +313,7 @@ class ComponentMenu extends Component {
                 type: 'shape',
                 id: '1', 
                 name: 'Rectangle',
-                preview: <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="50" height="50" fill="#ABCDEA"/>
-                        </svg>, 
+                preview: <Rectangle/>, 
                 elements: [
                     {
                         type: 'rect', 
@@ -323,7 +322,7 @@ class ComponentMenu extends Component {
                         posY: 100,
                         height: 400,
                         width: 400,
-                        color: '#FF8592',
+                        color: '#FFFFFF',
                         rotation: 0,
                     },
                 ]
@@ -332,9 +331,7 @@ class ComponentMenu extends Component {
                 type: 'shape',
                 id: '2',
                 name: 'Ellipse',
-                preview: <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="25" cy="25" r="25" fill="#ABCDEA"/>
-                         </svg>,  
+                preview: <Ellipse/>,  
                 elements: [
                     {
                         type: 'ellipse',
@@ -343,7 +340,7 @@ class ComponentMenu extends Component {
                         posY: 100,
                         height: 400,
                         width: 400,
-                        color: '#FF8592',
+                        color: '#FFFFFF',
                         rotation: 0,
                     }
                 ]
@@ -364,14 +361,6 @@ class ComponentMenu extends Component {
         return {
             maxHeight: `${height-85}px`
         }
-    }
-
-    getEllipse = () => {
-        return(
-            <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="25" cy="25" r="25" fill="#ABCDEA"/>
-            </svg>
-        )
     }
 
     render(){

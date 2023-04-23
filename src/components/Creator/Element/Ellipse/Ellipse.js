@@ -17,7 +17,7 @@ const Ellipse = (props) => {
                 cy={height / 2}
                 rx={width / 2}
                 ry={height / 2} 
-                style={{fill: color, stroke: 'purple', strokeWidth: 2}}
+                style={{fill: color}}
             />  
         </svg>    
     )
