@@ -116,7 +116,9 @@ class Creator extends Component {
       case 'Backspace':
       case 'Delete': 
         if(this.state.selectedId){
-          this.deleteElement(this.state.selectedId); 
+          if(!this.state.editingId){
+            this.deleteElement(this.state.selectedId); 
+          }
         }
         break;
       case 'Escape':
@@ -397,7 +399,13 @@ class Creator extends Component {
   deleteElement = (elementId) => {
     console.log("Deleting Element ", elementId)
     const elementsNew = this.state.elements.filter(e => e.elementId !== elementId);
-    this.setState({elements: elementsNew})
+    this.setState({
+      elements: elementsNew,
+      editingId: null,
+      selectedId: null,
+      dragging: false,
+      draggingFile: false
+    })
   }
 
   ///  RESIZE  /////////////////////////////////////////////////
