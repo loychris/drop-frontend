@@ -30,9 +30,10 @@ class Creator extends Component {
     selectedVline: null,
 
     exportModalOpen: false,
-    ComponentMenu: null,
+    componentMenu: null, 
     dragInElement: null, // <--- here
     files: [], 
+    history: [],
     perspective: {
       offsetX: 0,
       offsetY: 0,
@@ -111,7 +112,8 @@ class Creator extends Component {
   keydownHandler = (event) => {
     var name = event.key;
     var code = event.code;
-    console.log(`Key pressed ${name} | ${code}`);
+    console.log(event)
+    console.log(`Key pressed ${name} | ${code} ## ${event.metaKey}`);
     switch(code){
       case 'Backspace':
       case 'Delete': 
@@ -128,6 +130,42 @@ class Creator extends Component {
           this.setState({ selectedId: null });
         }
         break;
+      case 'KeyY':
+        console.log('Z pressed')
+        if(event.metaKey){
+           this.stepBackinHistory();
+        }
+        break;
+    }
+  }
+
+  getCurrentStateForHistory = () => {
+    const {
+      elements,
+      selectedId,
+      editingId,
+    } = this.state; 
+    return {
+      elements, 
+      selectedId, 
+      editingId,
+    }
+  }
+
+
+
+  stepBackinHistory = () => {
+    console.log("STEP BACK IN HISTORY CALLED");
+    if(this.state.history.length > 0 && !this.state.exportModalOpen){
+      console.log("Before: ", this.state.history.length); 
+      const [lastState, ...remainingHistory] = this.state.history; 
+      console.log("LAST STATE: ", lastState);
+      console.log("REM HISTORY: ", remainingHistory); 
+      let prevState = this.state.history.pop();
+      console.log("After: ", this.state.history.length); 
+      prevState.history = this.state.history; 
+      console.log("STATE CHANGES: ", prevState); 
+      this.setState(prevState)
     }
   }
 
@@ -247,7 +285,8 @@ class Creator extends Component {
       this.setState({
         selectedHline: null, 
         selectedVline: null,
-        dragging: false
+        dragging: false,
+        history: [this.getCurrentStateForHistory(), ...this.state.history]
       })
     }
 
@@ -387,6 +426,7 @@ class Creator extends Component {
   }
 
   handleImageDrop = (files) => {
+    console.log("Dropped Files")
     let fileList = this.state.files
     for (var i = 0; i < files.length; i++) {
       if (!files[i].name) return
@@ -626,7 +666,7 @@ class Creator extends Component {
   }
 
   openComponentMenu = (type) => {
-    this.setState({ComponentMenu: type})
+    this.setState({componentMenu: type})
   }
   
   /// RENDER /////////////////////////////////////////////////
@@ -943,7 +983,7 @@ class Creator extends Component {
             deleteElement={this.deleteElement}
           /> 
           <ComponentMenu 
-            menu={this.state.ComponentMenu}
+            menu={this.state.componentMenu}
             addElements={this.addElements}
             grabNewElement={this.grabNewElement}
             openComponentMenu={this.openComponentMenu}
