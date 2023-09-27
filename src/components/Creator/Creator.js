@@ -28,12 +28,14 @@ class Creator extends Component {
     editingId: null, 
     selectedHline: null,
     selectedVline: null,
+    selectedElementMoved: false, 
 
     exportModalOpen: false,
     componentMenu: null, 
     dragInElement: null, // <--- here
     files: [], 
-    history: [],
+    history: [], 
+    forwardHistory: [],
     perspective: {
       offsetX: 0,
       offsetY: 0,
@@ -139,33 +141,28 @@ class Creator extends Component {
     }
   }
 
-  getCurrentStateForHistory = () => {
+  addCurrentStateToHistory = () => {
     const {
       elements,
       selectedId,
       editingId,
     } = this.state; 
-    return {
-      elements, 
-      selectedId, 
-      editingId,
-    }
+    this.setState({
+      history: [
+        { elements, selectedId, editingId }, 
+        ...this.state.history
+      ]
+    })
   }
 
 
-
   stepBackinHistory = () => {
-    console.log("STEP BACK IN HISTORY CALLED");
     if(this.state.history.length > 0 && !this.state.exportModalOpen){
-      console.log("Before: ", this.state.history.length); 
       const [lastState, ...remainingHistory] = this.state.history; 
-      console.log("LAST STATE: ", lastState);
-      console.log("REM HISTORY: ", remainingHistory); 
-      let prevState = this.state.history.pop();
-      console.log("After: ", this.state.history.length); 
+      let prevState = this.state.history.shift();
       prevState.history = this.state.history; 
-      console.log("STATE CHANGES: ", prevState); 
-      this.setState(prevState)
+      prevState.forwardHistory = [...this.state.forwardHistory, prevState]; 
+      this.setState(prevState); 
     }
   }
 
@@ -184,6 +181,7 @@ class Creator extends Component {
       selectedId: elementId, 
       editingId: null
     })
+    this.addCurrentStateToHistory();
   }
 
   selectAndEdit = (e, elementId) => {
@@ -195,7 +193,6 @@ class Creator extends Component {
     })
     const element = document.getElementById(`${elementId}-input`);
     setTimeout(() => {
-      console.log("focusing")
       element.focus();
     }, 0); 
   }
@@ -273,6 +270,7 @@ class Creator extends Component {
         selectedId: elementId, 
         selectedHline: selectedHline,
         selectedVline: selectedVline,
+        selectedElementMoved: true,
         elements: elementsNew,
       });
     } 
@@ -285,9 +283,9 @@ class Creator extends Component {
       this.setState({
         selectedHline: null, 
         selectedVline: null,
-        dragging: false,
-        history: [this.getCurrentStateForHistory(), ...this.state.history]
+        dragging: false
       })
+      this.addCurrentStateToHistory();
     }
 
     window.addEventListener('mousemove', mousemove);
@@ -334,6 +332,7 @@ class Creator extends Component {
         }
       }
     });
+    this.addCurrentStateToHistory();
   }
 
   adjustTextElementHeight = (elementId) => {
@@ -350,7 +349,8 @@ class Creator extends Component {
           ...element,
           height: elem.offsetHeight,
         }
-      ]
+      ],
+      history: [this.getCurrentStateForHistory(), ...this.state.history]
     });
   }
 
@@ -416,13 +416,15 @@ class Creator extends Component {
       dragInElement: null, 
       editingId: null
     })
+    this.addCurrentStateToHistory();
   }
 
   addElements = (elements) => {
     this.setState({
       elements: [...this.state.elements, ...elements],
-      selectedId: elements[elements.length-1].elementId,
+      selectedId: elements[elements.length-1].elementId
     })
+    this.addCurrentStateToHistory();
   }
 
   handleImageDrop = (files) => {
@@ -433,7 +435,10 @@ class Creator extends Component {
       fileList.push(files[i].name)
       console.log(files[i]); 
     }
-    this.setState({files: fileList})
+    this.setState({
+      files: fileList
+    })
+    this.addCurrentStateToHistory();
   }
 
   deleteElement = (elementId) => {
@@ -446,6 +451,7 @@ class Creator extends Component {
       dragging: false,
       draggingFile: false
     })
+    this.addCurrentStateToHistory();
   }
 
   ///  RESIZE  /////////////////////////////////////////////////
@@ -639,6 +645,7 @@ class Creator extends Component {
         selectedVline: null,
         dragging: false
       })
+      this.addCurrentStateToHistory();
     }
     window.addEventListener('mousemove', resizeMouseMouve);
     window.addEventListener('mouseup', mouseup);
