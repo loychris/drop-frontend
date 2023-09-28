@@ -108,6 +108,7 @@ class Creator extends Component {
 
   componentDidMount(){
     this.centerContent()
+    this.addCurrentStateToHistory();
     document.addEventListener('keydown', this.keydownHandler)
   }
 
@@ -135,7 +136,11 @@ class Creator extends Component {
       case 'KeyY':
         console.log('Z pressed')
         if(event.metaKey){
-           this.stepBackinHistory();
+          if(event.shiftKey){
+            this.stepForwardHistory();
+          }else{
+            this.stepBackinHistory();
+          }
         }
         break;
     }
@@ -157,12 +162,34 @@ class Creator extends Component {
 
 
   stepBackinHistory = () => {
+    console.log("STEP BACK HISTORY")
     if(this.state.history.length > 0 && !this.state.exportModalOpen){
-      const [lastState, ...remainingHistory] = this.state.history; 
-      let prevState = this.state.history.shift();
-      prevState.history = this.state.history; 
-      prevState.forwardHistory = [...this.state.forwardHistory, prevState]; 
-      this.setState(prevState); 
+      const [prevState, ...historyNew] = this.state.history; 
+      const forwardHistoryNew = [prevState, ...this.state.forwardHistory]; 
+      prevState.history = historyNew; 
+      prevState.forwardHistory = forwardHistoryNew;
+      this.setState(prevState);
+
+      console.log("HISTORY: ");
+      console.log(this.state.history);
+      console.log("FORWARD HISTORY: ");
+      console.log(this.state.forwardHistory); 
+    }
+  }
+
+  stepForwardHistory = () => {
+    console.log("STEP FORWARD HISTORY");
+    if(this.state.forwardHistory.length > 0 && !this.state.exportModalOpen){
+      const [returnToState, ...forwardHistoryNew] = this.state.forwardHistory;
+      const historyNew = [returnToState, ...this.state.history]
+      returnToState.forwardHistory = forwardHistoryNew;
+      returnToState.history = historyNew;
+      this.setState(returnToState);
+
+      console.log("HISTORY: ");
+      console.log(this.state.history);
+      console.log("FORWARD HISTORY: ");
+      console.log(this.state.forwardHistory); 
     }
   }
 
