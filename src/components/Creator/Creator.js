@@ -34,8 +34,10 @@ class Creator extends Component {
     componentMenu: null, 
     dragInElement: null, // <--- here
     files: [], 
+
     history: [], 
     forwardHistory: [],
+
     perspective: {
       offsetX: 0,
       offsetY: 0,
@@ -108,6 +110,7 @@ class Creator extends Component {
 
   componentDidMount(){
     this.centerContent()
+    console.log("COMPONENT DID MOUNT");
     this.addCurrentStateToHistory();
     document.addEventListener('keydown', this.keydownHandler)
   }
@@ -169,11 +172,6 @@ class Creator extends Component {
       prevState.history = historyNew; 
       prevState.forwardHistory = forwardHistoryNew;
       this.setState(prevState);
-
-      console.log("HISTORY: ");
-      console.log(this.state.history);
-      console.log("FORWARD HISTORY: ");
-      console.log(this.state.forwardHistory); 
     }
   }
 
@@ -185,11 +183,6 @@ class Creator extends Component {
       returnToState.forwardHistory = forwardHistoryNew;
       returnToState.history = historyNew;
       this.setState(returnToState);
-
-      console.log("HISTORY: ");
-      console.log(this.state.history);
-      console.log("FORWARD HISTORY: ");
-      console.log(this.state.forwardHistory); 
     }
   }
 
@@ -208,6 +201,7 @@ class Creator extends Component {
       selectedId: elementId, 
       editingId: null
     })
+    console.log("SELECT ELEMENT")
     this.addCurrentStateToHistory();
   }
 
@@ -312,6 +306,7 @@ class Creator extends Component {
         selectedVline: null,
         dragging: false
       })
+      console.log("MOUSEUP")
       this.addCurrentStateToHistory();
     }
 
@@ -359,6 +354,7 @@ class Creator extends Component {
         }
       }
     });
+    console.log("ONTEXTINPUT")
     this.addCurrentStateToHistory();
   }
 
@@ -443,6 +439,7 @@ class Creator extends Component {
       dragInElement: null, 
       editingId: null
     })
+    console.log("DROP NEW ELEMENT")
     this.addCurrentStateToHistory();
   }
 
@@ -451,6 +448,7 @@ class Creator extends Component {
       elements: [...this.state.elements, ...elements],
       selectedId: elements[elements.length-1].elementId
     })
+    console.log("ADD ELEMENT")
     this.addCurrentStateToHistory();
   }
 
@@ -465,6 +463,7 @@ class Creator extends Component {
     this.setState({
       files: fileList
     })
+    console.log("IMAGEDROP")
     this.addCurrentStateToHistory();
   }
 
@@ -478,6 +477,7 @@ class Creator extends Component {
       dragging: false,
       draggingFile: false
     })
+    console.log("DELETE ELEMENT")
     this.addCurrentStateToHistory();
   }
 
@@ -672,6 +672,7 @@ class Creator extends Component {
         selectedVline: null,
         dragging: false
       })
+      console.log("RESIZE MOUSEUP")
       this.addCurrentStateToHistory();
     }
     window.addEventListener('mousemove', resizeMouseMouve);
