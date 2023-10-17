@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import * as classes from './Element.module.css';
+import classes from './Element.module.css';
 import Ellipse from './Ellipse/Ellipse';
 import Rectangle from './Rectangle/Rectangle';
 import ImageElement from './ImageElement/ImageElement';
@@ -123,5 +123,4 @@ class Element extends Component {
         )
     }
 }
-
 export default Element;
