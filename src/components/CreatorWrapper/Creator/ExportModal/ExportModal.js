@@ -5,8 +5,8 @@ import classes from './ExportModal.module.css';
 import * as htmlToImage from 'html-to-image';
 
 import Element from '../Element/Element';
-import PrimaryButton from '../../UI/PrimaryButton/PrimaryButton';
 import Loader from 'react-loader-spinner'; 
+import PrimaryButton from '../../../UI/PrimaryButton/PrimaryButton';
 
 
 class ExportModal extends Component {

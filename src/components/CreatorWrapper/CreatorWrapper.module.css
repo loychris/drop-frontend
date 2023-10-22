@@ -1,0 +1,31 @@
+.CreatorWrapper {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    /* background-color: #F1F1F1; */
+    /* background: -webkit-linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255, 1)); */
+
+    color: #ffffff;
+    /* border-bottom: 1px solid #000000;
+    border-top: 1px solid #ffffff;  */
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    right: 0;
+    width: 75vw;
+    height: 83vh;
+    transition: 0.3s ease;
+    text-align: center;
+    padding-top: 0%; 
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.OutLeft {
+  transform: translate(-150vw,-50%);
+}
+  
+.OutLeftLeft {
+  transform: translate(-200vw, -50%);
+}

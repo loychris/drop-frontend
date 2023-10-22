@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import Stream from "./components/Stream/Stream";
 import Chat from "./components/Chat/Chat";
-import Creator from './components/Creator/Creator';
 import Navigation from "./components/Navigation/Navigation";
 import NewChatModal from './components/NewChatModal/NewChatModal';
 import DropModal from './components/DropModal/DropModal';
@@ -15,6 +14,7 @@ import * as actions from './store/actions/index';
 import Footer from "./components/Footer/Footer";
 import SidePanel from "./components/SidePanel/SidePanel";
 import Feedback from "./components/Feedback/Feedback";
+import CreatorWrapper from "./components/CreatorWrapper/CreatorWrapper";
 
 class App extends Component {
 
@@ -85,7 +85,7 @@ class App extends Component {
           <div className={`Background ${this.props.darkmode ? 'Dark' : 'Light'}`}></div>
           <Route path={['/stream', '/chat', '/creator']} component={Stream}/>
           <Route path={['/stream', '/chat', '/creator']} component={Chat}/>
-          <Route path={['/stream', '/chat', '/creator']} component={Creator}/>
+          <Route path={['/stream', '/chat', '/creator']} component={CreatorWrapper}/>
           <Redirect to='/stream'/>
           {this.props.newChatModalOpen ? <NewChatModal/> : null}
           {this.props.dropModalOpen ? <DropModal/> : null}

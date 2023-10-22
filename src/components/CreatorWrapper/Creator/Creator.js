@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
 
-import * as actions from '../../store/actions/index';
 import classes from "./Creator.module.css";
 import Element from "./Element/Element";
 import Line from "./Line/Line";
@@ -959,13 +957,10 @@ class Creator extends Component {
 
 
   render() {
-    const styleClasses = [classes.Creator];
-    if (this.props.currentTab === 'stream') styleClasses.push(classes.OutLeftLeft);
-    if (this.props.currentTab === 'chat') styleClasses.push(classes.OutLeft);
     const selected = this.state.elements.find(e => e.elementId === this.state.selectedId);
     return (
       <div 
-        className={styleClasses.join(" ")}
+        className={classes.Creator}
         onTouchStart={e => console.log("TOUCH START")}
         onTouchEnd={e => console.log("TOUCH END")}
         onWheel={this.wheel}
@@ -1029,20 +1024,5 @@ class Creator extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    currentTab: state.ui.currentTab,
-    darkmode: state.ui.currentTab,
-    sending: state.user.sendingSubscribeEmailList, 
-    sent: state.user.sentSubscribeEmailList, 
-    emailListError: state.user.emailListError,
-  }
-}
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onSubscribeEmailList: (email) => dispatch(actions.subscribeEmailList(email)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Creator);
+export default Creator;

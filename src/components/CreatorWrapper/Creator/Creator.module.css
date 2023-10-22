@@ -9,12 +9,9 @@
     /* border-bottom: 1px solid #000000;
     border-top: 1px solid #ffffff;  */
     border-radius: 10px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     right: 0;
-    width: 75vw;
-    height: 83vh;
+    width: 100%;
+    height: 100%;
     transition: 0.3s ease;
     text-align: center;
     padding-top: 0%; 
@@ -77,15 +74,6 @@
     opacity: 0;
   }
 }
-  
-  .OutLeft {
-
-    transform: translate(-150vw,-50%);
-  }
-  
-  .OutLeftLeft {
-    transform: translate(-200vw, -50%);
-  }
 
 
 
